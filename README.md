@@ -1,1 +1,1 @@
-# PPS-24-papirus
+# PPS-24-papyrus
