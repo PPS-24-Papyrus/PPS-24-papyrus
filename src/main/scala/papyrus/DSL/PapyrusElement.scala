@@ -7,10 +7,24 @@ object PapyrusElement:
   trait PapyrusElement:
     def render: String
 
-  private case class Text(content: String) extends PapyrusElement:
+  trait MetadataElement extends PapyrusElement
+
+  case class Title(metadata: String) extends MetadataElement:
+    def render: String = s"<meta name=\"title\" content=\"$metadata\">"
+
+  case class Author(metadata: String) extends MetadataElement:
+    def render: String = s"<meta name=\"author\" content=\"$metadata\">"
+
+  def title(s: String): Title = Title(s)
+
+  def author(s: String): Author = Author(s)
+
+  trait ContentElement extends PapyrusElement
+
+  private case class Text(content: String) extends ContentElement:
     def render: String = s"<p>${content}</p>"
 
-  private case class Image(src: String, alt: String) extends PapyrusElement:
+  private case class Image(src: String, alt: String) extends ContentElement:
     def render: String = s"<img src='${src}' alt='${alt}'/>"
 
   case class Metadata(content: List[PapyrusElement]) extends PapyrusElement:
@@ -22,8 +36,8 @@ object PapyrusElement:
   private case class PapyrusDocument(meta: Metadata, body: Content) extends PapyrusElement:
     def render: String = """<html>""" + "\n" + meta.render + "\n" + body.render + "\n" + """</html>"""
 
-  given Conversion[String, PapyrusElement] with
-    def apply(str: String): PapyrusElement = Text(str)
+  given Conversion[String, ContentElement] with
+    def apply(str: String): ContentElement = Text(str)
 
   // DSL entry point
   def papyrus(meta: => Metadata, body: => Content): PapyrusElement =
@@ -37,8 +51,8 @@ object PapyrusElement:
   def content(elements: PapyrusElement*): Content =
     Content(elements.toList)
 
-  def image(src: String, alt: String): PapyrusElement =
+  def image(src: String, alt: String): ContentElement =
     Image(src, alt)
     
-  def text(content: String): PapyrusElement =
+  def text(content: String): ContentElement =
     Text(content)
