@@ -22,8 +22,8 @@ class PapyrusElementTest extends AnyFunSuite {
   }
 
   test("Metadata should render list of elements inside <head>") {
-    val meta = metadata(text("meta info"))
-    assert(meta.render == "<head><p>meta info</p></head>")
+    val meta = metadata(title("title"), author("author"))
+    assert(meta.render == "<head><meta name=\"title\" content=\"title\">\n<meta name=\"author\" content=\"author\"></head>")
   }
 
   test("Content should render list of elements inside <body>") {
