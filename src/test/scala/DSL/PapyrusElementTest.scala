@@ -7,6 +7,10 @@ class PapyrusElementTest extends AnyFunSuite {
 
   import PapyrusElement._
 
+  test("Try for commit"){
+    assert(true)
+  }
+
   test("Text element should render correctly") {
     val t = text("Hello World")
     assert(t.render == "<p>Hello World</p>")
