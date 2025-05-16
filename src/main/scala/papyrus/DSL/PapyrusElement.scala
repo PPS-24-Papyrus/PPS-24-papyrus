@@ -4,7 +4,7 @@ import scala.annotation.internal.Body
 
 object PapyrusElement:
 
-  sealed trait PapyrusElement:
+  trait PapyrusElement:
     def render: String
 
   private case class Text(content: String) extends PapyrusElement:
@@ -31,7 +31,7 @@ object PapyrusElement:
       meta, body
     )
 
-  def metadata(elements: PapyrusElement*): Metadata =
+  def metadata(elements: MetadataElement*): Metadata =
     Metadata(elements.toList)
 
   def content(elements: PapyrusElement*): Content =
