@@ -9,15 +9,16 @@ object PapyrusElement:
 
   trait MetadataElement extends PapyrusElement
 
-  case class Title(metadata: String) extends MetadataElement:
-    def render: String = s"<meta name=\"title\" content=\"$metadata\">"
+  case class MetaTag(name: String, value: String) extends MetadataElement:
+    def render: String = s"""<meta name="$name" content="$value">"""
 
-  case class Author(metadata: String) extends MetadataElement:
-    def render: String = s"<meta name=\"author\" content=\"$metadata\">"
+  object MetadataSyntax:
+    extension (s: String)
+      def title: MetaTag = MetaTag("title", s)
+      def author: MetaTag = MetaTag("author", s)
+      def description: MetaTag = MetaTag("description", s)
 
-  def title(s: String): Title = Title(s)
-
-  def author(s: String): Author = Author(s)
+  export MetadataSyntax.*
 
   trait ContentElement extends PapyrusElement
 

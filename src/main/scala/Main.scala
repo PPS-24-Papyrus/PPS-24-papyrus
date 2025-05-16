@@ -5,7 +5,8 @@ import papyrus.DSL.PapyrusElement.*
 @main def run(): Unit =
   val doc = papyrus(
     metadata(
-      title("Salve")
+      "Titolo".title,
+      "Mario".author
     ),
     content(
       "body content",
