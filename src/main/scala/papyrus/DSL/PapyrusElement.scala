@@ -29,11 +29,11 @@ object PapyrusElement:
       meta, body
     )
 
-  def metadata(body: => List[PapyrusElement]): Metadata =
-    Metadata(body)
-    
-  def content(body: => List[PapyrusElement]): Content =
-    Content(body)
+  def metadata(elements: PapyrusElement*): Metadata =
+    Metadata(elements.toList)
+
+  def content(elements: PapyrusElement*): Content =
+    Content(elements.toList)
 
   def image(src: String, alt: String): PapyrusElement =
     Image(src, alt)

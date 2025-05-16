@@ -22,12 +22,12 @@ class PapyrusElementTest extends AnyFunSuite {
   }
 
   test("Metadata should render list of elements inside <head>") {
-    val meta = metadata(List(text("meta info")))
+    val meta = metadata(text("meta info"))
     assert(meta.render == "<head><p>meta info</p></head>")
   }
 
   test("Content should render list of elements inside <body>") {
-    val cont = content(List(text("body content")))
+    val cont = content(text("body content"))
     assert(cont.render == "<body><p>body content</p></body>")
   }
 }

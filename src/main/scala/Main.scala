@@ -5,14 +5,11 @@ import papyrus.DSL.PapyrusElement.*
 @main def run(): Unit =
   val doc = papyrus(
     metadata(
-      List()
     ),
     content(
-      List(
-        text("body content"),
-        text("body content2"),
-        image("image.png", "An image")
-      )
+      text("body content"),
+      text("body content2"),
+      image("image.png", "An image")
     )
   )
 
