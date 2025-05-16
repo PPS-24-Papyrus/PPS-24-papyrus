@@ -7,8 +7,8 @@ import papyrus.DSL.PapyrusElement.*
     metadata(
     ),
     content(
-      text("body content"),
-      text("body content2"),
+      "body content",
+      "body content2",
       image("image.png", "An image")
     )
   )

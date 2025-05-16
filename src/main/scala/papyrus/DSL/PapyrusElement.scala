@@ -22,6 +22,8 @@ object PapyrusElement:
   private case class PapyrusDocument(meta: Metadata, body: Content) extends PapyrusElement:
     def render: String = """<html>""" + "\n" + meta.render + "\n" + body.render + "\n" + """</html>"""
 
+  given Conversion[String, PapyrusElement] with
+    def apply(str: String): PapyrusElement = Text(str)
 
   // DSL entry point
   def papyrus(meta: => Metadata, body: => Content): PapyrusElement =
