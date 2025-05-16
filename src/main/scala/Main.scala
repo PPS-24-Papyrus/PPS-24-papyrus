@@ -1,4 +1,5 @@
 
+import HtmlConverter.HtmlLauncher
 import papyrus.DSL.PapyrusElement.*
 
 @main def run(): Unit =
@@ -9,10 +10,13 @@ import papyrus.DSL.PapyrusElement.*
     content(
       List(
         text("body content"),
+        text("body content2"),
         image("image.png", "An image")
       )
     )
   )
 
-  println(doc.render)
+  val output = doc.render
+  println(output)
+  HtmlLauncher.launch(output, "Titolo")
 
