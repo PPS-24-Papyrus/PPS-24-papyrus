@@ -1,6 +1,7 @@
 package papyrus.logic.Utility
 
 object StyleTypes:
+
   import Utils.BoundedInt
 
   object FontSize:
@@ -64,3 +65,26 @@ object StyleTypes:
 
     extension (lineHeight: LineHeight) def value: Double = lineHeight
 
+  import Utils.StringEnumUtils.*
+
+  object Alignment:
+
+    opaque type Alignment = String
+
+    inline def apply(inline value: String): Alignment =
+      validateStringValue(value, "left", "center", "right")
+
+  object FontFamily:
+
+    opaque type FontFamily = String
+
+    inline def apply(inline value: String): FontFamily =
+      validateStringValue(value,
+        "Arial", "Helvetica", "Times New Roman", "Courier New", "Verdana",
+        "Georgia", "Palatino", "Garamond", "Bookman", "Tahoma", "Trebuchet MS",
+        "Impact", "Comic Sans MS", "Consolas", "Lucida Console", "Lucida Sans Unicode",
+        "monospace", "sans-serif", "serif", "Roboto", "Open Sans", "Lato", "Montserrat",
+        "Oswald", "Raleway", "Poppins", "Noto Sans", "Ubuntu", "Fira Sans", "Nunito",
+        "Merriweather", "Work Sans", "Rubik", "Inter", "Inconsolata", "DM Serif Display",
+        "Source Sans Pro", "Quicksand", "Oxygen", "Cabin"
+      )

@@ -26,3 +26,18 @@ object Utils:
     extension (b: BoundedDouble)
       def value: Double = b
 
+  object StringEnumUtils:
+
+    inline def validateStringValue(inline value: String, inline allowed: String*): String =
+      inline allowed match
+        case Array() => error("Allowed values list cannot be empty")
+        case _ =>
+          inline if containsValue(value, allowed) then value
+          else error(s"Invalid value: '$value'. Allowed: ${allowed.mkString(", ")}")
+
+    private inline def containsValue(inline v: String, inline values: Seq[String]): Boolean =
+      inline values match
+        case Seq() => false
+        case Seq(head, tail@_*) =>
+          inline if v == head then true
+          else containsValue(v, tail)
