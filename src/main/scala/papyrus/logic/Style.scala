@@ -7,6 +7,7 @@ import java.awt.Color
 object Style:
 
    trait Style extends RendererStyle:
+     def id: String
      def textColor(color: Color): Unit
      def backgroundColor(color: Color): Unit
      def font(font: String): Unit
@@ -22,7 +23,8 @@ object Style:
      def width(width: Int): Unit
      def height(height: Int): Unit
      
-
+     //TODO: opaque type for size, padding, margin, border
+     //TODO: enum for textAlign, position, font(si puo fare ma anche no), color(si puo fare ma anche no)
 
 
 
