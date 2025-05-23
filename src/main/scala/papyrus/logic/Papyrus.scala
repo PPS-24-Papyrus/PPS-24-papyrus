@@ -1,5 +1,8 @@
 package papyrus.logic
 
+import papyrus.logic.Content.Content.Content
+import papyrus.logic.metadata.Metadata.Metadata
+
 
 object Papyrus:
 

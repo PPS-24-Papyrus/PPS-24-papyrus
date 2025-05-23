@@ -1,6 +1,7 @@
 package papyrus.logic.metadata
 
 import papyrus.logic.Renderer.Renderer
+import papyrus.logic.Style.Style
 
 object Metadata:
 
