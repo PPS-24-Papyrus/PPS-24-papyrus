@@ -12,6 +12,9 @@ object Papyrus:
     def build(): Unit
 
   object Papyrus:
-    def apply() = ???
+    def apply(metadata: Metadata, content: Content): Papyrus =
+      PapyrusImpl(metadata, content)
 
-
+    private class PapyrusImpl(override val metadata: Metadata, override val content: Content) extends Papyrus:
+      override def build(): Unit = ???
+        
