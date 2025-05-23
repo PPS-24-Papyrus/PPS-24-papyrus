@@ -3,12 +3,12 @@ import HtmlConverter.HtmlLauncher
 import papyrus.DSL.PapyrusElement.*
 
 @main def run(): Unit =
-  val doc = papyrus(
+  val doc: PapyrusElement = papyrus(
     metadata(
       "Titolo".title,
+      "Luca".title,
       "Mario".author
-    ),
-    content(
+    ), content(
       "body content",
       "body content2", "ciccio",
       image("image.png", "An image"),

@@ -40,7 +40,7 @@ Feature: Papyrus document metadata configuration
     And I set the metadata:
       | author     | dany      |
     When I try to set the metadata again:
-      | author     | marco     |
+      | author     | luca     |
     Then The system should raise an error
 
   Scenario: Prevent setting content block more than once

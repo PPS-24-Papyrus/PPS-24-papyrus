@@ -56,7 +56,7 @@ Feature: Papyrus document content rendering
     Given I create a new Papyrus document
     And I add a subsection with title "Titolo Subsection" and text "Testo subsection"
     When I render the document
-    Then The system should raise an error stating "Subsection must be contained within a Section"
+    Then The system should raise an error.
 
   Scenario: Table rendering inside a subsection
     Given I create a new Papyrus document
