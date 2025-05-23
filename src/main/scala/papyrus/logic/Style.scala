@@ -13,6 +13,15 @@ object Style:
      def fontSize(size: Int): Unit
      def margin(top: Int, right: Int, bottom: Int, left: Int): Unit
      def margin(margin: Int): Unit
+     def padding(top: Int, right: Int, bottom: Int, left: Int): Unit
+     def padding(padding: Int): Unit
+     def border(top: Int, right: Int, bottom: Int, left: Int): Unit
+     def border(border: Int): Unit
+     def lineHeight(lineHeight: Double): Unit //interlinea
+     def textAlign(position: String): Unit
+     def width(width: Int): Unit
+     def height(height: Int): Unit
+     
 
 
 
