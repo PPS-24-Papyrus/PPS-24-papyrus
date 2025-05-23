@@ -15,4 +15,16 @@ object Metadata:
     def language(language: String): Unit
 
   object Metadata:
-    def apply() = ???
+    def apply(): Metadata = MetadataImpl()
+
+    private class MetadataImpl() extends Metadata:
+      override def style(style: Style): Unit = ???
+      override def nameFile(name: String): Unit = ???
+      override def title(title: String): Unit = ???
+      override def author(author: String): Unit = ???
+      override def charset(charset: String): Unit = ???
+      override def styleSheet(link: String): Unit = ???
+      override def language(language: String): Unit = ???
+
+      override def render: String = ???
+      override def renderStyle: String = ???

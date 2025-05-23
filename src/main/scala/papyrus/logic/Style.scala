@@ -1,6 +1,11 @@
 package papyrus.logic
 
 import papyrus.logic.Renderer.RendererStyle
+import papyrus.logic.Utility.StyleTypes.FontSize.*
+import papyrus.logic.Utility.StyleTypes.Margin.*
+import papyrus.logic.Utility.StyleTypes.Padding.*
+import papyrus.logic.Utility.StyleTypes.Border.*
+import papyrus.logic.Utility.StyleTypes.LineHeight.*
 
 import java.awt.Color
 
@@ -11,14 +16,14 @@ object Style:
      def textColor(color: Color): Unit
      def backgroundColor(color: Color): Unit
      def font(font: String): Unit
-     def fontSize(size: Int): Unit
-     def margin(top: Int, right: Int, bottom: Int, left: Int): Unit
-     def margin(margin: Int): Unit
-     def padding(top: Int, right: Int, bottom: Int, left: Int): Unit
-     def padding(padding: Int): Unit
-     def border(top: Int, right: Int, bottom: Int, left: Int): Unit
-     def border(border: Int): Unit
-     def lineHeight(lineHeight: Double): Unit //interlinea
+     def fontSize(size: FontSize): Unit
+     def margin(top: Margin, right: Margin, bottom: Margin, left: Margin): Unit
+     def margin(margin: Margin): Unit
+     def padding(top: Padding, right: Padding, bottom: Padding, left: Padding): Unit
+     def padding(padding: Padding): Unit
+     def border(top: Border, right: Border, bottom: Border, left: Border): Unit
+     def border(border: Border): Unit
+     def lineHeight(lineHeight: LineHeight): Unit //interlinea
      def textAlign(position: String): Unit
      def width(width: Int): Unit
      def height(height: Int): Unit
