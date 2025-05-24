@@ -1,13 +1,13 @@
 package papyrus.logic.Utility
 
-object StyleTypes:
+object StyleTypesInline:
 
   import Utils.BoundedInt
 
   object FontSize:
     opaque type FontSize = BoundedInt.BoundedInt
     inline def apply(inline value: Int): FontSize = BoundedInt(8, 72)(value)
-    extension (fs: FontSize) def value: Int = fs.value
+    extension (fontSize: FontSize) def value: Int = fontSize.value
 
   object Distance:
     opaque type Distance = Int
@@ -74,6 +74,8 @@ object StyleTypes:
     inline def apply(inline value: String): Alignment =
       validateStringValue(value, "left", "center", "right")
 
+    extension (alignment: Alignment) def value: String = alignment
+
   object FontFamily:
 
     opaque type FontFamily = String
@@ -88,3 +90,22 @@ object StyleTypes:
         "Merriweather", "Work Sans", "Rubik", "Inter", "Inconsolata", "DM Serif Display",
         "Source Sans Pro", "Quicksand", "Oxygen", "Cabin"
       )
+
+    extension (fontFamily: FontFamily) def value: String = fontFamily
+
+
+  object Charset:
+    opaque type Charset = String
+
+    inline def apply(inline value: String): Charset =
+      validateStringValue(value, "utf-8", "iso-8859-1", "windows-1252")
+
+    extension (charset: Charset) def value: String = charset
+
+  object Language:
+    opaque type Language = String
+
+    inline def apply(inline value: String): Language =
+      validateStringValue(value, "en", "it", "fr", "de", "es", "zh")
+
+    extension (lang: Language) def value: String = lang
