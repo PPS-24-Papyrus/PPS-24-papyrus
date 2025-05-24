@@ -1,3 +1,5 @@
+package papyrus.DSL
+
 
 import HtmlConverter.HtmlLauncher
 import papyrus.DSL.PapyrusElement.*
