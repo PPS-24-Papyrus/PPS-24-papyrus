@@ -1,15 +1,7 @@
 package papyrus.logic
 
 import papyrus.logic.Renderer.RendererStyle
-import papyrus.logic.Utility.StyleTypesInline.Alignment.Alignment
-import papyrus.logic.Utility.StyleTypesInline.FontSize.*
-import papyrus.logic.Utility.StyleTypesInline.Margin.*
-import papyrus.logic.Utility.StyleTypesInline.Padding.*
-import papyrus.logic.Utility.StyleTypesInline.Border.*
-import papyrus.logic.Utility.StyleTypesInline.FontFamily.FontFamily
-import papyrus.logic.Utility.StyleTypesInline.LineHeight.*
-import papyrus.logic.Utility.StyleTypesInline.Width.*
-import papyrus.logic.Utility.StyleTypesInline.Height.*
+import papyrus.logic.Utility.TypesInline.*
 
 import java.awt.Color
 
