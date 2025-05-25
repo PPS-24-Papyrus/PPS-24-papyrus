@@ -2,6 +2,7 @@ package papyrus.logic
 
 import papyrus.logic.Renderer.RendererStyle
 import papyrus.logic.Utility.TypesInline.*
+import io.github.iltotore.iron.autoRefine
 
 import java.awt.Color
 
@@ -9,8 +10,8 @@ object Style:
 
    trait Style extends RendererStyle:
      def id: String
-     def textColor(color: Color): Unit
-     def backgroundColor(color: Color): Unit
+     def textColor(color: ColorString): Unit
+     def backgroundColor(color: ColorString): Unit
      def font(font: FontFamily): Unit
      def fontSize(size: FontSize): Unit
      def margin(top: Margin, right: Margin, bottom: Margin, left: Margin): Unit
@@ -33,20 +34,20 @@ object Style:
      def apply(id: String): Style = StyleImpl(id)
 
      private class StyleImpl(override val id: String) extends Style:
-       override def textColor(color: Color): Unit = ???
-       override def backgroundColor(color: Color): Unit = ???
-       override def font(font: FontFamily): Unit = ???
-       override def fontSize(size: FontSize): Unit = ???
+       override def textColor(color: ColorString = "black"): Unit = ???
+       override def backgroundColor(color: ColorString = "white"): Unit = ???
+       override def font(font: FontFamily = "serif"): Unit = ???
+       override def fontSize(size: FontSize = 12): Unit = ???
        override def margin(top: Margin, right: Margin, bottom: Margin, left: Margin): Unit = ???
-       override def margin(margin: Margin): Unit = ???
+       override def margin(margin: Margin = 20): Unit = ???
        override def padding(top: Padding, right: Padding, bottom: Padding, left: Padding): Unit = ???
-       override def padding(padding: Padding): Unit = ???
+       override def padding(padding: Padding = 0): Unit = ???
        override def border(top: Border, right: Border, bottom: Border, left: Border): Unit = ???
-       override def border(border: Border): Unit = ???
-       override def lineHeight(lineHeight: LineHeight): Unit = ???
-       override def textAlign(position: Alignment): Unit = ???
-       override def width(width: Width): Unit = ???
-       override def height(height: Height): Unit = ???
+       override def border(border: Border = 0): Unit = ???
+       override def lineHeight(lineHeight: LineHeight = 1.5): Unit = ???
+       override def textAlign(position: Alignment = "left"): Unit = ???
+       override def width(width: Width = 800): Unit = ???
+       override def height(height: Height = 0): Unit = ???
        override def renderStyle: String = ???
         
        
