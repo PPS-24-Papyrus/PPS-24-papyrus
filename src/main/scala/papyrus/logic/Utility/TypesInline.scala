@@ -5,6 +5,7 @@ import io.github.iltotore.iron.constraint.numeric.*
 import io.github.iltotore.iron.constraint.string.*
 
 object TypesInline:
+  type Level = Int :| Interval.Closed[1, 6]
   type FontSize = Int :| Interval.Closed[8, 72]
   type Margin = Int :| Interval.Closed[0, 200]
   type Padding = Int :| Interval.Closed[0, 200]
@@ -23,6 +24,6 @@ object TypesInline:
 
 @main def prova(): Unit = {
   import TypesInline._
-  val i: ColorString = "tomato"
+  val i: Level = 3
 
 }
