@@ -1,7 +1,7 @@
 package papyrus.logic
 
 import papyrus.logic.Renderer.RendererStyle
-import papyrus.logic.Utility.TypesInline.*
+import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 
 import java.awt.Color

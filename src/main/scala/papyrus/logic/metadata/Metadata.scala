@@ -2,7 +2,7 @@ package papyrus.logic.metadata
 
 import papyrus.logic.Renderer.Renderer
 import papyrus.logic.Style
-import papyrus.logic.Utility.TypesInline.*
+import papyrus.logic.utility.TypesInline.*
 
 trait Metadata extends Renderer:
   def style(style: Style): String

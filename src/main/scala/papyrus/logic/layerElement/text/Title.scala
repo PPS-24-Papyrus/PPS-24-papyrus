@@ -1,7 +1,7 @@
 package papyrus.logic.layerElement.text
 
 import papyrus.logic.Style
-import papyrus.logic.Utility.TypesInline.Level
+import papyrus.logic.utility.TypesInline.Level
 import papyrus.logic.layerElement.LayerElement
 
 trait Title extends LayerElement:
