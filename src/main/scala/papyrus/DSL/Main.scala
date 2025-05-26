@@ -20,5 +20,5 @@ import papyrus.DSL.PapyrusElement.*
 
   val output = doc.render
   println(output)
-  HtmlLauncher.launch(output, "Titolo")
+  //HtmlLauncher.launchHTML(output, "Titolo")
 

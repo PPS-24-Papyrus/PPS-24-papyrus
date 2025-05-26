@@ -14,7 +14,10 @@ object Papyrus:
     PapyrusImpl(metadata, content)
 
   private class PapyrusImpl(override val metadata: Metadata, override val content: Content) extends Papyrus:
-    //Nota: prima lancia il css nella build
-    override def build(): Unit = HtmlLauncher.launch("""<html>""" + "\n" + metadata.render + "\n" + content.render + "\n" + """</html>""", "Titolo")
+
+    val css: String = metadata.renderStyle + "\n" + content.renderStyle
+    val html: String = """<html>""" + "\n" + metadata.render + "\n" + content.render + "\n" + """</html>"""
+
+    override def build(): Unit = HtmlLauncher.launchHTMLWithCSS(html, css, "PapyrusDocument")
 
         
