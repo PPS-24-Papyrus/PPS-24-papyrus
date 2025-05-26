@@ -1,5 +1,0 @@
-package stepDefinitions
-
-class CoordinatorTest {
-
-}
