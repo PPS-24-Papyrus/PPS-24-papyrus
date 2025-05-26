@@ -4,16 +4,16 @@ import papyrus.logic.Renderer.Renderer
 import papyrus.logic.Style.Style
 import papyrus.logic.Utility.TypesInline.*
 
+trait Metadata extends Renderer:
+  def style(style: Style): String
+  def nameFile(name: String): String
+  def title(title: String): String
+  def author(author: String): String
+  def charset(charset: Charset): String
+  def styleSheet(link: StyleSheet): String
+  def language(language: Language): String
+  
 object Metadata:
-
-  trait Metadata extends Renderer:
-    def style(style: Style): String
-    def nameFile(name: String): String
-    def title(title: String): String
-    def author(author: String): String
-    def charset(charset: Charset): String
-    def styleSheet(link: StyleSheet): String
-    def language(language: Language): String
 
   object Metadata:
     def apply(): Metadata = MetadataImpl()

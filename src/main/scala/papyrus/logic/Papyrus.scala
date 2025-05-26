@@ -1,16 +1,15 @@
 package papyrus.logic
 
 import HtmlConverter.HtmlLauncher
-import papyrus.logic.Content.Content.Content
-import papyrus.logic.metadata.Metadata.Metadata
+import papyrus.logic.Content.Content
+import papyrus.logic.metadata.Metadata
 
+trait Papyrus:
+  def metadata: Metadata
+  def content: Content
+  def build(): Unit
 
 object Papyrus:
-
-  trait Papyrus:
-    def metadata: Metadata
-    def content: Content
-    def build(): Unit
 
   object Papyrus:
     def apply(metadata: Metadata, content: Content): Papyrus =
