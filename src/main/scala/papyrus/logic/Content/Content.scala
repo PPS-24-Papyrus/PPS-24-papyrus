@@ -1,13 +1,18 @@
 package papyrus.logic.Content
 
 import papyrus.logic.Renderer.Renderer
-import papyrus.logic.layerElement.LayerElement.LayerElement
+import papyrus.logic.layerElement.LayerElement
+
+
+trait Content extends Renderer:
+  def title: String
+  def layerElement: Seq[LayerElement]
+
 
 object Content:
 
-  trait Content extends Renderer:
-    def title(title: String): Unit //è una class Title siccome ha anche uno stile?
-    def layerElement(layerElements: LayerElement*): Unit
+  def apply(title: String, layerElement: LayerElement*): Content = new ContentImpl(title, layerElement)
 
-  object Content:
-    def apply() = ???
+  private class ContentImpl(override val title: String, override val layerElement: Seq[LayerElement]) extends Content:
+    override def render: String = s"<body><h1>${title}</h1>${layerElement.map(_.render).mkString("\n")}</body>"
+    override def renderStyle: String = layerElement.map(_.renderStyle).mkString("\n")
