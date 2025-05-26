@@ -2,7 +2,7 @@ package logic.layerElement
 
 import org.scalatest.funsuite.AnyFunSuite
 import papyrus.logic.layerElement.text.Title
-import papyrus.logic.Utility.TypesInline.Level
+import io.github.iltotore.iron.autoRefine
 
 class TitleTest extends AnyFunSuite:
 
@@ -13,10 +13,6 @@ class TitleTest extends AnyFunSuite:
   test("Title should render correct HTML with level 3"):
     val title = Title("Another Title", 3)
     assert(title.render == "<h3>Another Title</h3>")
-
-  test("Title should throw an exception for invalid level"):
-    assertThrows[IllegalArgumentException]:
-      Title("Invalid Title", 7) // Level 7 is outside the valid range (1-6)
 
   test("Title should render empty style if none is provided"):
     val title = Title("No Style Title", 4)

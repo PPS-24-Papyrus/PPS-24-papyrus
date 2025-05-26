@@ -4,7 +4,7 @@ import org.scalatest.funsuite.AnyFunSuite
 import papyrus.logic.content.Content
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.layerElement.text.Title
-import papyrus.logic.Utility.TypesInline.Level
+import io.github.iltotore.iron.autoRefine
 
 class ContentTest extends AnyFunSuite:
 
