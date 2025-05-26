@@ -1,50 +1,62 @@
 package papyrus.logic
 
-import papyrus.logic.Renderer.RendererStyle
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 
-import java.awt.Color
-
-trait Style extends RendererStyle:
-  def id: String
-  def textColor(color: ColorString): Unit
-  def backgroundColor(color: ColorString): Unit
-  def font(font: FontFamily): Unit
-  def fontSize(size: FontSize): Unit
-  def margin(top: Margin, right: Margin, bottom: Margin, left: Margin): Unit
-  def margin(margin: Margin): Unit
-  def padding(top: Padding, right: Padding, bottom: Padding, left: Padding): Unit
-  def padding(padding: Padding): Unit
-  def border(top: Border, right: Border, bottom: Border, left: Border): Unit
-  def border(border: Border): Unit
-  def lineHeight(lineHeight: LineHeight): Unit //interlinea
-  def textAlign(position: Alignment): Unit
-  def width(width: Width): Unit
-  def height(height: Height): Unit
-     //TODO: opaque type for size, padding, margin, border
-     //TODO: enum for textAlign, position, font(si puo fare ma anche no), color(si puo fare ma anche no)
-  
 object Style:
-  def apply(id: String): Style = StyleImpl(id)
 
-  private class StyleImpl(override val id: String) extends Style:
-    override def textColor(color: ColorString = "black"): Unit = ???
-    override def backgroundColor(color: ColorString = "white"): Unit = ???
-    override def font(font: FontFamily = "serif"): Unit = ???
-    override def fontSize(size: FontSize = 72): Unit = ???
-    override def margin(top: Margin, right: Margin, bottom: Margin, left: Margin): Unit = ???
-    override def margin(margin: Margin = 20): Unit = ???
-    override def padding(top: Padding, right: Padding, bottom: Padding, left: Padding): Unit = ???
-    override def padding(padding: Padding = 0): Unit = ???
-    override def border(top: Border, right: Border, bottom: Border, left: Border): Unit = ???
-    override def border(border: Border = 0): Unit = ???
-    override def lineHeight(lineHeight: LineHeight = 1.5): Unit = ???
-    override def textAlign(position: Alignment = "left"): Unit = ???
-    override def width(width: Width = 800): Unit = ???
-    override def height(height: Height = 0): Unit = ???
-    override def renderStyle: String = ???
-        
-       
+  def textColor(color: ColorString): String =
+    s"color: $color;"
 
+  def backgroundColor(color: ColorString): String =
+    s"background-color: $color;"
 
+  def font(font: FontFamily): String =
+    s"font-family: $font;"
+
+  def fontSize(size: FontSize): String =
+    s"font-size: ${size}px;"
+
+  def fontWeight(fontWeight: FontWeight): String = s"font-weight: $fontWeight;"
+
+  def fontStyle (fontStyle: FontStyle): String = s"font-style: $fontStyle;"
+
+  def textDecoration(textDecoration: TextDecoration): String = s"text-decoration: $textDecoration;"
+
+  def textTransform(textTransform: TextTransform): String = s"text-transform: $textTransform;"
+
+  def letterSpacing(spacing: LetterSpacing): String =
+    s"letter-spacing: ${spacing}px;"
+
+  def wordSpacing(spacing: WordSpacing): String =
+    s"word-spacing: ${spacing}px;"
+
+  def lineHeight(lineHeight: LineHeight): String =
+    s"line-height: $lineHeight;"
+
+  def textAlign(position: Alignment): String =
+    s"text-align: $position;"
+
+  def width(width: Width): String =
+    s"width: ${width}px;"
+
+  def height(height: Height): String =
+    s"height: ${height}px;"
+
+  def margin(margin: Margin): String =
+    s"margin: ${margin}px;"
+
+  def margin(top: Margin, right: Margin, bottom: Margin, left: Margin): String =
+    s"margin: ${top}px ${right}px ${bottom}px ${left}px;"
+
+  def padding(padding: Padding): String =
+    s"padding: ${padding}px;"
+
+  def padding(top: Padding, right: Padding, bottom: Padding, left: Padding): String =
+    s"padding: ${top}px ${right}px ${bottom}px ${left}px;"
+
+  def border(border: Border): String =
+    s"border: ${border}px solid black;"  // puoi personalizzare tipo e colore se necessario
+
+  def border(top: Border, right: Border, bottom: Border, left: Border): String =
+    s"border-width: ${top}px ${right}px ${bottom}px ${left}px;"
