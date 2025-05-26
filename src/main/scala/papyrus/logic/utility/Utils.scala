@@ -1,4 +1,4 @@
-package papyrus.logic.Utility
+package papyrus.logic.utility
 
 import scala.compiletime.error
 

@@ -18,8 +18,8 @@ object Metadata:
 
   private class MetadataImpl() extends Metadata:
     override def style(style: Style): String = ???
-    private def meta(tag: String)(value: String): String = s"""<meta name="$tag" content="$value">"""
-    override def nameFile(name: String): String = ??? //Cos'è già questo?
+    private def meta(tag: String)(value: String): String = ???
+    override def nameFile(name: String): String = this.meta("filename")(name) //Cos'è già questo?
     override def title(title: String = "New Papyrus"): String = this.meta("title")(title)
     override def author(author: String = "Unknown"): String = this.meta("author")(author)
     override def charset(charset: Charset): String = this.meta("charset")(charset)

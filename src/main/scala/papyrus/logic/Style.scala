@@ -32,7 +32,7 @@ object Style:
     override def textColor(color: ColorString = "black"): Unit = ???
     override def backgroundColor(color: ColorString = "white"): Unit = ???
     override def font(font: FontFamily = "serif"): Unit = ???
-    override def fontSize(size: FontSize = 12): Unit = ???
+    override def fontSize(size: FontSize = 72): Unit = ???
     override def margin(top: Margin, right: Margin, bottom: Margin, left: Margin): Unit = ???
     override def margin(margin: Margin = 20): Unit = ???
     override def padding(top: Padding, right: Padding, bottom: Padding, left: Padding): Unit = ???
