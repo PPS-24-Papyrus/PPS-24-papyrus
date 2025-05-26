@@ -76,3 +76,6 @@ object Text:
       ).mkString("\n  ")
 
       s""".text {\n  $rules\n}"""
+
+    given Conversion[String, Text] with
+      def apply(str: String): Text = Text(str)()
