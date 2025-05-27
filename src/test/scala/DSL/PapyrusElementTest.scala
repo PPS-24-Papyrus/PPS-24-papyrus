@@ -1,7 +1,7 @@
 package DSL
 
 import org.scalatest.funsuite.AnyFunSuite
-import papyrus.DSL.PapyrusElement
+import papyrus.DSL.daCancellare.PapyrusElement
 
 class PapyrusElementTest extends AnyFunSuite {
 

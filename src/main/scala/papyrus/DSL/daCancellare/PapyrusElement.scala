@@ -1,4 +1,4 @@
-package papyrus.DSL
+package papyrus.DSL.daCancellare
 
 import scala.annotation.internal.Body
 

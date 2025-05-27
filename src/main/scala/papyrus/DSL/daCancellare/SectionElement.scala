@@ -1,6 +1,6 @@
-package papyrus.DSL
+package papyrus.DSL.daCancellare
 
-import PapyrusElement.ContentElement
+import papyrus.DSL.daCancellare.PapyrusElement.ContentElement
 
 object SectionElement:
 

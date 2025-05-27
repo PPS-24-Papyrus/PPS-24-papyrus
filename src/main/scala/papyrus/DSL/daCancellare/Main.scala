@@ -1,8 +1,7 @@
-package papyrus.DSL
-
+package papyrus.DSL.daCancellare
 
 import HtmlConverter.HtmlLauncher
-import papyrus.DSL.PapyrusElement.*
+import PapyrusElement.*
 
 @main def run(): Unit =
   val doc: PapyrusElement = papyrus(
