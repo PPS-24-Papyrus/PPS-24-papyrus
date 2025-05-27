@@ -57,8 +57,8 @@ object DSL:
     val pap: Papyrus =
       papyrus:
         content:
-          title: "Titolo carino"
-          text: "Ciao a tutti"
+          title("Titolo carino")
+          text("Ciao a tutti")
 
 
     pap.build()
