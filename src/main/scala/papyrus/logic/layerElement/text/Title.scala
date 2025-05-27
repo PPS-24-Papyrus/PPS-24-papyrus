@@ -16,11 +16,9 @@ object Title:
            )(
              font: FontFamily = "Georgia",
              fontSize: FontSize = 24,
-             lineHeight: LineHeight = 1.4,
              textColor: ColorString = "#000000",
-             textAlign: Alignment = "left",
-             margin: Margin = 10
-           ): Title = new TitleImpl(title, level)(font, fontSize, lineHeight, textColor, textAlign, margin)
+             textAlign: Alignment = "left"
+           ): Title = new TitleImpl(title, level)(font, fontSize, textColor, textAlign)
 
   private class TitleImpl(
                            override val title: String,
@@ -28,10 +26,8 @@ object Title:
                          )(
                            font: FontFamily,
                            fontSize: FontSize,
-                           lineHeight: LineHeight,
                            textColor: ColorString,
-                           textAlign: Alignment,
-                           margin: Margin
+                           textAlign: Alignment
                          ) extends Title:
 
     override def render: String = s"<h$level>$title</h$level>"
@@ -40,10 +36,8 @@ object Title:
       val css = Seq(
         Style.font(font),
         Style.fontSize(fontSize),
-        Style.lineHeight(lineHeight),
         Style.textColor(textColor),
-        Style.textAlign(textAlign),
-        Style.margin(margin)
+        Style.textAlign(textAlign)
       ).mkString(" ")
 
       s"h$level {\n  $css\n}"
