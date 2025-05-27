@@ -6,6 +6,7 @@ import papyrus.logic.content.Content
 import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.utility.TypesInline.Level
 import io.github.iltotore.iron.autoRefine
+import papyrus.DSL.daCancellare.PapyrusElement.MetadataSyntax.title
 import papyrus.logic.layerElement.LayerElement
 
 import scala.collection.mutable.ArrayBuffer
@@ -45,21 +46,19 @@ object DSL:
     init
     pb.content = builder.build()
 
-  object title:
-    def apply(text: String)(using cb: ContentBuilder): Unit =
-      cb.title = Title(text, 1)()
+  infix def title(text: String)(using cb: ContentBuilder): Unit =
+    cb.title = Title(text, 1)()
 
-  object text:
-    def apply(txt: String)(using cb: ContentBuilder): Unit =
-      cb.addLayerElement(txt)
+  infix def text(txt: String)(using cb: ContentBuilder): Unit =
+    cb.addLayerElement(txt)
 
 
   @main def provaFunc(): Unit =
     val pap: Papyrus =
       papyrus:
         content:
-          title("Titolo carino")
-          text("Ciao a tutti")
+          title: "Titolo carino"
+          text: "Ciao a tutti"
 
 
     pap.build()
