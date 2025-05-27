@@ -15,7 +15,7 @@ object TypesInline:
   type LineHeight = Double :| Interval.Closed[1.0, 3.0]
   type LetterSpacing = Double :| Interval.Closed[0.0, 1.0]
   type WordSpacing = Double :| Interval.Closed[0.0, 20.0]
-  type FontWeight = String :| Match["none|weight"]
+  type FontWeight = String :| Match["none|bold"]
   type FontStyle = String :| Match["none|italic"]
   type TextDecoration = String :| Match["none|underline|overline"]
   type TextTransform = String :| Match["none|uppercase|lowercase|capitalize"]

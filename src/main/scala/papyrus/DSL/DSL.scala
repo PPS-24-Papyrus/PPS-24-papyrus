@@ -3,62 +3,63 @@ package papyrus.DSL
 import papyrus.logic.Papyrus
 import papyrus.logic.metadata.Metadata
 import papyrus.logic.content.Content
-import papyrus.logic.layerElement.text.Title
+import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.utility.TypesInline.Level
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.layerElement.LayerElement
-import scala.collection.mutable.ArrayBufferg
+
+import scala.collection.mutable.ArrayBuffer
 
 object DSL:
 
   class PapyrusBuilder:
     var metadata: Metadata = Metadata()
-    var content: Content = Content(Title("Default Title", 1))
+    var content: Content = Content(Title("Default Title", 1)())
 
     def build(): Papyrus = Papyrus(metadata, content)
 
-
   class MetadataBuilder:
-
     def build(): Metadata = Metadata()
 
   class ContentBuilder:
-    var title: Title = ???
-    val layerElements = ArrayBuffer[LayerElement] 
-    
+    var title: Title = Title("Titolo di default", 1)()
+    val layerElements = ArrayBuffer[LayerElement]()
+
     def addLayerElement(element: LayerElement): Unit =
       layerElements += element
-    
-    def build(): Content = Content(Title("Default Title", 1))
 
-
+    def build(): Content = Content(title, layerElements.toSeq*)
 
   def papyrus(init: PapyrusBuilder ?=> Unit): Papyrus =
     given builder: PapyrusBuilder = PapyrusBuilder()
     init
     builder.build()
 
-  def metadata(init: MetadataBuilder ?=> Unit)(using PapyrusBuilder: PapyrusBuilder): Unit =
+  def metadata(init: MetadataBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
     given builder: MetadataBuilder = MetadataBuilder()
     init
-    PapyrusBuilder.metadata = builder.build()
+    pb.metadata = builder.build()
 
-  def content(init: ContentBuilder ?=> Unit)(using PapyrusBuilder: PapyrusBuilder): Unit =
+  def content(init: ContentBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
     given builder: ContentBuilder = ContentBuilder()
     init
-    PapyrusBuilder.content = builder.build()
-    
-  def title(text: String, level: Level = 1)(using contentBuilder: ContentBuilder): Unit =
-    contentBuilder.build().title = Title(text, level)
-    
-  def aCasoMetadata(a: String)(using metadataBuilder: MetadataBuilder): Unit =
-    println(a)
+    pb.content = builder.build()
 
-  def aCasoContent(a: String)(using metadataBuilder: MetadataBuilder): Unit =
-    println(a)
+  object title:
+    def apply(text: String)(using cb: ContentBuilder): Unit =
+      cb.title = Title(text, 1)()
 
-  papyrus:
-    metadata:
-      aCasoMetadata("aa")
-    content:
-      aCasoContent("aa")
+  object text:
+    def apply(txt: String)(using cb: ContentBuilder): Unit =
+      cb.addLayerElement(txt)
+
+
+  @main def provaFunc(): Unit =
+    val pap: Papyrus =
+      papyrus:
+        content:
+          title("Titolo carino")
+          text("Ciao a tutti")
+
+
+    pap.build()

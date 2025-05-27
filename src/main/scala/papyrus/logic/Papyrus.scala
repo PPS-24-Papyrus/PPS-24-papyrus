@@ -29,7 +29,7 @@ object Papyrus:
 
   // Contenuto testuale semplice
   val content = Content(
-    Title("Ciao", 1),
+    Title("Ciao",1)(),
     "Questo è un semplice testo."
   )
 

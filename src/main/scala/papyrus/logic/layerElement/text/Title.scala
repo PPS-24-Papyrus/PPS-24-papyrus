@@ -12,18 +12,20 @@ trait Title extends LayerElement:
 object Title:
   def apply(
              title: String,
-             level: Level,
+             level: Level
+           )(
              font: FontFamily = "Georgia",
              fontSize: FontSize = 24,
              lineHeight: LineHeight = 1.4,
              textColor: ColorString = "#000000",
              textAlign: Alignment = "left",
              margin: Margin = 10
-           ): Title = new TitleImpl(title, level, font, fontSize, lineHeight, textColor, textAlign, margin)
+           ): Title = new TitleImpl(title, level)(font, fontSize, lineHeight, textColor, textAlign, margin)
 
   private class TitleImpl(
                            override val title: String,
-                           override val level: Level,
+                           override val level: Level
+                         )(
                            font: FontFamily,
                            fontSize: FontSize,
                            lineHeight: LineHeight,
