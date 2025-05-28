@@ -5,7 +5,7 @@ import papyrus.logic.Papyrus
 import papyrus.logic.metadata.Metadata
 import papyrus.logic.content.Content
 import papyrus.logic.layerElement.text.{Text, Title}
-import papyrus.logic.utility.TypesInline.{Alignment, ColorString, FontFamily, FontSize, Level}
+import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.daCancellare.PapyrusElement.MetadataSyntax.title
 import papyrus.logic.layerElement.LayerElement
@@ -61,6 +61,20 @@ object DSL:
 
     def build(): Title = Title(title, level)(font=font, fontSize=fontSize, textColor=textColor, textAlign=textAlign)
 
+  class TextBuilder:
+    var value: String = "Default Text"
+    var color: ColorString = "black"
+    var fontWeight: FontWeight = "none"
+    var fontStyle: FontStyle = "none"
+    var textDecoration: TextDecoration = "none"
+
+    def build(): Text = Text(value)(
+      color = color,
+      fontWeight = fontWeight,
+      fontStyle = fontStyle,
+      textDecoration = textDecoration
+    )
+
   def title(init: TitleBuilder ?=> Unit)(using cb: ContentBuilder): Unit =
     given builder: TitleBuilder = TitleBuilder()
     init
@@ -87,9 +101,31 @@ object DSL:
       tb.textAlign = alignment
       title
 
+  def text(init: TextBuilder ?=> Unit)(using cb: ContentBuilder): Unit =
+    given builder: TextBuilder = TextBuilder()
+    init
+    cb.addLayerElement(builder.build())
 
-  infix def text(txt: String)(using cb: ContentBuilder): Unit =
-    cb.addLayerElement(Text(txt)())
+  extension (str: String)
+    def color(c: ColorString)(using tb: TextBuilder): String =
+      tb.value = str
+      tb.color = c
+      str
+
+    def fontWeight(w: FontWeight)(using tb: TextBuilder): String =
+      tb.value = str
+      tb.fontWeight = w
+      str
+
+    def fontStyle(s: FontStyle)(using tb: TextBuilder): String =
+      tb.value = str
+      tb.fontStyle = s
+      str
+
+    def textDecoration(d: TextDecoration)(using tb: TextBuilder): String =
+      tb.value = str
+      tb.textDecoration = d
+      str
 
 
   @main def provaFunc(): Unit =
@@ -98,6 +134,7 @@ object DSL:
         content:
           title:
             "Titolo carino" font "Arial" fontSize 20 textColor "red"
-          text("Ciao a tutti")
-    
+          text:
+            "Questo è un paragrafo." color "gray" fontWeight "bold" fontStyle "italic" textDecoration "underline"
+
     pap.build()
