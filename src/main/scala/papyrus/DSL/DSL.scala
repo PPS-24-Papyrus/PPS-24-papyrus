@@ -4,7 +4,7 @@ import papyrus.logic.Papyrus
 import papyrus.logic.metadata.Metadata
 import papyrus.logic.content.Content
 import papyrus.logic.layerElement.text.{Text, Title}
-import papyrus.logic.utility.TypesInline.Level
+import papyrus.logic.utility.TypesInline.{Alignment, ColorString, FontFamily, FontSize, Level}
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.daCancellare.PapyrusElement.MetadataSyntax.title
 import papyrus.logic.layerElement.LayerElement
@@ -31,6 +31,10 @@ object DSL:
 
     def build(): Content = Content(title, layerElements.toSeq*)
 
+  class LayerElementBuilder:
+    def build(el: LayerElement): LayerElement = el
+
+
   def papyrus(init: PapyrusBuilder ?=> Unit): Papyrus =
     given builder: PapyrusBuilder = PapyrusBuilder()
     init
@@ -46,19 +50,45 @@ object DSL:
     init
     pb.content = builder.build()
 
-  infix def title(text: String)(using cb: ContentBuilder): Unit =
-    cb.title = Title(text, 1)()
+  class TitleBuilder:
+    var title: String = "Default Title"
+    var level: Level = 1
+    var font: FontFamily = "Georgia"
+    var fontSize: FontSize = 24
+    var textColor: ColorString = "#000000"
+    var textAlign: Alignment = "left"
+
+    def build(): Title = Title(title, level)(font, fontSize, textColor, textAlign)
+
+  def title(init: TitleBuilder ?=> Unit)(using cb: ContentBuilder): Unit =
+    given builder: TitleBuilder = TitleBuilder()
+    init
+    cb.title = builder.build()
+
+  extension (title: String)
+    def font(font: FontFamily)(using tb: TitleBuilder): String =
+      tb.title = title
+      tb.font = font
+      title
+
+    def fontSize(size: FontSize)(using tb: TitleBuilder): String =
+      tb.title = title
+      tb.fontSize = size
+      title
+
+  given Conversion[String, Title] with
+    def apply(str: String): Title = Title(str, 1)()
 
   infix def text(txt: String)(using cb: ContentBuilder): Unit =
-    cb.addLayerElement(txt)
+    cb.addLayerElement(Text(txt)())
 
 
   @main def provaFunc(): Unit =
     val pap: Papyrus =
       papyrus:
         content:
-          title("Titolo carino")
+          title:
+            "Titolo carino" font "Arial" fontSize 20
           text("Ciao a tutti")
-
 
     pap.build()
