@@ -16,4 +16,4 @@ object Content:
 
   private class ContentImpl(override val title: Title, override val layerElement: Seq[LayerElement]) extends Content:
     override def render: String = s"<body>${title.render}${layerElement.map(_.render).mkString("\n")}</body>"
-    override def renderStyle: String = layerElement.map(_.renderStyle).mkString("\n")
+    override def renderStyle: String = (title.renderStyle +: layerElement.map(_.renderStyle)).mkString("\n")
