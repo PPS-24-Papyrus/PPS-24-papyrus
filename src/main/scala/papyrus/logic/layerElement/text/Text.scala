@@ -33,7 +33,7 @@ object Text:
                         ) extends Text:
 
     override def render: String =
-      s"""<p class="text">$text</p>"""
+      s"""<p class="$color$fontWeight$fontStyle$textDecoration">$text</p>"""
 
     override def renderStyle: String =
       val rules = Seq(
@@ -43,7 +43,7 @@ object Text:
         Style.textDecoration(textDecoration)
       ).mkString("\n  ")
 
-      s""".text {\n  $rules\n}"""
+      s""".$color$fontWeight$fontStyle$textDecoration {\n  $rules\n}"""
 
     given Conversion[String, Text] with
       def apply(str: String): Text = Text(str)()
