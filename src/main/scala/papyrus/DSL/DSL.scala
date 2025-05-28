@@ -1,5 +1,6 @@
 package papyrus.DSL
 
+import HtmlConverter.HtmlLauncher
 import papyrus.logic.Papyrus
 import papyrus.logic.metadata.Metadata
 import papyrus.logic.content.Content
@@ -55,10 +56,10 @@ object DSL:
     var level: Level = 1
     var font: FontFamily = "Georgia"
     var fontSize: FontSize = 24
-    var textColor: ColorString = "#000000"
+    var textColor: ColorString = "red"
     var textAlign: Alignment = "left"
 
-    def build(): Title = Title(title, level)(font, fontSize, textColor, textAlign)
+    def build(): Title = Title(title, level)(font=font, fontSize=fontSize, textColor=textColor, textAlign=textAlign)
 
   def title(init: TitleBuilder ?=> Unit)(using cb: ContentBuilder): Unit =
     given builder: TitleBuilder = TitleBuilder()
@@ -76,8 +77,16 @@ object DSL:
       tb.fontSize = size
       title
 
-  given Conversion[String, Title] with
-    def apply(str: String): Title = Title(str, 1)()
+    def textColor(color: ColorString)(using tb: TitleBuilder): String =
+      tb.title = title
+      tb.textColor = color
+      title
+
+    def textAlign(alignment: Alignment)(using tb: TitleBuilder): String =
+      tb.title = title
+      tb.textAlign = alignment
+      title
+
 
   infix def text(txt: String)(using cb: ContentBuilder): Unit =
     cb.addLayerElement(Text(txt)())
@@ -88,7 +97,7 @@ object DSL:
       papyrus:
         content:
           title:
-            "Titolo carino" font "Arial" fontSize 20
+            "Titolo carino" font "Arial" fontSize 20 textColor "red"
           text("Ciao a tutti")
-
+    
     pap.build()
