@@ -7,6 +7,8 @@ import papyrus.logic.metadata.Metadata
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 
+import java.util.Optional
+
 trait Papyrus:
   def metadata: Metadata
   def content: Content
@@ -29,7 +31,7 @@ object Papyrus:
 
   // Contenuto testuale semplice
   val content = Content(
-    Title("Ciao",1)(),
+    Optional.of(Title("Ciao",1)()),
     "Questo è un semplice testo."
   )
 

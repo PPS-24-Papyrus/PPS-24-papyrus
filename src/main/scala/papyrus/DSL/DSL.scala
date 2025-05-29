@@ -10,13 +10,14 @@ import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.daCancellare.PapyrusElement.MetadataSyntax.title
 import papyrus.logic.layerElement.LayerElement
 
+import java.util.Optional
 import scala.collection.mutable.ArrayBuffer
 
 object DSL:
 
   class PapyrusBuilder:
     var metadata: Metadata = Metadata()
-    var content: Content = Content(Title("Default Title", 1)())
+    var content: Content = Content(Optional.empty)
 
     def build(): Papyrus = Papyrus(metadata, content)
 
@@ -24,7 +25,7 @@ object DSL:
     def build(): Metadata = Metadata()
 
   class ContentBuilder:
-    var title: Title = Title("Titolo di default", 1)()
+    var title: Optional[Title] = Optional.empty
     val layerElements = ArrayBuffer[LayerElement]()
 
     def addLayerElement(element: LayerElement): Unit =
@@ -78,7 +79,7 @@ object DSL:
   def title(init: TitleBuilder ?=> Unit)(using cb: ContentBuilder): Unit =
     given builder: TitleBuilder = TitleBuilder()
     init
-    cb.title = builder.build()
+    cb.title = Optional.of(builder.build())
 
   extension (title: String)
     def font(font: FontFamily)(using tb: TitleBuilder): String =
