@@ -19,7 +19,7 @@ object DSL:
     var metadata: Metadata = Metadata()
     var content: Content = Content(Optional.empty)
 
-    def build(): Papyrus = Papyrus(metadata, content)
+    def build(): Unit = Papyrus(metadata, content).build()
 
   class MetadataBuilder:
     def build(): Metadata = Metadata()
@@ -37,7 +37,7 @@ object DSL:
     def build(el: LayerElement): LayerElement = el
 
 
-  def papyrus(init: PapyrusBuilder ?=> Unit): Papyrus =
+  def papyrus(init: PapyrusBuilder ?=> Unit): Unit =
     given builder: PapyrusBuilder = PapyrusBuilder()
     init
     builder.build()
@@ -130,12 +130,9 @@ object DSL:
 
 
   @main def provaFunc(): Unit =
-    val pap: Papyrus =
-      papyrus:
-        content:
-          title:
-            "Titolo carino" font "Arial" fontSize 20 textColor "red"
-          text:
-            "Questo è un paragrafo." color "gray" fontWeight "bold" fontStyle "italic" textDecoration "underline"
-
-    pap.build()
+    papyrus:
+      content:
+        title:
+          "Titolo carino" font "Arial" fontSize 20 textColor "red"
+        text:
+          "Questo è un paragrafo." color "gray" fontWeight "bold" fontStyle "italic" textDecoration "underline"
