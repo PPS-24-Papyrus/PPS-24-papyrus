@@ -17,5 +17,8 @@ object Content:
   def apply(title: Optional[Title], layerElement: LayerElement*): Content = new ContentImpl(title, layerElement)
 
   private class ContentImpl(override val title: Optional[Title], override val layerElement: Seq[LayerElement]) extends Content:
-    override def render: String = s"<body>${title.get().render}${layerElement.map(_.render).mkString("\n")}</body>"
+    override def render: String =
+      val titleRendered = if title.isPresent then title.get().render else ""
+      val layerElementsRendered = layerElement.map(_.render).mkString("\n")
+      s"<body>$titleRendered$layerElementsRendered</body>"
     override def renderStyle: String = ({if title.isPresent then title.get().renderStyle} +: layerElement.map(_.renderStyle)).mkString("\n")
