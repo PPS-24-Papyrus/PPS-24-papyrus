@@ -62,7 +62,12 @@ object DSL:
     var textAlign: Alignment = "left"
 
     def build(): Title =
-      Title(title, level)(TitleStyle(font=font, fontSize=fontSize, textColor=textColor, textAlign=textAlign))
+      Title(title, level)(TitleStyle(
+        font=font,
+        fontSize=fontSize,
+        textColor=textColor,
+        textAlign=textAlign)
+      )
 
   class TextBuilder:
     var value: String = "Default Text"
@@ -78,63 +83,74 @@ object DSL:
       textDecoration = textDecoration
     ))
 
-  def title(init: TitleBuilder ?=> Unit)(using cb: ContentBuilder): Unit =
+
+  def title(init: TitleBuilder ?=> TextDSL)(using cb: ContentBuilder): Unit =
     given builder: TitleBuilder = TitleBuilder()
-    init
+    val textWrapper = init
+    builder.title = textWrapper.str
     cb.title = Optional.of(builder.build())
 
-  extension (title: String)
-    def font(font: FontFamily)(using tb: TitleBuilder): String =
-      tb.title = title
-      tb.font = font
-      title
-
-    def fontSize(size: FontSize)(using tb: TitleBuilder): String =
-      tb.title = title
-      tb.fontSize = size
-      title
-
-    def textColor(color: ColorString)(using tb: TitleBuilder): String =
-      tb.title = title
-      tb.textColor = color
-      title
-
-    def textAlign(alignment: Alignment)(using tb: TitleBuilder): String =
-      tb.title = title
-      tb.textAlign = alignment
-      title
-
-  def text(init: TextBuilder ?=> Unit)(using cb: ContentBuilder): Unit =
+  def text(init: TextBuilder ?=> TextDSL)(using cb: ContentBuilder): Unit =
     given builder: TextBuilder = TextBuilder()
-    init
+    val textWrapper = init
+    builder.value = textWrapper.str
     cb.addLayerElement(builder.build())
 
-  extension (str: String)
-    def color(c: ColorString)(using tb: TextBuilder): String =
+  class TextDSL(val str: String):
+    def titleColor(c: ColorString)(using tb: TitleBuilder): TextDSL =
+      tb.title = str
+      tb.textColor = c
+      str
+
+    def alignment(t: Alignment)(using tb: TitleBuilder): TextDSL =
+      tb.title = str
+      tb.textAlign = t
+      str
+
+    def fontSize(fs: FontSize)(using tb: TitleBuilder): TextDSL =
+      tb.title = str
+      tb.fontSize = fs
+      str
+
+    def fontFamily(ff: FontFamily)(using tb: TitleBuilder): TextDSL =
+      tb.title = str
+      tb.font = ff
+      str
+
+    def color(c: ColorString)(using tb: TextBuilder): TextDSL =
       tb.value = str
       tb.color = c
       str
 
-    def fontWeight(w: FontWeight)(using tb: TextBuilder): String =
+    def fontWeight(w: FontWeight)(using tb: TextBuilder): TextDSL =
       tb.value = str
       tb.fontWeight = w
       str
 
-    def fontStyle(s: FontStyle)(using tb: TextBuilder): String =
+    def fontStyle(s: FontStyle)(using tb: TextBuilder): TextDSL =
       tb.value = str
       tb.fontStyle = s
       str
 
-    def textDecoration(d: TextDecoration)(using tb: TextBuilder): String =
+    def textDecoration(d: TextDecoration)(using tb: TextBuilder): TextDSL =
       tb.value = str
       tb.textDecoration = d
       str
 
+  given Conversion[String, TextDSL] with
+    def apply(str: String): TextDSL = TextDSL(str)
 
   @main def provaFunc(): Unit =
     papyrus:
       content:
         title:
-          "Titolo carino" font "Arial" fontSize 20 textColor "red"
+          "titolo" titleColor "orange" fontSize 12 alignment "left"
         text:
-          "Questo è un paragrafo." color "gray" fontWeight "bold" fontStyle "italic" textDecoration "underline"
+          "Questo è un paragrafo." color "red" textDecoration "underline"
+
+
+
+
+
+
+
