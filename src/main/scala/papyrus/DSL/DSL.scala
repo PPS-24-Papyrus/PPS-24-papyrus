@@ -9,6 +9,7 @@ import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.daCancellare.PapyrusElement.MetadataSyntax.title
 import papyrus.logic.layerElement.LayerElement
+import papyrus.logic.styleObjects.TitleStyle
 
 import java.util.Optional
 import scala.collection.mutable.ArrayBuffer
@@ -60,7 +61,8 @@ object DSL:
     var textColor: ColorString = "red"
     var textAlign: Alignment = "left"
 
-    def build(): Title = Title(title, level)(font=font, fontSize=fontSize, textColor=textColor, textAlign=textAlign)
+    def build(): Title =
+      Title(title, level)(TitleStyle(font=font, fontSize=fontSize, textColor=textColor, textAlign=textAlign))
 
   class TextBuilder:
     var value: String = "Default Text"

@@ -6,6 +6,7 @@ import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.metadata.Metadata
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
+import papyrus.logic.styleObjects.TitleStyle
 
 import java.util.Optional
 
@@ -31,7 +32,7 @@ object Papyrus:
 
   // Contenuto testuale semplice
   val content = Content(
-    Optional.of(Title("Ciao",1)()),
+    Optional.of(Title("Ciao",1)(TitleStyle())),
     "Questo è un semplice testo."
   )
 
