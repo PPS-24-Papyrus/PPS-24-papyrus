@@ -8,6 +8,7 @@ import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.daCancellare.PapyrusElement.MetadataSyntax.title
+import papyrus.logic.builders.{TextBuilder, TitleBuilder}
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.styleObjects.{TextStyle, TitleStyle}
 
@@ -52,36 +53,6 @@ object DSL:
     given builder: ContentBuilder = ContentBuilder()
     init
     pb.content = builder.build()
-
-  class TitleBuilder:
-    var title: String = "Default Title"
-    var level: Level = 1
-    var font: FontFamily = "Georgia"
-    var fontSize: FontSize = 24
-    var textColor: ColorString = "red"
-    var textAlign: Alignment = "left"
-
-    def build(): Title =
-      Title(title, level)(TitleStyle(
-        font=font,
-        fontSize=fontSize,
-        textColor=textColor,
-        textAlign=textAlign)
-      )
-
-  class TextBuilder:
-    var value: String = "Default Text"
-    var color: ColorString = "black"
-    var fontWeight: FontWeight = "none"
-    var fontStyle: FontStyle = "none"
-    var textDecoration: TextDecoration = "none"
-
-    def build(): Text = Text(value)(TextStyle(
-      color = color,
-      fontWeight = fontWeight,
-      fontStyle = fontStyle,
-      textDecoration = textDecoration
-    ))
 
 
   def title(init: TitleBuilder ?=> TextDSL)(using cb: ContentBuilder): Unit =
