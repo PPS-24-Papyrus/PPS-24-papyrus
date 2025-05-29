@@ -20,12 +20,12 @@ object Text:
                         )(textStyle: TextStyle) extends Text:
 
     override def render: String =
-      s"""<p class="prova">$text</p>"""
+      s"""<p class="${textStyle.tag}">$text</p>"""
 
     override def renderStyle: String =
 
 
-      s""".prova {\n  ${textStyle.renderStyle}\n}"""
+      s""".${textStyle.tag} {\n  ${textStyle.renderStyle}\n}"""
 
     //given Conversion[String, Text] with
     //  def apply(str: String): Text = Text(str)(TextStyle())

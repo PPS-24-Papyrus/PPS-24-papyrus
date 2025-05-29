@@ -11,6 +11,7 @@ trait TextStyle extends RendererStyle:
   def fontWeight: FontWeight
   def fontStyle: FontStyle
   def textDecoration: TextDecoration
+  def tag: String
 
 object TextStyle:
   def apply(
@@ -34,4 +35,6 @@ object TextStyle:
         Style.fontStyle(fontStyle),
         Style.textDecoration(textDecoration)
       ).mkString(" ")
+
+    override def tag: String = s"""title$color$fontWeight$fontStyle$textDecoration"""
 
