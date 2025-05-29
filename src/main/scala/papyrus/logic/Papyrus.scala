@@ -33,7 +33,7 @@ object Papyrus:
   // Contenuto testuale semplice
   val content = Content(
     Optional.of(Title("Ciao",1)(TitleStyle())),
-    "Questo è un semplice testo."
+    //"Questo è un semplice testo."
   )
 
   // Crea e costruisce il documento

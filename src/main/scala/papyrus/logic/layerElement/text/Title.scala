@@ -1,9 +1,7 @@
 package papyrus.logic.layerElement.text
 
-import papyrus.logic.Style
 import papyrus.logic.utility.TypesInline.*
 import papyrus.logic.layerElement.LayerElement
-import io.github.iltotore.iron.autoRefine
 import papyrus.logic.styleObjects.TitleStyle
 
 trait Title extends LayerElement:
@@ -16,7 +14,7 @@ object Title:
              level: Level
            )(
              titleStyle: TitleStyle
-           ): Title = new TitleImpl(title, level)(titleStyle)
+           ): Title = TitleImpl(title, level)(titleStyle)
 
   private class TitleImpl(
                            override val title: String,

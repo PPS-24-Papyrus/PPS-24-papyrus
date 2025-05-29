@@ -4,6 +4,7 @@ import papyrus.logic.Style
 import papyrus.logic.utility.TypesInline.*
 import papyrus.logic.layerElement.LayerElement
 import io.github.iltotore.iron.autoRefine
+import papyrus.logic.styleObjects.TextStyle
 
 trait Text extends LayerElement:
   def text: String
@@ -11,39 +12,20 @@ trait Text extends LayerElement:
 object Text:
 
   def apply(text: String)(
-    color: ColorString = "black",
-    fontWeight: FontWeight = "none",
-    fontStyle: FontStyle = "none",
-    textDecoration: TextDecoration = "none",
-  ): Text =
-    new TextImpl(
-      text,
-      color,
-      fontWeight,
-      fontStyle,
-      textDecoration
-    )
+    textStyle: TextStyle
+  ): Text = TextImpl(text)(textStyle)
 
   private class TextImpl(
                           override val text: String,
-                          color: ColorString,
-                          fontWeight: FontWeight,
-                          fontStyle: FontStyle,
-                          textDecoration: TextDecoration
-                        ) extends Text:
+                        )(textStyle: TextStyle) extends Text:
 
     override def render: String =
-      s"""<p class="$color$fontWeight$fontStyle$textDecoration">$text</p>"""
+      s"""<p class="prova">$text</p>"""
 
     override def renderStyle: String =
-      val rules = Seq(
-        Style.textColor(color),
-        Style.fontWeight(fontWeight),
-        Style.fontStyle(fontStyle),
-        Style.textDecoration(textDecoration)
-      ).mkString("\n  ")
 
-      s""".$color$fontWeight$fontStyle$textDecoration {\n  $rules\n}"""
 
-    given Conversion[String, Text] with
-      def apply(str: String): Text = Text(str)()
+      s""".prova {\n  ${textStyle.renderStyle}\n}"""
+
+    //given Conversion[String, Text] with
+    //  def apply(str: String): Text = Text(str)(TextStyle())

@@ -9,7 +9,7 @@ import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.daCancellare.PapyrusElement.MetadataSyntax.title
 import papyrus.logic.layerElement.LayerElement
-import papyrus.logic.styleObjects.TitleStyle
+import papyrus.logic.styleObjects.{TextStyle, TitleStyle}
 
 import java.util.Optional
 import scala.collection.mutable.ArrayBuffer
@@ -71,12 +71,12 @@ object DSL:
     var fontStyle: FontStyle = "none"
     var textDecoration: TextDecoration = "none"
 
-    def build(): Text = Text(value)(
+    def build(): Text = Text(value)(TextStyle(
       color = color,
       fontWeight = fontWeight,
       fontStyle = fontStyle,
       textDecoration = textDecoration
-    )
+    ))
 
   def title(init: TitleBuilder ?=> Unit)(using cb: ContentBuilder): Unit =
     given builder: TitleBuilder = TitleBuilder()

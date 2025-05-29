@@ -21,4 +21,4 @@ object Content:
       val titleRendered = if title.isPresent then title.get().render else ""
       val layerElementsRendered = layerElement.map(_.render).mkString("\n")
       s"<body>$titleRendered$layerElementsRendered</body>"
-    override def renderStyle: String = ({if title.isPresent then title.get().renderStyle} +: layerElement.map(_.renderStyle)).mkString("\n")
+    override def renderStyle: String = ({if title.isPresent then title.get().renderStyle else ""} +: layerElement.map(_.renderStyle)).mkString("\n")
