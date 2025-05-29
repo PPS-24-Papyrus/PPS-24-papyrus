@@ -1,0 +1,17 @@
+package papyrus.logic.builders
+
+import papyrus.logic.content.Content
+import papyrus.logic.layerElement.LayerElement
+import papyrus.logic.layerElement.text.Title
+
+import java.util.Optional
+import scala.collection.mutable.ArrayBuffer
+
+class ContentBuilder:
+  var title: Optional[Title] = Optional.empty
+  val layerElements = ArrayBuffer[LayerElement]()
+
+  def addLayerElement(element: LayerElement): Unit =
+    layerElements += element
+
+  def build(): Content = Content(title, layerElements.toSeq *)
