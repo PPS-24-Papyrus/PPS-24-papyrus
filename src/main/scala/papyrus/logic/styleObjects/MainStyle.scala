@@ -20,8 +20,8 @@ object MainStyle:
              fontSize: FontSize = 16,
              lineHeight: LineHeight = 1.6,
              textColor: ColorString = "#000000",
-             backgroundColor: ColorString = "#ffffff",
-             margin: Margin = 40
+             backgroundColor: ColorString = "grey",
+             margin: Margin = 80
            ): MainStyle =
     MainStyleImpl(font, fontSize, lineHeight, textColor, backgroundColor, margin)
 
@@ -44,4 +44,4 @@ object MainStyle:
       ).mkString(" ")
       
     override def tag: String =
-      s"""main$font$fontSize$lineHeight$textColor$backgroundColor$margin""" 
+      s"""body""" 

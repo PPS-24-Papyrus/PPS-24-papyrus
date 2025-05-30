@@ -39,30 +39,13 @@ object Papyrus:
       else
         throw new IllegalArgumentException(s"Unsupported file extension: ${metadata.extension}")
 
-      def convertHtmlToPdf(htmlContent: String, outputPath: String): Unit = {
-        val outputStream = new FileOutputStream(new File(outputPath))
-
-        try {
-          val builder = new PdfRendererBuilder()
-          builder.useFastMode()
-          builder.withHtmlContent(htmlContent, null)
-          builder.toStream(outputStream)
-          builder.run()
-        } finally {
-          outputStream.close()
-        }
-      }
-
-@main def testMinimalPapyrus(): Unit =
-  // Usa metadata di default
-  val meta = Metadata(extension = "pdf", nameFile = "testDocument")
-
-  // Contenuto testuale semplice
-  val content = Content(
-    Optional.of(Title("Ciao",1)(TitleStyle(textColor = "blue"))),
-    //"Questo è un semplice testo."
-  )
-
-  // Crea e costruisce il documento
-  val doc = Papyrus(meta, content)
-  doc.build()
+    def convertHtmlToPdf(htmlContent: String, outputPath: String): Unit = 
+      val outputStream = new FileOutputStream(new File(outputPath))
+      try
+        val builder = new PdfRendererBuilder()
+        builder.useFastMode()
+        builder.withHtmlContent(htmlContent, null)
+        builder.toStream(outputStream)
+        builder.run()
+      finally
+        outputStream.close()
