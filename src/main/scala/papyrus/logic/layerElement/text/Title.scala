@@ -23,7 +23,7 @@ object Title:
                            titleStyle: TitleStyle
                          ) extends Title:
 
-    override def render: String = s"<h$level>$title</h$level>"
+    override def render: String = s"""<h$level class="${titleStyle.tag}">$title</h$level>"""
 
     override def renderStyle: String =
-      s"h$level {\n  ${titleStyle.renderStyle}\n}"
+      s""".${titleStyle.tag} {\n  ${titleStyle.renderStyle}\n}"""

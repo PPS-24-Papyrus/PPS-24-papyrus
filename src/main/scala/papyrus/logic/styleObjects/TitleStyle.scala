@@ -5,12 +5,14 @@ import papyrus.logic.utility.TypesInline.*
 import papyrus.logic.layerElement.LayerElement
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.Renderer.RendererStyle
+import papyrus.logic.utility.IdGenerator
 
 trait TitleStyle extends RendererStyle:
   def font: FontFamily
   def fontSize: FontSize
   def textColor: ColorString
   def textAlign: Alignment
+  def tag: String
 
 object TitleStyle:
   def apply(
@@ -26,6 +28,7 @@ object TitleStyle:
                            override val textColor: ColorString,
                            override val textAlign: Alignment
                          ) extends TitleStyle:
+    private val id: String = IdGenerator.nextId()
     
     override def renderStyle: String =
       Seq(
@@ -35,3 +38,6 @@ object TitleStyle:
         Style.textAlign(textAlign)
       ).mkString(" ")
 
+    override def tag: String = 
+      s"cls-$id"
+    

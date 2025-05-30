@@ -5,6 +5,7 @@ import papyrus.logic.utility.TypesInline.*
 import papyrus.logic.layerElement.LayerElement
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.Renderer.RendererStyle
+import papyrus.logic.utility.IdGenerator
 
 trait TextStyle extends RendererStyle:
   def color: ColorString
@@ -27,6 +28,7 @@ object TextStyle:
                            override val fontStyle: FontStyle,
                            override val textDecoration: TextDecoration
                          ) extends TextStyle:
+    private val id: String = IdGenerator.nextId()
     
     override def renderStyle: String =
       Seq(
@@ -36,5 +38,6 @@ object TextStyle:
         Style.textDecoration(textDecoration)
       ).mkString(" ")
 
-    override def tag: String = s"""title$color$fontWeight$fontStyle$textDecoration"""
+    override def tag: String =
+      s"cls-$id"
 
