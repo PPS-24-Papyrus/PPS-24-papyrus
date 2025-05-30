@@ -8,7 +8,7 @@ import java.util.Optional
 import scala.collection.mutable.ArrayBuffer
 
 class ContentBuilder:
-  var title: Optional[Title] = Optional.empty
+  private var title: Optional[Title] = Optional.empty
   val layerElements = ArrayBuffer[LayerElement]()
   private var titleSet: Boolean = false
 

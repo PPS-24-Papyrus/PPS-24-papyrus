@@ -1,79 +1,52 @@
 package papyrus.logic.metadata
 
 import papyrus.logic.Renderer.Renderer
-import papyrus.logic.Style
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
+import papyrus.logic.metadata.MetaTag.{MetaTag, authorTag, charsetTag, styleSheetTag, titleTag}
+import papyrus.logic.styleObjects.MainStyle
 
+object MetaTag:
+  trait MetaTag:
+    def name: String
+    def content: String
+    def render: String
+
+  def titleTag(title: String): MetaTag = MetaTagImpl("title", title)
+  def authorTag(author: String): MetaTag = MetaTagImpl("author", author)
+  def charsetTag(charset: Charset): MetaTag = MetaTagImpl("charset", charset)
+  def styleSheetTag(link: StyleSheet): MetaTag = new MetaTagImpl("stylesheet", link):
+    override def render: String = s"""<link rel="stylesheet" href="$content">"""
+
+  private class MetaTagImpl(override val name: String, override val content: String) extends MetaTag:
+    override def render: String = s"""<meta name="$name" content="$content">"""
 
 trait Metadata extends Renderer:
-  def nameFile(name: String): String
-  def title(title: String): String
-  def author(author: String): String
-  def charset(charset: Charset): String
-  def styleSheet(link: StyleSheet): String
-  def language(language: Language): String
+  def style: MainStyle
+  def nameFile: String
+  def language: Language
+  def extension: Extension
+  def metaTags: Seq[MetaTag]
 
 object Metadata:
+  def apply(nameFile: String = "newFile",
+            extension: Extension = "html",
+            style: MainStyle = MainStyle(),
+            language: Language = "en",
+            title: String = "index",
+            author: String = "Unknown",
+            charset: Charset = "utf-8",
+            styleSheet: String = "style.css"): Metadata
+  = MetadataImpl(nameFile, extension, style, language, Seq(titleTag(title), authorTag(author), charsetTag(charset), styleSheetTag("style.css")))
 
-  def apply(
-             name: String = "untitled",
-             title: String = "New Papyrus",
-             author: String = "Unknown",
-             charset: Charset = "utf-8",
-             styleSheet: StyleSheet = "style.css",
-             language: Language = "en",
-             font: FontFamily = "Georgia",
-             fontSize: FontSize = 16,
-             lineHeight: LineHeight = 1.6,
-             textColor: ColorString = "#000000",
-             backgroundColor: ColorString = "#ffffff",
-             margin: Margin = 40
-           ): Metadata =
-    MetadataImpl(name, title, author, charset, styleSheet, language, font, fontSize, lineHeight, textColor, backgroundColor, margin)
-
-  private class MetadataImpl(
-                              name: String,
-                              titleValue: String,
-                              authorValue: String,
-                              charsetValue: Charset,
-                              stylesheetValue: StyleSheet,
-                              languageValue: Language,
-                              font: FontFamily,
-                              fontSize: FontSize,
-                              lineHeight: LineHeight,
-                              textColor: ColorString,
-                              backgroundColor: ColorString,
-                              margin: Margin
-                            ) extends Metadata:
-
-    private def meta(tag: String)(value: String): String =
-      s"""<meta name="$tag" content="$value">"""
-
-    override def nameFile(name: String): String = meta("filename")(name)
-    override def title(title: String): String = meta("title")(title)
-    override def author(author: String): String = meta("author")(author)
-    override def charset(charset: Charset): String = s"""<meta charset="$charset">"""
-    override def styleSheet(link: StyleSheet): String = s"""<link rel="stylesheet" href="$link">"""
-    override def language(language: Language): String = s"""lang="$language""""
-
-    override def render: String =
-      s"""<head>
-         |  ${charset(charsetValue)}
-         |  ${nameFile(name)}
-         |  ${title(titleValue)}
-         |  ${author(authorValue)}
-         |  ${styleSheet(stylesheetValue)}
-         |</head>""".stripMargin
+  private class MetadataImpl(override val nameFile: String,
+                             override val extension: Extension,
+                             override val style: MainStyle,
+                             override val language: Language,
+                             override val metaTags: Seq[MetaTag]) extends Metadata:
+    override def render: String = s"""<head>
+                                     | ${metaTags.map(_.render).mkString("\n")}
+                                     |</head>""".stripMargin
 
     override def renderStyle: String =
-      val bodyCss = Seq(
-        Style.font(font),
-        Style.fontSize(fontSize),
-        Style.lineHeight(lineHeight),
-        Style.textColor(textColor),
-        Style.backgroundColor(backgroundColor),
-        Style.margin(margin)
-      ).mkString(" ")
-
-      s"body {\n  $bodyCss\n}"
+      s""".${style.tag} {\n  ${style.renderStyle}\n}"""

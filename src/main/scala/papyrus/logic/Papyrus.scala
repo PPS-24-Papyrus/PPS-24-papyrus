@@ -8,6 +8,7 @@ import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.styleObjects.TitleStyle
 
+import java.io.FileOutputStream
 import java.util.Optional
 
 trait Papyrus:
@@ -24,11 +25,15 @@ object Papyrus:
     val css: String = metadata.renderStyle + "\n" + content.renderStyle
     val html: String = """<html>""" + "\n" + metadata.render + "\n" + content.render + "\n" + """</html>"""
 
-    override def build(): Unit = HtmlLauncher.launchHTMLWithCSS(html, css, "PapyrusDocument")
+    override def build(): Unit = 
+      if metadata.extension == "html" then
+        HtmlLauncher.launchHTMLWithCSS(html, css, "PapyrusDocument")
+      else
+        throw new IllegalArgumentException(s"Unsupported file extension: ${metadata.extension}")
 
 @main def testMinimalPapyrus(): Unit =
   // Usa metadata di default
-  val meta = Metadata()
+  val meta = Metadata(extension = "pdf", nameFile = "testDocument")
 
   // Contenuto testuale semplice
   val content = Content(

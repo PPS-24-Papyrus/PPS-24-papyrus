@@ -51,6 +51,9 @@ object DSL:
           "Questo è un paragrafo." color "red" textDecoration "underline"
         text:
           "Tentativo"
+        text:
+          "Un altro paragrafo." color "blue" fontWeight "bold" fontStyle "italic"
+
 
 
 
