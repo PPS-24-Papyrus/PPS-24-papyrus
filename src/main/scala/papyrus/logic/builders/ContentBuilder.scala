@@ -10,6 +10,13 @@ import scala.collection.mutable.ArrayBuffer
 class ContentBuilder:
   var title: Optional[Title] = Optional.empty
   val layerElements = ArrayBuffer[LayerElement]()
+  private var titleSet: Boolean = false
+
+  def setTitle(newTitle: Title): Unit =
+    if titleSet then
+      throw new IllegalStateException("Title has already been set for this ContentBuilder.")
+    title = Optional.of(newTitle)
+    titleSet = true
 
   def addLayerElement(element: LayerElement): Unit =
     layerElements += element

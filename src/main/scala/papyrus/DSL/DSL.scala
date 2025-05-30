@@ -31,7 +31,7 @@ object DSL:
     given builder: TitleBuilder = TitleBuilder()
     val textWrapper = init
     builder.title = textWrapper.str
-    cb.title = Optional.of(builder.build())
+    cb.setTitle(builder.build())
 
   def text(init: TextBuilder ?=> TextDSL)(using cb: ContentBuilder): Unit =
     given builder: TextBuilder = TextBuilder()
