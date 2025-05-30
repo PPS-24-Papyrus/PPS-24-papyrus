@@ -8,7 +8,9 @@ lazy val root = (project in file("."))
   .settings(
     name := "PPS-24-papyrus",
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.18" % Test,
-    libraryDependencies += "io.github.iltotore" %% "iron" % "2.4.0"
+    libraryDependencies += "io.github.iltotore" %% "iron" % "2.4.0",
+    libraryDependencies += "org.xhtmlrenderer" % "flying-saucer-pdf" % "9.1.22",
+    libraryDependencies += "com.openhtmltopdf" % "openhtmltopdf-pdfbox" % "1.0.10"
   )
 
 libraryDependencies ++= Seq(

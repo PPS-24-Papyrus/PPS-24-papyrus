@@ -5,6 +5,7 @@ import io.github.iltotore.iron.constraint.numeric.*
 import io.github.iltotore.iron.constraint.string.*
 
 object TypesInline:
+  type Extension = String :| Match["html|pdf"]
   type Level = Int :| Interval.Closed[1, 6]
   type FontSize = Int :| Interval.Closed[8, 72]
   type Margin = Int :| Interval.Closed[0, 200]
