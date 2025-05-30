@@ -16,10 +16,10 @@ object MetaTag:
   def authorTag(author: String): MetaTag = MetaTagImpl("author", author)
   def charsetTag(charset: Charset): MetaTag = MetaTagImpl("charset", charset)
   def styleSheetTag(link: StyleSheet): MetaTag = new MetaTagImpl("stylesheet", link):
-    override def render: String = s"""<link rel="stylesheet" href="$content">"""
+    override def render: String = s"""<link rel="stylesheet" href="$content"></link>"""
 
   private class MetaTagImpl(override val name: String, override val content: String) extends MetaTag:
-    override def render: String = s"""<meta name="$name" content="$content">"""
+    override def render: String = s"""<meta name="$name" content="$content"></meta>"""
 
 trait Metadata extends Renderer:
   def style: MainStyle
