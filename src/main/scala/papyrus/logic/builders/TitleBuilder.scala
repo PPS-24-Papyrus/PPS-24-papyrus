@@ -4,15 +4,16 @@ import papyrus.logic.layerElement.text.Title
 import papyrus.logic.styleObjects.TitleStyle
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
+import papyrus.DSL.DefaultValues
 
 
 class TitleBuilder:
-  var title: String = "Default Title"
-  var level: Level = 1
-  var font: FontFamily = "Georgia"
-  var fontSize: FontSize = 24
-  var textColor: ColorString = "red"
-  var textAlign: Alignment = "left"
+  var title: String = DefaultValues.titleText
+  var level: Level = DefaultValues.level
+  var font: FontFamily = DefaultValues.fontTitle
+  var fontSize: FontSize = DefaultValues.fontSizeTitle
+  var textColor: ColorString = DefaultValues.textColorTitle
+  var textAlign: Alignment = DefaultValues.textAlignTitle
 
   def build(): Title =
     Title(title, level)(TitleStyle(

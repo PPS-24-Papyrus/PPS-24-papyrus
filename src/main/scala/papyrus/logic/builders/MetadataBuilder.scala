@@ -2,20 +2,21 @@ package papyrus.logic.builders
 
 import papyrus.logic.metadata.Metadata
 import papyrus.logic.styleObjects.MainStyle
-import papyrus.logic.utility.TypesInline.{Charset, Extension, Language}
+import papyrus.logic.utility.TypesInline.{Charset, Extension, Language, StyleSheet}
 import io.github.iltotore.iron.autoRefine
+import papyrus.DSL.DefaultValues
 
 
 class MetadataBuilder:
 
   // -- Campi privati con valori di default
-  private var _nameFile: String = "newFile"
-  private var _extension: Extension = "html"
-  private var _language: Language = "en"
-  private var _title: String = "index"
-  private var _author: String = "Unknown"
-  private var _charset: Charset = "utf-8"
-  private var _styleSheet: String = "style.css"
+  private var _nameFile: String = DefaultValues.nameFile
+  private var _extension: Extension = DefaultValues.extension
+  private var _language: Language = DefaultValues.language
+  private var _title: String = DefaultValues.title
+  private var _author: String = DefaultValues.author
+  private var _charset: Charset = DefaultValues.charset
+  private var _styleSheet: String = DefaultValues.styleSheet
   private var _style: MainStyle = MainStyle()
 
   // -- Getter e setter interni

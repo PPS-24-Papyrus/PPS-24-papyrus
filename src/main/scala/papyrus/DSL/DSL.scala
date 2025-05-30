@@ -87,6 +87,8 @@ object DSL:
           "it"
         author:
           "Luca"
+        extension:
+          "html"
       content:
         title:
           "titolo" titleColor "orange" fontSize 37 alignment "left"

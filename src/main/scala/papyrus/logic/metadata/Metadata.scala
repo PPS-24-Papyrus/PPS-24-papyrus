@@ -3,6 +3,7 @@ package papyrus.logic.metadata
 import papyrus.logic.Renderer.Renderer
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
+import papyrus.DSL.DefaultValues
 import papyrus.logic.metadata.MetaTag.{MetaTag, authorTag, charsetTag, styleSheetTag, titleTag}
 import papyrus.logic.styleObjects.MainStyle
 
@@ -29,14 +30,14 @@ trait Metadata extends Renderer:
   def metaTags: Seq[MetaTag]
 
 object Metadata:
-  def apply(nameFile: String = "newFile",
-            extension: Extension = "html",
+  def apply(nameFile: String = DefaultValues.nameFile,
+            extension: Extension = DefaultValues.extension,
             style: MainStyle = MainStyle(),
-            language: Language = "en",
-            title: String = "index",
-            author: String = "Unknown",
-            charset: Charset = "utf-8",
-            styleSheet: String = "style.css"): Metadata
+            language: Language = DefaultValues.language,
+            title: String = DefaultValues.title,
+            author: String = DefaultValues.author,
+            charset: Charset = DefaultValues.charset,
+            styleSheet: String = DefaultValues.styleSheet): Metadata
   = MetadataImpl(nameFile, extension, style, language, Seq(titleTag(title), authorTag(author), charsetTag(charset), styleSheetTag("style.css")))
 
   private class MetadataImpl(override val nameFile: String,

@@ -4,6 +4,7 @@ import papyrus.logic.Style
 import papyrus.logic.utility.TypesInline.*
 import papyrus.logic.layerElement.LayerElement
 import io.github.iltotore.iron.autoRefine
+import papyrus.DSL.DefaultValues
 import papyrus.logic.Renderer.RendererStyle
 import papyrus.logic.utility.IdGenerator
 
@@ -16,10 +17,10 @@ trait TextStyle extends RendererStyle:
 
 object TextStyle:
   def apply(
-             color: ColorString = "green",
-             fontWeight: FontWeight = "normal",
-             fontStyle: FontStyle = "normal",
-             textDecoration: TextDecoration = "none",
+             color: ColorString = DefaultValues.colorText,
+             fontWeight: FontWeight = DefaultValues.fontWeightText,
+             fontStyle: FontStyle = DefaultValues.fontStyleText,
+             textDecoration: TextDecoration = DefaultValues.textDecorationText,
            ): TextStyle = TextStyleImpl(color, fontWeight, fontStyle, textDecoration)
 
   private class TextStyleImpl(

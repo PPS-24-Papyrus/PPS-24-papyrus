@@ -4,6 +4,7 @@ import papyrus.logic.Style
 import papyrus.logic.utility.TypesInline.*
 import papyrus.logic.layerElement.LayerElement
 import io.github.iltotore.iron.autoRefine
+import papyrus.DSL.DefaultValues
 import papyrus.logic.Renderer.RendererStyle
 import papyrus.logic.utility.IdGenerator
 
@@ -16,10 +17,10 @@ trait TitleStyle extends RendererStyle:
 
 object TitleStyle:
   def apply(
-             font: FontFamily = "Georgia",
-             fontSize: FontSize = 24,
-             textColor: ColorString = "#000000",
-             textAlign: Alignment = "left"
+             font: FontFamily = DefaultValues.fontTitle,
+             fontSize: FontSize = DefaultValues.fontSizeTitle,
+             textColor: ColorString = DefaultValues.textColorTitle,
+             textAlign: Alignment = DefaultValues.textAlignTitle
            ): TitleStyle = new TitleStyleImpl(font, fontSize, textColor, textAlign)
 
   private class TitleStyleImpl(

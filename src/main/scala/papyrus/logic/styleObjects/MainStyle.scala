@@ -3,6 +3,7 @@ package papyrus.logic.styleObjects
 import papyrus.logic.Renderer.RendererStyle
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
+import papyrus.DSL.DefaultValues
 import papyrus.logic.Style
 
 trait MainStyle extends RendererStyle:
@@ -16,12 +17,12 @@ trait MainStyle extends RendererStyle:
   
 object MainStyle:
   def apply(
-             font: FontFamily = "Georgia",
-             fontSize: FontSize = 16,
-             lineHeight: LineHeight = 1.6,
-             textColor: ColorString = "#000000",
-             backgroundColor: ColorString = "grey",
-             margin: Margin = 80
+             font: FontFamily = DefaultValues.font,
+             fontSize: FontSize = DefaultValues.fontSize,
+             lineHeight: LineHeight = DefaultValues.lineHeight,
+             textColor: ColorString = DefaultValues.colorText,
+             backgroundColor: ColorString = DefaultValues.backgroundColor,
+             margin: Margin = DefaultValues.margin
            ): MainStyle =
     MainStyleImpl(font, fontSize, lineHeight, textColor, backgroundColor, margin)
 
