@@ -8,8 +8,8 @@ import io.github.iltotore.iron.autoRefine
 class TextBuilder:
   var value: String = "Default Text"
   var color: ColorString = "black"
-  var fontWeight: FontWeight = "none"
-  var fontStyle: FontStyle = "none"
+  var fontWeight: FontWeight = "normal"
+  var fontStyle: FontStyle = "normal"
   var textDecoration: TextDecoration = "none"
 
   def build(): Text = Text(value)(TextStyle(

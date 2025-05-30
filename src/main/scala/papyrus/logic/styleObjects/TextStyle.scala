@@ -17,8 +17,8 @@ trait TextStyle extends RendererStyle:
 object TextStyle:
   def apply(
              color: ColorString = "green",
-             fontWeight: FontWeight = "none",
-             fontStyle: FontStyle = "none",
+             fontWeight: FontWeight = "normal",
+             fontStyle: FontStyle = "normal",
              textDecoration: TextDecoration = "none",
            ): TextStyle = TextStyleImpl(color, fontWeight, fontStyle, textDecoration)
 

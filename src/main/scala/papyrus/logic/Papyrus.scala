@@ -30,4 +30,5 @@ object Papyrus:
     val html: String = """<html>""" + "\n" + metadata.render + "\n" + content.render + "\n" + """</html>"""
 
     override def build(): Unit =
-        HtmlLauncher.launchHTMLWithCSS(html, css, "PapyrusDocument")
+        //HtmlLauncher.launchHTMLWithCSS(html, css, "PapyrusDocument")
+        HtmlLauncher.generatePDFWithCSS(html, css, "PDF prova")
