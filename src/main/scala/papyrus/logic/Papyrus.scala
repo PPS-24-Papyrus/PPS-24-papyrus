@@ -31,4 +31,4 @@ object Papyrus:
 
     override def build(): Unit =
         //HtmlLauncher.launchHTMLWithCSS(html, css, "PapyrusDocument")
-        HtmlLauncher.generatePDFWithCSS(html, css, "PDF prova")
+        HtmlLauncher.launchFile(html, css, "Papyrus", metadata.extension)

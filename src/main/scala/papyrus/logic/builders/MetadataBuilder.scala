@@ -8,7 +8,7 @@ import papyrus.logic.metadata.Metadata
 
 class MetadataBuilder:
   private var nameFile: String = "newFile"
-  private var extension: Extension = "html"
+  private var extension: Extension = "pdf"
   private var language: Language = "en"
   private var title: String = "index"
   private var author: String = "Unknown"
