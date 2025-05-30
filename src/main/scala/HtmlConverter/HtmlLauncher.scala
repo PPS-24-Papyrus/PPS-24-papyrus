@@ -1,6 +1,7 @@
 package HtmlConverter
 
 import org.xhtmlrenderer.pdf.ITextRenderer
+import papyrus.DSL.DefaultValues
 import papyrus.logic.utility.TypesInline.Extension
 
 import java.awt.Desktop
@@ -13,7 +14,7 @@ object HtmlLauncher:
     val tempDir: Path = Files.createTempDirectory(s"${title}_tmp")
 
     // 1. Scrive il file CSS
-    val cssPath = tempDir.resolve("style.css")
+    val cssPath = tempDir.resolve(DefaultValues.styleSheet)
     Files.write(cssPath, cssContent.getBytes())
 
     // 2. Scrive il file HTML con riferimento al file CSS appena scritto

@@ -12,6 +12,7 @@ trait MainStyle extends RendererStyle:
   def lineHeight: LineHeight
   def textColor: ColorString
   def backgroundColor: ColorString
+  def textAlign: Alignment
   def margin: Margin
   def tag: String
   
@@ -22,9 +23,10 @@ object MainStyle:
              lineHeight: LineHeight = DefaultValues.lineHeight,
              textColor: ColorString = DefaultValues.colorText,
              backgroundColor: ColorString = DefaultValues.backgroundColor,
+             textAlign: Alignment = DefaultValues.textAlignText,
              margin: Margin = DefaultValues.margin
            ): MainStyle =
-    MainStyleImpl(font, fontSize, lineHeight, textColor, backgroundColor, margin)
+    MainStyleImpl(font, fontSize, lineHeight, textColor, backgroundColor, textAlign, margin)
 
   private class MainStyleImpl(
                                override val font: FontFamily,
@@ -32,6 +34,7 @@ object MainStyle:
                                override val lineHeight: LineHeight,
                                override val textColor: ColorString,
                                override val backgroundColor: ColorString,
+                               override val textAlign: Alignment,
                                override val margin: Margin
                              ) extends MainStyle:
     override def renderStyle: String =
@@ -41,6 +44,7 @@ object MainStyle:
         Style.lineHeight(lineHeight),
         Style.textColor(textColor),
         Style.backgroundColor(backgroundColor),
+        Style.textAlign(textAlign),
         Style.margin(margin)
       ).mkString(" ")
       

@@ -38,7 +38,7 @@ object Metadata:
             author: String = DefaultValues.author,
             charset: Charset = DefaultValues.charset,
             styleSheet: String = DefaultValues.styleSheet): Metadata
-  = MetadataImpl(nameFile, extension, style, language, Seq(titleTag(title), authorTag(author), charsetTag(charset), styleSheetTag("style.css")))
+  = MetadataImpl(nameFile, extension, style, language, Seq(titleTag(title), authorTag(author), charsetTag(charset), styleSheetTag(DefaultValues.styleSheet)))
 
   private class MetadataImpl(override val nameFile: String,
                              override val extension: Extension,
