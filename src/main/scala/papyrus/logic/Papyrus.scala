@@ -30,22 +30,4 @@ object Papyrus:
     val html: String = """<html>""" + "\n" + metadata.render + "\n" + content.render + "\n" + """</html>"""
 
     override def build(): Unit =
-      if metadata.extension == "html" then
         HtmlLauncher.launchHTMLWithCSS(html, css, "PapyrusDocument")
-      else if metadata.extension == "pdf" then
-        val outputPdfPath = metadata.nameFile + ".pdf"
-        convertHtmlToPdf(html, outputPdfPath)
-        println(s"PDF generated at: $outputPdfPath")
-      else
-        throw new IllegalArgumentException(s"Unsupported file extension: ${metadata.extension}")
-
-    def convertHtmlToPdf(htmlContent: String, outputPath: String): Unit = 
-      val outputStream = new FileOutputStream(new File(outputPath))
-      try
-        val builder = new PdfRendererBuilder()
-        builder.useFastMode()
-        builder.withHtmlContent(htmlContent, null)
-        builder.toStream(outputStream)
-        builder.run()
-      finally
-        outputStream.close()

@@ -49,4 +49,4 @@ object Metadata:
                                      |</head>""".stripMargin
 
     override def renderStyle: String =
-      s""".${style.tag} {\n  ${style.renderStyle}\n}"""
+      s"""${style.tag} {\n  ${style.renderStyle}\n}"""
