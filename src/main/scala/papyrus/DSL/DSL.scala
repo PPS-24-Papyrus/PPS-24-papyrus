@@ -39,11 +39,54 @@ object DSL:
     builder.value = textWrapper.str
     cb.addLayerElement(builder.build())
 
+  def nameFile(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
+    given builder: MetadataBuilder = MetadataBuilder()
+    init
+    mb.withNameFile(init.str)
+
+  def extension(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
+    given builder: MetadataBuilder = MetadataBuilder()
+    init
+    mb.withExtension(init.str.asInstanceOf[Extension])
+
+  def language(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
+    given builder: MetadataBuilder = MetadataBuilder()
+    init
+    mb.withLanguage(init.str.asInstanceOf[Language])
+
+  def metadataTitle(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
+    given builder: MetadataBuilder = MetadataBuilder()
+    init
+    mb.withTitle(init.str)
+
+  def author(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
+    given builder: MetadataBuilder = MetadataBuilder()
+    init
+    mb.withAuthor(init.str)
+
+  def charset(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
+    given builder: MetadataBuilder = MetadataBuilder()
+    init
+    val updated: Unit = mb.withCharset(init.str.asInstanceOf[Charset])
+
+  def styleSheet(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
+    given builder: MetadataBuilder = MetadataBuilder()
+    init
+    mb.withStyleSheet(init.str)
+
+
   given Conversion[String, TextDSL] with
     def apply(str: String): TextDSL = TextDSL(str)
 
   @main def provaFunc(): Unit =
     papyrus:
+      metadata:
+        nameFile:
+          "ciao"
+        language:
+          "it"
+        author:
+          "Luca"
       content:
         title:
           "titolo" titleColor "orange" fontSize 37 alignment "left"
