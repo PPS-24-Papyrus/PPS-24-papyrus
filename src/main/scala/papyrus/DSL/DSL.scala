@@ -77,7 +77,6 @@ object DSL:
   def style(init: MainStyleBuilder ?=> Unit)(using mb: MetadataBuilder): Unit =
     given builder: MainStyleBuilder = MainStyleBuilder()
     init
-    println(builder.build().renderStyle)
     mb.withStyle(builder.build())
 
   def font(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
@@ -128,8 +127,6 @@ object DSL:
           "it"
         author:
           "Luca"
-        extension:
-          "html"
         style:
           textColor:
             "blue"
@@ -137,6 +134,8 @@ object DSL:
             "black"
           margin:
             150
+        extension:
+          "html"
       content:
         title:
           "Inizio Sprint 3"

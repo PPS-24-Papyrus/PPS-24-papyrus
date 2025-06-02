@@ -38,15 +38,6 @@ object MainStyle:
                                override val margin: Margin
                              ) extends MainStyle:
     override def renderStyle: String =
-      println(Seq(
-        Style.font(font),
-        Style.fontSize(fontSize),
-        Style.lineHeight(lineHeight),
-        Style.textColor(textColor),
-        Style.backgroundColor(backgroundColor),
-        Style.textAlign(textAlign),
-        Style.margin(margin)
-      ).mkString(" "))
       Seq(
         Style.font(font),
         Style.fontSize(fontSize),
