@@ -33,8 +33,8 @@ object DSL:
     val baseTitle = init.str
     val numberedTitle = ctx match
       case _: ContentBuilder => baseTitle
-      case _: SectionBuilder => SectionCounter.nextSection() + ": " + baseTitle
-      case _: SubSectionBuilder => SectionCounter.nextSubsection() + ": " + baseTitle
+      case _: SectionBuilder => SectionCounter.nextSection() + " " + baseTitle
+      case _: SubSectionBuilder => SectionCounter.nextSubsection() + " " + baseTitle
 
     builder.title = numberedTitle
 
