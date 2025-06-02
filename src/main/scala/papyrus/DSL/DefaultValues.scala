@@ -30,7 +30,7 @@ object DefaultValues:
   // Titoli
   val fontTitle: FontFamily = "Helvetica"
   val fontSizeTitle: FontSize = 20
-  val textColorTitle: ColorString = "red"
+  val textColorTitle: ColorString = "black"
   val textAlignTitle: Alignment = "center"
   val titleText: String = "Welcome"
   val level: Level = 1
