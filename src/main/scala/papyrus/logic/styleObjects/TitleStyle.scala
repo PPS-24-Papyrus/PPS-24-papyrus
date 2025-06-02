@@ -17,10 +17,10 @@ trait TitleStyle extends RendererStyle:
 
 object TitleStyle:
   def apply(
-             font: FontFamily = DefaultValues.fontTitle,
-             fontSize: FontSize = DefaultValues.fontSizeTitle,
-             textColor: ColorString = DefaultValues.textColorTitle,
-             textAlign: Alignment = DefaultValues.textAlignTitle
+             font: FontFamily,
+             fontSize: FontSize,
+             textColor: ColorString,
+             textAlign: Alignment
            ): TitleStyle = new TitleStyleImpl(font, fontSize, textColor, textAlign)
 
   private class TitleStyleImpl(
