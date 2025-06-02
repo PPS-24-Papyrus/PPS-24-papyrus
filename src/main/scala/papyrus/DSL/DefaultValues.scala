@@ -25,11 +25,12 @@ object DefaultValues:
   val fontWeight: FontWeight = "normal"
   val fontStyle: FontStyle = "normal"
   val textDecoration: TextDecoration = "none"
+  val bodyAlign: Alignment = "justify"
 
   // Titoli
   val fontTitle: FontFamily = "Helvetica"
   val fontSizeTitle: FontSize = 20
-  val textColorTitle: ColorString = "#111111"
+  val textColorTitle: ColorString = "red"
   val textAlignTitle: Alignment = "center"
   val titleText: String = "Welcome"
   val level: Level = 1

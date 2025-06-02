@@ -3,7 +3,7 @@ package papyrus.DSL
 import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
-import papyrus.logic.builders.{ContentBuilder, MetadataBuilder, PapyrusBuilder, TextBuilder, TitleBuilder, TextDSL}
+import papyrus.logic.builders.{ContentBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, TextBuilder, TextDSL, TitleBuilder}
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.styleObjects.{TextStyle, TitleStyle}
 
@@ -74,6 +74,47 @@ object DSL:
     init
     mb.withStyleSheet(init.str)
 
+  def style(init: MainStyleBuilder ?=> Unit)(using mb: MetadataBuilder): Unit =
+    given builder: MainStyleBuilder = MainStyleBuilder()
+    init
+    println(builder.build().renderStyle)
+    mb.withStyle(builder.build())
+
+  def font(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
+    given builder: MainStyleBuilder = MainStyleBuilder()
+    init
+    msb.font = init.str.asInstanceOf[FontFamily]
+
+  def fontSize(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
+    given builder: MainStyleBuilder = MainStyleBuilder()
+    init
+    msb.fontSize = init.str.asInstanceOf[FontSize]
+
+  def lineHeight(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
+    given builder: MainStyleBuilder = MainStyleBuilder()
+    init
+    msb.lineHeight = init.str.asInstanceOf[LineHeight]
+
+  def textColor(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
+    given builder: MainStyleBuilder = MainStyleBuilder()
+    init
+    msb.textColor = init.str.asInstanceOf[ColorString]
+
+  def backgroundColor(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
+    given builder: MainStyleBuilder = MainStyleBuilder()
+    init
+    msb.backgroundColor = init.str.asInstanceOf[ColorString]
+
+  def textAlign(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
+    given builder: MainStyleBuilder = MainStyleBuilder()
+    init
+    msb.textAlign = init.str.asInstanceOf[Alignment]
+
+  def margin(init: MainStyleBuilder ?=> Int)(using msb: MainStyleBuilder): Unit =
+    given builder: MainStyleBuilder = MainStyleBuilder()
+    init
+    msb.margin = init.asInstanceOf[Margin]
+
 
   given Conversion[String, TextDSL] with
     def apply(str: String): TextDSL = TextDSL(str)
@@ -89,6 +130,13 @@ object DSL:
           "Luca"
         extension:
           "html"
+        style:
+          textColor:
+            "blue"
+          backgroundColor:
+            "black"
+          margin:
+            150
       content:
         title:
           "Inizio Sprint 3"
