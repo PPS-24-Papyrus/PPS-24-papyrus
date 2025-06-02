@@ -4,4 +4,4 @@ import papyrus.logic.layerElement.LayerElement
 
 
 trait CaptionElement extends LayerElement:
-  def caption: String
+  def caption: Option[String]
