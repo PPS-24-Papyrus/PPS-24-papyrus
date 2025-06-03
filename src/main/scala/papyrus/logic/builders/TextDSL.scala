@@ -63,67 +63,43 @@ class TextDSL(val str: String):
     str
 
   def |(c: String)(using tb: TableBuilder): RowBuilder =
-    val builder: RowBuilder = RowBuilder()
-    builder.addCell(CellBuilder().withContent(str))
-    builder.addCell(CellBuilder().withContent(c))
-    tb.addRow(builder)
-    builder
+    makeRow(c, identity, _.withContent(c))
 
   def hs(c: String)(using tb: TableBuilder): RowBuilder =
-    val builder: RowBuilder = RowBuilder()
-    builder.addCell(CellBuilder().withContent(str).asHeader())
-    builder.addCell(CellBuilder().withContent(c))
-    tb.addRow(builder)
-    builder
+    makeRow(c, _.asHeader(), _.withContent(c))
 
   def hsh(c: String)(using tb: TableBuilder): RowBuilder =
-    val builder: RowBuilder = RowBuilder()
-    builder.addCell(CellBuilder().withContent(str).asHeader())
-    builder.addCell(CellBuilder().withContent(c).asHeader())
-    tb.addRow(builder)
-    builder
+    makeRow(c, _.asHeader(), _.withContent(c).asHeader())
 
   def -|(c: String)(using tb: TableBuilder): RowBuilder =
-    val builder: RowBuilder = RowBuilder()
-    builder.addCell(CellBuilder().withContent(str).withColspan(2))
-    builder.addCell(CellBuilder().withContent(c))
-    tb.addRow(builder)
-    builder
+    makeRow(c, _.withColspan(2), _.withContent(c))
 
   def -|-(c: String)(using tb: TableBuilder): RowBuilder =
-    val builder: RowBuilder = RowBuilder()
-    builder.addCell(CellBuilder().withContent(str).withColspan(2))
-    builder.addCell(CellBuilder().withContent(c).withColspan(2))
-    tb.addRow(builder)
-    builder
+    makeRow(c, _.withColspan(2), _.withContent(c).withColspan(2))
 
   def |-(c: String)(using tb: TableBuilder): RowBuilder =
-    val builder: RowBuilder = RowBuilder()
-    builder.addCell(CellBuilder().withContent(str))
-    builder.addCell(CellBuilder().withContent(c).withColspan(2))
-    tb.addRow(builder)
-    builder
+    makeRow(c, identity, _.withContent(c).withColspan(2))
 
   def ^|(c: String)(using tb: TableBuilder): RowBuilder =
-    val builder: RowBuilder = RowBuilder()
-    builder.addCell(CellBuilder().withContent(str).withRowspan(2))
-    builder.addCell(CellBuilder().withContent(c))
-    tb.addRow(builder)
-    builder
+    makeRow(c, _.withRowspan(2), _.withContent(c))
 
   def ^|^(c: String)(using tb: TableBuilder): RowBuilder =
-    val builder: RowBuilder = RowBuilder()
-    builder.addCell(CellBuilder().withContent(str).withRowspan(2))
-    builder.addCell(CellBuilder().withContent(c).withRowspan(2))
+    makeRow(c, _.withRowspan(2), _.withContent(c).withRowspan(2))
+
+  def |^(c: String)(using tb: TableBuilder): RowBuilder =
+    makeRow(c, identity, _.withContent(c).withRowspan(2))
+
+  private def makeRow(
+               c: String,
+               left: CellBuilder => CellBuilder,
+               right: CellBuilder => CellBuilder
+             )(using tb: TableBuilder): RowBuilder =
+    val builder = RowBuilder()
+    builder.addCell(left(CellBuilder().withContent(str)))
+    builder.addCell(right(CellBuilder().withContent(c)))
     tb.addRow(builder)
     builder
 
-  def |^(c: String)(using tb: TableBuilder): RowBuilder =
-    val builder: RowBuilder = RowBuilder()
-    builder.addCell(CellBuilder().withContent(str))
-    builder.addCell(CellBuilder().withContent(c).withRowspan(2))
-    tb.addRow(builder)
-    builder
 
 given Conversion[String, TextDSL] with
   def apply(str: String): TextDSL = TextDSL(str)
