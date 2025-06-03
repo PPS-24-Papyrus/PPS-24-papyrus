@@ -69,5 +69,62 @@ class TextDSL(val str: String):
     tb.addRow(builder)
     builder
 
+  def hs(c: String)(using tb: TableBuilder): RowBuilder =
+    val builder: RowBuilder = RowBuilder()
+    builder.addCell(CellBuilder().withContent(str).asHeader())
+    builder.addCell(CellBuilder().withContent(c))
+    tb.addRow(builder)
+    builder
+
+  def hsh(c: String)(using tb: TableBuilder): RowBuilder =
+    val builder: RowBuilder = RowBuilder()
+    builder.addCell(CellBuilder().withContent(str).asHeader())
+    builder.addCell(CellBuilder().withContent(c).asHeader())
+    tb.addRow(builder)
+    builder
+
+  def -|(c: String)(using tb: TableBuilder): RowBuilder =
+    val builder: RowBuilder = RowBuilder()
+    builder.addCell(CellBuilder().withContent(str).withColspan(2))
+    builder.addCell(CellBuilder().withContent(c))
+    tb.addRow(builder)
+    builder
+
+  def -|-(c: String)(using tb: TableBuilder): RowBuilder =
+    val builder: RowBuilder = RowBuilder()
+    builder.addCell(CellBuilder().withContent(str).withColspan(2))
+    builder.addCell(CellBuilder().withContent(c).withColspan(2))
+    tb.addRow(builder)
+    builder
+
+  def |-(c: String)(using tb: TableBuilder): RowBuilder =
+    val builder: RowBuilder = RowBuilder()
+    builder.addCell(CellBuilder().withContent(str))
+    builder.addCell(CellBuilder().withContent(c).withColspan(2))
+    tb.addRow(builder)
+    builder
+
+  def ^|(c: String)(using tb: TableBuilder): RowBuilder =
+    val builder: RowBuilder = RowBuilder()
+    builder.addCell(CellBuilder().withContent(str).withRowspan(2))
+    builder.addCell(CellBuilder().withContent(c))
+    tb.addRow(builder)
+    builder
+
+  def ^|^(c: String)(using tb: TableBuilder): RowBuilder =
+    val builder: RowBuilder = RowBuilder()
+    builder.addCell(CellBuilder().withContent(str).withRowspan(2))
+    builder.addCell(CellBuilder().withContent(c).withRowspan(2))
+    tb.addRow(builder)
+    builder
+
+  def |^(c: String)(using tb: TableBuilder): RowBuilder =
+    val builder: RowBuilder = RowBuilder()
+    builder.addCell(CellBuilder().withContent(str))
+    builder.addCell(CellBuilder().withContent(c).withRowspan(2))
+    tb.addRow(builder)
+    builder
+
 given Conversion[String, TextDSL] with
   def apply(str: String): TextDSL = TextDSL(str)
+

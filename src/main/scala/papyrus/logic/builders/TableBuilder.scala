@@ -3,6 +3,8 @@ package papyrus.logic.builders
 import papyrus.logic.layerElement.captionElement.{Cell, Row, Table}
 import io.github.iltotore.iron.autoRefine
 
+import scala.annotation.targetName
+
 
 class TableBuilder:
   private var caption: Option[String] = None
@@ -27,6 +29,18 @@ class RowBuilder:
   def |(cell: String): this.type =
     addCell(new CellBuilder().withContent(cell))
 
+  def hsh(cell: String): this.type =
+    addCell(new CellBuilder().withContent(cell).asHeader())
+
+  def s(cell: String): this.type =
+    |(cell)
+
+  def |-(cell: String): this.type =
+    addCell(new CellBuilder().withContent(cell).withColspan(2))
+
+  def |^(cell: String): this.type =
+    addCell(new CellBuilder().withContent(cell).withRowspan(2))
+
   def build(): Row = Row(cells.map(_.build()))
 
 class CellBuilder:
@@ -39,13 +53,16 @@ class CellBuilder:
     this.content = content
     this
 
-  def asHeader(): Unit =
+  def asHeader(): this.type =
     this.head = true
+    this
 
-  def withColspan(colspan: Int): Unit =
+  def withColspan(colspan: Int): this.type =
     this.colspan = colspan
+    this
 
-  def withRowspan(rowspan: Int): Unit =
+  def withRowspan(rowspan: Int): this.type =
     this.rowspan = rowspan
+    this
 
   def build(): Cell = Cell(content, head, colspan, rowspan)

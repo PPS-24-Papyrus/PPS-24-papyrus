@@ -141,6 +141,11 @@ object DSL:
     init
     tb.withCaption(init.str)
 
+  extension (rowBuilder: RowBuilder)
+    def |(content: String): RowBuilder =
+      rowBuilder.addCell(CellBuilder().withContent(content))
+      rowBuilder
+
   given Conversion[List[String], Row] with
     def apply(list: List[String]): Row =
       val rowBuilder = RowBuilder()
@@ -188,6 +193,15 @@ object DSL:
           "prova6" | "prova7" | "prova8" | "prova9"
           caption:
             "Esempio di tabella"
+        table:
+          "prova2" hsh "prova3" hsh "prova4" hsh "prova5"
+          "prova4" hs "prova5" s "prova6" s "prova7"
+          "prova6" hs "prova7" s "prova8" s "prova9"
+        table:
+          "prova2" -|- "prova3"
+          "prova4" ^|^ "prova5" | "prova6" |^ "prova7"
+          "prova8" | "prova9"
+
 
 
 
