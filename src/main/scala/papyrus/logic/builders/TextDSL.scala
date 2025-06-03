@@ -2,6 +2,7 @@ package papyrus.logic.builders
 
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
+import papyrus.logic.layerElement.captionElement.Row
 
 
 class TextDSL(val str: String):
@@ -59,7 +60,14 @@ class TextDSL(val str: String):
     
   def alignmentImage(a: Float)(using ib: ImageBuilder): TextDSL =
     ib.alignment = Some(a)
-    str  
+    str
+
+  def |(c: String)(using tb: TableBuilder): RowBuilder =
+    val builder: RowBuilder = RowBuilder()
+    builder.addCell(CellBuilder().withContent(str))
+    builder.addCell(CellBuilder().withContent(c))
+    tb.addRow(builder)
+    builder
 
 given Conversion[String, TextDSL] with
   def apply(str: String): TextDSL = TextDSL(str)
