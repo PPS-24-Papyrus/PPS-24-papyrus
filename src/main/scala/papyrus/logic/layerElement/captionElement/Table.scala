@@ -27,8 +27,9 @@ object Table:
     override def renderStyle: String =
       """
         |table {
-        |  width: 100%;
+        |  width: auto;
         |  border-collapse: collapse;
+        |  margin: 20px 0;
         |}
         |
         |th, td {
