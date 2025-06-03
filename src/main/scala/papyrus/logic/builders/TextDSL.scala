@@ -5,6 +5,7 @@ import io.github.iltotore.iron.autoRefine
 
 
 class TextDSL(val str: String):
+
   def titleColor(c: ColorString)(using tb: TitleBuilder): TextDSL =
     tb.title = str
     tb.textColor = c

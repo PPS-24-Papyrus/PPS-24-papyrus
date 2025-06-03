@@ -59,3 +59,5 @@ object DefaultValues:
   val fontStyleText: FontStyle = "normal"
   val textDecorationText: TextDecoration = "none"
 
+// Item
+  val defaultItem: String = "Elemento lista"
