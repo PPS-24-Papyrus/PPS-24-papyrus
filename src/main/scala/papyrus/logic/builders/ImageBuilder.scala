@@ -1,10 +1,11 @@
 package papyrus.logic.builders
 
 import papyrus.logic.layerElement.captionElement.Image
-import papyrus.logic.utility.TypesInline.{Float, Width}
+import papyrus.logic.utility.TypesInline.{Float, ImageFile, Width}
+import io.github.iltotore.iron.autoRefine
 
 class ImageBuilder:
-  var src: String = ""
+  var src: ImageFile = "default.jpg" 
   var alt: String = ""
   var width: Option[Width] = None
   var caption: Option[String] = None

@@ -1,19 +1,18 @@
 package papyrus.logic.layerElement.captionElement
 
 import papyrus.logic.utility.IdGenerator
-import papyrus.logic.utility.TypesInline.Float
-import papyrus.logic.utility.TypesInline.Width
+import papyrus.logic.utility.TypesInline.{Float, ImageFile, Width}
 
 trait Image extends CaptionElement:
-  def src: String
+  def src: ImageFile
   def alt: String
   def width: Option[Width]
   def alignment: Option[Float]
 
 object Image:
-  def apply(src: String, alt: String, caption: Option[String], width: Option[Width],  alignment: Option[Float]): Image = new ImageImpl(src, alt, caption, width, alignment)
+  def apply(src: ImageFile, alt: String, caption: Option[String], width: Option[Width],  alignment: Option[Float]): Image = new ImageImpl(src, alt, caption, width, alignment)
 
-  private class ImageImpl(override val src: String,
+  private class ImageImpl(override val src: ImageFile,
                           override val alt: String,
                           override val caption: Option[String],
                           override val width: Option[Width],
