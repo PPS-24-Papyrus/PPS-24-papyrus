@@ -24,7 +24,7 @@ object Image:
     override def render: String =
       val captionString: String = if this.caption.isEmpty then "" else s"<figcaption>${caption.get}</figcaption>"
       s"""<figure class="$idFigure">
-        <img class="$idImage" src="$src" alt="$alt">
+        <img class="$idImage" src="$src" alt="$alt"></img>
         $captionString
       </figure>"""
 
