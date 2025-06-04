@@ -1,7 +1,10 @@
 package papyrus.logic.layerElement.captionElement
 
+import papyrus.logic.styleObjects.TableStyle
+
 trait  Table extends CaptionElement:
   def rows: List[Row]
+  def tableStyle: TableStyle
 
 trait Row:
   def cells: List[Cell]
@@ -15,33 +18,18 @@ trait Cell:
   def render: String
 
 object Table:
-  def apply(caption: Option[String], rows: List[Row]): Table = new TableImpl(caption, rows)
+  def apply(caption: Option[String], rows: List[Row], tableStyle: TableStyle): Table = new TableImpl(caption, rows, tableStyle)
 
   private class TableImpl(override val caption: Option[String],
-                          override val rows: List[Row]) extends Table:
+                          override val rows: List[Row],
+                          override val tableStyle: TableStyle) extends Table:
     override def render: String =
       val bodyRows = rows.map(_.render).mkString
       val captionString = caption.map(c => s"<caption>$c</caption>").getOrElse("")
-      s"<table>$captionString<tbody>$bodyRows</tbody></table>"
+      s"""<table class="${tableStyle.tag}">$captionString<tbody>$bodyRows</tbody></table>"""
 
     override def renderStyle: String =
-      """
-        |table {
-        |  width: auto;
-        |  border-collapse: collapse;
-        |  margin: 20px 0;
-        |}
-        |
-        |th, td {
-        |  border: 1px solid #ddd;
-        |  padding: 8px;
-        |}
-        |
-        |th {
-        |  background-color: #f2f2f2;
-        |  text-align: left;
-        |}
-      """.stripMargin
+      tableStyle.renderStyle
 
 object Row:
   def apply(cells: List[Cell]): Row = RowImpl(cells)
