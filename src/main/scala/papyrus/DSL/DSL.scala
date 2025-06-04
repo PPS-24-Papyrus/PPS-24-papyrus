@@ -141,6 +141,26 @@ object DSL:
     init
     tb.withCaption(init.str)
 
+  def backgroundColorTable(init: TableBuilder ?=> TextDSL)(using tb: TableBuilder): Unit =
+    given builder: TableBuilder = TableBuilder()
+    init
+    tb.backgroundColor = init.str.asInstanceOf[ColorString]
+
+  def marginTable(init: TableBuilder ?=> Int)(using tb: TableBuilder): Unit =
+    given builder: TableBuilder = TableBuilder()
+    init
+    tb.margin = init.asInstanceOf[Margin]
+
+  def textAlignTable(init: TableBuilder ?=> TextDSL)(using tb: TableBuilder): Unit =
+    given builder: TableBuilder = TableBuilder()
+    init
+    tb.textAlign = init.str.asInstanceOf[Alignment]
+
+  def widthTable(init: TableBuilder ?=> TextDSL)(using tb: TableBuilder): Unit =
+    given builder: TableBuilder = TableBuilder()
+    init
+    tb.width = init.str.asInstanceOf[Width]
+
   extension (rowBuilder: RowBuilder)
     def |(content: String): RowBuilder =
       rowBuilder.addCell(CellBuilder().withContent(content))
@@ -193,6 +213,8 @@ object DSL:
           "prova6" | "prova7" | "prova8" | "prova9"
           caption:
             "Esempio di tabella"
+          marginTable:
+            50
         table:
           "prova2" hsh "prova3" hsh "prova4" hsh "prova5"
           "prova4" hs "prova5" s "prova6" s "prova7"
