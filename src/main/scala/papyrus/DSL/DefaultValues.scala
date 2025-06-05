@@ -58,6 +58,12 @@ object DefaultValues:
   val fontWeightText: FontWeight = "normal"
   val fontStyleText: FontStyle = "normal"
   val textDecorationText: TextDecoration = "none"
+  
+  // table
+  val backgroundColorTable: ColorString = "#f2f2f2"
+  val marginTable: Margin = 30
+  val textAlignTable: Alignment = "left"
+  val widthTable: Width = 1000
 
 // Item
   val defaultItem: String = "Elemento lista"
