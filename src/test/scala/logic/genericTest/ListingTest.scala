@@ -24,15 +24,10 @@ class ListingTest extends AnyFunSuite with Matchers:
   test("ListBuilder should build a list with a single item"):
     val itemBuilder = ItemBuilder()
     val listBuilder = ListBuilder()
-
-    listBuilder.addItem(Item("Primo"))
-    listBuilder.addItem(Item("Secondo"))
+    listBuilder.addItem(itemBuilder.build())
     val listing = listBuilder.build()
 
-    val expected = """<ul>
-    <li>Primo</li>
-    <li>Secondo</li>
-</ul>"""
+    val expected = s"""<ul>\n<li>Elemento lista</li>\n</ul>"""
 
     listing.render shouldEqual expected
 
@@ -49,10 +44,7 @@ class ListingTest extends AnyFunSuite with Matchers:
 
     val listing = listBuilder.build()
 
-    val expected = """<ul>
-<li>Elemento lista</li>
-<li>Secondo elemento</li>
-</ul>"""
+    val expected = s"""<ul>\n<li>Elemento lista</li>\n<li>Secondo elemento</li>\n</ul>"""
 
     listing.render shouldEqual expected
 
