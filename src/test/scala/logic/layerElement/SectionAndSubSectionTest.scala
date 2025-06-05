@@ -1,12 +1,11 @@
-package logic.genericTest
+package logic.layerElement
 
+import io.github.iltotore.iron.autoRefine
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
-
-import papyrus.logic.builders.{SectionBuilder, SubSectionBuilder, TitleBuilder, TextBuilder}
 import papyrus.DSL.DefaultValues
+import papyrus.logic.builders.{SectionBuilder, SubSectionBuilder, TextBuilder, TitleBuilder}
 import papyrus.logic.utility.TypesInline.*
-import io.github.iltotore.iron.autoRefine
 
 class SectionAndSubSectionTest extends AnyFunSuite with Matchers:
 
