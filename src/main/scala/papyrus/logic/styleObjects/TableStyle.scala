@@ -1,7 +1,7 @@
 package papyrus.logic.styleObjects
 
 import papyrus.logic.Renderer.RendererStyle
-import papyrus.logic.utility.TypesInline.{Alignment, ColorString, Margin, Width}
+import papyrus.logic.utility.TypesInline.{Align, Alignment, ColorString, Margin, Width}
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.DefaultValues
 import papyrus.logic.utility.IdGenerator
@@ -11,6 +11,7 @@ trait TableStyle extends RendererStyle:
   def margin: Margin
   def textAlign: Alignment
   def width: Width
+  def alignment: Align
   def tag: String
 
 object TableStyle:
@@ -18,21 +19,23 @@ object TableStyle:
              backgroundColor: ColorString = DefaultValues.backgroundColorTable,
              margin: Margin = DefaultValues.marginTable,
              textAlign: Alignment = DefaultValues.textAlignTable,
-              width: Width = DefaultValues.widthTable
-           ): TableStyle = TableStyleImpl(backgroundColor, margin, textAlign, width)
+             width: Width = DefaultValues.widthTable,
+             align: Align = DefaultValues.alignTable
+           ): TableStyle = TableStyleImpl(backgroundColor, margin, textAlign, width, align)
   
   private class TableStyleImpl(
                                 override val backgroundColor: ColorString,
                                 override val margin: Margin,
                                 override val textAlign: Alignment,
-                                override val width: Width
+                                override val width: Width,
+                                override val alignment: Align
                               ) extends TableStyle:
     private val id: String = IdGenerator.nextId()
 
     override def renderStyle: String =
       val marginValue = Option.when(margin != DefaultValues.marginTable)(s"${margin}px").getOrElse("3% 0")
       val widthValue = Option.when(width != DefaultValues.widthTable)(s"${width}px").getOrElse("auto")
-
+      println(alignment)
       s"""
          |table {
          |  border-collapse: collapse;
@@ -41,6 +44,8 @@ object TableStyle:
          |.cls-$id {
          |  width: $widthValue;
          |  margin: $marginValue;
+         |  display: flex;
+         |  justify-content: $alignment;
          |  
          |}  
          |

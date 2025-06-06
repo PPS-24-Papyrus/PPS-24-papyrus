@@ -232,6 +232,11 @@ object DSL:
     init
     tb.width = init.str.asInstanceOf[Width]
 
+  def alignTable(init: TableBuilder ?=> TextDSL)(using tb: TableBuilder): Unit =
+    given builder: TableBuilder = TableBuilder()
+    init
+    tb.alignment = init.str.asInstanceOf[Align]
+
   extension (rowBuilder: RowBuilder)
     def |(content: String): RowBuilder =
       rowBuilder.addCell(CellBuilder().withContent(content))
@@ -259,7 +264,7 @@ object DSL:
         author:
           "LucaDani"
         extension:
-          "pdf"
+          "html"
       content:
         title:
           "End 3rd Sprint"
@@ -274,7 +279,7 @@ object DSL:
             "7" | "8" | "9"
             caption:
               "This is our first table:"
-            textAlignTable:
+            alignTable:
               "right"
           subsection:
             title:

@@ -64,6 +64,7 @@ object DefaultValues:
   val marginTable: Margin = 30
   val textAlignTable: Alignment = "left"
   val widthTable: Width = 1000
+  val alignTable: Align = "center"
 
 // Item
   val defaultItem: String = "Elemento lista"

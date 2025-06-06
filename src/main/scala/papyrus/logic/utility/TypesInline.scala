@@ -27,4 +27,5 @@ object TypesInline:
   type Width = Int :| Interval.Closed[0, 1920]
   type WordSpacing = Double :| Interval.Closed[0.0, 20.0]
   type Float = String :| Match["left|right|none"]
+  type Align = String :| Match["left|right|center"]
   type ImageFile = String :| Match["(?i)^.*\\.(jpg|png)$"]

@@ -4,7 +4,7 @@ import papyrus.logic.layerElement.captionElement.{Cell, Row, Table}
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.DefaultValues
 import papyrus.logic.styleObjects.TableStyle
-import papyrus.logic.utility.TypesInline.{ColorString, Margin, Alignment, Width}
+import papyrus.logic.utility.TypesInline.{Align, Alignment, ColorString, Margin, Width}
 
 import scala.annotation.targetName
 
@@ -16,6 +16,7 @@ class TableBuilder:
   var margin: Margin = DefaultValues.marginTable
   var textAlign: Alignment = DefaultValues.textAlignTable
   var width: Width = DefaultValues.widthTable
+  var alignment: Align = DefaultValues.alignTable
   
 
   def withCaption(caption: String): Unit =
@@ -24,7 +25,7 @@ class TableBuilder:
   def addRow(row: RowBuilder): Unit =
     rows = rows :+ row
 
-  def build(): Table = Table(caption, rows.map(_.build()), TableStyle(backgroundColor, margin, textAlign, width))
+  def build(): Table = Table(caption, rows.map(_.build()), TableStyle(backgroundColor, margin, textAlign, width, alignment))
 
 
 class RowBuilder:
