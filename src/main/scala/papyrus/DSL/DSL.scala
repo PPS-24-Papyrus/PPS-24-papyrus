@@ -264,7 +264,7 @@ object DSL:
         author:
           "LucaDani"
         extension:
-          "html"
+          "pdf"
       content:
         title:
           "End 3rd Sprint"
@@ -299,6 +299,6 @@ object DSL:
           text:
             "This is our first image:"
           image:
-            "src/main/resources/PapyrusLogo.png" caption "This is papyrus logo" alternative "No image found"
+            "C:/Users/danie/OneDrive/Documenti/GitHub/PPS-24-papyrus/src/main/resources/PapyrusLogo.png" caption "This is papyrus logo" alternative "No image found" width 200
 
 
