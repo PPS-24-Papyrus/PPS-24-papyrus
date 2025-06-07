@@ -32,12 +32,12 @@ object TextStyle:
     private val id: String = IdGenerator.nextId()
     
     override def renderStyle: String =
-      Seq(
-        Style.textColor(color),
-        Style.fontWeight(fontWeight),
-        Style.fontStyle(fontStyle),
-        Style.textDecoration(textDecoration)
-      ).mkString(" ")
+      List(
+        Option.when(color != DefaultValues.colorText)(Style.textColor(color)),
+        Option.when(fontWeight != DefaultValues.fontWeightText)(Style.fontWeight(fontWeight)),
+        Option.when(fontStyle != DefaultValues.fontStyleText)(Style.fontStyle(fontStyle)),
+        Option.when(textDecoration != DefaultValues.textDecorationText)(Style.textDecoration(textDecoration))
+      ).flatten.mkString(" ")
 
     override def tag: String =
       s"cls-$id"

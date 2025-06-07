@@ -13,14 +13,13 @@ trait TitleStyle extends RendererStyle:
   def fontSize: FontSize
   def textColor: ColorString
   def textAlign: Alignment
-  def tag: String
 
 object TitleStyle:
   def apply(
-             font: FontFamily = DefaultValues.fontTitle,
-             fontSize: FontSize = DefaultValues.fontSizeTitle,
-             textColor: ColorString = DefaultValues.textColorTitle,
-             textAlign: Alignment = DefaultValues.textAlignTitle
+             font: FontFamily = DefaultValues.fontTitleH1,
+             fontSize: FontSize = DefaultValues.fontSizeTitleH1,
+             textColor: ColorString = DefaultValues.textColorTitleH1,
+             textAlign: Alignment = DefaultValues.textAlignTitleH1
            ): TitleStyle = new TitleStyleImpl(font, fontSize, textColor, textAlign)
 
   private class TitleStyleImpl(
@@ -29,8 +28,7 @@ object TitleStyle:
                            override val textColor: ColorString,
                            override val textAlign: Alignment
                          ) extends TitleStyle:
-    private val id: String = IdGenerator.nextId()
-    
+
     override def renderStyle: String =
       Seq(
         Style.font(font),
@@ -39,6 +37,3 @@ object TitleStyle:
         Style.textAlign(textAlign)
       ).mkString(" ")
 
-    override def tag: String = 
-      s"cls-$id"
-    
