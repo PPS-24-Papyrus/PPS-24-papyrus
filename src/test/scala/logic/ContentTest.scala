@@ -1,3 +1,5 @@
+package logic
+
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
 import papyrus.logic.content.Content
@@ -15,7 +17,7 @@ class ContentTest extends AnyFunSuite with Matchers:
     val textStyle = TextStyle(color = "blue")
     val text = Text("Sample Text")(textStyle)
     val content = Content(Optional.of(title), text)
-    content.render shouldEqual "<body><h1 class=\"cls-3E8\">Test Title</h1><p class=\"cls-3E9\">Sample Text</p></body>"
+    content.render shouldEqual "<body><h1>Test Title</h1><p class=\"cls-3E8\">Sample Text</p></body>"
 
   test("Content should render styles correctly"):
     val titleStyle = TitleStyle(fontSize = 24, textColor = "black")
@@ -23,7 +25,7 @@ class ContentTest extends AnyFunSuite with Matchers:
     val textStyle = TextStyle(color = "blue")
     val text = Text("Sample Text")(textStyle)
     val content = Content(Optional.of(title), text)
-    content.renderStyle shouldEqual ".cls-3EA {\n  font-family: Georgia; font-size: 24px; color: black; text-align: left;\n}\n.cls-3EB {\n  color: blue; font-weight: none; font-style: none; text-decoration: none;\n}"
+    content.renderStyle shouldEqual "h1 {\n  font-family: Helvetica; font-size: 24px; color: black; text-align: center;\n}\n.cls-3E9 {\n  color: blue;\n}"
 
   test("Content should handle empty title and layer elements"):
     val content = Content(Optional.empty(), Seq.empty[LayerElement]: _*)
@@ -36,4 +38,4 @@ class ContentTest extends AnyFunSuite with Matchers:
     val textStyle = TextStyle(color = "blue")
     val text = Text("Mixed Content Text")(textStyle)
     val content = Content(Optional.of(title), text)
-    content.render shouldEqual "<body><h1 class=\"cls-3EC\">Mixed Content Title</h1><p class=\"cls-3ED\">Mixed Content Text</p></body>"
+    content.render shouldEqual "<body><h1>Mixed Content Title</h1><p class=\"cls-3EA\">Mixed Content Text</p></body>"

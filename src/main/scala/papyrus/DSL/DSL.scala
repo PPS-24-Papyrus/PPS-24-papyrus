@@ -171,7 +171,7 @@ object DSL:
   def image(init: ImageBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: ImageBuilder = ImageBuilder()
     val textWrapper = init
-    builder.src = textWrapper.str.asInstanceOf[ImageFile]
+    builder.src = textWrapper.str
     ctx match
       case cb: ContentBuilder =>
         cb.addLayerElement(builder.build())
@@ -237,11 +237,6 @@ object DSL:
     init
     tb.alignment = init.str.asInstanceOf[Align]
 
-  extension (rowBuilder: RowBuilder)
-    def |(content: String): RowBuilder =
-      rowBuilder.addCell(CellBuilder().withContent(content))
-      rowBuilder
-
   given Conversion[List[String], Row] with
     def apply(list: List[String]): Row =
       val rowBuilder = RowBuilder()
@@ -264,7 +259,7 @@ object DSL:
         author:
           "LucaDani"
         extension:
-          "pdf"
+          "html"
       content:
         title:
           "End 3rd Sprint"
@@ -299,6 +294,6 @@ object DSL:
           text:
             "This is our first image:"
           image:
-            "C:/Users/danie/OneDrive/Documenti/GitHub/PPS-24-papyrus/src/main/resources/PapyrusLogo.png" caption "This is papyrus logo" alternative "No image found" width 200
+            "src/main/resources/PapyrusLogo.png" caption "This is papyrus logo" alternative "No image found" width 200
 
 
