@@ -40,7 +40,7 @@ object Image:
              |</figure>""".stripMargin
 
     override def renderStyle: String =
-        val widthStyle = if width.isEmpty then "" else s"width: ${width.get};\nheight: auto;"
+        val widthStyle = if width.isEmpty then "" else s"width: ${width.get}px;\n height: auto;"
         val alignmentStyle = if alignment.isEmpty then "display: block; margin: 0 auto;" else s"float: ${alignment.get};"
         if width.isEmpty && alignment.isEmpty then ""
         else
