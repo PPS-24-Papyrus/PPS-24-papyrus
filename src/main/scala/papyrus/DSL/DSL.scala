@@ -171,7 +171,7 @@ object DSL:
   def image(init: ImageBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: ImageBuilder = ImageBuilder()
     val textWrapper = init
-    builder.src = textWrapper.str.asInstanceOf[ImageFile]
+    builder.src = textWrapper.str
     ctx match
       case cb: ContentBuilder =>
         cb.addLayerElement(builder.build())
