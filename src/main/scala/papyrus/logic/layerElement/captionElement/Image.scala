@@ -3,7 +3,6 @@ package papyrus.logic.layerElement.captionElement
 import papyrus.logic.utility.IdGenerator
 import papyrus.logic.utility.TypesInline.{Float, Width}
 
-import java.nio.file.Paths
 
 trait Image extends CaptionElement:
   def src: String
@@ -40,7 +39,6 @@ object Image:
              |  $captionString
              |</figure>""".stripMargin
 
-
     override def renderStyle: String =
         val widthStyle = if width.isEmpty then "" else s"width: ${width.get};\nheight: auto;"
         val alignmentStyle = if alignment.isEmpty then "display: block; margin: 0 auto;" else s"float: ${alignment.get};"
@@ -51,14 +49,18 @@ object Image:
              |.$idFigure {\n  text-align: center;\n  $alignmentStyle\n}
              |""".stripMargin
 
+    import better.files._
+
     private def checkPathImage(pathStr: String): Either[String, String] =
-      val path = Paths.get(pathStr)
-      val file = path.toFile
-      if !file.exists || !file.isFile then
-        Left(s"File not found or invalid: $pathStr")
-      else
-        val lowerName = file.getName.toLowerCase
-        if lowerName.endsWith(".png") || lowerName.endsWith(".jpg") then
-          Right(file.getAbsolutePath)
+      val file = File(pathStr)
+
+      Either.cond(
+        file.isRegularFile,
+        file,
+        s"File not found or invalid: $pathStr"
+      ).flatMap: f =>
+        val name = f.name.toLowerCase
+        if name.endsWith(".png") || name.endsWith(".jpg") then
+          Right(f.pathAsString)
         else
           Left(s"Invalid format: only .png or .jpg allowed ($pathStr)")

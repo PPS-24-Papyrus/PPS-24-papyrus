@@ -10,7 +10,8 @@ lazy val root = (project in file("."))
     libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.18" % Test,
     libraryDependencies += "io.github.iltotore" %% "iron" % "2.4.0",
     libraryDependencies += "com.openhtmltopdf" % "openhtmltopdf-pdfbox" % "1.0.10",
-    libraryDependencies += "org.xhtmlrenderer" % "flying-saucer-pdf" % "9.1.22"
+    libraryDependencies += "org.xhtmlrenderer" % "flying-saucer-pdf" % "9.1.22",
+    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.2"
 
 )
 
