@@ -180,7 +180,7 @@ object DSL:
       case ssb: SubSectionBuilder =>
         ssb.addLayerElement(builder.build())
 
-  def tableWithList(init: TableBuilder ?=> List[Row])(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def tableWithList(init: TableBuilder ?=> List[Row[String]])(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
     val rowsWrapper = init
     for row <- rowsWrapper yield
@@ -237,8 +237,8 @@ object DSL:
     init
     tb.alignment = init.str.asInstanceOf[Align]
 
-  given Conversion[List[String], Row] with
-    def apply(list: List[String]): Row =
+  given Conversion[List[String], Row[String]] with
+    def apply(list: List[String]): Row[String] =
       val rowBuilder = RowBuilder()
       for str <- list do
         rowBuilder.addCell(CellBuilder().withContent(str))

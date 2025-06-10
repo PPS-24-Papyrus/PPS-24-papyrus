@@ -12,7 +12,7 @@ import papyrus.logic.builders.given_Conversion_String_TextDSL
 
 class TableDSLTest extends AnyFunSuite:
 
-  private def table(init: TableBuilder ?=> Unit): Table =
+  private def table(init: TableBuilder ?=> Unit): Table[String] =
     given builder: TableBuilder = TableBuilder()
     init
     builder.build()

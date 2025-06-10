@@ -25,7 +25,7 @@ class TableBuilder:
   def addRow(row: RowBuilder): Unit =
     rows = rows :+ row
 
-  def build(): Table = Table(caption, rows.map(_.build()), TableStyle(backgroundColor, margin, textAlign, width, alignment))
+  def build(): Table[String] = Table(caption, rows.map(_.build()), TableStyle(backgroundColor, margin, textAlign, width, alignment))
 
 
 class RowBuilder:
@@ -50,7 +50,7 @@ class RowBuilder:
   def |^(cell: String): this.type =
     addCell(new CellBuilder().withContent(cell).withRowspan(2))
 
-  def build(): Row = Row(cells.map(_.build()))
+  def build(): Row[String] = Row(cells.map(_.build()))
 
 class CellBuilder:
   private var content: String = ""
@@ -74,4 +74,4 @@ class CellBuilder:
     this.rowspan = rowspan
     this
 
-  def build(): Cell = Cell(content, head, colspan, rowspan)
+  def build(): Cell[String] = Cell(content, head, colspan, rowspan)
