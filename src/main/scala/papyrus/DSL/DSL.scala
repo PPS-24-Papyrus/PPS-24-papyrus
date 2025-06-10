@@ -63,7 +63,7 @@ object DSL:
   def subsection(init: SubSectionBuilder ?=> Unit)(using cb: SectionBuilder): Unit =
     given builder: SubSectionBuilder = SubSectionBuilder()
     init
-    cb.addLayerElement(builder.build())
+    cb.addLayerElement(builder.build)
 
   def listing(init: ListBuilder ?=> Unit)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: ListBuilder = ListBuilder()
@@ -86,7 +86,7 @@ object DSL:
     given baseBuilder: TextBuilder = TextBuilder()
 
     val textWrapper = init
-    val updatedBuilder = baseBuilder.value(textWrapper.str) 
+    val updatedBuilder = baseBuilder.value(textWrapper.str)
 
     ctx match
       case cb: ContentBuilder =>
