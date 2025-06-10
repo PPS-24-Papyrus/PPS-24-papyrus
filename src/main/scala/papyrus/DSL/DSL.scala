@@ -3,6 +3,7 @@ package papyrus.DSL
 import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
+import papyrus.logic.builders.ImageBuilder.caption
 import papyrus.logic.builders.{ContentBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, SectionBuilder, SubSectionBuilder, TextBuilder, TextDSL, TitleBuilder, TitleHandler}
 import papyrus.logic.builders.{CellBuilder, ContentBuilder, ImageBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, TableBuilder, TextBuilder, TextDSL, TitleBuilder}
 import papyrus.logic.layerElement.LayerElement
@@ -168,17 +169,27 @@ object DSL:
     init
     msb.margin = init.asInstanceOf[Margin]
 
-  def image(init: ImageBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    given builder: ImageBuilder = ImageBuilder()
-    val textWrapper = init
-    builder.src = textWrapper.str
+  //def image(init: ImageBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+    //  given builder: ImageBuilder = ImageBuilder()
+  //  val textWrapper = init
+  //  builder.src = textWrapper.str
+  //  ctx match
+  //    case cb: ContentBuilder =>
+  //      cb.addLayerElement(builder.build())
+  //    case sb: SectionBuilder =>
+  //      sb.addLayerElement(builder.build())
+  //    case ssb: SubSectionBuilder =>
+  //      ssb.addLayerElement(builder.build())
+
+  def image(init: ImageBuilder ?=> ImageBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+    val builder = init(using ImageBuilder())
+    val image = builder.build
+
     ctx match
-      case cb: ContentBuilder =>
-        cb.addLayerElement(builder.build())
-      case sb: SectionBuilder =>
-        sb.addLayerElement(builder.build())
-      case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(builder.build())
+      case cb: ContentBuilder => cb.addLayerElement(image)
+      case sb: SectionBuilder => sb.addLayerElement(image)
+      case ssb: SubSectionBuilder => ssb.addLayerElement(image)
+
 
   def tableWithList(init: TableBuilder ?=> List[Row])(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
@@ -247,7 +258,8 @@ object DSL:
   given Conversion[String, TextDSL] with
     def apply(str: String): TextDSL = TextDSL(str)
 
-
+  given Conversion[String, ImageBuilder] with
+    def apply(str: String): ImageBuilder = ImageBuilder(Some(str))
 
   @main def provaFunc(): Unit =
     papyrus:
@@ -295,5 +307,6 @@ object DSL:
             "This is our first image:"
           image:
             "src/main/resources/PapyrusLogo.png" caption "This is papyrus logo" alternative "No image found" width 200
+            //"src/main/resources/PapyrusLogo.png" caption "This is papyrus logo" alternative "No image found" width 200
 
 
