@@ -77,8 +77,8 @@ object DSL:
 
   def item(init: ItemBuilder ?=> TextDSL)(using ctx: ListBuilder): Unit =
     given builder: ItemBuilder = ItemBuilder()
-    builder.value = init.str
-    ctx.addItem(builder.build())
+    val updatedBuilder = builder.value(init.str)
+    ctx.addItem(updatedBuilder.build)
 
 
 
