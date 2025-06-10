@@ -29,7 +29,7 @@ object DSL:
   def content(init: ContentBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
     given builder: ContentBuilder = ContentBuilder()
     init
-    pb.content = builder.build()
+    pb.content = builder.build
 
   def title(init: TitleBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given baseBuilder: TitleBuilder = TitleBuilder()
