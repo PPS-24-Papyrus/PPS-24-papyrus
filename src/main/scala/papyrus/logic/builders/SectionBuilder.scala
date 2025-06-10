@@ -1,10 +1,10 @@
 package papyrus.logic.builders
 
-import papyrus.logic.content.Section
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.layerElement.text.Title
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
+import papyrus.logic.layerElement.section.Section
 import java.util.Optional
 import scala.collection.mutable.ArrayBuffer
 

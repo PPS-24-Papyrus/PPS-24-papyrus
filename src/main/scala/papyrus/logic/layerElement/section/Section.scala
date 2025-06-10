@@ -1,6 +1,5 @@
-package papyrus.logic.content
+package papyrus.logic.layerElement.section
 
-import papyrus.logic.Renderer.Renderer
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.layerElement.text.Title
 
