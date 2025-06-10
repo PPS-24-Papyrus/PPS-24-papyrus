@@ -1,12 +1,8 @@
 package logic.layerElement
 
-import io.github.iltotore.iron.autoRefine
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
 import papyrus.logic.builders.{ItemBuilder, ListBuilder}
-import papyrus.logic.content.Listing
-import papyrus.logic.layerElement.text.Item
-import papyrus.logic.utility.TypesInline.*
 
 class ListingTest extends AnyFunSuite with Matchers:
 

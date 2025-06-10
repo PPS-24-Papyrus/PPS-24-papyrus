@@ -2,7 +2,7 @@ package papyrus.logic.builders
 
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
-import papyrus.logic.content.Listing
+import papyrus.logic.layerElement.Listing
 import papyrus.logic.layerElement.text.Item
 
 import java.util.Optional

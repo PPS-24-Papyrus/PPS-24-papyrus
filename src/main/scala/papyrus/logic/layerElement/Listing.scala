@@ -1,9 +1,6 @@
-package papyrus.logic.content
+package papyrus.logic.layerElement
 
-import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.layerElement.text.{Item, Text, Title}
-import papyrus.logic.utility.TypesInline.*
-import io.github.iltotore.iron.autoRefine
 
 trait Listing extends LayerElement:
   def items: Seq[Item]
