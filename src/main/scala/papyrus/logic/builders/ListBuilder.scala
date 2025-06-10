@@ -4,14 +4,13 @@ import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.layerElement.Listing
 import papyrus.logic.layerElement.text.Item
+import scala.collection.mutable.ListBuffer
 
-import java.util.Optional
-import scala.collection.mutable.ArrayBuffer
-
-class ListBuilder:
-  private val items = ArrayBuffer[Item]()
-
+case class ListBuilder(private val items: ListBuffer[Item] = ListBuffer.empty):
   def addItem(item: Item): Unit =
     items += item
 
-  def build(): Listing = Listing(items.toSeq*)
+  def build: Listing = Listing(items.toSeq*)
+
+object ListBuilder:
+  def apply(): ListBuilder = new ListBuilder()

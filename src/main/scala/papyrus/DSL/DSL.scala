@@ -69,11 +69,11 @@ object DSL:
     init
     ctx match
       case cb: ContentBuilder =>
-        cb.addLayerElement(builder.build())
+        cb.addLayerElement(builder.build)
       case sb: SectionBuilder =>
-        sb.addLayerElement(builder.build())
+        sb.addLayerElement(builder.build)
       case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(builder.build())
+        ssb.addLayerElement(builder.build)
 
   def item(init: ItemBuilder ?=> TextDSL)(using ctx: ListBuilder): Unit =
     given builder: ItemBuilder = ItemBuilder()
