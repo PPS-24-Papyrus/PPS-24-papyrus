@@ -82,18 +82,20 @@ object DSL:
     ctx.addItem(updatedBuilder.build)
 
 
-
   def text(init: TextBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    given builder: TextBuilder = TextBuilder()
+    given baseBuilder: TextBuilder = TextBuilder()
+
     val textWrapper = init
-    builder.value = textWrapper.str
+    val updatedBuilder = baseBuilder.value(textWrapper.str) 
+
     ctx match
       case cb: ContentBuilder =>
-        cb.addLayerElement(builder.build())
+        cb.addLayerElement(updatedBuilder.build)
       case sb: SectionBuilder =>
-        sb.addLayerElement(builder.build())
+        sb.addLayerElement(updatedBuilder.build)
       case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(builder.build())
+        ssb.addLayerElement(updatedBuilder.build)
+
 
   def nameFile(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
     given builder: MetadataBuilder = MetadataBuilder()

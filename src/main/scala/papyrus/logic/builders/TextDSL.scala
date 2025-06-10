@@ -28,23 +28,23 @@ class TextDSL(val str: String):
     str
 
   def color(c: ColorString)(using tb: TextBuilder): TextDSL =
-    tb.value = str
-    tb.color = c
+    tb.value(str)
+    tb.color(c)
     str
 
   def fontWeight(w: FontWeight)(using tb: TextBuilder): TextDSL =
-    tb.value = str
-    tb.fontWeight = w
+    tb.value(str)
+    tb.fontWeight(w)
     str
 
   def fontStyle(s: FontStyle)(using tb: TextBuilder): TextDSL =
-    tb.value = str
-    tb.fontStyle = s
+    tb.value(str)
+    tb.fontStyle(s)
     str
 
   def textDecoration(d: TextDecoration)(using tb: TextBuilder): TextDSL =
-    tb.value = str
-    tb.textDecoration = d
+    tb.value(str)
+    tb.textDecoration(d)
     str
 
  //def alternative(a: String)(using ib: ImageBuilder): TextDSL =
