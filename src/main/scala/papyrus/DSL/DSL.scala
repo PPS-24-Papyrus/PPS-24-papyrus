@@ -32,7 +32,7 @@ object DSL:
     pb.content = builder.build()
 
   def title(init: TitleBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    given builder: TitleBuilder = TitleBuilder()
+    given baseBuilder: TitleBuilder = TitleBuilder()
 
     val baseTitle = init.str
     val numberedTitle = ctx match
@@ -40,18 +40,19 @@ object DSL:
       case _: SectionBuilder => SectionCounter.nextSection() + " " + baseTitle
       case _: SubSectionBuilder => SectionCounter.nextSubsection() + " " + baseTitle
 
-    builder.title = numberedTitle
+    var updatedBuilder = baseBuilder.title(numberedTitle)
 
     ctx match
       case cb: ContentBuilder =>
-        builder.level = 1
-        cb.setTitle(builder.build())
+        updatedBuilder = updatedBuilder.level(1)
+        cb.setTitle(updatedBuilder.build)
       case sb: SectionBuilder =>
-        builder.level = 2
-        sb.setTitle(builder.build())
+        updatedBuilder = updatedBuilder.level(2)
+        sb.setTitle(updatedBuilder.build)
       case ssb: SubSectionBuilder =>
-        builder.level = 3
-        ssb.setTitle(builder.build())
+        updatedBuilder = updatedBuilder.level(3)
+        ssb.setTitle(updatedBuilder.build)
+
 
 
   def section(init: SectionBuilder ?=> Unit)(using cb: ContentBuilder): Unit =
