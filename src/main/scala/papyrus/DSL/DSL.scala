@@ -259,7 +259,7 @@ object DSL:
     def apply(str: String): TextDSL = TextDSL(str)
 
   given Conversion[String, ImageBuilder] with
-    def apply(str: String): ImageBuilder = ImageBuilder(Some(str))
+    def apply(str: String): ImageBuilder = ImageBuilder(str)
 
   @main def provaFunc(): Unit =
     papyrus:
