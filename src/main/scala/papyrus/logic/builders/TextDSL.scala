@@ -47,21 +47,21 @@ class TextDSL(val str: String):
     tb.textDecoration = d
     str
 
-  def alternative(a: String)(using ib: ImageBuilder): TextDSL =
-    ib.alt = a
-    str
+ //def alternative(a: String)(using ib: ImageBuilder): TextDSL =
+ //  ib.alt = a
+ //  str
 
-  def caption(c: String)(using ib: ImageBuilder): TextDSL =
-    ib.caption = Some(c)
-    str
-  
-  def width(w: Width)(using ib: ImageBuilder): TextDSL =
-    ib.width = Some(w)
-    str
-    
-  def alignmentImage(a: Float)(using ib: ImageBuilder): TextDSL =
-    ib.alignment = Some(a)
-    str
+ //def caption(c: String)(using ib: ImageBuilder): TextDSL =
+ //  ib.caption = Some(c)
+ //  str
+ //
+ //def width(w: Width)(using ib: ImageBuilder): TextDSL =
+ //  ib.width = Some(w)
+ //  str
+ //  
+ //def alignmentImage(a: Float)(using ib: ImageBuilder): TextDSL =
+ //  ib.alignment = Some(a)
+ //  str
 
   def |(c: String)(using tb: TableBuilder): RowBuilder =
     makeRow(c, identity, _.withContent(c))
