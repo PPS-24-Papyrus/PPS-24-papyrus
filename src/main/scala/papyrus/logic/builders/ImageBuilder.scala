@@ -11,13 +11,13 @@ case class ImageBuilder(
                              private val width: Option[Width],
                              private val caption: Option[String],
                              private val alignment: Option[Float]
-                           ):
+                           ) extends Builder[Image]:
   private def withSrc(s: String): ImageBuilder = this.copy(src = s)
   private def withAlt(a: String): ImageBuilder = this.copy(alt = a)
   private def withWidth(w: Width): ImageBuilder = this.copy(width = Some(w))
   private def withCaption(c: String): ImageBuilder = this.copy(caption = Some(c))
   private def withAlignment(a: Float): ImageBuilder = this.copy(alignment = Some(a))
-  def build: Image = Image(src, alt, caption, width, alignment)
+  override def build: Image = Image(src, alt, caption, width, alignment)
 
 
 object ImageBuilder:

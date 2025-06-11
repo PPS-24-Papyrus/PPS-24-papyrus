@@ -18,13 +18,13 @@ object DSL:
   def papyrus(init: PapyrusBuilder ?=> Unit): Unit =
     given builder: PapyrusBuilder = PapyrusBuilder()
     init
-    builder.build()
+    builder.build
 
   def metadata(init: MetadataBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
 
     given builder: MetadataBuilder = MetadataBuilder()
     init
-    pb.metadata = builder.build()
+    pb.metadata = builder.build
 
   def content(init: ContentBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
     given builder: ContentBuilder = ContentBuilder()
@@ -135,7 +135,7 @@ object DSL:
   def style(init: MainStyleBuilder ?=> Unit)(using mb: MetadataBuilder): Unit =
     given builder: MainStyleBuilder = MainStyleBuilder()
     init
-    mb.withStyle(builder.build())
+    mb.withStyle(builder.build)
 
   def font(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
     given builder: MainStyleBuilder = MainStyleBuilder()
@@ -192,22 +192,22 @@ object DSL:
       builder.addRow(rowBuilder)
     ctx match
       case cb: ContentBuilder =>
-        cb.addLayerElement(builder.build())
+        cb.addLayerElement(builder.build)
       case sb: SectionBuilder =>
-        sb.addLayerElement(builder.build())
+        sb.addLayerElement(builder.build)
       case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(builder.build())
+        ssb.addLayerElement(builder.build)
 
   def table(init: TableBuilder ?=> Unit)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
     init
     ctx match
       case cb: ContentBuilder =>
-        cb.addLayerElement(builder.build())
+        cb.addLayerElement(builder.build)
       case sb: SectionBuilder =>
-        sb.addLayerElement(builder.build())
+        sb.addLayerElement(builder.build)
       case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(builder.build())
+        ssb.addLayerElement(builder.build)
 
   def caption(init: TableBuilder ?=> TextDSL)(using tb: TableBuilder): Unit =
     given builder: TableBuilder = TableBuilder()

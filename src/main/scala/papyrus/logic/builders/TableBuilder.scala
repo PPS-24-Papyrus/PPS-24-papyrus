@@ -10,7 +10,7 @@ import scala.annotation.targetName
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 
-class TableBuilder:
+class TableBuilder extends Builder[Table]:
   private var caption: Option[String] = None
   private val rows: ListBuffer[RowBuilder] = ListBuffer.empty
   var backgroundColor: ColorString = DefaultValues.backgroundColorTable
@@ -25,7 +25,7 @@ class TableBuilder:
   def addRow(row: RowBuilder): Unit =
     rows += row
 
-  def build(): Table = Table(caption, rows.map(_.build()).toList, TableStyle(backgroundColor, margin, textAlign, width, alignment))
+  override def build: Table = Table(caption, rows.map(_.build()).toList, TableStyle(backgroundColor, margin, textAlign, width, alignment))
 
 
 case class RowBuilder(private val cells: ArrayBuffer[CellBuilder]):

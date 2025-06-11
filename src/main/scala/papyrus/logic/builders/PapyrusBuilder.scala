@@ -11,4 +11,4 @@ class PapyrusBuilder:
   var metadata: Metadata = Metadata()
   var content: Content = Content(None)
 
-  def build(): Unit = Papyrus(metadata, content).build()
+  def build: Unit = Papyrus(metadata, content).build()

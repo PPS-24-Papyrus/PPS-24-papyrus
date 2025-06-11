@@ -8,10 +8,10 @@ import papyrus.DSL.DefaultValues
 
 case class ItemBuilder(
                         private val value: String
-                      ):
+                      ) extends Builder[Item]:
   private def withValue(v: String): ItemBuilder = this.copy(value = v)
 
-  def build: Item = Item(value)
+  override def build: Item = Item(value)
 
 object ItemBuilder:
   def apply(value: String = DefaultValues.defaultItem): ItemBuilder =

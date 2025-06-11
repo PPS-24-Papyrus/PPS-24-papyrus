@@ -8,7 +8,7 @@ import scala.collection.mutable.ListBuffer
 case class ContentBuilder(
                            private var title: Option[Title] = None,
                            private val layerElements: ListBuffer[LayerElement] = ListBuffer.empty
-                         ):
+                         ) extends Builder[Content]:
 
   def setTitle(newTitle: Title): Unit =
     if title.isDefined then
@@ -18,7 +18,7 @@ case class ContentBuilder(
   def addLayerElement(element: LayerElement): Unit =
     layerElements += element
 
-  def build: Content = Content(title, layerElements.toSeq *)
+  override def build: Content = Content(title, layerElements.toSeq *)
 
 object ContentBuilder:
   def apply(): ContentBuilder = new ContentBuilder()

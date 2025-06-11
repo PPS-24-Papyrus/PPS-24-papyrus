@@ -12,7 +12,7 @@ case class TextBuilder(
                         private val fontWeight: FontWeight = DefaultValues.fontWeightText,
                         private val fontStyle: FontStyle = DefaultValues.fontStyleText,
                         private val textDecoration: TextDecoration = DefaultValues.textDecorationText
-                      ):
+                      ) extends Builder[Text]:
 
   private def withValue(v: String): TextBuilder = this.copy(value = v)
   private def withColor(c: ColorString): TextBuilder = this.copy(color = c)
@@ -20,7 +20,7 @@ case class TextBuilder(
   private def withFontStyle(fs: FontStyle): TextBuilder = this.copy(fontStyle = fs)
   private def withTextDecoration(td: TextDecoration): TextBuilder = this.copy(textDecoration = td)
 
-  def build: Text = Text(value)(TextStyle(
+  override def build: Text = Text(value)(TextStyle(
     color = color,
     fontWeight = fontWeight,
     fontStyle = fontStyle,

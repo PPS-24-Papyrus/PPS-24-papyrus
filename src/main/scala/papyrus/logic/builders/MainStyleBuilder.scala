@@ -5,7 +5,7 @@ import papyrus.logic.utility.TypesInline.*
 import papyrus.DSL.DefaultValues
 import papyrus.logic.styleObjects.MainStyle
 
-class MainStyleBuilder:
+class MainStyleBuilder extends Builder[MainStyle]:
   var font: FontFamily = DefaultValues.font
   var fontSize: FontSize = DefaultValues.fontSize
   var lineHeight: LineHeight = DefaultValues.lineHeight
@@ -14,7 +14,7 @@ class MainStyleBuilder:
   var textAlign: Alignment = DefaultValues.bodyAlign
   var margin: Margin = DefaultValues.margin
 
-  def build(): MainStyle = MainStyle(
+  override def build: MainStyle = MainStyle(
     font = font,
     fontSize = fontSize,
     lineHeight = lineHeight,

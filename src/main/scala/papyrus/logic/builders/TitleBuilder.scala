@@ -13,7 +13,7 @@ case class TitleBuilder(
                          private val fontSize: FontSize = DefaultValues.fontSizeTitleH1,
                          private val textColor: ColorString = DefaultValues.textColorTitleH1,
                          private val textAlign: Alignment = DefaultValues.textAlignTitleH1
-                       ):
+                       ) extends Builder[Title]:
 
   private def withTitle(t: String): TitleBuilder = this.copy(title = t)
   private def withLevel(l: Level): TitleBuilder = this.copy(level = l)
@@ -22,7 +22,7 @@ case class TitleBuilder(
   private def withTextColor(tc: ColorString): TitleBuilder = this.copy(textColor = tc)
   private def withTextAlign(ta: Alignment): TitleBuilder = this.copy(textAlign = ta)
 
-  def build: Title =
+  override def build: Title =
     val (finalFont, finalFontSize, finalTextColor, finalTextAlign) = level match
       case 2 => (DefaultValues.fontTitleH2, DefaultValues.fontSizeTitleH2, DefaultValues.textColorTitleH2, DefaultValues.textAlignTitleH2)
       case 3 => (DefaultValues.fontTitleH3, DefaultValues.fontSizeTitleH3, DefaultValues.textColorTitleH3, DefaultValues.textAlignTitleH3)

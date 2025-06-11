@@ -10,7 +10,7 @@ import scala.collection.mutable.ListBuffer
 case class SubSectionBuilder(
                               private var title: Option[Title] = None,
                               private val layerElements: ListBuffer[LayerElement] = ListBuffer.empty
-                            ):
+                            ) extends Builder[SubSection]:
 
   def setTitle(newTitle: Title): Unit =
     title = Some(newTitle)
@@ -18,7 +18,7 @@ case class SubSectionBuilder(
   def addLayerElement(element: LayerElement): Unit =
     layerElements += element
 
-  def build: SubSection = SubSection(title, layerElements.toSeq*)
+  override def build: SubSection = SubSection(title, layerElements.toSeq*)
 
 object SubSectionBuilder:
   def apply(): SubSectionBuilder = new SubSectionBuilder()

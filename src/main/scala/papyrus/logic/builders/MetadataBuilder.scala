@@ -7,7 +7,7 @@ import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.DefaultValues
 
 
-class MetadataBuilder:
+class MetadataBuilder extends Builder[Metadata]:
 
   // -- Campi privati con valori di default
   private var _nameFile: String = DefaultValues.nameFile
@@ -55,5 +55,5 @@ class MetadataBuilder:
   def withStyle(value: MainStyle): Unit = style = value
 
   // -- Costruisce l'oggetto Metadata usando i valori correnti
-  def build(): Metadata =
+  override def build: Metadata =
     Metadata(nameFile, extension, style, language, title, author, charset, styleSheet)
