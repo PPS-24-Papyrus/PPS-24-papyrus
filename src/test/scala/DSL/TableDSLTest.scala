@@ -8,6 +8,7 @@ import papyrus.logic.layerElement.captionElement.Table
 import papyrus.logic.builders.TextDSL
 import papyrus.DSL.DSL
 import papyrus.DSL.DSL.{caption, given_Conversion_String_TextDSL}
+import papyrus.logic.builders.RowBuilder.*
 import papyrus.logic.builders.given_Conversion_String_TextDSL
 
 class TableDSLTest extends AnyFunSuite:
@@ -15,7 +16,7 @@ class TableDSLTest extends AnyFunSuite:
   private def table(init: TableBuilder ?=> Unit): Table[String] =
     given builder: TableBuilder = TableBuilder()
     init
-    builder.build()
+    builder.build
 
   test("Table DSL should create a table with caption and rows"):
     val generatedTable = table:
