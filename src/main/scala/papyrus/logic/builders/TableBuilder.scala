@@ -7,71 +7,83 @@ import papyrus.logic.styleObjects.TableStyle
 import papyrus.logic.utility.TypesInline.{Align, Alignment, ColorString, Margin, Width}
 
 import scala.annotation.targetName
+import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 
 class TableBuilder:
   private var caption: Option[String] = None
-  private var rows: List[RowBuilder] = List.empty
+  private val rows: ListBuffer[RowBuilder] = ListBuffer.empty
   var backgroundColor: ColorString = DefaultValues.backgroundColorTable
   var margin: Margin = DefaultValues.marginTable
   var textAlign: Alignment = DefaultValues.textAlignTable
   var width: Width = DefaultValues.widthTable
   var alignment: Align = DefaultValues.alignTable
-  
 
   def withCaption(caption: String): Unit =
     this.caption = Some(caption)
 
   def addRow(row: RowBuilder): Unit =
-    rows = rows :+ row
+    rows += row
 
-  def build(): Table = Table(caption, rows.map(_.build()), TableStyle(backgroundColor, margin, textAlign, width, alignment))
+  def build(): Table = Table(caption, rows.map(_.build()).toList, TableStyle(backgroundColor, margin, textAlign, width, alignment))
 
 
-class RowBuilder:
-  private var cells: List[CellBuilder] = List.empty
-
-  def addCell(cell: CellBuilder): this.type =
-    cells = cells :+ cell
+case class RowBuilder(private val cells: ArrayBuffer[CellBuilder]):
+  def addCell(cell: CellBuilder): RowBuilder =
+    cells += cell
     this
 
-  def |(cell: String): this.type =
-    addCell(new CellBuilder().withContent(cell))
+  @targetName("addStringCell")
+  def |(cell: String): RowBuilder = addCell(CellBuilder().withContent(cell))
 
-  def hsh(cell: String): this.type =
-    addCell(new CellBuilder().withContent(cell).asHeader())
+  @targetName("addHeaderCell")
+  def hsh(cell: String): RowBuilder = addCell(CellBuilder().withContent(cell).asHeader())
 
-  def s(cell: String): this.type =
-    |(cell)
+  @targetName("addSimpleCell")
+  def s(cell: String): RowBuilder = |(cell)
 
-  def |-(cell: String): this.type =
-    addCell(new CellBuilder().withContent(cell).withColspan(2))
+  @targetName("addColspanCell")
+  def |-(cell: String): RowBuilder = addCell(CellBuilder().withContent(cell).withColspan(2))
 
-  def |^(cell: String): this.type =
-    addCell(new CellBuilder().withContent(cell).withRowspan(2))
+  @targetName("addRowspanCell")
+  def |^(cell: String): RowBuilder = addCell(CellBuilder().withContent(cell).withRowspan(2))
 
-  def build(): Row = Row(cells.map(_.build()))
+  def build(): Row = Row(cells.map(_.build()).toList)
 
-class CellBuilder:
-  private var content: String = ""
-  private var head: Boolean = false
-  private var colspan: Int = 1
-  private var rowspan: Int = 1
+object RowBuilder:
+  def apply(): RowBuilder = new RowBuilder(ArrayBuffer.empty[CellBuilder])
 
-  def withContent(content: String): this.type =
-    this.content = content
-    this
+  extension (str: String)
+    def |(c: String)(using tb: TableBuilder): RowBuilder = makeRow(c, identity, _.withContent(c))
+    def hsh(c: String)(using tb: TableBuilder): RowBuilder = makeRow(c, _.asHeader(), _.withContent(c).asHeader())
+    def |-(c: String)(using tb: TableBuilder): RowBuilder = makeRow(c, identity, _.withContent(c).withColspan(2))
+    def |^(c: String)(using tb: TableBuilder): RowBuilder = makeRow(c, identity, _.withContent(c).withRowspan(2))
+    def ^|(c: String)(using tb: TableBuilder): RowBuilder = makeRow(c, _.withRowspan(2), _.withContent(c))
+    def ^|^(c: String)(using tb: TableBuilder): RowBuilder = makeRow(c, _.withRowspan(2), _.withContent(c).withRowspan(2))
+    def -|(c: String)(using tb: TableBuilder): RowBuilder = makeRow(c, _.withColspan(2), _.withContent(c))
+    def -|-(c: String)(using tb: TableBuilder): RowBuilder = makeRow(c, _.withColspan(2), _.withContent(c).withColspan(2))
+    def hs(c: String)(using tb: TableBuilder): RowBuilder = makeRow(c, _.asHeader(), _.withContent(c))
 
-  def asHeader(): this.type =
-    this.head = true
-    this
+    private def makeRow(
+               c: String,
+               left: CellBuilder => CellBuilder,
+               right: CellBuilder => CellBuilder
+             )(using tb: TableBuilder): RowBuilder =
+      val builder = RowBuilder()
+      builder.addCell(left(CellBuilder().withContent(str)))
+      builder.addCell(right(CellBuilder().withContent(c)))
+      tb.addRow(builder)
+      builder
 
-  def withColspan(colspan: Int): this.type =
-    this.colspan = colspan
-    this
-
-  def withRowspan(rowspan: Int): this.type =
-    this.rowspan = rowspan
-    this
+case class CellBuilder(
+                        private val content: String = "",
+                        private val head: Boolean = false,
+                        private val colspan: Int = 1,
+                        private val rowspan: Int = 1
+                      ):
+  def withContent(content: String): CellBuilder = this.copy(content = content)
+  def asHeader(): CellBuilder = this.copy(head = true)
+  def withColspan(colspan: Int): CellBuilder = this.copy(colspan = colspan)
+  def withRowspan(rowspan: Int): CellBuilder = this.copy(rowspan = rowspan)
 
   def build(): Cell = Cell(content, head, colspan, rowspan)

@@ -1,5 +1,6 @@
 package papyrus.logic.builders
 
+import org.xhtmlrenderer.css.parser.property.PrimitivePropertyBuilders.{BackgroundColor, TextAlign}
 import papyrus.logic.utility.TypesInline.*
 import papyrus.DSL.DefaultValues
 import papyrus.logic.styleObjects.MainStyle
@@ -12,7 +13,7 @@ class MainStyleBuilder:
   var backgroundColor: ColorString = DefaultValues.backgroundColor
   var textAlign: Alignment = DefaultValues.bodyAlign
   var margin: Margin = DefaultValues.margin
-  
+
   def build(): MainStyle = MainStyle(
     font = font,
     fontSize = fontSize,

@@ -4,8 +4,8 @@ import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.builders.ImageBuilder.caption
-import papyrus.logic.builders.{ContentBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, SectionBuilder, SubSectionBuilder, TextBuilder, TextDSL, TitleBuilder, TitleHandler}
-import papyrus.logic.builders.{CellBuilder, ContentBuilder, ImageBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, TableBuilder, TextBuilder, TextDSL, TitleBuilder}
+import papyrus.logic.builders.RowBuilder.|
+import papyrus.logic.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TextDSL, TitleBuilder, TitleHandler}
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.layerElement.captionElement.{Cell, Row, Table}
 import papyrus.logic.styleObjects.{TextStyle, TitleStyle}
@@ -172,18 +172,6 @@ object DSL:
     init
     msb.margin = init.asInstanceOf[Margin]
 
-  //def image(init: ImageBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    //  given builder: ImageBuilder = ImageBuilder()
-  //  val textWrapper = init
-  //  builder.src = textWrapper.str
-  //  ctx match
-  //    case cb: ContentBuilder =>
-  //      cb.addLayerElement(builder.build())
-  //    case sb: SectionBuilder =>
-  //      sb.addLayerElement(builder.build())
-  //    case ssb: SubSectionBuilder =>
-  //      ssb.addLayerElement(builder.build())
-
   def image(init: ImageBuilder ?=> ImageBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     val builder = init(using ImageBuilder())
     val image = builder.build
@@ -275,6 +263,11 @@ object DSL:
           "LucaDani"
         extension:
           "html"
+        style:
+          margin:
+            150
+          font:
+            "Arial"
       content:
         title:
           "End 3rd Sprint"
@@ -310,6 +303,3 @@ object DSL:
             "This is our first image:"
           image:
             "src/main/resources/PapyrusLogo.png" caption "This is papyrus logo" alternative "No image found" width 200
-            //"src/main/resources/PapyrusLogo.png" caption "This is papyrus logo" alternative "No image found" width 200
-
-
