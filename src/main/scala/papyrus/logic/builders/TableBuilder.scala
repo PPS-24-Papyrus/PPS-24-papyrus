@@ -10,7 +10,7 @@ import scala.annotation.targetName
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 
-class TableBuilder extends Builder[Table]:
+class TableBuilder extends Builder[Table[String]]:
   private var caption: Option[String] = None
   private val rows: ListBuffer[RowBuilder] = ListBuffer.empty
   var backgroundColor: ColorString = DefaultValues.backgroundColorTable
@@ -26,10 +26,10 @@ class TableBuilder extends Builder[Table]:
   def addRow(row: RowBuilder): Unit =
     rows += row
 
-  override def build: Table = Table(caption, rows.map(_.build()).toList, TableStyle(backgroundColor, margin, textAlign, width, alignment))
+  override def build: Table[String] = Table(caption, rows.map(_.build).toList, TableStyle(backgroundColor, margin, textAlign, width, alignment))
 
 
-case class RowBuilder(private val cells: ArrayBuffer[CellBuilder]):
+case class RowBuilder(private val cells: ArrayBuffer[CellBuilder]) extends Builder[Row[String]]:
   def addCell(cell: CellBuilder): RowBuilder =
     cells += cell
     this
@@ -49,7 +49,7 @@ case class RowBuilder(private val cells: ArrayBuffer[CellBuilder]):
   @targetName("addRowspanCell")
   def |^(cell: String): RowBuilder = addCell(CellBuilder().withContent(cell).withRowspan(2))
 
-  def build(): Row = Row(cells.map(_.build()).toList)
+  def build: Row[String] = Row(cells.map(_.build).toList)
 
 object RowBuilder:
   def apply(): RowBuilder = new RowBuilder(ArrayBuffer.empty[CellBuilder])
@@ -81,10 +81,10 @@ case class CellBuilder(
                         private val head: Boolean = false,
                         private val colspan: Int = 1,
                         private val rowspan: Int = 1
-                      ):
+                      ) extends Builder[Cell[String]]:
   def withContent(content: String): CellBuilder = this.copy(content = content)
   def asHeader(): CellBuilder = this.copy(head = true)
   def withColspan(colspan: Int): CellBuilder = this.copy(colspan = colspan)
   def withRowspan(rowspan: Int): CellBuilder = this.copy(rowspan = rowspan)
 
-  def build(): Cell[String] = Cell(content, head, colspan, rowspan)
+  def build: Cell[String] = Cell(content, head, colspan, rowspan)

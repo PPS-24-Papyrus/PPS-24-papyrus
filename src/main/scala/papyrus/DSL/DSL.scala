@@ -244,7 +244,7 @@ object DSL:
       val rowBuilder = RowBuilder()
       for str <- list do
         rowBuilder.addCell(CellBuilder().withContent(str))
-      rowBuilder.build()
+      rowBuilder.build
 
   given Conversion[String, TextDSL] with
     def apply(str: String): TextDSL = TextDSL(str)
