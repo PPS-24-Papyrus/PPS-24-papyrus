@@ -129,30 +129,45 @@ object DSL:
     init
     mb.withStyleSheet(init.str)
 
-  def style(init: MainStyleBuilder ?=> MainStyleBuilder)(using mb: MetadataBuilder): Unit =
-    given builder: MainStyleBuilder = init(using MainStyleBuilder())
+  def style(init: MainStyleBuilder ?=> Unit)(using mb: MetadataBuilder): Unit =
+    given builder: MainStyleBuilder = MainStyleBuilder()
+    init
     mb.withStyle(builder.build())
 
-  def font(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): MainStyleBuilder =
-    msb.withFont(init.str.asInstanceOf[FontFamily])
+  def font(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
+    given builder: MainStyleBuilder = MainStyleBuilder()
+    init
+    msb.font = init.str.asInstanceOf[FontFamily]
 
-  def fontSize(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): MainStyleBuilder =
-    msb.withFontSize(init.str.asInstanceOf[FontSize])
+  def fontSize(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
+    given builder: MainStyleBuilder = MainStyleBuilder()
+    init
+    msb.fontSize = init.str.asInstanceOf[FontSize]
 
-  def lineHeight(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): MainStyleBuilder =
-    msb.withLineHeight(init.str.asInstanceOf[LineHeight])
+  def lineHeight(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
+    given builder: MainStyleBuilder = MainStyleBuilder()
+    init
+    msb.lineHeight = init.str.asInstanceOf[LineHeight]
 
-  def textColor(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): MainStyleBuilder =
-    msb.withTextColor(init.str.asInstanceOf[ColorString])
+  def textColor(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
+    given builder: MainStyleBuilder = MainStyleBuilder()
+    init
+    msb.textColor = init.str.asInstanceOf[ColorString]
 
-  def backgroundColor(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): MainStyleBuilder =
-    msb.withBackgroundColor(init.str.asInstanceOf[ColorString])
+  def backgroundColor(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
+    given builder: MainStyleBuilder = MainStyleBuilder()
+    init
+    msb.backgroundColor = init.str.asInstanceOf[ColorString]
 
-  def textAlign(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): MainStyleBuilder =
-    msb.withTextAlign(init.str.asInstanceOf[Alignment])
+  def textAlign(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
+    given builder: MainStyleBuilder = MainStyleBuilder()
+    init
+    msb.textAlign = init.str.asInstanceOf[Alignment]
 
-  def margin(init: MainStyleBuilder ?=> Int)(using msb: MainStyleBuilder): MainStyleBuilder =
-    msb.withMargin(init.asInstanceOf[Margin])
+  def margin(init: MainStyleBuilder ?=> Int)(using msb: MainStyleBuilder): Unit =
+    given builder: MainStyleBuilder = MainStyleBuilder()
+    init
+    msb.margin = init.asInstanceOf[Margin]
 
   def image(init: ImageBuilder ?=> ImageBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     val builder = init(using ImageBuilder())
@@ -247,7 +262,9 @@ object DSL:
           "html"
         style:
           margin:
-            100
+            150
+          font:
+            "Arial"
       content:
         title:
           "End 3rd Sprint"
