@@ -9,6 +9,6 @@ import java.util.Optional
 
 class PapyrusBuilder:
   var metadata: Metadata = Metadata()
-  var content: Content = Content(Optional.empty)
+  var content: Content = Content(None)
 
   def build(): Unit = Papyrus(metadata, content).build()

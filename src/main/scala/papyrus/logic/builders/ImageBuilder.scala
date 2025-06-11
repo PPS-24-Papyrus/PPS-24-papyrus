@@ -23,7 +23,7 @@ case class ImageBuilder(
 object ImageBuilder:
   def apply(
              src: String = DefaultValues.defaultImageSrc,
-             alt: String = defaultValues.defaultImageAlt,
+             alt: String = DefaultValues.defaultImageAlt,
              width: Option[Width] = None,
              caption: Option[String] = None,
              alignment: Option[Float] = None

@@ -14,11 +14,11 @@ given TitleHandler[ContentBuilder] with
     cb.setTitle(title)
 
   override def setLevel(t: ContentBuilder, builder: TitleBuilder): Unit =
-    builder.level = 1
+    builder.level(1)
 
 given TitleHandler[SectionBuilder] with
   def setTitle(sb: SectionBuilder, title: Title): Unit =
     sb.setTitle(title)
 
   override def setLevel(sb: SectionBuilder, builder: TitleBuilder): Unit =
-    builder.level = 2 // forza il livello a 2 per le sezioni
+    builder.level(2) // forza il livello a 2 per le sezioni

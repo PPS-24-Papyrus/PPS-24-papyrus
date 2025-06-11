@@ -3,22 +3,25 @@ package papyrus.logic.layerElement.section
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.layerElement.text.Title
 
-import java.util.Optional
-
 trait Section extends LayerElement:
-  def title: Optional[Title]
+  def title: Option[Title]
   def layerElement: Seq[LayerElement]
-
 
 object Section:
 
-  def apply(title: Optional[Title], layerElement: LayerElement*): Section = SectionImpl(title, layerElement)
+  def apply(title: Option[Title], layerElement: LayerElement*): Section =
+    SectionImpl(title, layerElement.toSeq)
 
-  private class SectionImpl(override val title: Optional[Title], override val layerElement: Seq[LayerElement]) extends Section:
+  private class SectionImpl(
+                                override val title: Option[Title],
+                                override val layerElement: Seq[LayerElement]
+                              ) extends Section:
+
     override def render: String =
-      val titleRendered = if title.isPresent then title.get().render else ""
+      val titleRendered = title.map(_.render).getOrElse("")
       val layerElementsRendered = layerElement.map(_.render).mkString("\n")
       s"<section>$titleRendered$layerElementsRendered</section>"
+
     override def renderStyle: String =
-      val titleRendered = if title.isPresent then title.get().renderStyle else ""
+      val titleRendered = title.map(_.renderStyle).getOrElse("")
       (titleRendered +: layerElement.map(_.renderStyle)).mkString("\n")

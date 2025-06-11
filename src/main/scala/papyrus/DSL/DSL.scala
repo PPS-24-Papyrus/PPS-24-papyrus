@@ -29,10 +29,10 @@ object DSL:
   def content(init: ContentBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
     given builder: ContentBuilder = ContentBuilder()
     init
-    pb.content = builder.build()
+    pb.content = builder.build
 
   def title(init: TitleBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    given builder: TitleBuilder = TitleBuilder()
+    given baseBuilder: TitleBuilder = TitleBuilder()
 
     val baseTitle = init.str
     val numberedTitle = ctx match
@@ -40,59 +40,62 @@ object DSL:
       case _: SectionBuilder => SectionCounter.nextSection() + " " + baseTitle
       case _: SubSectionBuilder => SectionCounter.nextSubsection() + " " + baseTitle
 
-    builder.title = numberedTitle
+    var updatedBuilder = baseBuilder.title(numberedTitle)
 
     ctx match
       case cb: ContentBuilder =>
-        builder.level = 1
-        cb.setTitle(builder.build())
+        updatedBuilder = updatedBuilder.level(1)
+        cb.setTitle(updatedBuilder.build)
       case sb: SectionBuilder =>
-        builder.level = 2
-        sb.setTitle(builder.build())
+        updatedBuilder = updatedBuilder.level(2)
+        sb.setTitle(updatedBuilder.build)
       case ssb: SubSectionBuilder =>
-        builder.level = 3
-        ssb.setTitle(builder.build())
+        updatedBuilder = updatedBuilder.level(3)
+        ssb.setTitle(updatedBuilder.build)
+
 
 
   def section(init: SectionBuilder ?=> Unit)(using cb: ContentBuilder): Unit =
     given builder: SectionBuilder = SectionBuilder()
     init
-    cb.addLayerElement(builder.build())
+    cb.addLayerElement(builder.build)
 
   def subsection(init: SubSectionBuilder ?=> Unit)(using cb: SectionBuilder): Unit =
     given builder: SubSectionBuilder = SubSectionBuilder()
     init
-    cb.addLayerElement(builder.build())
+    cb.addLayerElement(builder.build)
 
   def listing(init: ListBuilder ?=> Unit)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: ListBuilder = ListBuilder()
     init
     ctx match
       case cb: ContentBuilder =>
-        cb.addLayerElement(builder.build())
+        cb.addLayerElement(builder.build)
       case sb: SectionBuilder =>
-        sb.addLayerElement(builder.build())
+        sb.addLayerElement(builder.build)
       case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(builder.build())
+        ssb.addLayerElement(builder.build)
 
   def item(init: ItemBuilder ?=> TextDSL)(using ctx: ListBuilder): Unit =
     given builder: ItemBuilder = ItemBuilder()
-    builder.value = init.str
-    ctx.addItem(builder.build())
-
+    val updatedBuilder = builder.value(init.str)
+    ctx.addItem(updatedBuilder.build)
 
 
   def text(init: TextBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    given builder: TextBuilder = TextBuilder()
+    given baseBuilder: TextBuilder = TextBuilder()
+
     val textWrapper = init
-    builder.value = textWrapper.str
+    val updatedBuilder = baseBuilder.value(textWrapper.str)
+
     ctx match
       case cb: ContentBuilder =>
-        cb.addLayerElement(builder.build())
+        cb.addLayerElement(updatedBuilder.build)
       case sb: SectionBuilder =>
-        sb.addLayerElement(builder.build())
+        sb.addLayerElement(updatedBuilder.build)
       case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(builder.build())
+        ssb.addLayerElement(updatedBuilder.build)
+
 
   def nameFile(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
     given builder: MetadataBuilder = MetadataBuilder()
@@ -292,7 +295,7 @@ object DSL:
             title:
               "Listing"
             text:
-              "This is our first list:"
+              "\nWhy do we use it?\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\n\n\nWhere does it come from?\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.\n\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from \"de Finibus Bonorum et Malorum\" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.\n\nWhere can I get some?\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.'"
             listing:
               item:
                 "First element"
