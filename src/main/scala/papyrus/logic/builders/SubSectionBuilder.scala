@@ -1,22 +1,24 @@
 package papyrus.logic.builders
 
-import papyrus.logic.content.{Section, SubSection}
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.layerElement.text.Title
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
+import papyrus.logic.layerElement.section.SubSection
+import scala.collection.mutable.ListBuffer
 
-import java.util.Optional
-import scala.collection.mutable.ArrayBuffer
-
-class SubSectionBuilder:
-  private var title: Optional[Title] = Optional.empty
-  val layerElements = ArrayBuffer[LayerElement]()
+case class SubSectionBuilder(
+                              private var title: Option[Title] = None,
+                              private val layerElements: ListBuffer[LayerElement] = ListBuffer.empty
+                            ) extends Builder[SubSection]:
 
   def setTitle(newTitle: Title): Unit =
-    title = Optional.of(newTitle)
+    title = Some(newTitle)
 
   def addLayerElement(element: LayerElement): Unit =
     layerElements += element
 
-  def build(): SubSection = SubSection(title, layerElements.toSeq *)
+  override def build: SubSection = SubSection(title, layerElements.toSeq*)
+
+object SubSectionBuilder:
+  def apply(): SubSectionBuilder = new SubSectionBuilder()

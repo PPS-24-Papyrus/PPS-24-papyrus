@@ -68,3 +68,7 @@ object DefaultValues:
 
 // Item
   val defaultItem: String = "Elemento lista"
+
+// image
+  val defaultImageSrc: String = "default.png"
+  val defaultImageAlt: String = "Nessuna descrizione"

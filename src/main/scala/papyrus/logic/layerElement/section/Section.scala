@@ -1,27 +1,26 @@
-package papyrus.logic.content
+package papyrus.logic.layerElement.section
 
-import papyrus.logic.Renderer.Renderer
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.layerElement.text.Title
 
-trait Content extends Renderer:
+trait Section extends LayerElement:
   def title: Option[Title]
   def layerElement: Seq[LayerElement]
 
-object Content:
+object Section:
 
-  def apply(title: Option[Title], layerElement: LayerElement*): Content =
-    new ContentImpl(title, layerElement.toSeq)
+  def apply(title: Option[Title], layerElement: LayerElement*): Section =
+    SectionImpl(title, layerElement.toSeq)
 
-  private class ContentImpl(
-                             override val title: Option[Title],
-                             override val layerElement: Seq[LayerElement]
-                           ) extends Content:
+  private class SectionImpl(
+                                override val title: Option[Title],
+                                override val layerElement: Seq[LayerElement]
+                              ) extends Section:
 
     override def render: String =
       val titleRendered = title.map(_.render).getOrElse("")
       val layerElementsRendered = layerElement.map(_.render).mkString("\n")
-      s"<body>$titleRendered$layerElementsRendered</body>"
+      s"<section>$titleRendered$layerElementsRendered</section>"
 
     override def renderStyle: String =
       val titleRendered = title.map(_.renderStyle).getOrElse("")
