@@ -63,43 +63,43 @@ class TextDSL(val str: String):
  //  ib.alignment = Some(a)
  //  str
 
-  def |(c: String)(using tb: TableBuilder): RowBuilder =
-    makeRow(c, identity, _.withContent(c))
-
-  def hs(c: String)(using tb: TableBuilder): RowBuilder =
-    makeRow(c, _.asHeader(), _.withContent(c))
-
-  def hsh(c: String)(using tb: TableBuilder): RowBuilder =
-    makeRow(c, _.asHeader(), _.withContent(c).asHeader())
-
-  def -|(c: String)(using tb: TableBuilder): RowBuilder =
-    makeRow(c, _.withColspan(2), _.withContent(c))
-
-  def -|-(c: String)(using tb: TableBuilder): RowBuilder =
-    makeRow(c, _.withColspan(2), _.withContent(c).withColspan(2))
-
-  def |-(c: String)(using tb: TableBuilder): RowBuilder =
-    makeRow(c, identity, _.withContent(c).withColspan(2))
-
-  def ^|(c: String)(using tb: TableBuilder): RowBuilder =
-    makeRow(c, _.withRowspan(2), _.withContent(c))
-
-  def ^|^(c: String)(using tb: TableBuilder): RowBuilder =
-    makeRow(c, _.withRowspan(2), _.withContent(c).withRowspan(2))
-
-  def |^(c: String)(using tb: TableBuilder): RowBuilder =
-    makeRow(c, identity, _.withContent(c).withRowspan(2))
-
-  private def makeRow(
-               c: String,
-               left: CellBuilder => CellBuilder,
-               right: CellBuilder => CellBuilder
-             )(using tb: TableBuilder): RowBuilder =
-    val builder = RowBuilder()
-    builder.addCell(left(CellBuilder().withContent(str)))
-    builder.addCell(right(CellBuilder().withContent(c)))
-    tb.addRow(builder)
-    builder
+  //def |(c: String)(using tb: TableBuilder): RowBuilder =
+  //  makeRow(c, identity, _.withContent(c))
+//
+  //def hs(c: String)(using tb: TableBuilder): RowBuilder =
+  //  makeRow(c, _.asHeader(), _.withContent(c))
+//
+  //def hsh(c: String)(using tb: TableBuilder): RowBuilder =
+  //  makeRow(c, _.asHeader(), _.withContent(c).asHeader())
+//
+  //def -|(c: String)(using tb: TableBuilder): RowBuilder =
+  //  makeRow(c, _.withColspan(2), _.withContent(c))
+//
+  //def -|-(c: String)(using tb: TableBuilder): RowBuilder =
+  //  makeRow(c, _.withColspan(2), _.withContent(c).withColspan(2))
+//
+  //def |-(c: String)(using tb: TableBuilder): RowBuilder =
+  //  makeRow(c, identity, _.withContent(c).withColspan(2))
+//
+  //def ^|(c: String)(using tb: TableBuilder): RowBuilder =
+  //  makeRow(c, _.withRowspan(2), _.withContent(c))
+//
+  //def ^|^(c: String)(using tb: TableBuilder): RowBuilder =
+  //  makeRow(c, _.withRowspan(2), _.withContent(c).withRowspan(2))
+//
+  //def |^(c: String)(using tb: TableBuilder): RowBuilder =
+  //  makeRow(c, identity, _.withContent(c).withRowspan(2))
+//
+  //private def makeRow(
+  //             c: String,
+  //             left: CellBuilder => CellBuilder,
+  //             right: CellBuilder => CellBuilder
+  //           )(using tb: TableBuilder): RowBuilder =
+  //  val builder = RowBuilder()
+  //  builder.addCell(left(CellBuilder().withContent(str)))
+  //  builder.addCell(right(CellBuilder().withContent(c)))
+  //  tb.addRow(builder)
+  //  builder
 
 
 given Conversion[String, TextDSL] with

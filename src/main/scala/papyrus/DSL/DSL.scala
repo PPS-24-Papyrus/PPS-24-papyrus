@@ -4,8 +4,7 @@ import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.builders.ImageBuilder.caption
-import papyrus.logic.builders.{ContentBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, SectionBuilder, SubSectionBuilder, TextBuilder, TextDSL, TitleBuilder, TitleHandler}
-import papyrus.logic.builders.{CellBuilder, ContentBuilder, ImageBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, TableBuilder, TextBuilder, TextDSL, TitleBuilder}
+import papyrus.logic.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TextDSL, TitleBuilder, TitleHandler, |}
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.layerElement.captionElement.{Cell, Row, Table}
 import papyrus.logic.styleObjects.{TextStyle, TitleStyle}
@@ -283,6 +282,3 @@ object DSL:
             "This is our first image:"
           image:
             "src/main/resources/PapyrusLogo.png" caption "This is papyrus logo" alternative "No image found" width 200
-            //"src/main/resources/PapyrusLogo.png" caption "This is papyrus logo" alternative "No image found" width 200
-
-
