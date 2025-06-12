@@ -6,6 +6,7 @@ import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.builders.ImageBuilder.caption
 import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TextDSL, TitleBuilder, TitleHandler}
 import papyrus.DSL.builders.RowBuilder.|
+import papyrus.DSL.builders.TextBuilder.*
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.layerElement.captionElement.{Cell, Row, Table}
 import papyrus.logic.styleObjects.{TextStyle, TitleStyle}
@@ -85,29 +86,28 @@ object DSL:
     val updatedBuilder = builder.value(init.str)
     ctx.addItem(updatedBuilder.build)
 
-  def applyTextStyle(init: TextBuilder ?=> TextDSL, style: TextBuilder => TextBuilder)(
+  def applyTextStyle(init: TextBuilder ?=> TextBuilder, style: TextBuilder => TextBuilder)(
     using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
 
     given baseBuilder: TextBuilder = TextBuilder()
 
-    val textWrapper = init
-    val updatedBuilder = style(baseBuilder.value(textWrapper.str))
+    val updatedBuilder = style(init)
 
     ctx match
       case cb: ContentBuilder => cb.addLayerElement(updatedBuilder.build)
       case sb: SectionBuilder => sb.addLayerElement(updatedBuilder.build)
       case ssb: SubSectionBuilder => ssb.addLayerElement(updatedBuilder.build)
 
-  def text(init: TextBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def text(init: TextBuilder ?=> TextBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     applyTextStyle(init, identity)
 
-  def bold(init: TextBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def bold(init: TextBuilder ?=> TextBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     applyTextStyle(init, _.fontWeight("bold"))
 
-  def italic(init: TextBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def italic(init: TextBuilder ?=> TextBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     applyTextStyle(init, _.fontStyle("italic"))
 
-  def underline(init: TextBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def underline(init: TextBuilder ?=> TextBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     applyTextStyle(init, _.textDecoration("underline"))
 
 
@@ -263,6 +263,10 @@ object DSL:
   given Conversion[String, TextDSL] with
     def apply(str: String): TextDSL = TextDSL(str)
 
+  given Conversion[String, TextBuilder] with
+    def apply(str: String): TextBuilder = TextBuilder(str)
+
+
   given Conversion[String, ImageBuilder] with
     def apply(str: String): ImageBuilder = ImageBuilder(str)
 
@@ -285,7 +289,7 @@ object DSL:
       content:
         title:
           "End 3rd Sprint"
-        text:
+        bold:
           "Normale"
         section:
           title:
