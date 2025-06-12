@@ -17,7 +17,7 @@ object DefaultValues:
   val fontSize: FontSize = 12
   val lineHeight: LineHeight = 1.75
   val textColor: ColorString = "#222222"
-  val backgroundColor: ColorString = "#FAFAFA"
+  val backgroundColor: ColorString = "white"
 
   // Layout
   val margin: Margin = 100 // in px, generoso per leggibilità

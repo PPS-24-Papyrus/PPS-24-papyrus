@@ -26,7 +26,7 @@ class TextDSL(val str: String):
     tb.title(str)
     tb.font(ff)
     str
-
+/*
   def color(c: ColorString)(using tb: TextBuilder): TextDSL =
     tb.value(str)
     tb.color(c)
@@ -45,7 +45,7 @@ class TextDSL(val str: String):
   def textDecoration(d: TextDecoration)(using tb: TextBuilder): TextDSL =
     tb.value(str)
     tb.textDecoration(d)
-    str
+    str */
 
  //def alternative(a: String)(using ib: ImageBuilder): TextDSL =
  //  ib.alt = a

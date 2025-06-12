@@ -19,6 +19,7 @@ case class TextBuilder(
   private def withFontWeight(fw: FontWeight): TextBuilder = this.copy(fontWeight = fw)
   private def withFontStyle(fs: FontStyle): TextBuilder = this.copy(fontStyle = fs)
   private def withTextDecoration(td: TextDecoration): TextBuilder = this.copy(textDecoration = td)
+  private def withNewLine(v: String = ""): TextBuilder = this.copy(value=value+"\n"+v)
 
   override def build: Text = Text(value)(TextStyle(
     color = color,
@@ -43,3 +44,4 @@ object TextBuilder:
     def fontWeight(fw: FontWeight): TextBuilder = tb.withFontWeight(fw)
     def fontStyle(fs: FontStyle): TextBuilder = tb.withFontStyle(fs)
     def textDecoration(td: TextDecoration): TextBuilder = tb.withTextDecoration(td)
+    def newLine(v: String): TextBuilder = tb.withNewLine(v)
