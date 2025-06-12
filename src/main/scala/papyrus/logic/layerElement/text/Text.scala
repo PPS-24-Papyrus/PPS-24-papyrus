@@ -20,7 +20,8 @@ object Text:
                         )(textStyle: TextStyle) extends Text:
 
     override def render: String =
-      s"""<span class="${textStyle.tag}">$text</span>"""
+      s"""<span class="${textStyle.tag}">${text.replace("\n", "<br>")}</span>"""
+
 
     override def renderStyle: String =
       s""".${textStyle.tag} {\n  ${textStyle.renderStyle}\n}"""
