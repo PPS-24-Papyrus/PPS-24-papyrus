@@ -1,4 +1,4 @@
-package papyrus.logic.builders
+package papyrus.DSL.builders
 
 import papyrus.logic.metadata.Metadata
 import papyrus.logic.styleObjects.MainStyle

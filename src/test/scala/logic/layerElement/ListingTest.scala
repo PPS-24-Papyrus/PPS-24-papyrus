@@ -2,7 +2,7 @@ package logic.layerElement
 
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
-import papyrus.logic.builders.{ItemBuilder, ListBuilder}
+import papyrus.DSL.builders.{ItemBuilder, ListBuilder}
 
 class ListingTest extends AnyFunSuite with Matchers:
 

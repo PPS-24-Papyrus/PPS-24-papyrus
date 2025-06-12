@@ -1,4 +1,4 @@
-package papyrus.logic.builders
+package papyrus.DSL.builders
 
 import papyrus.logic.layerElement.text.Title
 import papyrus.logic.styleObjects.TitleStyle

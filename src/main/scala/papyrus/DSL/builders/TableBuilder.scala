@@ -1,4 +1,4 @@
-package papyrus.logic.builders
+package papyrus.DSL.builders
 
 import papyrus.logic.layerElement.captionElement.{Cell, Row, Table}
 import io.github.iltotore.iron.autoRefine

@@ -1,4 +1,4 @@
-package papyrus.logic.builders
+package papyrus.DSL.builders
 
 import org.xhtmlrenderer.css.parser.property.PrimitivePropertyBuilders.{BackgroundColor, TextAlign}
 import papyrus.logic.utility.TypesInline.*

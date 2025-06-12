@@ -3,13 +3,10 @@ package DSL
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.must.Matchers.{be, contain}
 import org.scalatest.matchers.should.Matchers.{an, should, shouldBe}
-import papyrus.logic.builders.TableBuilder
 import papyrus.logic.layerElement.captionElement.Table
-import papyrus.logic.builders.TextDSL
 import papyrus.DSL.DSL
 import papyrus.DSL.DSL.{caption, given_Conversion_String_TextDSL}
-import papyrus.logic.builders.RowBuilder.*
-import papyrus.logic.builders.given_Conversion_String_TextDSL
+import papyrus.DSL.builders.{TableBuilder, TextDSL, given_Conversion_String_TextDSL}
 
 class TableDSLTest extends AnyFunSuite:
 

@@ -1,4 +1,4 @@
-package papyrus.logic.builders
+package papyrus.DSL.builders
 
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine

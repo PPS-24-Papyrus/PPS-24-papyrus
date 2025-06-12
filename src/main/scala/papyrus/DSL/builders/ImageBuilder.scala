@@ -1,4 +1,4 @@
-package papyrus.logic.builders
+package papyrus.DSL.builders
 
 import papyrus.logic.layerElement.captionElement.Image
 import papyrus.logic.utility.TypesInline.{Float, Width}
