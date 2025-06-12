@@ -6,11 +6,19 @@ import papyrus.logic.layerElement.Listing
 import papyrus.logic.layerElement.text.Item
 import scala.collection.mutable.ListBuffer
 
-case class ListBuilder(private val items: ListBuffer[Item] = ListBuffer.empty) extends Builder[Listing]:
+case class ListBuilder(
+                        private val items: ListBuffer[Item] = ListBuffer.empty,
+                        private var listType: ListType = "ul"
+                      ) extends Builder[Listing]:
+
+  def listType(newType: ListType): Unit =
+    listType = newType
+
   def addItem(item: Item): Unit =
     items += item
 
-  override def build: Listing = Listing(items.toSeq*)
+  override def build: Listing = Listing(listType, items.toSeq *)
 
 object ListBuilder:
   def apply(): ListBuilder = new ListBuilder()
+
