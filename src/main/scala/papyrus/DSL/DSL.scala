@@ -76,10 +76,9 @@ object DSL:
       case ssb: SubSectionBuilder =>
         ssb.addLayerElement(builder.build)
 
-  def listType(init: ListBuilder ?=> TextDSL)(using ctx: ListBuilder): Unit =
-    given builder: ListBuilder = ListBuilder()
+  def listType(init: ListBuilder ?=> ListType)(using ctx: ListBuilder): Unit =
     init
-    ctx.listType(init.str)
+    ctx.listType(init)
 
   def item(init: ItemBuilder ?=> TextDSL)(using ctx: ListBuilder): Unit =
     given builder: ItemBuilder = ItemBuilder()

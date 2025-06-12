@@ -8,10 +8,10 @@ import scala.collection.mutable.ListBuffer
 
 case class ListBuilder(
                         private val items: ListBuffer[Item] = ListBuffer.empty,
-                        private var listType: String = "ul"
+                        private var listType: ListType = "ul"
                       ) extends Builder[Listing]:
 
-  def listType(newType: String): Unit =
+  def listType(newType: ListType): Unit =
     listType = newType
 
   def addItem(item: Item): Unit =
