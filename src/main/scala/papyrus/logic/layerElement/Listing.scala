@@ -4,6 +4,7 @@ import papyrus.logic.layerElement.text.{Item, Text, Title}
 
 trait Listing extends LayerElement:
   def items: Seq[Item]
+  def listType: String = "ul"
 
 object Listing:
 
@@ -11,6 +12,6 @@ object Listing:
 
   private class ListingImpl(override val items: Seq[Item]) extends Listing:
     override def render: String =
-      s"<ul>\n${items.map(_.render).mkString("\n")}\n</ul>"
+      s"<$listType>\n${items.map(_.render).mkString("\n")}\n</$listType>"
   
     override def renderStyle: String = ""
