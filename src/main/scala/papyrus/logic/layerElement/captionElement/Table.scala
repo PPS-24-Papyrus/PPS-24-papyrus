@@ -26,7 +26,7 @@ object Table:
     override def render: String =
       val bodyRows = rows.map(_.render).mkString
       val captionString = caption.map(c => s"<caption>$c</caption>").getOrElse("")
-      s"""<div class="${tableStyle.tag}"><table>$captionString<tbody>$bodyRows</tbody></table></div>"""
+      s"""<div class="${tableStyle.tag}"><table>$captionString<tbody>$bodyRows</tbody></table></div>""".stripMargin
 
     override def renderStyle: String =
       tableStyle.renderStyle

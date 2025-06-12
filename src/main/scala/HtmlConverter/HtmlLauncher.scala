@@ -24,6 +24,11 @@ object HtmlLauncher:
       |@page :first {
       |  margin-top: 1cm;
       |}
+      |
+      |table {
+      |  margin-left: auto;
+      |  margin-right: auto;
+      |}
     """.stripMargin
 
   def launchFile(htmlContent: String, cssContent: String, title: String, extension: Extension, nameFile: String): Unit =
