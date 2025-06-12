@@ -45,8 +45,8 @@ object MainStyle:
         Style.textColor(textColor),
         Style.backgroundColor(backgroundColor),
         Style.textAlign(textAlign),
-        Style.margin(margin)
-      ).mkString(" ")
+        Style.margin(margin),
+      ).mkString("\n  ")
       
     override def tag: String =
       s"""body""" 
