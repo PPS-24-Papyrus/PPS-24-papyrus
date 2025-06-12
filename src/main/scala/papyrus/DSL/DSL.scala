@@ -85,59 +85,30 @@ object DSL:
     val updatedBuilder = builder.value(init.str)
     ctx.addItem(updatedBuilder.build)
 
+  def applyTextStyle(init: TextBuilder ?=> TextDSL, style: TextBuilder => TextBuilder)(
+    using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+
+    given baseBuilder: TextBuilder = TextBuilder()
+
+    val textWrapper = init
+    val updatedBuilder = style(baseBuilder.value(textWrapper.str))
+
+    ctx match
+      case cb: ContentBuilder => cb.addLayerElement(updatedBuilder.build)
+      case sb: SectionBuilder => sb.addLayerElement(updatedBuilder.build)
+      case ssb: SubSectionBuilder => ssb.addLayerElement(updatedBuilder.build)
 
   def text(init: TextBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    given baseBuilder: TextBuilder = TextBuilder()
-
-    val textWrapper = init
-    val updatedBuilder = baseBuilder.value(textWrapper.str)
-
-    ctx match
-      case cb: ContentBuilder =>
-        cb.addLayerElement(updatedBuilder.build)
-      case sb: SectionBuilder =>
-        sb.addLayerElement(updatedBuilder.build)
-      case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(updatedBuilder.build)
+    applyTextStyle(init, identity)
 
   def bold(init: TextBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    given baseBuilder: TextBuilder = TextBuilder()
-    val textWrapper = init
-    val updatedBuilder = baseBuilder.value(textWrapper.str).fontWeight("bold")
-
-    ctx match
-      case cb: ContentBuilder =>
-        cb.addLayerElement(updatedBuilder.build)
-      case sb: SectionBuilder =>
-        sb.addLayerElement(updatedBuilder.build)
-      case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(updatedBuilder.build)
+    applyTextStyle(init, _.fontWeight("bold"))
 
   def italic(init: TextBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    given baseBuilder: TextBuilder = TextBuilder()
-    val textWrapper = init
-    val updatedBuilder = baseBuilder.value(textWrapper.str).fontStyle("italic")
-
-    ctx match
-      case cb: ContentBuilder =>
-        cb.addLayerElement(updatedBuilder.build)
-      case sb: SectionBuilder =>
-        sb.addLayerElement(updatedBuilder.build)
-      case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(updatedBuilder.build)
+    applyTextStyle(init, _.fontStyle("italic"))
 
   def underline(init: TextBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    given baseBuilder: TextBuilder = TextBuilder()
-    val textWrapper = init
-    val updatedBuilder = baseBuilder.value(textWrapper.str).textDecoration("underline")
-
-    ctx match
-      case cb: ContentBuilder =>
-        cb.addLayerElement(updatedBuilder.build)
-      case sb: SectionBuilder =>
-        sb.addLayerElement(updatedBuilder.build)
-      case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(updatedBuilder.build)
+    applyTextStyle(init, _.textDecoration("underline"))
 
 
   def nameFile(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
@@ -314,6 +285,8 @@ object DSL:
       content:
         title:
           "End 3rd Sprint"
+        text:
+          "Normale"
         section:
           title:
             "Table and listing"
