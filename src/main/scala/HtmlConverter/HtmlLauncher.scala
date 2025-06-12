@@ -10,28 +10,42 @@ import java.nio.file.{Files, Path}
 
 object HtmlLauncher:
 
-  def launchFile(htmlContent: String, cssContent: String, title: String, extension: Extension): Unit =
+  private val cssContentPdf =
+    """
+      |@page {
+      |  margin-top: 4cm;
+      |  margin-bottom: 4cm;
+      |  @bottom-center {
+      |    content: counter(page);
+      |    font-size: 10pt;
+      |  }
+      |}
+      |@page :first {
+      |  margin-top: 1cm; /* Margine diverso per la prima pagina */
+      |}
+    """.stripMargin
+
+
+  def launchFile(htmlContent: String, cssContent: String, title: String, extension: Extension, nameFile: String): Unit =
     val tempDir: Path = Files.createTempDirectory(s"${title}_tmp")
 
-    // 1. Scrive il file CSS
     val cssPath = tempDir.resolve(DefaultValues.styleSheet)
-    Files.write(cssPath, cssContent.getBytes())
+    Files.write(cssPath, if extension == "pdf" then (cssContent + "\n" +  cssContentPdf).getBytes() else cssContent.getBytes())
 
-    // 2. Scrive il file HTML con riferimento al file CSS appena scritto
-    val htmlPath: Path = tempDir.resolve("index.html")
+    val htmlPath: Path = tempDir.resolve(s"$nameFile.html")
     Files.write(htmlPath, htmlContent.getBytes())
 
     extension match
       case "html" => this.launchHTMLWithCSS(htmlPath)
-      case _ => generatePDFWithCSS(tempDir, htmlPath)
+      case _ => generatePDFWithCSS(tempDir, htmlPath, nameFile)
 
 
   private def launchHTMLWithCSS(htmlPath: Path): Unit =
     if Desktop.isDesktopSupported then
       Desktop.getDesktop.browse(htmlPath.toFile.toURI)
 
-  private def generatePDFWithCSS(tempDir: Path, htmlPath: Path): Unit =
-    val pdfFile = tempDir.resolve("output.pdf").toFile
+  private def generatePDFWithCSS(tempDir: Path, htmlPath: Path, nameFile: String): Unit =
+    val pdfFile = tempDir.resolve(s"$nameFile.pdf").toFile
     val os = new FileOutputStream(pdfFile)
 
     val renderer = ITextRenderer()
@@ -40,7 +54,5 @@ object HtmlLauncher:
     renderer.createPDF(os)
     os.close()
 
-    //pdfFile
     if Desktop.isDesktopSupported then
       Desktop.getDesktop.open(pdfFile)
-
