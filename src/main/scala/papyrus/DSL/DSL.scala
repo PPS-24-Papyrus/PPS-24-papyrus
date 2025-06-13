@@ -111,38 +111,24 @@ object DSL:
     applyTextStyle(init, _.textDecoration("underline"))
 
   def nameFile(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    given builder: MetadataBuilder = MetadataBuilder()
-    init
     mb.withNameFile(init.str)
 
   def extension(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    given builder: MetadataBuilder = MetadataBuilder()
-    init
     mb.withExtension(init.str.asInstanceOf[Extension])
 
   def language(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    given builder: MetadataBuilder = MetadataBuilder()
-    init
     mb.withLanguage(init.str.asInstanceOf[Language])
 
   def metadataTitle(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    given builder: MetadataBuilder = MetadataBuilder()
-    init
     mb.withTitle(init.str)
 
   def author(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    given builder: MetadataBuilder = MetadataBuilder()
-    init
     mb.withAuthor(init.str)
 
   def charset(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    given builder: MetadataBuilder = MetadataBuilder()
-    init
     val updated: Unit = mb.withCharset(init.str.asInstanceOf[Charset])
 
   def styleSheet(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    given builder: MetadataBuilder = MetadataBuilder()
-    init
     mb.withStyleSheet(init.str)
 
   def style(init: MainStyleBuilder ?=> Unit)(using mb: MetadataBuilder): Unit =
@@ -151,39 +137,25 @@ object DSL:
     mb.withStyle(builder.build)
 
   def font(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
-    given builder: MainStyleBuilder = MainStyleBuilder()
-    init
-    msb.font = init.str.asInstanceOf[FontFamily]
+    msb.withFont(init.str.asInstanceOf[FontFamily])
 
   def fontSize(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
-    given builder: MainStyleBuilder = MainStyleBuilder()
-    init
-    msb.fontSize = init.str.asInstanceOf[FontSize]
+    msb.withFontSize(init.str.asInstanceOf[FontSize])
 
   def lineHeight(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
-    given builder: MainStyleBuilder = MainStyleBuilder()
-    init
-    msb.lineHeight = init.str.asInstanceOf[LineHeight]
+    msb.withLineHeight(init.str.asInstanceOf[LineHeight])
 
   def textColor(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
-    given builder: MainStyleBuilder = MainStyleBuilder()
-    init
-    msb.textColor = init.str.asInstanceOf[ColorString]
+    msb.withTextColor(init.str.asInstanceOf[ColorString])
 
   def backgroundColor(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
-    given builder: MainStyleBuilder = MainStyleBuilder()
-    init
-    msb.backgroundColor = init.str.asInstanceOf[ColorString]
+    msb.withBackgroundColor(init.str.asInstanceOf[ColorString])
 
   def textAlign(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
-    given builder: MainStyleBuilder = MainStyleBuilder()
-    init
-    msb.textAlign = init.str.asInstanceOf[Alignment]
+    msb.withTextAlign(init.str.asInstanceOf[Alignment])
 
   def margin(init: MainStyleBuilder ?=> Int)(using msb: MainStyleBuilder): Unit =
-    given builder: MainStyleBuilder = MainStyleBuilder()
-    init
-    msb.margin = init.asInstanceOf[Margin]
+    msb.withMargin(init.asInstanceOf[Margin])
 
   def image(init: ImageBuilder ?=> ImageBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     val builder = init(using ImageBuilder())
@@ -279,7 +251,7 @@ object DSL:
         author:
           "LucaDani"
         extension:
-          "pdf"
+          "html"
         style:
           margin:
             150

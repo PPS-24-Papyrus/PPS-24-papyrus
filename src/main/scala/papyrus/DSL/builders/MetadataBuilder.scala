@@ -2,14 +2,14 @@ package papyrus.DSL.builders
 
 import papyrus.logic.metadata.Metadata
 import papyrus.logic.styleObjects.MainStyle
-import papyrus.logic.utility.TypesInline.{Charset, Extension, Language, StyleSheet}
-import io.github.iltotore.iron.autoRefine
+import papyrus.logic.utility.TypesInline.{Charset, Extension, Language}
 import papyrus.DSL.DefaultValues
 
+enum Field:
+  case NameFile, Extension, Language, Title, Author, Charset, StyleSheet, Style
 
 class MetadataBuilder extends Builder[Metadata]:
 
-  // -- Campi privati con valori di default
   private var _nameFile: String = DefaultValues.nameFile
   private var _extension: Extension = DefaultValues.extension
   private var _language: Language = DefaultValues.language
@@ -19,41 +19,38 @@ class MetadataBuilder extends Builder[Metadata]:
   private var _styleSheet: String = DefaultValues.styleSheet
   private var _style: MainStyle = MainStyle()
 
-  // -- Getter e setter interni
-  private def nameFile: String = _nameFile
-  private def nameFile_=(value: String): Unit = _nameFile = value
+  private val modifiedFields = scala.collection.mutable.Set.empty[Field]
 
-  private def extension: Extension = _extension
-  private def extension_=(value: Extension): Unit = _extension = value
+  private def setOnce[T](field: Field, setter: T => Unit)(value: T): MetadataBuilder =
+    if modifiedFields.contains(field) then
+      throw new IllegalStateException(s"$field has already been set")
+    setter(value)
+    modifiedFields += field
+    this
 
-  private def language: Language = _language
-  private def language_=(value: Language): Unit = _language = value
+  def withNameFile(value: String): MetadataBuilder =
+    setOnce(Field.NameFile, (v: String) => _nameFile = v)(value)
 
-  private def title: String = _title
-  private def title_=(value: String): Unit = _title = value
+  def withExtension(value: Extension): MetadataBuilder =
+    setOnce(Field.Extension, (v: Extension) => _extension = v)(value)
 
-  private def author: String = _author
-  private def author_=(value: String): Unit = _author = value
+  def withLanguage(value: Language): MetadataBuilder =
+    setOnce(Field.Language, (v: Language) => _language = v)(value)
 
-  private def charset: Charset = _charset
-  private def charset_=(value: Charset): Unit = _charset = value
+  def withTitle(value: String): MetadataBuilder =
+    setOnce(Field.Title, (v: String) => _title = v)(value)
 
-  private def styleSheet: String = _styleSheet
-  private def styleSheet_=(value: String): Unit = _styleSheet = value
+  def withAuthor(value: String): MetadataBuilder =
+    setOnce(Field.Author, (v: String) => _author = v)(value)
 
-  private def style: MainStyle = _style
-  private def style_=(value: MainStyle): Unit = _style = value
+  def withCharset(value: Charset): MetadataBuilder =
+    setOnce(Field.Charset, (v: Charset) => _charset = v)(value)
 
-  // -- API pubblica per impostare i campi
-  def withNameFile(value: String): Unit = nameFile = value
-  def withExtension(value: Extension): Unit = extension = value
-  def withLanguage(value: Language): Unit = language = value
-  def withTitle(value: String): Unit = title = value
-  def withAuthor(value: String): Unit = author = value
-  def withCharset(value: Charset): Unit = charset = value
-  def withStyleSheet(value: String): Unit = styleSheet = value
-  def withStyle(value: MainStyle): Unit = style = value
+  def withStyleSheet(value: String): MetadataBuilder =
+    setOnce(Field.StyleSheet, (v: String) => _styleSheet = v)(value)
 
-  // -- Costruisce l'oggetto Metadata usando i valori correnti
+  def withStyle(value: MainStyle): MetadataBuilder =
+    setOnce(Field.Style, (v: MainStyle) => _style = v)(value)
+
   override def build: Metadata =
-    Metadata(nameFile, extension, style, language, title, author, charset, styleSheet)
+    Metadata(_nameFile, _extension, _style, _language, _title, _author, _charset, _styleSheet)
