@@ -279,7 +279,7 @@ object DSL:
         author:
           "LucaDani"
         extension:
-          "pdf"
+          "html"
         style:
           margin:
             150
