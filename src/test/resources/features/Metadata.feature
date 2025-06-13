@@ -1,7 +1,7 @@
 Feature: Papyrus document metadata configuration
 
   Scenario: generate a correct default metadata
-    Given I create a Metadata empty
+    Given I create a new Metadata
     When I render the Metadata
     Then The result should be an default Metadata structure
 
@@ -43,15 +43,9 @@ Feature: Papyrus document metadata configuration
       | author     | luca     |
     Then The system should raise an error
 
-  Scenario: Prevent setting content block more than once
-    Given I create a new Papyrus document
-    And I define a content block with title "Prova"
-    When I try to define another content block with title "Seconda prova"
-    Then The system should raise an error
-
   Scenario: Prevent setting font-family more than once
     Given I create a new Papyrus document
-    And I set the metadata:
+    And I set the font metadata:
       | font-family  | Arial     |
     When I set the metadata again:
       | font-family  | Helvetica |

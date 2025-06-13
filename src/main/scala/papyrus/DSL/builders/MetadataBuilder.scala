@@ -45,14 +45,30 @@ class MetadataBuilder extends Builder[Metadata]:
   private def style_=(value: MainStyle): Unit = _style = value
 
   // -- API pubblica per impostare i campi
-  def withNameFile(value: String): Unit = nameFile = value
-  def withExtension(value: Extension): Unit = extension = value
-  def withLanguage(value: Language): Unit = language = value
-  def withTitle(value: String): Unit = title = value
-  def withAuthor(value: String): Unit = author = value
-  def withCharset(value: Charset): Unit = charset = value
-  def withStyleSheet(value: String): Unit = styleSheet = value
-  def withStyle(value: MainStyle): Unit = style = value
+  def withNameFile(value: String): MetadataBuilder = 
+    nameFile = value
+    this
+  def withExtension(value: Extension): MetadataBuilder = 
+    extension = value
+    this
+  def withLanguage(value: Language): MetadataBuilder = 
+    language = value
+    this
+  def withTitle(value: String): MetadataBuilder = 
+    title = value
+    this
+  def withAuthor(value: String): MetadataBuilder = 
+    author = value
+    this
+  def withCharset(value: Charset): MetadataBuilder = 
+    charset = value
+    this
+  def withStyleSheet(value: String): MetadataBuilder = 
+    styleSheet = value
+    this
+  def withStyle(value: MainStyle): MetadataBuilder = 
+    style = value
+    this
 
   // -- Costruisce l'oggetto Metadata usando i valori correnti
   override def build: Metadata =
