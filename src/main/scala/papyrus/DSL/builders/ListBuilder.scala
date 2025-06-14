@@ -11,11 +11,13 @@ case class ListBuilder(
                         private var listType: ListType = "ul"
                       ) extends Builder[Listing]:
 
-  def listType(newType: ListType): Unit =
+  def listType(newType: ListType): ListBuilder =
     listType = newType
+    this
 
-  def addItem(item: Item): Unit =
+  def addItem(item: Item): ListBuilder =
     items += item
+    this
 
   override def build: Listing = Listing(listType, items.toSeq *)
 
