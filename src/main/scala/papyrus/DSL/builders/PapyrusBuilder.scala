@@ -7,8 +7,28 @@ import papyrus.logic.metadata.Metadata
 import java.util.Optional
 
 
-class PapyrusBuilder:
-  var metadata: Metadata = Metadata()
-  var content: Content = Content(None)
+enum PapyrusField:
+  case Metadata, Content
 
-  def build: Unit = Papyrus(metadata, content).build()
+class PapyrusBuilder:
+
+  private var _metadata: Metadata = Metadata()
+  private var _content: Content = Content(None)
+
+  private val modifiedFields = scala.collection.mutable.Set.empty[PapyrusField]
+
+  private def setOnce[T](field: PapyrusField, setter: T => Unit)(value: T): PapyrusBuilder =
+    if modifiedFields.contains(field) then
+      throw new IllegalStateException(s"$field has already been set")
+    setter(value)
+    modifiedFields += field
+    this
+
+  def withMetadata(value: Metadata): PapyrusBuilder =
+    setOnce(PapyrusField.Metadata, (v: Metadata) => _metadata = v)(value)
+
+  def withContent(value: Content): PapyrusBuilder =
+    setOnce(PapyrusField.Content, (v: Content) => _content = v)(value)
+
+  def build(): Unit =
+    Papyrus(_metadata, _content).build()
