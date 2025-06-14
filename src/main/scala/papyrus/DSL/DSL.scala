@@ -19,18 +19,18 @@ object DSL:
   def papyrus(init: PapyrusBuilder ?=> Unit): Unit =
     given builder: PapyrusBuilder = PapyrusBuilder()
     init
-    builder.build
+    builder.build()
 
   def metadata(init: MetadataBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
 
     given builder: MetadataBuilder = MetadataBuilder()
     init
-    pb.metadata = builder.build
+    pb.withMetadata(builder.build)
 
   def content(init: ContentBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
     given builder: ContentBuilder = ContentBuilder()
     init
-    pb.content = builder.build
+    pb.withContent(builder.build)
 
   def title(init: TitleBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given baseBuilder: TitleBuilder = TitleBuilder()
