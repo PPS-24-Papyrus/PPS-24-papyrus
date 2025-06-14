@@ -37,45 +37,26 @@ class ContentSteps extends ScalaDsl with EN with Matchers:
     contentBuilder = Some(ContentBuilder())
     contentBuilder.get.addLayerElement(SubSectionBuilder().setTitle(TitleBuilder(title).build).addLayerElement(TextBuilder(text).build).build)
 
-  Given("""I add an image with source {string} and caption {string}""") { (src: String, caption: String) =>
+  Given("""I add an image with source {string} and caption {string}"""): (src: String, caption: String) =>
     contentBuilder = Some(ContentBuilder())
     contentBuilder.get.addLayerElement(
       (src caption caption).build
     )
-  }
 
-  Given("""I add a list with items:""") { (dataTable: DataTable) =>
+  Given("""I add a list with items:"""): (dataTable: DataTable) =>
     val items: List[String] = dataTable.asLists().asScala.map(_.get(0)).toList
     contentBuilder = Some(ContentBuilder())
     val listBuilder = items.foldLeft(ListBuilder()) { (builder, item) =>
       builder.addItem(ItemBuilder(item).build)
     }
     contentBuilder.get.addLayerElement(listBuilder.build)
-  }
-
-  //Given("""I add a table with caption {string}, headers {string}, and rows:"""): (caption: String, headers: String, rows: List[List[String]]) =>
-  //  val tableBuilder = TableBuilder()
-  //    .withCaption(caption)
-//
-  //  rows.foreach(row =>
-  //    tableBuilder.addRow(
-  //      row.foldLeft(RowBuilder()) { (rb, cell) =>
-  //        rb.addCell(CellBuilder().withContent(cell))
-  //      }
-  //    )
-  //  )
-  //  contentBuilder = Some(ContentBuilder())
-  //  contentBuilder.get.addLayerElement(tableBuilder.build)
 
 
-  Given("""I add a table with rows:""") { (rows: DataTable) =>
+  Given("""I add a table with rows:"""): (rows: DataTable) =>
     import papyrus.DSL.builders._
-
     val tableBuilder = TableBuilder()
-
     import scala.jdk.CollectionConverters._
     val scalaRows = rows.asLists().asScala.toList.map(_.asScala.toList)
-
     scalaRows.foreach(row =>
       tableBuilder.addRow(
         row.foldLeft(RowBuilder()) { (rb, cell) =>
@@ -83,10 +64,8 @@ class ContentSteps extends ScalaDsl with EN with Matchers:
         }
       )
     )
-
     contentBuilder = Some(ContentBuilder())
     contentBuilder.get.addLayerElement(tableBuilder.build)
-  }
 
   When("""I render the document"""):
     try
