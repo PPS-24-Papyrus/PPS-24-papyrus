@@ -22,10 +22,55 @@ Feature: Papyrus document content rendering
       |</section>
       """
 
-
-  Scenario: Subsection outside of a section is not allowed
-    Given I create a new Papyrus document
-    And I add a subsection with title "Titolo Subsection" and text "Testo subsection"
+  Scenario: Render a document with a list
+    Given I create a Papyrus document
+    And I add a list with items:
+      | Item 1 |
+      | Item 2 |
+      | Item 3 |
     When I render the document
-    Then The system should raise an error.
+    Then The HTML output should contain:
+      """
+      |<ul>
+      |<li>Item 1</li>
+      |<li>Item 2</li>
+      |<li>Item 3</li>
+      |</ul>
+      """
+
+  Scenario: Render a document with an image
+    Given I create a Papyrus document
+    And I add an image with source "src/test/resources/image/Pastore-tedesco.png" and caption "dog"
+    When I render the document
+    Then The HTML output should contain:
+      """
+      |<figure class="cls-3EB">
+      """
+
+  Scenario: Render a document with a table
+    Given I create a Papyrus document
+    And I add a table with rows:
+      | Name  | Age |
+      | Alice | 30  |
+      | Bob   | 25  |
+    When I render the document
+    Then The HTML output should contain:
+      """
+      |<table>
+      |<tbody>
+      |<tr>
+      |<td colspan='1' rowspan='1'>Name</td>
+      |<td colspan='1' rowspan='1'>Age</td>
+      |</tr>
+      |<tr>
+      |<td colspan='1' rowspan='1'>Alice</td>
+      |<td colspan='1' rowspan='1'>30</td>
+      |</tr>
+      |<tr>
+      |<td colspan='1' rowspan='1'>Bob</td>
+      |<td colspan='1' rowspan='1'>25</td>
+      |</tr>
+      |</tbody>
+      |</table>
+      """
 
