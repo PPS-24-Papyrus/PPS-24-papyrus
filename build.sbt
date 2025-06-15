@@ -11,7 +11,8 @@ lazy val root = (project in file("."))
     libraryDependencies += "io.github.iltotore" %% "iron" % "2.4.0",
     libraryDependencies += "com.openhtmltopdf" % "openhtmltopdf-pdfbox" % "1.0.10",
     libraryDependencies += "org.xhtmlrenderer" % "flying-saucer-pdf" % "9.1.22",
-    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.2"
+    libraryDependencies += "com.github.pathikrit" %% "better-files" % "3.9.2",
+    libraryDependencies += "io.cucumber" % "cucumber-junit" % "7.14.0" % Test
 
 )
 
