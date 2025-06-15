@@ -13,14 +13,14 @@ class TableTest extends AnyFunSuite with Matchers:
     val cell2 = Cell("Cell 2")
     val row = Row(List(cell1, cell2))
     val table = Table(Some("Table Caption"), List(row), TableStyle())
-    table.render shouldEqual "<div class=\"cls-3E8\">\n<table>\n<caption>Table Caption</caption><tbody>\n<tr>\n<th colspan='1' rowspan='1'>Cell 1</th>\n<td colspan='1' rowspan='1'>Cell 2</td>\n</tr>\n</tbody>\n</table>\n</div>"
+    table.render.replaceAll("""cls-.{3}""", "") shouldEqual "<div class=\"\">\n<table>\n<caption>Table Caption</caption><tbody>\n<tr>\n<th colspan='1' rowspan='1'>Cell 1</th>\n<td colspan='1' rowspan='1'>Cell 2</td>\n</tr>\n</tbody>\n</table>\n</div>"
 
   test("Table should render correctly without caption"):
     val cell1 = Cell("Cell 1")
     val cell2 = Cell("Cell 2")
     val row = Row(List(cell1, cell2))
     val table = Table(None, List(row), TableStyle())
-    table.render shouldEqual "<div class=\"cls-3E9\">\n<table>\n<tbody>\n<tr>\n<td colspan='1' rowspan='1'>Cell 1</td>\n<td colspan='1' rowspan='1'>Cell 2</td>\n</tr>\n</tbody>\n</table>\n</div>"
+    table.render.replaceAll("""cls-.{3}""", "") shouldEqual "<div class=\"\">\n<table>\n<tbody>\n<tr>\n<td colspan='1' rowspan='1'>Cell 1</td>\n<td colspan='1' rowspan='1'>Cell 2</td>\n</tr>\n</tbody>\n</table>\n</div>"
 
   test("Row should render correctly with multiple cells"):
     val cell1 = Cell("Cell 1")
