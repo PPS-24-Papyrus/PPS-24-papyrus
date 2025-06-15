@@ -18,10 +18,9 @@ class TextTest extends AnyFunSuite:
     val text = Text("Styled Text")(textStyle)
     text.renderStyle shouldEqual ".cls-3E9 {\n  color: blue; font-style: italic;\n}"
 
-  test("Text should render empty text correctly") {
+  test("Text should render empty text correctly"):
     val text: Text = Text("")(TextStyle())
     text.render shouldEqual "<span class=\"cls-3EA\"></span>"
-  }
 
   test("Text should render correct style with multiple attributes"):
     val textStyle = TextStyle(fontStyle = "italic", color = "red", textDecoration = "underline", fontWeight = "bold")
