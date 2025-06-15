@@ -32,4 +32,3 @@ Feature: Papyrus document metadata configuration
       | font-family  | Arial        |
       | font-size    | 12px         |
       | color        | #000000      |
-

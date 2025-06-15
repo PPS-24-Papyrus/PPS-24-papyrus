@@ -8,7 +8,7 @@ import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuil
 import papyrus.logic.content.Content
 import papyrus.logic.layerElement.text.Title
 import papyrus.DSL.DSL.given_Conversion_String_ImageBuilder
-import papyrus.logic.utility.TypesInline.Width
+import papyrus.logic.utility.TypesInline.{Level, Width}
 import io.cucumber.scala.EN
 
 import scala.jdk.CollectionConverters.*
@@ -18,6 +18,7 @@ class ContentSteps extends ScalaDsl with EN with Matchers:
   private var contentBuilder: Option[ContentBuilder] = None
   private var papyrusBuilder: Option[PapyrusBuilder] = None
   private var renderedContent: Option[String] = None
+  private var sectionBuilder: Option[SectionBuilder] = None
   private var error: Option[Throwable] = None
 
   Given("""I create a Papyrus document"""):
@@ -31,11 +32,13 @@ class ContentSteps extends ScalaDsl with EN with Matchers:
 
   Given("""I add a section with title {string} and text {string}"""): (title: String, text: String) =>
     contentBuilder = Some(ContentBuilder())
-    contentBuilder.get.addLayerElement(SectionBuilder().setTitle(TitleBuilder(title).build).addLayerElement(TextBuilder(text).build).build)
+    sectionBuilder = Some(SectionBuilder().setTitle(TitleBuilder(title).build).addLayerElement(TextBuilder(text).build))
+    contentBuilder.get.addLayerElement(sectionBuilder.get.build)
 
   Given("""I add a subsection with title {string} and text {string}"""): (title: String, text: String) =>
     contentBuilder = Some(ContentBuilder())
-    contentBuilder.get.addLayerElement(SubSectionBuilder().setTitle(TitleBuilder(title).build).addLayerElement(TextBuilder(text).build).build)
+    sectionBuilder = Some(sectionBuilder.get.addLayerElement(SubSectionBuilder().setTitle(TitleBuilder(title, 2.asInstanceOf[Level]).build).addLayerElement(TextBuilder(text).build).build))
+    contentBuilder.get.addLayerElement(sectionBuilder.get.build)
 
   Given("""I add an image with source {string} and caption {string}"""): (src: String, caption: String) =>
     contentBuilder = Some(ContentBuilder())

@@ -16,7 +16,7 @@ class ContentTest extends AnyFunSuite with Matchers:
     val textStyle = TextStyle(color = "blue")
     val text = Text("Sample Text")(textStyle)
     val content = Content(Some(title), text)
-    content.render shouldEqual "<body><h1>Test Title</h1><p class=\"cls-3E8\">Sample Text</p></body>"
+    content.render shouldEqual s"""<body>\n<h1>Test Title</h1>\n<span class="cls-3E8">Sample Text</span></body>"""
 
   test("Content should render styles correctly"):
     val titleStyle = TitleStyle(fontSize = 24, textColor = "black")
@@ -28,7 +28,7 @@ class ContentTest extends AnyFunSuite with Matchers:
 
   test("Content should handle empty title and layer elements"):
     val content = Content(None, Seq.empty[LayerElement]: _*)
-    content.render shouldEqual "<body></body>"
+    content.render shouldEqual "<body>\n</body>"
     content.renderStyle shouldEqual ""
 
   test("Content should render mixed title and layer elements"):
@@ -37,4 +37,4 @@ class ContentTest extends AnyFunSuite with Matchers:
     val textStyle = TextStyle(color = "blue")
     val text = Text("Mixed Content Text")(textStyle)
     val content = Content(Some(title), text)
-    content.render shouldEqual "<body><h1>Mixed Content Title</h1><p class=\"cls-3EA\">Mixed Content Text</p></body>"
+    content.render shouldEqual s"""<body>\n<h1>Mixed Content Title</h1>\n<span class="cls-3EA">Mixed Content Text</span></body>"""

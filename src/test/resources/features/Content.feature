@@ -22,6 +22,22 @@ Feature: Papyrus document content rendering
       |</section>
       """
 
+  Scenario: Render a section and subSection with title and text
+    Given I add a section with title "titolo section" and text "testo section"
+    And I add a subsection with title "titolo subsection" and text "testo subsection"
+    When I render the document
+    Then The HTML output should contain:
+      """
+      |<section>
+      |  <h1>titolo section</h1>
+      |  <span class="cls-3EA">testo section</span>
+      |<section>
+      |  <h2>titolo subsection</h2>
+      |  <span class="cls-3EB">testo subsection</span>
+      |</section>
+      |</section>
+      """
+
   Scenario: Render a document with a list
     Given I create a Papyrus document
     And I add a list with items:
@@ -44,7 +60,7 @@ Feature: Papyrus document content rendering
     When I render the document
     Then The HTML output should contain:
       """
-      |<figure class="cls-3EB">
+      |<figcaption>dog</figcaption>
       """
 
   Scenario: Render a document with a table
