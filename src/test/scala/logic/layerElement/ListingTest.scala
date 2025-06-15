@@ -29,10 +29,7 @@ class ListingTest extends AnyFunSuite with Matchers:
 
   test("ListBuilder should build a list with multiple items"):
     val item1 = ItemBuilder().build
-    val item2 =
-      val builder = ItemBuilder()
-      builder value "Secondo elemento"
-      builder.build
+    val item2 = (ItemBuilder() value "Secondo elemento").build
 
     val listBuilder = ListBuilder()
     listBuilder.addItem(item1)

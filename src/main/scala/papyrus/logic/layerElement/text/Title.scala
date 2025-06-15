@@ -24,7 +24,7 @@ object Title:
                          ) extends Title:
 
     override def render: String = 
-      s"""<h$level>$title</h$level>"""
+      s"""<h$level>$title</h$level>\n"""
 
     override def renderStyle: String =
       s"""h$level {\n  ${titleStyle.renderStyle}\n}"""

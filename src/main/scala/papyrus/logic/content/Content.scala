@@ -21,7 +21,7 @@ object Content:
     override def render: String =
       val titleRendered = title.map(_.render).getOrElse("")
       val layerElementsRendered = layerElement.map(_.render).mkString("\n")
-      s"<body>$titleRendered$layerElementsRendered</body>"
+      s"<body>\n$titleRendered$layerElementsRendered</body>"
 
     override def renderStyle: String =
       val titleRendered = title.map(_.renderStyle).getOrElse("")

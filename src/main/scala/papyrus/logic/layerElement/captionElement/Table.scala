@@ -26,7 +26,7 @@ object Table:
     override def render: String =
       val bodyRows = rows.map(_.render).mkString
       val captionString = caption.map(c => s"<caption>$c</caption>").getOrElse("")
-      s"""<div class="${tableStyle.tag}"><table>$captionString<tbody>$bodyRows</tbody></table></div>""".stripMargin
+      s"""<div class="${tableStyle.tag}">\n<table>\n$captionString<tbody>\n$bodyRows</tbody>\n</table>\n</div>""".stripMargin
 
     override def renderStyle: String =
       tableStyle.renderStyle
@@ -37,7 +37,7 @@ object Row:
   private class RowImpl[T](override val cells: List[Cell[T]]) extends Row[T]:
     override def render: String =
       val cellStrings = cells.map(_.render).mkString
-      s"<tr>$cellStrings</tr>"
+      s"<tr>\n$cellStrings</tr>\n"
 
 object Cell:
   def apply[T](content: T, head: Boolean = false, colspan: Int = 1, rowspan: Int = 1): Cell[T] = CellImpl(content, head, colspan, rowspan)
@@ -48,4 +48,4 @@ object Cell:
                          override val rowspan: Int) extends Cell[T]:
     override def render: String =
       val tag = if head then "th" else "td"
-      s"<$tag colspan='$colspan' rowspan='$rowspan'>$content</$tag>"
+      s"<$tag colspan='$colspan' rowspan='$rowspan'>$content</$tag>\n"

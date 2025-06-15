@@ -1,11 +1,6 @@
-import io.cucumber.junit.Cucumber
-import io.cucumber.junit.CucumberOptions
 import org.junit.runner.RunWith
+import io.cucumber.junit.{Cucumber, CucumberOptions}
 
 @RunWith(classOf[Cucumber])
-@CucumberOptions(
-  features = Array("src/test/resources/features"),
-  glue = Array("steps"),
-  plugin = Array("pretty", "html:target/cucumber-report.html")
-)
+@CucumberOptions(features = Array("src/test/resources/features"))
 class RunCucumberTest

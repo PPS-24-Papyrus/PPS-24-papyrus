@@ -31,13 +31,13 @@ object Image:
           s"""<figure class="$idFigure">
              |  <img class="$idImage" src="file:///$path" alt="$alt"></img>
              |  $captionString
-             |</figure>""".stripMargin
+             |</figure>\n""".stripMargin
 
         case Left(error) =>
           s"""<figure class="$idFigure">
              |  <p style="color: red;">Error loading image: $error</p>
              |  $captionString
-             |</figure>""".stripMargin
+             |</figure>\n""".stripMargin
 
     override def renderStyle: String =
         val widthStyle = if width.isEmpty then "" else s"width: ${width.get}px;\n height: auto;"
