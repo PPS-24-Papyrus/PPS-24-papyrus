@@ -8,6 +8,7 @@ import papyrus.logic.utility.TypesInline.{Align, Alignment, ColorString, Margin,
 
 import scala.annotation.targetName
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
+import papyrus.logic.Renderer.Text.*
 
 
 class TableBuilder extends Builder[Table[String]]:

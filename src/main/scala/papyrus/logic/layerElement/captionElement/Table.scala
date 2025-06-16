@@ -6,26 +6,28 @@ import papyrus.logic.styleObjects.TableStyle
 trait  Table[T] extends CaptionElement:
   def rows: List[Row[T]]
   def tableStyle: TableStyle
+  def renderFunction: T => MainText
 
 trait Row[T]:
   def cells: List[Cell[T]]
-  def render: MainText
+  def render(renderFunction: T => MainText): MainText
 
 trait Cell[T]:
   def content: T
   def head: Boolean
   def colspan: Int
   def rowspan: Int
-  def render: MainText
+  def render(renderFunction: T => MainText): MainText
 
 object Table:
-  def apply[T](caption: Option[String], rows: List[Row[T]], tableStyle: TableStyle): Table[T] = new TableImpl(caption, rows, tableStyle)
+  def apply[T](caption: Option[String], rows: List[Row[T]], tableStyle: TableStyle, renderFunction: T => MainText = MainText(_)): Table[T] = new TableImpl(caption, rows, tableStyle, renderFunction)
 
   private class TableImpl[T](override val caption: Option[String],
                           override val rows: List[Row[T]],
-                          override val tableStyle: TableStyle) extends Table[T]:
+                          override val tableStyle: TableStyle,
+                          override val renderFunction: T => MainText) extends Table[T]:
     override def render: MainText =
-      val bodyRows = rows.map(_.render).mkString
+      val bodyRows = rows.map(_.render(renderFunction)).mkString
       val captionString = caption.map(c => s"<caption>$c</caption>").getOrElse("")
       s"""<div class="${tableStyle.tag}">\n<table>\n$captionString<tbody>\n$bodyRows</tbody>\n</table>\n</div>""".stripMargin.toMainText
 
@@ -36,8 +38,8 @@ object Row:
   def apply[T](cells: List[Cell[T]]): Row[T] = RowImpl(cells)
 
   private class RowImpl[T](override val cells: List[Cell[T]]) extends Row[T]:
-    override def render: MainText =
-      val cellStrings = cells.map(_.render).mkString
+    override def render(renderFunction: T => MainText): MainText =
+      val cellStrings = cells.map(_.render(renderFunction)).mkString
       s"<tr>\n$cellStrings</tr>\n".toMainText
 
 object Cell:
@@ -47,6 +49,6 @@ object Cell:
                          override val head: Boolean,
                          override val colspan: Int,
                          override val rowspan: Int) extends Cell[T]:
-    override def render: MainText =
+    override def render(renderFunction: T => MainText): MainText =
       val tag = if head then "th" else "td"
-      s"<$tag colspan='$colspan' rowspan='$rowspan'>$content</$tag>\n".toMainText
+      s"<$tag colspan='$colspan' rowspan='$rowspan'>${renderFunction(content)}</$tag>\n".toMainText
