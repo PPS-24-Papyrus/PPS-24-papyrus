@@ -5,7 +5,7 @@ import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.builders.ImageBuilder.caption
 import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TextDSL, TitleBuilder, TitleHandler}
-import papyrus.DSL.builders.RowBuilder.|
+import papyrus.DSL.builders.RowBuilder.{|, |-, |^}
 import papyrus.DSL.builders.TextBuilder.{newLine, *}
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.layerElement.captionElement.{Cell, Row, Table}

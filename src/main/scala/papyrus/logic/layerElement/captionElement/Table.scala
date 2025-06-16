@@ -39,17 +39,9 @@ object Table:
       validateColspanConsistency(rows) match
         case Right(_) =>
           val bodyRows = rows.map(_.render(renderFunction)).mkString
-          val captionString = caption.map(c => s"<caption>$c</caption>\n").getOrElse("")
+          val captionString = caption.map(c => s"<caption>$c</caption>").getOrElse("")
 
-          s"""<div class="${tableStyle.tag}">
-             |  <table>
-             |    $captionString
-             |    <tbody>
-             |      $bodyRows
-             |    </tbody>
-             |  </table>
-             |</div>
-             |""".stripMargin.toMainText
+          s"""<div class="${tableStyle.tag}">\n<table>\n$captionString\n<tbody>\n$bodyRows</tbody>\n</table>\n</div>""".stripMargin.toMainText
 
         case Left(errorHtml) =>
           s"""<div class="${tableStyle.tag}">
