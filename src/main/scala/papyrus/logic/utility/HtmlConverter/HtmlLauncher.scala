@@ -1,4 +1,4 @@
-package HtmlConverter
+package papyrus.logic.utility.HtmlConverter
 
 import org.xhtmlrenderer.pdf.ITextRenderer
 import papyrus.DSL.DefaultValues
