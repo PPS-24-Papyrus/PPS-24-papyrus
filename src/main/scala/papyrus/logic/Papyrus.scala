@@ -1,9 +1,9 @@
 package papyrus.logic
 
+import HtmlConverter.HtmlLauncher
 import papyrus.logic.Renderer.Text.*
 import papyrus.logic.content.Content
 import papyrus.logic.metadata.Metadata
-import papyrus.logic.utility.HtmlConverter.HtmlLauncher
 
 trait Papyrus:
   def metadata: Metadata
