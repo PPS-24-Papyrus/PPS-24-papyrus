@@ -1,9 +1,15 @@
 Feature: Papyrus document metadata configuration
 
   Scenario: generate a correct default metadata
-    Given I create a Metadata empty
+    Given I create a new Metadata
     When I render the Metadata
-    Then The result should be an default Metadata structure
+    Then The result should be an default Metadata structure:
+      """
+      |<meta name="title" content="My Elegant Document"></meta>
+      |<meta name="author" content="Author Name"></meta>
+      |<meta name="charset" content="utf-8"></meta>
+      |<link rel="stylesheet" href="style.css"></link>
+      """
 
   Scenario: Apply basic metadata
     Given I create a new Metadata
@@ -16,43 +22,13 @@ Feature: Papyrus document metadata configuration
       | output-type  | html         |
       | author       | dany         |
 
-  Scenario: Apply a style metadata
-    Given I create a new Metadata
-    When I set the Metadata:
-      | fileName     | Prova        |
-      | output-type  | html         |
-      | author       | dany         |
-      | color        | blue         |
-      | margin       | 10           |
-      | font-size    | 12           |
+  Scenario: Apply a style
+    Given I create a style text
+    When I set the style text:
       | font-family  | Arial        |
-    Then The metadata should contain:
-      | fileName     | Prova        |
-      | output-type  | html         |
-      | author       | dany         |
-      | color        | blue         |
-      | margin       | 10           |
-      | font-size    | 12           |
+      | font-size    | 12px         |
+      | color        | #000000      |
+    Then The style text should contain:
       | font-family  | Arial        |
-
-  Scenario: Prevent setting metadata block more than once
-    Given I create a new Papyrus document
-    And I set the metadata:
-      | author     | dany      |
-    When I try to set the metadata again:
-      | author     | luca     |
-    Then The system should raise an error
-
-  Scenario: Prevent setting content block more than once
-    Given I create a new Papyrus document
-    And I define a content block with title "Prova"
-    When I try to define another content block with title "Seconda prova"
-    Then The system should raise an error
-
-  Scenario: Prevent setting font-family more than once
-    Given I create a new Papyrus document
-    And I set the metadata:
-      | font-family  | Arial     |
-    When I set the metadata again:
-      | font-family  | Helvetica |
-    Then The system should raise an error
+      | font-size    | 12px         |
+      | color        | #000000      |

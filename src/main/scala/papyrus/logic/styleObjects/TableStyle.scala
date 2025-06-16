@@ -4,6 +4,7 @@ import papyrus.logic.Renderer.RendererStyle
 import papyrus.logic.utility.TypesInline.{Align, Alignment, ColorString, Margin, Width}
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.DefaultValues
+import papyrus.logic.Renderer.Text.*
 import papyrus.logic.utility.IdGenerator
 
 trait TableStyle extends RendererStyle:
@@ -32,33 +33,32 @@ object TableStyle:
                               ) extends TableStyle:
     private val id: String = IdGenerator.nextId()
 
-    override def renderStyle: String =
+    private def styleBlock(selector: String, rules: (String, String)*): String =
+      val body = rules.map { case (prop, value) => s"  $prop: $value;" }.mkString("\n")
+      s"$selector {\n$body\n}"
+
+    override def renderStyle: StyleText =
       val marginValue = Option.when(margin != DefaultValues.marginTable)(s"${margin}px").getOrElse("3% 0")
       val widthValue = Option.when(width != DefaultValues.widthTable)(s"${width}px").getOrElse("auto")
-      println(alignment)
-      s"""
-         |table {
-         |  border-collapse: collapse;
-         |}
-         |
-         |.cls-$id {
-         |  width: $widthValue;
-         |  margin: $marginValue;
-         |  display: flex;
-         |  justify-content: $alignment;
-         |  
-         |}  
-         |
-         |th, td {
-         |  border: 1px solid #ddd;
-         |  padding: 8px;
-         |}
-         |
-         |.cls-$id th {
-         |  background-color: $backgroundColor;
-         |  text-align: $textAlign;
-         |}
-      """.stripMargin
 
-    override def tag: String = 
-      s"cls-$id"  
+      List(
+        styleBlock("table", "border-collapse" -> "collapse"),
+        styleBlock(s".cls-$id",
+          "width" -> widthValue,
+          "margin" -> marginValue,
+          "display" -> "flex",
+          "justify-content" -> alignment
+        ),
+        styleBlock("th, td",
+          "border" -> "1px solid #ddd",
+          "padding" -> "8px"
+        ),
+        styleBlock(s".cls-$id th",
+          "background-color" -> backgroundColor,
+          "text-align" -> textAlign
+        )
+      ).mkString("\n\n").toStyleText
+
+
+    override def tag: String =
+        s"cls-$id"

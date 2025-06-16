@@ -3,8 +3,11 @@ package papyrus.DSL
 import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
-import papyrus.logic.builders.{ContentBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, SectionBuilder, SubSectionBuilder, TextBuilder, TextDSL, TitleBuilder, TitleHandler}
-import papyrus.logic.builders.{CellBuilder, ContentBuilder, ImageBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, TableBuilder, TextBuilder, TextDSL, TitleBuilder}
+import papyrus.DSL.builders.ImageBuilder.caption
+import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TextDSL, TitleBuilder, TitleHandler}
+import papyrus.DSL.builders.RowBuilder.|
+import papyrus.DSL.builders.TextBuilder.{newLine, *}
+import papyrus.DSL.builders.TitleBuilder.*
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.layerElement.captionElement.{Cell, Row, Table}
 import papyrus.logic.styleObjects.{TextStyle, TitleStyle}
@@ -23,164 +26,151 @@ object DSL:
 
     given builder: MetadataBuilder = MetadataBuilder()
     init
-    pb.metadata = builder.build()
+    pb.withMetadata(builder.build)
 
   def content(init: ContentBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
     given builder: ContentBuilder = ContentBuilder()
     init
-    pb.content = builder.build()
+    pb.withContent(builder.build)
 
-  def title(init: TitleBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    given builder: TitleBuilder = TitleBuilder()
+  def title(init: TitleBuilder ?=> TitleBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+    given builder: TitleBuilder = TitleBuilder() // viene passato a init
 
-    val baseTitle = init.str
+    val configuredBuilder = init // contiene textColor, fontSize, ecc.
+
+    val baseTitle = configuredBuilder.build.title
+
     val numberedTitle = ctx match
       case _: ContentBuilder => baseTitle
-      case _: SectionBuilder => SectionCounter.nextSection() + " " + baseTitle
-      case _: SubSectionBuilder => SectionCounter.nextSubsection() + " " + baseTitle
+      case _: SectionBuilder => s"${SectionCounter.nextSection()} $baseTitle"
+      case _: SubSectionBuilder => s"${SectionCounter.nextSubsection()} $baseTitle"
 
-    builder.title = numberedTitle
+    val numberedBuilder = ctx match
+      case _: ContentBuilder => configuredBuilder.title(numberedTitle).level(1)
+      case _: SectionBuilder => configuredBuilder.title(numberedTitle).level(2)
+      case _: SubSectionBuilder => configuredBuilder.title(numberedTitle).level(3)
 
     ctx match
-      case cb: ContentBuilder =>
-        builder.level = 1
-        cb.setTitle(builder.build())
-      case sb: SectionBuilder =>
-        builder.level = 2
-        sb.setTitle(builder.build())
-      case ssb: SubSectionBuilder =>
-        builder.level = 3
-        ssb.setTitle(builder.build())
+      case cb: ContentBuilder => cb.setTitle(numberedBuilder.build)
+      case sb: SectionBuilder => sb.setTitle(numberedBuilder.build)
+      case ssb: SubSectionBuilder => ssb.setTitle(numberedBuilder.build)
 
 
   def section(init: SectionBuilder ?=> Unit)(using cb: ContentBuilder): Unit =
     given builder: SectionBuilder = SectionBuilder()
     init
-    cb.addLayerElement(builder.build())
+    cb.addLayerElement(builder.build)
 
   def subsection(init: SubSectionBuilder ?=> Unit)(using cb: SectionBuilder): Unit =
     given builder: SubSectionBuilder = SubSectionBuilder()
     init
-    cb.addLayerElement(builder.build())
+    cb.addLayerElement(builder.build)
 
   def listing(init: ListBuilder ?=> Unit)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: ListBuilder = ListBuilder()
     init
     ctx match
       case cb: ContentBuilder =>
-        cb.addLayerElement(builder.build())
+        cb.addLayerElement(builder.build)
       case sb: SectionBuilder =>
-        sb.addLayerElement(builder.build())
+        sb.addLayerElement(builder.build)
       case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(builder.build())
+        ssb.addLayerElement(builder.build)
+
+  def listType(init: ListBuilder ?=> ListType)(using ctx: ListBuilder): Unit =
+    init
+    ctx.listType(init)
 
   def item(init: ItemBuilder ?=> TextDSL)(using ctx: ListBuilder): Unit =
     given builder: ItemBuilder = ItemBuilder()
-    builder.value = init.str
-    ctx.addItem(builder.build())
+    val updatedBuilder = builder.value(init.str)
+    ctx.addItem(updatedBuilder.build)
 
+  def applyTextStyle(init: TextBuilder ?=> TextBuilder, style: TextBuilder => TextBuilder)(
+    using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
 
+    given baseBuilder: TextBuilder = TextBuilder()
 
-  def text(init: TextBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    given builder: TextBuilder = TextBuilder()
-    val textWrapper = init
-    builder.value = textWrapper.str
+    val updatedBuilder = style(init)
+
     ctx match
-      case cb: ContentBuilder =>
-        cb.addLayerElement(builder.build())
-      case sb: SectionBuilder =>
-        sb.addLayerElement(builder.build())
-      case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(builder.build())
+      case cb: ContentBuilder => cb.addLayerElement(updatedBuilder.build)
+      case sb: SectionBuilder => sb.addLayerElement(updatedBuilder.build)
+      case ssb: SubSectionBuilder => ssb.addLayerElement(updatedBuilder.build)
+
+  def text(init: TextBuilder ?=> TextBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+    applyTextStyle(init, identity)
+
+  def bold(init: TextBuilder ?=> TextBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+    applyTextStyle(init, _.fontWeight("bold"))
+
+  def italic(init: TextBuilder ?=> TextBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+    applyTextStyle(init, _.fontStyle("italic"))
+
+  def underline(init: TextBuilder ?=> TextBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+    applyTextStyle(init, _.textDecoration("underline"))
 
   def nameFile(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    given builder: MetadataBuilder = MetadataBuilder()
-    init
     mb.withNameFile(init.str)
 
   def extension(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    given builder: MetadataBuilder = MetadataBuilder()
-    init
     mb.withExtension(init.str.asInstanceOf[Extension])
 
+  def path(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
+    mb.withSavingPath(init.str)
+
   def language(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    given builder: MetadataBuilder = MetadataBuilder()
-    init
     mb.withLanguage(init.str.asInstanceOf[Language])
 
   def metadataTitle(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    given builder: MetadataBuilder = MetadataBuilder()
-    init
     mb.withTitle(init.str)
 
   def author(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    given builder: MetadataBuilder = MetadataBuilder()
-    init
     mb.withAuthor(init.str)
 
   def charset(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    given builder: MetadataBuilder = MetadataBuilder()
-    init
     val updated: Unit = mb.withCharset(init.str.asInstanceOf[Charset])
 
   def styleSheet(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    given builder: MetadataBuilder = MetadataBuilder()
-    init
     mb.withStyleSheet(init.str)
 
   def style(init: MainStyleBuilder ?=> Unit)(using mb: MetadataBuilder): Unit =
     given builder: MainStyleBuilder = MainStyleBuilder()
     init
-    mb.withStyle(builder.build())
+    mb.withStyle(builder.build)
 
   def font(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
-    given builder: MainStyleBuilder = MainStyleBuilder()
-    init
-    msb.font = init.str.asInstanceOf[FontFamily]
+    msb.withFont(init.str.asInstanceOf[FontFamily])
 
   def fontSize(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
-    given builder: MainStyleBuilder = MainStyleBuilder()
-    init
-    msb.fontSize = init.str.asInstanceOf[FontSize]
+    msb.withFontSize(init.str.asInstanceOf[FontSize])
 
   def lineHeight(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
-    given builder: MainStyleBuilder = MainStyleBuilder()
-    init
-    msb.lineHeight = init.str.asInstanceOf[LineHeight]
+    msb.withLineHeight(init.str.asInstanceOf[LineHeight])
 
   def textColor(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
-    given builder: MainStyleBuilder = MainStyleBuilder()
-    init
-    msb.textColor = init.str.asInstanceOf[ColorString]
+    msb.withTextColor(init.str.asInstanceOf[ColorString])
 
   def backgroundColor(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
-    given builder: MainStyleBuilder = MainStyleBuilder()
-    init
-    msb.backgroundColor = init.str.asInstanceOf[ColorString]
+    msb.withBackgroundColor(init.str.asInstanceOf[ColorString])
 
   def textAlign(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
-    given builder: MainStyleBuilder = MainStyleBuilder()
-    init
-    msb.textAlign = init.str.asInstanceOf[Alignment]
+    msb.withTextAlign(init.str.asInstanceOf[Alignment])
 
   def margin(init: MainStyleBuilder ?=> Int)(using msb: MainStyleBuilder): Unit =
-    given builder: MainStyleBuilder = MainStyleBuilder()
-    init
-    msb.margin = init.asInstanceOf[Margin]
+    msb.withMargin(init.asInstanceOf[Margin])
 
-  def image(init: ImageBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    given builder: ImageBuilder = ImageBuilder()
-    val textWrapper = init
-    builder.src = textWrapper.str.asInstanceOf[ImageFile]
+  def image(init: ImageBuilder ?=> ImageBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+    val builder = init(using ImageBuilder())
+    val image = builder.build
+
     ctx match
-      case cb: ContentBuilder =>
-        cb.addLayerElement(builder.build())
-      case sb: SectionBuilder =>
-        sb.addLayerElement(builder.build())
-      case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(builder.build())
+      case cb: ContentBuilder => cb.addLayerElement(image)
+      case sb: SectionBuilder => sb.addLayerElement(image)
+      case ssb: SubSectionBuilder => ssb.addLayerElement(image)
 
-  def tableWithList(init: TableBuilder ?=> List[Row])(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+
+  def tableWithList(init: TableBuilder ?=> List[Row[String]])(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
     val rowsWrapper = init
     for row <- rowsWrapper yield
@@ -190,22 +180,22 @@ object DSL:
       builder.addRow(rowBuilder)
     ctx match
       case cb: ContentBuilder =>
-        cb.addLayerElement(builder.build())
+        cb.addLayerElement(builder.build)
       case sb: SectionBuilder =>
-        sb.addLayerElement(builder.build())
+        sb.addLayerElement(builder.build)
       case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(builder.build())
+        ssb.addLayerElement(builder.build)
 
   def table(init: TableBuilder ?=> Unit)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
     init
     ctx match
       case cb: ContentBuilder =>
-        cb.addLayerElement(builder.build())
+        cb.addLayerElement(builder.build)
       case sb: SectionBuilder =>
-        sb.addLayerElement(builder.build())
+        sb.addLayerElement(builder.build)
       case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(builder.build())
+        ssb.addLayerElement(builder.build)
 
   def caption(init: TableBuilder ?=> TextDSL)(using tb: TableBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
@@ -237,22 +227,24 @@ object DSL:
     init
     tb.alignment = init.str.asInstanceOf[Align]
 
-  extension (rowBuilder: RowBuilder)
-    def |(content: String): RowBuilder =
-      rowBuilder.addCell(CellBuilder().withContent(content))
-      rowBuilder
-
-  given Conversion[List[String], Row] with
-    def apply(list: List[String]): Row =
+  given Conversion[List[String], Row[String]] with
+    def apply(list: List[String]): Row[String] =
       val rowBuilder = RowBuilder()
       for str <- list do
         rowBuilder.addCell(CellBuilder().withContent(str))
-      rowBuilder.build()
+      rowBuilder.build
 
   given Conversion[String, TextDSL] with
     def apply(str: String): TextDSL = TextDSL(str)
 
+  given Conversion[String, TextBuilder] with
+    def apply(str: String): TextBuilder = TextBuilder(str)
 
+  given Conversion[String, TitleBuilder] with
+    def apply(str: String): TitleBuilder = TitleBuilder(str)
+
+  given Conversion[String, ImageBuilder] with
+    def apply(str: String): ImageBuilder = ImageBuilder(str)
 
   @main def provaFunc(): Unit =
     papyrus:
@@ -264,15 +256,22 @@ object DSL:
         author:
           "LucaDani"
         extension:
-          "pdf"
+          "html"
+        style:
+          margin:
+            150
+          font:
+            "Arial"
       content:
         title:
-          "End 3rd Sprint"
+          "End 3rd Sprint" textColor "red"
+        bold:
+          "Normale"
         section:
           title:
             "Table and listing"
           text:
-            "Let's try to print a table."
+            "Let's try to print a table." newLine "Ciao"
           table:
             "1" | "2" | "3"
             "4" | "5" | "6"
@@ -280,13 +279,18 @@ object DSL:
             caption:
               "This is our first table:"
             alignTable:
-              "right"
+              "center"
           subsection:
             title:
               "Listing"
+            underline:
+              "Prova grassetto"
             text:
-              "This is our first list:"
+              "\nWhy do we use it?\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\n\n\nWhere does it come from?\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.\n\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from \"de Finibus Bonorum et Malorum\" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.\n\nWhere can I get some?\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.'" fontWeight "bold"
+
             listing:
+              listType:
+                "ul"
               item:
                 "First element"
               item:
@@ -299,6 +303,4 @@ object DSL:
           text:
             "This is our first image:"
           image:
-            "C:/Users/danie/OneDrive/Documenti/GitHub/PPS-24-papyrus/src/main/resources/PapyrusLogo.png" caption "This is papyrus logo" alternative "No image found" width 200
-
-
+            "src/main/resources/PapyrusLogo.png" caption "This is papyrus logo" alternative "No image found" width 200

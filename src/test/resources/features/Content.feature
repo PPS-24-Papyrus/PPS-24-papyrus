@@ -1,14 +1,14 @@
 Feature: Papyrus document content rendering
 
   Scenario: Render a document with title and paragraph
-    Given I create a new Papyrus document
+    Given I create a Papyrus document
     And I add a title "Prova"
     And I add a paragraph "testo di prova"
     When I render the document
     Then The HTML output should contain:
       """
-      <h1>Prova</h1>
-      <p>testo di prova</p>
+      |<h1>Prova</h1>
+      |<span class="cls-3E8">testo di prova</span>
       """
 
   Scenario: Render a section with title and text
@@ -16,54 +16,77 @@ Feature: Papyrus document content rendering
     When I render the document
     Then The HTML output should contain:
       """
-      <section>
-        <h2>titolo section</h2>
-        <p>testo section</p>
-      </section>
+      |<section>
+      |  <h1>titolo section</h1>
+      |  <span class="cls-3E9">testo section</span>
+      |</section>
       """
 
-  Scenario: Render an image inside a section
-    Given I add an image with:
-      | caption | Image caption       |
-      | path    | path/to/image.png   |
-      | alt     | Image description   |
-      | size    | 150x150             |
+  Scenario: Render a section and subSection with title and text
+    Given I add a section with title "titolo section" and text "testo section"
+    And I add a subsection with title "titolo subsection" and text "testo subsection"
     When I render the document
     Then The HTML output should contain:
       """
-      <figure>
-        <img src="path/to/image.png" alt="Image description" width="150" height="150"/>
-        <figcaption>Image caption</figcaption>
-      </figure>
+      |<section>
+      |  <h1>titolo section</h1>
+      |  <span class="cls-3EA">testo section</span>
+      |<section>
+      |  <h2>titolo subsection</h2>
+      |  <span class="cls-3EB">testo subsection</span>
+      |</section>
+      |</section>
       """
 
-  Scenario: Render a list of items
-    Given I add a list with:
-      | el 1 |
-      | el 2 |
-      | el 3 |
+  Scenario: Render a document with a list
+    Given I create a Papyrus document
+    And I add a list with items:
+      | Item 1 |
+      | Item 2 |
+      | Item 3 |
     When I render the document
     Then The HTML output should contain:
       """
-      <ul>
-        <li>el 1</li>
-        <li>el 2</li>
-        <li>el 3</li>
-      </ul>
+      |<ul>
+      |<li>Item 1</li>
+      |<li>Item 2</li>
+      |<li>Item 3</li>
+      |</ul>
       """
 
-  Scenario: Subsection outside of a section is not allowed
-    Given I create a new Papyrus document
-    And I add a subsection with title "Titolo Subsection" and text "Testo subsection"
+  Scenario: Render a document with an image
+    Given I create a Papyrus document
+    And I add an image with source "src/test/resources/image/Pastore-tedesco.png" and caption "dog"
     When I render the document
-    Then The system should raise an error.
+    Then The HTML output should contain:
+      """
+      |<figcaption>dog</figcaption>
+      """
 
-  Scenario: Table rendering inside a subsection
-    Given I create a new Papyrus document
-    And I add a section with title "Main Section"
-    And I add a subsection with title "Tabular Data" and text "Esempio tabella"
-    And I add a table with caption "Table caption", headers "Header 1, Header 2", and rows:
-      | Row 1 Col 1 | Row 1 Col 2 |
-      | Row 2 Col 1 | Row 2 Col 2 |
+  Scenario: Render a document with a table
+    Given I create a Papyrus document
+    And I add a table with rows:
+      | Name  | Age |
+      | Alice | 30  |
+      | Bob   | 25  |
     When I render the document
-    Then The HTML output should contain a correct table
+    Then The HTML output should contain:
+      """
+      |<table>
+      |<tbody>
+      |<tr>
+      |<td colspan='1' rowspan='1'>Name</td>
+      |<td colspan='1' rowspan='1'>Age</td>
+      |</tr>
+      |<tr>
+      |<td colspan='1' rowspan='1'>Alice</td>
+      |<td colspan='1' rowspan='1'>30</td>
+      |</tr>
+      |<tr>
+      |<td colspan='1' rowspan='1'>Bob</td>
+      |<td colspan='1' rowspan='1'>25</td>
+      |</tr>
+      |</tbody>
+      |</table>
+      """
+

@@ -6,6 +6,7 @@ import papyrus.logic.layerElement.LayerElement
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.DefaultValues
 import papyrus.logic.Renderer.RendererStyle
+import papyrus.logic.Renderer.Text.*
 import papyrus.logic.utility.IdGenerator
 
 trait TextStyle extends RendererStyle:
@@ -31,13 +32,13 @@ object TextStyle:
                          ) extends TextStyle:
     private val id: String = IdGenerator.nextId()
     
-    override def renderStyle: String =
+    override def renderStyle: StyleText =
       List(
         Option.when(color != DefaultValues.colorText)(Style.textColor(color)),
         Option.when(fontWeight != DefaultValues.fontWeightText)(Style.fontWeight(fontWeight)),
         Option.when(fontStyle != DefaultValues.fontStyleText)(Style.fontStyle(fontStyle)),
         Option.when(textDecoration != DefaultValues.textDecorationText)(Style.textDecoration(textDecoration))
-      ).flatten.mkString(" ")
+      ).flatten.mkString(" ").toStyleText
 
     override def tag: String =
       s"cls-$id"
