@@ -4,6 +4,7 @@ import papyrus.logic.Renderer.RendererStyle
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.DefaultValues
+import papyrus.logic.Renderer.Text.*
 import papyrus.logic.Style
 
 trait MainStyle extends RendererStyle:
@@ -37,7 +38,7 @@ object MainStyle:
                                override val textAlign: Alignment,
                                override val margin: Margin
                              ) extends MainStyle:
-    override def renderStyle: String =
+    override def renderStyle: StyleText =
       Seq(
         Style.font(font),
         Style.fontSize(fontSize),
@@ -46,7 +47,7 @@ object MainStyle:
         Style.backgroundColor(backgroundColor),
         Style.textAlign(textAlign),
         Style.margin(margin),
-      ).mkString("\n  ")
+      ).mkString("\n  ").toStyleText
       
     override def tag: String =
       s"""body""" 
