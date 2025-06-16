@@ -10,6 +10,7 @@ import papyrus.logic.layerElement.text.Title
 import papyrus.DSL.DSL.given_Conversion_String_ImageBuilder
 import papyrus.logic.utility.TypesInline.{Level, Width}
 import io.cucumber.scala.EN
+import papyrus.logic.Renderer.*
 
 import scala.jdk.CollectionConverters.*
 
@@ -72,7 +73,7 @@ class ContentSteps extends ScalaDsl with EN with Matchers:
 
   When("""I render the document"""):
     try
-      renderedContent = Some(contentBuilder.get.build.render)
+      renderedContent = Some(contentBuilder.get.build.render.string)
     catch
       case e: Throwable => error = Some(e)
 

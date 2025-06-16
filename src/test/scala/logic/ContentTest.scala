@@ -7,6 +7,7 @@ import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.styleObjects.{TextStyle, TitleStyle}
 import io.github.iltotore.iron.autoRefine
+import papyrus.logic.Renderer.*
 
 class ContentTest extends AnyFunSuite with Matchers:
 
@@ -16,7 +17,7 @@ class ContentTest extends AnyFunSuite with Matchers:
     val textStyle = TextStyle(color = "blue")
     val text = Text("Sample Text")(textStyle)
     val content = Content(Some(title), text)
-    content.render.replaceAll("""cls-.{3}""", "") shouldEqual s"""<body>\n<h1>Test Title</h1>\n<span class="">Sample Text</span></body>"""
+    content.render.string.replaceAll("""cls-.{3}""", "") shouldEqual s"""<body>\n<h1>Test Title</h1>\n<span class="">Sample Text</span></body>"""
 
   test("Content should render styles correctly"):
     val titleStyle = TitleStyle(fontSize = 24, textColor = "black")
@@ -24,12 +25,12 @@ class ContentTest extends AnyFunSuite with Matchers:
     val textStyle = TextStyle(color = "blue")
     val text = Text("Sample Text")(textStyle)
     val content = Content(Some(title), text)
-    content.renderStyle.replaceAll("""cls-.{3}""", "") shouldEqual "h1 {\n  font-family: Helvetica; font-size: 24px; color: black; text-align: center;\n}\n. {\n  color: blue;\n}"
+    content.renderStyle.string.replaceAll("""cls-.{3}""", "") shouldEqual "h1 {\n  font-family: Helvetica; font-size: 24px; color: black; text-align: center;\n}\n. {\n  color: blue;\n}"
 
   test("Content should handle empty title and layer elements"):
     val content = Content(None, Seq.empty[LayerElement]: _*)
-    content.render shouldEqual "<body>\n</body>"
-    content.renderStyle shouldEqual ""
+    content.render.string shouldEqual "<body>\n</body>"
+    content.renderStyle.string shouldEqual ""
 
   test("Content should render mixed title and layer elements"):
     val titleStyle = TitleStyle(fontSize = 24, textColor = "black")
@@ -37,4 +38,4 @@ class ContentTest extends AnyFunSuite with Matchers:
     val textStyle = TextStyle(color = "blue")
     val text = Text("Mixed Content Text")(textStyle)
     val content = Content(Some(title), text)
-    content.render.replaceAll("""cls-.{3}""", "") shouldEqual s"""<body>\n<h1>Mixed Content Title</h1>\n<span class="">Mixed Content Text</span></body>"""
+    content.render.string.replaceAll("""cls-.{3}""", "") shouldEqual s"""<body>\n<h1>Mixed Content Title</h1>\n<span class="">Mixed Content Text</span></body>"""
