@@ -20,7 +20,7 @@ object SubSection:
     override def render: String =
       val titleRendered = title.map(_.render).getOrElse("")
       val layerElementsRendered = layerElement.map(_.render).mkString("\n")
-      s"<section>$titleRendered$layerElementsRendered</section>"
+      s"<section>\n  $titleRendered  $layerElementsRendered\n</section>"
 
     override def renderStyle: String =
       val titleRendered = title.map(_.renderStyle).getOrElse("")

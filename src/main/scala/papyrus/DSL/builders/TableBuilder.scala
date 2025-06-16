@@ -20,11 +20,13 @@ class TableBuilder extends Builder[Table[String]]:
   var alignment: Align = DefaultValues.alignTable
   
 
-  def withCaption(caption: String): Unit =
+  def withCaption(caption: String): TableBuilder =
     this.caption = Some(caption)
+    this
 
-  def addRow(row: RowBuilder): Unit =
+  def addRow(row: RowBuilder): TableBuilder =
     rows += row
+    this
 
   override def build: Table[String] = Table(caption, rows.map(_.build).toList, TableStyle(backgroundColor, margin, textAlign, width, alignment))
 

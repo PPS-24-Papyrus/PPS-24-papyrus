@@ -12,11 +12,13 @@ case class SubSectionBuilder(
                               private val layerElements: ListBuffer[LayerElement] = ListBuffer.empty
                             ) extends Builder[SubSection]:
 
-  def setTitle(newTitle: Title): Unit =
+  def setTitle(newTitle: Title): SubSectionBuilder =
     title = Some(newTitle)
+    this
 
-  def addLayerElement(element: LayerElement): Unit =
+  def addLayerElement(element: LayerElement): SubSectionBuilder =
     layerElements += element
+    this
 
   override def build: SubSection = SubSection(title, layerElements.toSeq*)
 

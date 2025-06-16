@@ -12,11 +12,13 @@ case class SectionBuilder(
                               private val layerElements: ListBuffer[LayerElement] = ListBuffer.empty
                             ) extends Builder[Section]:
 
-  def setTitle(newTitle: Title): Unit =
+  def setTitle(newTitle: Title): SectionBuilder =
     title = Some(newTitle)
+    this
 
-  def addLayerElement(element: LayerElement): Unit =
+  def addLayerElement(element: LayerElement): SectionBuilder =
     layerElements += element
+    this
 
   override def build: Section = Section(title, layerElements.toSeq*)
 

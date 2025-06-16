@@ -9,14 +9,11 @@ import papyrus.logic.utility.TypesInline.*
 
 class SectionAndSubSectionTest extends AnyFunSuite with Matchers:
 
-  test("Section should render HTML with title and one paragraph") {
-    val titleBuilder = TitleBuilder()
-    titleBuilder title "Section Title"
-    titleBuilder level 2
+  test("Section should render HTML with title and one paragraph"):
+    val titleBuilder = TitleBuilder() title "Section Title" level 2
     val title = titleBuilder.build
 
-    val textBuilder = TextBuilder()
-    textBuilder value "This is a paragraph."
+    val textBuilder = TextBuilder() value "This is a paragraph."
     val text = textBuilder.build
 
     val sectionBuilder = SectionBuilder()
@@ -28,16 +25,12 @@ class SectionAndSubSectionTest extends AnyFunSuite with Matchers:
     section.render should include("This is a paragraph.")
     section.render should startWith("<section>")
     section.render should endWith("</section>")
-  }
 
-  test("Section should render correct CSS styles for title and text") {
-    val titleBuilder = TitleBuilder()
-    titleBuilder title "Styled Section"
-    titleBuilder level 2
+  test("Section should render correct CSS styles for title and text"):
+    val titleBuilder = TitleBuilder() title "Styled Section" level 2
     val title = titleBuilder.build
 
-    val textBuilder = TextBuilder()
-    textBuilder value "Styled paragraph."
+    val textBuilder = TextBuilder() value "Styled paragraph."
     val text = textBuilder.build
     val className = text.render.split("class=\"")(1).takeWhile(_ != '"')
 
@@ -49,16 +42,12 @@ class SectionAndSubSectionTest extends AnyFunSuite with Matchers:
     section.renderStyle should include("h2 {")
     section.renderStyle should include(s".$className {")
     section.renderStyle should include("font-family:")
-  }
 
-  test("SubSection should render with H3 title and paragraph") {
-    val titleBuilder = TitleBuilder()
-    titleBuilder title "Subsection Title"
-    titleBuilder level 3
+  test("SubSection should render with H3 title and paragraph"):
+    val titleBuilder = TitleBuilder() title "Subsection Title" level 3
     val title = titleBuilder.build
 
-    val textBuilder = TextBuilder()
-    textBuilder value "Sub content"
+    val textBuilder = TextBuilder() value "Sub content"
     val text = textBuilder.build
 
     val subSectionBuilder = SubSectionBuilder()
@@ -69,11 +58,9 @@ class SectionAndSubSectionTest extends AnyFunSuite with Matchers:
     subSection.render should include("<h3>Subsection Title</h3>")
     subSection.render should include("Sub content")
     subSection.render should startWith("<section>")
-  }
 
-  test("SubSection should render only text if title is not set") {
-    val textBuilder = TextBuilder()
-    textBuilder value "Lonely text"
+  test("SubSection should render only text if title is not set"):
+    val textBuilder = TextBuilder() value "Lonely text"
     val text = textBuilder.build
 
     val subSectionBuilder = SubSectionBuilder()
@@ -82,12 +69,10 @@ class SectionAndSubSectionTest extends AnyFunSuite with Matchers:
     
     subSection.render should include("Lonely text")
     subSection.render should not include "<h3>"
-  }
 
-  test("Empty Section should render empty section element") {
+  test("Empty Section should render empty section element"):
     val sectionBuilder = SectionBuilder()
     val section = sectionBuilder.build
 
-    section.render shouldEqual "<section></section>"
+    section.render shouldEqual "<section>\n    \n</section>"
     section.renderStyle.trim shouldEqual ""
-  }
