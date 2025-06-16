@@ -7,6 +7,7 @@ import papyrus.DSL.builders.ImageBuilder.caption
 import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TextDSL, TitleBuilder, TitleHandler}
 import papyrus.DSL.builders.RowBuilder.|
 import papyrus.DSL.builders.TextBuilder.{newLine, *}
+import papyrus.DSL.builders.TitleBuilder.*
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.layerElement.captionElement.{Cell, Row, Table}
 import papyrus.logic.styleObjects.{TextStyle, TitleStyle}
@@ -32,28 +33,27 @@ object DSL:
     init
     pb.withContent(builder.build)
 
-  def title(init: TitleBuilder ?=> TextDSL)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    given baseBuilder: TitleBuilder = TitleBuilder()
+  def title(init: TitleBuilder ?=> TitleBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+    given builder: TitleBuilder = TitleBuilder() // viene passato a init
 
-    val baseTitle = init.str
+    val configuredBuilder = init // contiene textColor, fontSize, ecc.
+
+    val baseTitle = configuredBuilder.build.title
+
     val numberedTitle = ctx match
       case _: ContentBuilder => baseTitle
-      case _: SectionBuilder => SectionCounter.nextSection() + " " + baseTitle
-      case _: SubSectionBuilder => SectionCounter.nextSubsection() + " " + baseTitle
+      case _: SectionBuilder => s"${SectionCounter.nextSection()} $baseTitle"
+      case _: SubSectionBuilder => s"${SectionCounter.nextSubsection()} $baseTitle"
 
-    var updatedBuilder = baseBuilder.title(numberedTitle)
+    val numberedBuilder = ctx match
+      case _: ContentBuilder => configuredBuilder.title(numberedTitle).level(1)
+      case _: SectionBuilder => configuredBuilder.title(numberedTitle).level(2)
+      case _: SubSectionBuilder => configuredBuilder.title(numberedTitle).level(3)
 
     ctx match
-      case cb: ContentBuilder =>
-        updatedBuilder = updatedBuilder.level(1)
-        cb.setTitle(updatedBuilder.build)
-      case sb: SectionBuilder =>
-        updatedBuilder = updatedBuilder.level(2)
-        sb.setTitle(updatedBuilder.build)
-      case ssb: SubSectionBuilder =>
-        updatedBuilder = updatedBuilder.level(3)
-        ssb.setTitle(updatedBuilder.build)
-
+      case cb: ContentBuilder => cb.setTitle(numberedBuilder.build)
+      case sb: SectionBuilder => sb.setTitle(numberedBuilder.build)
+      case ssb: SubSectionBuilder => ssb.setTitle(numberedBuilder.build)
 
 
   def section(init: SectionBuilder ?=> Unit)(using cb: ContentBuilder): Unit =
@@ -240,6 +240,8 @@ object DSL:
   given Conversion[String, TextBuilder] with
     def apply(str: String): TextBuilder = TextBuilder(str)
 
+  given Conversion[String, TitleBuilder] with
+    def apply(str: String): TitleBuilder = TitleBuilder(str)
 
   given Conversion[String, ImageBuilder] with
     def apply(str: String): ImageBuilder = ImageBuilder(str)
@@ -254,9 +256,7 @@ object DSL:
         author:
           "LucaDani"
         extension:
-          "pdf"
-        path:
-          "C:\\Users\\lucac\\OneDrive\\Desktop\\Computer\\Universita\\magistrale\\Semestre2\\PPS\\Papyrus24Project\\src\\main\\resources"
+          "html"
         style:
           margin:
             150
@@ -264,7 +264,7 @@ object DSL:
             "Arial"
       content:
         title:
-          "End 3rd Sprint"
+          "End 3rd Sprint" textColor "red"
         bold:
           "Normale"
         section:
