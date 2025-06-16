@@ -116,6 +116,9 @@ object DSL:
   def extension(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
     mb.withExtension(init.str.asInstanceOf[Extension])
 
+  def path(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
+    mb.withSavingPath(init.str)
+
   def language(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
     mb.withLanguage(init.str.asInstanceOf[Language])
 
@@ -251,7 +254,9 @@ object DSL:
         author:
           "LucaDani"
         extension:
-          "html"
+          "pdf"
+        path:
+          "C:\\Users\\lucac\\OneDrive\\Desktop\\Computer\\Universita\\magistrale\\Semestre2\\PPS\\Papyrus24Project\\src\\main\\resources"
         style:
           margin:
             150

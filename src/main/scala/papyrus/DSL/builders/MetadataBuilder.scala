@@ -6,12 +6,13 @@ import papyrus.logic.utility.TypesInline.{Charset, Extension, Language}
 import papyrus.DSL.DefaultValues
 
 enum Field:
-  case NameFile, Extension, Language, Title, Author, Charset, StyleSheet, Style
+  case NameFile, Extension, SavingPath, Language, Title, Author, Charset, StyleSheet, Style
 
 class MetadataBuilder extends Builder[Metadata]:
 
   private var _nameFile: String = DefaultValues.nameFile
   private var _extension: Extension = DefaultValues.extension
+  private var _savingPath: String = ""
   private var _language: Language = DefaultValues.language
   private var _title: String = DefaultValues.title
   private var _author: String = DefaultValues.author
@@ -34,6 +35,9 @@ class MetadataBuilder extends Builder[Metadata]:
   def withExtension(value: Extension): MetadataBuilder =
     setOnce(Field.Extension, (v: Extension) => _extension = v)(value)
 
+  def withSavingPath(value: String): MetadataBuilder =
+    setOnce(Field.SavingPath, (v: String) => _savingPath = v)(value)
+
   def withLanguage(value: Language): MetadataBuilder =
     setOnce(Field.Language, (v: Language) => _language = v)(value)
 
@@ -53,4 +57,4 @@ class MetadataBuilder extends Builder[Metadata]:
     setOnce(Field.Style, (v: MainStyle) => _style = v)(value)
 
   override def build: Metadata =
-    Metadata(_nameFile, _extension, _style, _language, _title, _author, _charset, _styleSheet)
+    Metadata(_nameFile, _extension, _savingPath, _style, _language, _title, _author, _charset, _styleSheet)

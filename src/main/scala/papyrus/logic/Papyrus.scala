@@ -19,4 +19,5 @@ object Papyrus:
     private val html: String = s"<!DOCTYPE html>\n  <html>" + "\n  " + metadata.render + "\n  " + content.render + "\n" + """</html>"""
 
     override def build(): Unit =
-        HtmlLauncher.launchFile(html, css, "Papyrus", metadata.extension, metadata.nameFile)
+        HtmlLauncher.launchFile(html, css, "Papyrus", metadata.extension, metadata.nameFile, metadata.savingPath match 
+          case "" => None case path => Some(path))
