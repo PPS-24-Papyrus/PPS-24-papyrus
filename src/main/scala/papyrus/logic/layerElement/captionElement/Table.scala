@@ -19,20 +19,61 @@ trait Cell[T]:
   def rowspan: Int
   def render(renderFunction: T => MainText): MainText
 
-object Table:
-  def apply[T](caption: Option[String], rows: List[Row[T]], tableStyle: TableStyle, renderFunction: T => MainText = MainText(_)): Table[T] = new TableImpl(caption, rows, tableStyle, renderFunction)
 
-  private class TableImpl[T](override val caption: Option[String],
-                          override val rows: List[Row[T]],
-                          override val tableStyle: TableStyle,
-                          override val renderFunction: T => MainText) extends Table[T]:
+object Table:
+  def apply[T](
+               caption: Option[String],
+               rows: List[Row[T]],
+               tableStyle: TableStyle,
+               renderFunction: T => MainText = MainText(_)
+             ): Table[T] = TableImpl(caption, rows, tableStyle, renderFunction)
+
+  private case class TableImpl[T](
+                              override val caption: Option[String],
+                              override val rows: List[Row[T]],
+                              override val tableStyle: TableStyle,
+                              override val renderFunction: T => MainText
+                            ) extends Table[T]:
+
     override def render: MainText =
-      val bodyRows = rows.map(_.render(renderFunction)).mkString
-      val captionString = caption.map(c => s"<caption>$c</caption>").getOrElse("")
-      s"""<div class="${tableStyle.tag}">\n<table>\n$captionString<tbody>\n$bodyRows</tbody>\n</table>\n</div>""".stripMargin.toMainText
+      validateColspanConsistency(rows) match
+        case Right(_) =>
+          val bodyRows = rows.map(_.render(renderFunction)).mkString
+          val captionString = caption.map(c => s"<caption>$c</caption>\n").getOrElse("")
+
+          s"""<div class="${tableStyle.tag}">
+             |  <table>
+             |    $captionString
+             |    <tbody>
+             |      $bodyRows
+             |    </tbody>
+             |  </table>
+             |</div>
+             |""".stripMargin.toMainText
+
+        case Left(errorHtml) =>
+          s"""<div class="${tableStyle.tag}">
+             |  <p style="color:red;">$errorHtml</p>
+             |</div>
+             |""".stripMargin.toMainText
 
     override def renderStyle: StyleText =
       tableStyle.renderStyle
+
+    private def validateColspanConsistency(rows: List[Row[_]]): Either[String, Unit] =
+      val colCounts = rows.zipWithIndex.map { case (row, i) =>
+        val totalCols = row.cells.map(_.colspan).sum
+        (i, totalCols)
+      }
+
+      val distinctCounts = colCounts.map(_._2).distinct
+
+      if distinctCounts.size <= 1 then Right(())
+      else
+        val details = colCounts.map((i, c) => s"Row $i → $c columns").mkString("<br>")
+        Left(s"<div style='color:red'><strong>Table structure error:</strong><br>$details</div>")
+
+
 
 object Row:
   def apply[T](cells: List[Cell[T]]): Row[T] = RowImpl(cells)
