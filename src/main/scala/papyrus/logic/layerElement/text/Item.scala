@@ -4,6 +4,7 @@ package papyrus.logic.layerElement.text
 import papyrus.logic.utility.TypesInline.*
 import papyrus.logic.layerElement.LayerElement
 import io.github.iltotore.iron.autoRefine
+import papyrus.logic.Renderer.Text.*
 
 trait Item extends LayerElement:
   def item: String
@@ -16,8 +17,8 @@ object Item:
                           override val item: String,
                         ) extends Item:
 
-    override def render: String =
-      s"""<li>$item</li>"""
+    override def render: MainText =
+      s"""<li>$item</li>""".toMainText
 
-    override def renderStyle: String =
-      s""
+    override def renderStyle: StyleText =
+      s"".toStyleText

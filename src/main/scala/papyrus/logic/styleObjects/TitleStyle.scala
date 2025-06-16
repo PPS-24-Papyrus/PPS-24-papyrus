@@ -6,6 +6,7 @@ import papyrus.logic.layerElement.LayerElement
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.DefaultValues
 import papyrus.logic.Renderer.RendererStyle
+import papyrus.logic.Renderer.Text.*
 import papyrus.logic.utility.IdGenerator
 
 trait TitleStyle extends RendererStyle:
@@ -29,11 +30,11 @@ object TitleStyle:
                            override val textAlign: Alignment
                          ) extends TitleStyle:
 
-    override def renderStyle: String =
+    override def renderStyle: StyleText =
       Seq(
         Style.font(font),
         Style.fontSize(fontSize),
         Style.textColor(textColor),
         Style.textAlign(textAlign)
-      ).mkString(" ")
+      ).mkString(" ").toStyleText
 

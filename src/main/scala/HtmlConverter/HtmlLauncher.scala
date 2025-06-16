@@ -2,6 +2,7 @@ package HtmlConverter
 
 import org.xhtmlrenderer.pdf.ITextRenderer
 import papyrus.DSL.DefaultValues
+import papyrus.logic.Renderer.Text.*
 import papyrus.logic.utility.TypesInline.Extension
 
 import java.awt.Desktop
@@ -32,8 +33,8 @@ object HtmlLauncher:
     """.stripMargin
 
   def launchFile(
-                  htmlContent: String,
-                  cssContent: String,
+                  htmlContent: MainText,
+                  cssContent: StyleText,
                   title: String,
                   extension: Extension,
                   nameFile: String,
@@ -44,12 +45,12 @@ object HtmlLauncher:
       .map(path => if Files.exists(path) then path else Files.createDirectories(path))
       .getOrElse(Files.createTempDirectory(s"${title}_tmp"))
 
-    val cssFinal = if extension == "pdf" then s"$cssContent\n$cssContentPdf" else cssContent
+    val cssFinal = if extension == "pdf" then s"$cssContent\n$cssContentPdf" else cssContent.string
     val htmlPath = targetDir.resolve(s"$nameFile.html")
     val cssPath = targetDir.resolve(DefaultValues.styleSheet)
 
     Files.writeString(cssPath, cssFinal)
-    Files.writeString(htmlPath, htmlContent)
+    Files.writeString(htmlPath, htmlContent.string)
 
     extension match
       case "html" => openInBrowser(htmlPath)

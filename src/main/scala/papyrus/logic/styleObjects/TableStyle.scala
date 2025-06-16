@@ -4,6 +4,7 @@ import papyrus.logic.Renderer.RendererStyle
 import papyrus.logic.utility.TypesInline.{Align, Alignment, ColorString, Margin, Width}
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.DefaultValues
+import papyrus.logic.Renderer.Text.*
 import papyrus.logic.utility.IdGenerator
 
 trait TableStyle extends RendererStyle:
@@ -36,7 +37,7 @@ object TableStyle:
       val body = rules.map { case (prop, value) => s"  $prop: $value;" }.mkString("\n")
       s"$selector {\n$body\n}"
 
-    override def renderStyle: String =
+    override def renderStyle: StyleText =
       val marginValue = Option.when(margin != DefaultValues.marginTable)(s"${margin}px").getOrElse("3% 0")
       val widthValue = Option.when(width != DefaultValues.widthTable)(s"${width}px").getOrElse("auto")
 
@@ -56,7 +57,7 @@ object TableStyle:
           "background-color" -> backgroundColor,
           "text-align" -> textAlign
         )
-      ).mkString("\n\n")
+      ).mkString("\n\n").toStyleText
 
 
     override def tag: String =

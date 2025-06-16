@@ -2,12 +2,12 @@ package steps
 
 import io.cucumber.datatable.DataTable
 import io.cucumber.scala.{EN, ScalaDsl}
-import org.scalatest.Assertions.*
 import org.scalatest.matchers.should.Matchers.*
 import papyrus.DSL.builders.{MainStyleBuilder, MetadataBuilder}
 import papyrus.logic.metadata.Metadata
 import papyrus.logic.styleObjects.MainStyle
 import papyrus.logic.utility.TypesInline.{Charset, ColorString, Extension, FontFamily, FontSize, Language}
+import papyrus.logic.Renderer.*
 
 
 class MetadataSteps extends ScalaDsl with EN:
@@ -48,7 +48,7 @@ class MetadataSteps extends ScalaDsl with EN:
 
   Then("""The result should be an default Metadata structure:"""): (expectedOutput: String) =>
     renderedMetadata should not be empty
-    renderedMetadata.get.render should include(expectedOutput.stripMargin)
+    renderedMetadata.get.render.string should include(expectedOutput.stripMargin)
 
   Then("""The metadata should contain:"""): (table: DataTable) =>
     val data: Map[String, String] = table.asMaps(classOf[String], classOf[String]).asScala.head.asScala.toMap
@@ -63,7 +63,7 @@ class MetadataSteps extends ScalaDsl with EN:
       case (b, _) => b
     }.build.render
     renderedMetadata should not be empty
-    renderedMetadata.get.render should include(expectedMetadata)
+    renderedMetadata.get.render.string should include(expectedMetadata.string)
 
   Given("""I create a style text"""):
     styleBuilder = Some(new MainStyleBuilder())
@@ -89,5 +89,5 @@ class MetadataSteps extends ScalaDsl with EN:
       case (b, _) => b
     }.build
     builtStyle should not be empty
-    builtStyle.get.renderStyle should include(expectedStyle.renderStyle)
+    builtStyle.get.renderStyle.string should include(expectedStyle.renderStyle.string)
 
