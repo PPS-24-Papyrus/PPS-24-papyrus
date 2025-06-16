@@ -5,8 +5,9 @@ import io.github.iltotore.iron.autoRefine
 import papyrus.logic.layerElement.captionElement.Row
 
 
-class TextDSL(val str: String):
+class TextDSL(val str: String)
 
+  /*
   def titleColor(c: ColorString)(using tb: TitleBuilder): TextDSL =
     tb.title(str)
     tb.textColor(c)
@@ -26,6 +27,8 @@ class TextDSL(val str: String):
     tb.title(str)
     tb.font(ff)
     str
+
+  */
 /*
   def color(c: ColorString)(using tb: TextBuilder): TextDSL =
     tb.value(str)

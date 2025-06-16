@@ -28,21 +28,24 @@ trait Metadata extends Renderer:
   def nameFile: String
   def language: Language
   def extension: Extension
+  def savingPath: String
   def metaTags: Seq[MetaTag]
 
 object Metadata:
   def apply(nameFile: String = DefaultValues.nameFile,
             extension: Extension = DefaultValues.extension,
+            savingPath: String = "",
             style: MainStyle = MainStyle(),
             language: Language = DefaultValues.language,
             title: String = DefaultValues.title,
             author: String = DefaultValues.author,
             charset: Charset = DefaultValues.charset,
             styleSheet: String = DefaultValues.styleSheet): Metadata
-  = MetadataImpl(nameFile, extension, style, language, Seq(titleTag(title), authorTag(author), charsetTag(charset), styleSheetTag(DefaultValues.styleSheet)))
+  = MetadataImpl(nameFile, extension, savingPath, style, language, Seq(titleTag(title), authorTag(author), charsetTag(charset), styleSheetTag(DefaultValues.styleSheet)))
 
   private class MetadataImpl(override val nameFile: String,
                              override val extension: Extension,
+                             override val savingPath: String,
                              override val style: MainStyle,
                              override val language: Language,
                              override val metaTags: Seq[MetaTag]) extends Metadata:
