@@ -10,7 +10,7 @@ import scala.collection.mutable.ListBuffer
 case class SubSectionBuilder(
                               private var title: Option[Title] = None,
                               private val layerElements: ListBuffer[LayerElement] = ListBuffer.empty
-                            ) extends Builder[SubSection]:
+                            ) extends LayerElementBuilder:
 
   def setTitle(newTitle: Title): SubSectionBuilder =
     title = Some(newTitle)

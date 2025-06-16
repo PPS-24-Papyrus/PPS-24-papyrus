@@ -10,7 +10,7 @@ import scala.annotation.targetName
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 
-class TableBuilder extends Builder[Table[String]]:
+class TableBuilder extends LayerElementBuilder:
   private var caption: Option[String] = None
   private val rows: ListBuffer[RowBuilder] = ListBuffer.empty
   var backgroundColor: ColorString = DefaultValues.backgroundColorTable
