@@ -3,17 +3,12 @@ package papyrus.DSL
 import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
-import papyrus.DSL.builders.ImageBuilder.caption
-import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, LayerElementBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder, TitleHandler}
-import papyrus.DSL.builders.RowBuilder.|
+import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
 import papyrus.DSL.builders.TextBuilder.{newLine, *}
 import papyrus.DSL.builders.TitleBuilder.*
-import papyrus.logic.layerElement.LayerElement
-import papyrus.logic.layerElement.captionElement.{Cell, Row, Table}
-import papyrus.logic.styleObjects.{TextStyle, TitleStyle}
+import papyrus.logic.layerElement.captionElement.Row
 import papyrus.logic.utility.SectionCounter
 
-import java.util.Optional
 
 object DSL:
 
@@ -93,7 +88,7 @@ object DSL:
     val updatedBuilder = init
     ctx.addItem(updatedBuilder.build)
 
-  def applyTextStyle(init: TextBuilder ?=> TextBuilder, style: TextBuilder => TextBuilder)(
+  private def applyTextStyle(init: TextBuilder ?=> TextBuilder, style: TextBuilder => TextBuilder)(
     using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
 
     given baseBuilder: TextBuilder = TextBuilder()
@@ -257,13 +252,10 @@ object DSL:
 
   @main def provaFunc(): Unit = {
     papyrus:
-      metadata:
-        extension:
-          "html"
       title:
         "Provo subito" textColor "red"
       text:
-        "Nel mezzo del cammin di nostra vita"
+        "Nel mezzo del cammin di nostra vita" newLine "Aaa cervasi"
     /*
     papyrus:
       metadata:
