@@ -59,20 +59,24 @@ object DSL:
       case ssb: SubSectionBuilder => ssb.setTitle(numberedBuilder.build)
 
 
-  def section(init: SectionBuilder ?=> Unit)(using cb: ContentBuilder): Unit =
+  def section(init: SectionBuilder ?=> Unit)(using ctx: PapyrusBuilder | ContentBuilder): Unit =
     given builder: SectionBuilder = SectionBuilder()
     init
-    cb.addLayerElement(builder.build)
+    ctx match
+      case pb: PapyrusBuilder => pb.addLayerElement(builder.build)
+      case cb: ContentBuilder => cb.addLayerElement(builder.build)
 
   def subsection(init: SubSectionBuilder ?=> Unit)(using cb: SectionBuilder): Unit =
     given builder: SubSectionBuilder = SubSectionBuilder()
     init
     cb.addLayerElement(builder.build)
 
-  def listing(init: ListBuilder ?=> Unit)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def listing(init: ListBuilder ?=> Unit)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: ListBuilder = ListBuilder()
     init
     ctx match
+      case pb: PapyrusBuilder =>
+        pb.addLayerElement(builder.build)
       case cb: ContentBuilder =>
         cb.addLayerElement(builder.build)
       case sb: SectionBuilder =>
@@ -160,17 +164,18 @@ object DSL:
   def margin(init: MetadataBuilder ?=> Margin)(using msb: MetadataBuilder): Unit =
     msb.getStyleBuilder.withMargin(init)
 
-  def image(init: ImageBuilder ?=> ImageBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def image(init: ImageBuilder ?=> ImageBuilder)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     val builder = init(using ImageBuilder())
     val image = builder.build
 
     ctx match
+      case pb: PapyrusBuilder => pb.addLayerElement(image)
       case cb: ContentBuilder => cb.addLayerElement(image)
       case sb: SectionBuilder => sb.addLayerElement(image)
       case ssb: SubSectionBuilder => ssb.addLayerElement(image)
 
 
-  def tableWithList(init: TableBuilder ?=> List[Row[String]])(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def tableWithList(init: TableBuilder ?=> List[Row[String]])(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
     val rowsWrapper = init
     for row <- rowsWrapper yield
@@ -179,6 +184,8 @@ object DSL:
         rowBuilder.addCell(CellBuilder().withContent(cell.content))
       builder.addRow(rowBuilder)
     ctx match
+      case pb: PapyrusBuilder =>
+        pb.addLayerElement(builder.build)
       case cb: ContentBuilder =>
         cb.addLayerElement(builder.build)
       case sb: SectionBuilder =>
@@ -186,10 +193,12 @@ object DSL:
       case ssb: SubSectionBuilder =>
         ssb.addLayerElement(builder.build)
 
-  def table(init: TableBuilder ?=> Unit)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def table(init: TableBuilder ?=> Unit)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
     init
     ctx match
+      case pb: PapyrusBuilder =>
+        pb.addLayerElement(builder.build)
       case cb: ContentBuilder =>
         cb.addLayerElement(builder.build)
       case sb: SectionBuilder =>
