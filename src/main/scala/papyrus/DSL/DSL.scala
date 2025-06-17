@@ -26,33 +26,34 @@ object DSL:
 
     given builder: MetadataBuilder = MetadataBuilder()
     init
-    pb.withMetadata(builder.build)
+    pb.withMetadata(builder)
 
   def content(init: ContentBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
     given builder: ContentBuilder = ContentBuilder()
     init
-    pb.withContent(builder.build)
+    pb.withContent(builder)
 
 
 
-  def title(init: TitleBuilder ?=> TitleBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def title(init: TitleBuilder ?=> TitleBuilder)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: TitleBuilder = TitleBuilder() // viene passato a init
 
-    val configuredBuilder = init // contiene textColor, fontSize, ecc.
+    val configuredBuilder = init
 
     val baseTitle = configuredBuilder.build.title
 
     val numberedTitle = ctx match
-      case _: ContentBuilder => baseTitle
       case _: SectionBuilder => s"${SectionCounter.nextSection()} $baseTitle"
       case _: SubSectionBuilder => s"${SectionCounter.nextSubsection()} $baseTitle"
+      case _ => baseTitle
 
     val numberedBuilder = ctx match
-      case _: ContentBuilder => configuredBuilder.title(numberedTitle).level(1)
       case _: SectionBuilder => configuredBuilder.title(numberedTitle).level(2)
       case _: SubSectionBuilder => configuredBuilder.title(numberedTitle).level(3)
+      case _ => configuredBuilder.title(numberedTitle).level(1)
 
     ctx match
+      case pb: PapyrusBuilder => pb.setTitle(numberedBuilder.build)
       case cb: ContentBuilder => cb.setTitle(numberedBuilder.build)
       case sb: SectionBuilder => sb.setTitle(numberedBuilder.build)
       case ssb: SubSectionBuilder => ssb.setTitle(numberedBuilder.build)
@@ -89,27 +90,28 @@ object DSL:
     ctx.addItem(updatedBuilder.build)
 
   def applyTextStyle(init: TextBuilder ?=> TextBuilder, style: TextBuilder => TextBuilder)(
-    using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+    using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
 
     given baseBuilder: TextBuilder = TextBuilder()
 
     val updatedBuilder = style(init)
 
     ctx match
+      case pb: PapyrusBuilder => pb.addLayerElement(updatedBuilder.build)
       case cb: ContentBuilder => cb.addLayerElement(updatedBuilder.build)
       case sb: SectionBuilder => sb.addLayerElement(updatedBuilder.build)
       case ssb: SubSectionBuilder => ssb.addLayerElement(updatedBuilder.build)
 
-  def text(init: TextBuilder ?=> TextBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def text(init: TextBuilder ?=> TextBuilder)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     applyTextStyle(init, identity)
 
-  def bold(init: TextBuilder ?=> TextBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def bold(init: TextBuilder ?=> TextBuilder)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     applyTextStyle(init, _.fontWeight("bold"))
 
-  def italic(init: TextBuilder ?=> TextBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def italic(init: TextBuilder ?=> TextBuilder)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     applyTextStyle(init, _.fontStyle("italic"))
 
-  def underline(init: TextBuilder ?=> TextBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def underline(init: TextBuilder ?=> TextBuilder)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     applyTextStyle(init, _.textDecoration("underline"))
 
   def nameFile(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): Unit =
@@ -244,7 +246,16 @@ object DSL:
   given Conversion[String, ImageBuilder] with
     def apply(str: String): ImageBuilder = ImageBuilder(str)
 
-  @main def provaFunc(): Unit =
+  @main def provaFunc(): Unit = {
+    papyrus:
+      metadata:
+        extension:
+          "html"
+      title:
+        "Provo subito" textColor "red"
+      text:
+        "Nel mezzo del cammin di nostra vita"
+    /*
     papyrus:
       metadata:
         nameFile:
@@ -296,3 +307,6 @@ object DSL:
             "This is our first image:"
           image:
             "src/main/resources/PapyrusLogo.png" caption "This is papyrus logo" alternative "No image found" width 200
+  */
+  }
+
