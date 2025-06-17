@@ -29,7 +29,7 @@ class TableBuilder extends Builder[Table[String]]:
     rows += row
     this
 
-  override def build: Table[String] = Table(caption, rows.map(_.build).toList, TableStyle(backgroundColor, margin, textAlign, width, alignment))
+  override def build: Table[String] = Table(caption, rows.map(_.build).toList, TableStyle(backgroundColor, margin, textAlign, width, alignment), MainText(_))
 
 
 case class RowBuilder(private val cells: ArrayBuffer[CellBuilder]) extends Builder[Row[String]]:

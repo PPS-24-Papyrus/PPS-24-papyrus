@@ -25,7 +25,7 @@ object Table:
                caption: Option[String],
                rows: List[Row[T]],
                tableStyle: TableStyle,
-               renderFunction: T => MainText = MainText(_)
+               renderFunction: T => MainText 
              ): Table[T] = TableImpl(caption, rows, tableStyle, renderFunction)
 
   private case class TableImpl[T](
