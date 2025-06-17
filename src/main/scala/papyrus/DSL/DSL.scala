@@ -83,6 +83,10 @@ object DSL:
     init
     ctx.listType(init)
 
+  def ordered(init: ListBuilder ?=> Unit)(using ctx: ListBuilder): Unit =
+    init
+    ctx.order
+
   def item(init: ItemBuilder ?=> ItemBuilder)(using ctx: ListBuilder): Unit =
     given builder: ItemBuilder = ItemBuilder()
     val updatedBuilder = init
@@ -250,12 +254,22 @@ object DSL:
   given Conversion[String, ImageBuilder] with
     def apply(str: String): ImageBuilder = ImageBuilder(str)
 
+
+
+
   @main def provaFunc(): Unit = {
     papyrus:
       title:
         "Provo subito" textColor "red"
       text:
         "Nel mezzo del cammin di nostra vita" newLine "Aaa cervasi"
+      listing:
+          item:
+            "Pietro"
+          item:
+            "Luca"
+          item:
+            "Daniel"
     /*
     papyrus:
       metadata:
