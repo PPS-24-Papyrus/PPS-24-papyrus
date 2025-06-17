@@ -18,7 +18,7 @@ class MetadataBuilder extends Builder[Metadata]:
   private var _author: String = DefaultValues.author
   private var _charset: Charset = DefaultValues.charset
   private var _styleSheet: String = DefaultValues.styleSheet
-  private var _style: MainStyle = MainStyle()
+  private var _styleBuilder: MainStyleBuilder = MainStyleBuilder()
 
   private val modifiedFields = scala.collection.mutable.Set.empty[Field]
 
@@ -28,6 +28,8 @@ class MetadataBuilder extends Builder[Metadata]:
     setter(value)
     modifiedFields += field
     this
+
+  def getStyleBuilder: MainStyleBuilder = _styleBuilder
 
   def withNameFile(value: String): MetadataBuilder =
     setOnce(Field.NameFile, (v: String) => _nameFile = v)(value)
@@ -53,8 +55,8 @@ class MetadataBuilder extends Builder[Metadata]:
   def withStyleSheet(value: String): MetadataBuilder =
     setOnce(Field.StyleSheet, (v: String) => _styleSheet = v)(value)
 
-  def withStyle(value: MainStyle): MetadataBuilder =
-    setOnce(Field.Style, (v: MainStyle) => _style = v)(value)
+  //def withStyle(value: MainStyle): MetadataBuilder =
+  //  setOnce(Field.Style, (v: MainStyle) => _styleBuilder = v)(value)
 
   override def build: Metadata =
-    Metadata(_nameFile, _extension, _savingPath, _style, _language, _title, _author, _charset, _styleSheet)
+    Metadata(_nameFile, _extension, _savingPath, _styleBuilder.build, _language, _title, _author, _charset, _styleSheet)

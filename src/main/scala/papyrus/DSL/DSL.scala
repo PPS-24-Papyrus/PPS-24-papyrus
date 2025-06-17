@@ -136,31 +136,27 @@ object DSL:
   def styleSheet(init: MetadataBuilder ?=> StyleSheet)(using mb: MetadataBuilder): Unit =
     mb.withStyleSheet(init)
 
-  def style(init: MainStyleBuilder ?=> Unit)(using mb: MetadataBuilder): Unit =
-    given builder: MainStyleBuilder = MainStyleBuilder()
-    init
-    mb.withStyle(builder.build)
 
-  def font(init: MainStyleBuilder ?=> FontFamily)(using msb: MainStyleBuilder): Unit =
-    msb.withFont(init)
+  def font(init: MetadataBuilder ?=> FontFamily)(using msb: MetadataBuilder): Unit =
+    msb.getStyleBuilder.withFont(init)
 
-  def fontSize(init: MainStyleBuilder ?=> FontSize)(using msb: MainStyleBuilder): Unit =
-    msb.withFontSize(init)
+  def fontSize(init: MetadataBuilder ?=> FontSize)(using msb: MetadataBuilder): Unit =
+    msb.getStyleBuilder.withFontSize(init)
 
-  def lineHeight(init: MainStyleBuilder ?=> LineHeight)(using msb: MainStyleBuilder): Unit =
-    msb.withLineHeight(init)
+  def lineHeight(init: MetadataBuilder ?=> LineHeight)(using msb: MetadataBuilder): Unit =
+    msb.getStyleBuilder.withLineHeight(init)
 
-  def textColor(init: MainStyleBuilder ?=> ColorString)(using msb: MainStyleBuilder): Unit =
-    msb.withTextColor(init)
+  def textColor(init: MetadataBuilder ?=> ColorString)(using msb: MetadataBuilder): Unit =
+    msb.getStyleBuilder.withTextColor(init)
 
-  def backgroundColor(init: MainStyleBuilder ?=> ColorString)(using msb: MainStyleBuilder): Unit =
-    msb.withBackgroundColor(init)
+  def backgroundColor(init: MetadataBuilder ?=> ColorString)(using msb: MetadataBuilder): Unit =
+    msb.getStyleBuilder.withBackgroundColor(init)
 
-  def textAlign(init: MainStyleBuilder ?=> Alignment)(using msb: MainStyleBuilder): Unit =
-    msb.withTextAlign(init)
+  def textAlign(init: MetadataBuilder ?=> Alignment)(using msb: MetadataBuilder): Unit =
+    msb.getStyleBuilder.withTextAlign(init)
 
-  def margin(init: MainStyleBuilder ?=> Margin)(using msb: MainStyleBuilder): Unit =
-    msb.withMargin(init)
+  def margin(init: MetadataBuilder ?=> Margin)(using msb: MetadataBuilder): Unit =
+    msb.getStyleBuilder.withMargin(init)
 
   def image(init: ImageBuilder ?=> ImageBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     val builder = init(using ImageBuilder())
@@ -259,9 +255,8 @@ object DSL:
           "LucaDani"
         extension:
           "html"
-        style:
-          margin:
-            150
+        margin:
+          150
       content:
         title:
           "End 3rd Sprint"
