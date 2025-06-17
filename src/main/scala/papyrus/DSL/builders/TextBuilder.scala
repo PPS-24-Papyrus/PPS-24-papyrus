@@ -12,7 +12,7 @@ case class TextBuilder(
                         private val fontWeight: FontWeight = DefaultValues.fontWeightText,
                         private val fontStyle: FontStyle = DefaultValues.fontStyleText,
                         private val textDecoration: TextDecoration = DefaultValues.textDecorationText
-                      ) extends Builder[Text]:
+                      ) extends LayerElementBuilder:
 
   private def withValue(v: String): TextBuilder = this.copy(value = v)
   private def withColor(c: ColorString): TextBuilder = this.copy(color = c)

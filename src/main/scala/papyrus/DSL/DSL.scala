@@ -4,7 +4,7 @@ import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.builders.ImageBuilder.caption
-import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TextDSL, TitleBuilder, TitleHandler}
+import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, LayerElementBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder, TitleHandler}
 import papyrus.DSL.builders.RowBuilder.|
 import papyrus.DSL.builders.TextBuilder.{newLine, *}
 import papyrus.DSL.builders.TitleBuilder.*
@@ -32,6 +32,8 @@ object DSL:
     given builder: ContentBuilder = ContentBuilder()
     init
     pb.withContent(builder.build)
+
+
 
   def title(init: TitleBuilder ?=> TitleBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: TitleBuilder = TitleBuilder() // viene passato a init
@@ -110,55 +112,55 @@ object DSL:
   def underline(init: TextBuilder ?=> TextBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     applyTextStyle(init, _.textDecoration("underline"))
 
-  def nameFile(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    mb.withNameFile(init.str)
+  def nameFile(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): Unit =
+    mb.withNameFile(init)
 
-  def extension(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    mb.withExtension(init.str.asInstanceOf[Extension])
+  def extension(init: MetadataBuilder ?=> Extension)(using mb: MetadataBuilder): Unit =
+    mb.withExtension(init)
 
-  def path(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    mb.withSavingPath(init.str)
+  def path(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): Unit =
+    mb.withSavingPath(init)
 
-  def language(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    mb.withLanguage(init.str.asInstanceOf[Language])
+  def language(init: MetadataBuilder ?=> Language)(using mb: MetadataBuilder): Unit =
+    mb.withLanguage(init)
 
-  def metadataTitle(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    mb.withTitle(init.str)
+  def metadataTitle(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): Unit =
+    mb.withTitle(init)
 
-  def author(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    mb.withAuthor(init.str)
+  def author(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): Unit =
+    mb.withAuthor(init)
 
-  def charset(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    val updated: Unit = mb.withCharset(init.str.asInstanceOf[Charset])
+  def charset(init: MetadataBuilder ?=> Charset)(using mb: MetadataBuilder): Unit =
+    val updated: Unit = mb.withCharset(init)
 
-  def styleSheet(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
-    mb.withStyleSheet(init.str)
+  def styleSheet(init: MetadataBuilder ?=> StyleSheet)(using mb: MetadataBuilder): Unit =
+    mb.withStyleSheet(init)
 
   def style(init: MainStyleBuilder ?=> Unit)(using mb: MetadataBuilder): Unit =
     given builder: MainStyleBuilder = MainStyleBuilder()
     init
     mb.withStyle(builder.build)
 
-  def font(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
-    msb.withFont(init.str.asInstanceOf[FontFamily])
+  def font(init: MainStyleBuilder ?=> FontFamily)(using msb: MainStyleBuilder): Unit =
+    msb.withFont(init)
 
-  def fontSize(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
-    msb.withFontSize(init.str.asInstanceOf[FontSize])
+  def fontSize(init: MainStyleBuilder ?=> FontSize)(using msb: MainStyleBuilder): Unit =
+    msb.withFontSize(init)
 
-  def lineHeight(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
-    msb.withLineHeight(init.str.asInstanceOf[LineHeight])
+  def lineHeight(init: MainStyleBuilder ?=> LineHeight)(using msb: MainStyleBuilder): Unit =
+    msb.withLineHeight(init)
 
-  def textColor(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
-    msb.withTextColor(init.str.asInstanceOf[ColorString])
+  def textColor(init: MainStyleBuilder ?=> ColorString)(using msb: MainStyleBuilder): Unit =
+    msb.withTextColor(init)
 
-  def backgroundColor(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
-    msb.withBackgroundColor(init.str.asInstanceOf[ColorString])
+  def backgroundColor(init: MainStyleBuilder ?=> ColorString)(using msb: MainStyleBuilder): Unit =
+    msb.withBackgroundColor(init)
 
-  def textAlign(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
-    msb.withTextAlign(init.str.asInstanceOf[Alignment])
+  def textAlign(init: MainStyleBuilder ?=> Alignment)(using msb: MainStyleBuilder): Unit =
+    msb.withTextAlign(init)
 
-  def margin(init: MainStyleBuilder ?=> Int)(using msb: MainStyleBuilder): Unit =
-    msb.withMargin(init.asInstanceOf[Margin])
+  def margin(init: MainStyleBuilder ?=> Margin)(using msb: MainStyleBuilder): Unit =
+    msb.withMargin(init)
 
   def image(init: ImageBuilder ?=> ImageBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     val builder = init(using ImageBuilder())
@@ -197,35 +199,35 @@ object DSL:
       case ssb: SubSectionBuilder =>
         ssb.addLayerElement(builder.build)
 
-  def caption(init: TableBuilder ?=> TextDSL)(using tb: TableBuilder): Unit =
+  def caption(init: TableBuilder ?=> String)(using tb: TableBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
     init
-    tb.withCaption(init.str)
+    tb.withCaption(init)
 
-  def backgroundColorTable(init: TableBuilder ?=> TextDSL)(using tb: TableBuilder): Unit =
+  def backgroundColorTable(init: TableBuilder ?=> ColorString)(using tb: TableBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
     init
-    tb.backgroundColor = init.str.asInstanceOf[ColorString]
+    tb.backgroundColor = init
 
   def marginTable(init: TableBuilder ?=> Int)(using tb: TableBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
     init
     tb.margin = init.asInstanceOf[Margin]
 
-  def textAlignTable(init: TableBuilder ?=> TextDSL)(using tb: TableBuilder): Unit =
+  def textAlignTable(init: TableBuilder ?=> Alignment)(using tb: TableBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
     init
-    tb.textAlign = init.str.asInstanceOf[Alignment]
+    tb.textAlign = init
 
-  def widthTable(init: TableBuilder ?=> TextDSL)(using tb: TableBuilder): Unit =
+  def widthTable(init: TableBuilder ?=> Width)(using tb: TableBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
     init
-    tb.width = init.str.asInstanceOf[Width]
+    tb.width = init
 
-  def alignTable(init: TableBuilder ?=> TextDSL)(using tb: TableBuilder): Unit =
+  def alignTable(init: TableBuilder ?=> Align)(using tb: TableBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
     init
-    tb.alignment = init.str.asInstanceOf[Align]
+    tb.alignment = init
 
   given Conversion[List[String], Row[String]] with
     def apply(list: List[String]): Row[String] =
@@ -233,9 +235,6 @@ object DSL:
       for str <- list do
         rowBuilder.addCell(CellBuilder().withContent(str))
       rowBuilder.build
-
-  given Conversion[String, TextDSL] with
-    def apply(str: String): TextDSL = TextDSL(str)
 
   given Conversion[String, TextBuilder] with
     def apply(str: String): TextBuilder = TextBuilder(str)
@@ -263,18 +262,16 @@ object DSL:
         style:
           margin:
             150
-          font:
-            "Arial"
       content:
         title:
           "End 3rd Sprint"
-        bold:
-          "Normale"
+        text:
+          "Normale" color "red"
         section:
           title:
             "Table and listing"
           text:
-            "Let's try to print a table." newLine "Ciao"
+            "Let's try to print a table." newLine "Ciao" newLine "Ciao"
           table:
             "1" | "2" | "3"
             "4" | "5" | "6"
@@ -285,20 +282,18 @@ object DSL:
               "center"
           subsection:
             title:
-              "Listing"
+              "Listing" textColor "red"
             underline:
               "Prova grassetto"
             text:
-              "\nWhy do we use it?\nIt is a long established"
+              "\nWhy do we use it?\nIt is a long established" newLine "Ciao"
             listing:
               listType:
-                "ul"
+                "ol"
               item:
                 "First element"
               item:
                 "Second element"
-              item:
-                "Third element"
         section:
           title:
             "Image"
