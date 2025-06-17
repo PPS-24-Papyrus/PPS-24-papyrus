@@ -236,9 +236,6 @@ object DSL:
         rowBuilder.addCell(CellBuilder().withContent(str))
       rowBuilder.build
 
-  given Conversion[String, LayerElementBuilder] with
-    def apply(str: String): LayerElementBuilder = TextBuilder(str)
-
   given Conversion[String, TextBuilder] with
     def apply(str: String): TextBuilder = TextBuilder(str)
 
@@ -266,10 +263,8 @@ object DSL:
           margin:
             150
       content:
-
         title:
           "End 3rd Sprint"
-        "ti prego"
         text:
           "Normale" color "red"
         section:

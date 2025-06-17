@@ -5,9 +5,9 @@ import org.scalatest.matchers.must.Matchers.{be, contain}
 import org.scalatest.matchers.should.Matchers.{an, should, shouldBe}
 import papyrus.logic.layerElement.captionElement.Table
 import papyrus.DSL.DSL
-import papyrus.DSL.DSL.{caption, given_Conversion_String_TextDSL}
+import papyrus.DSL.DSL.caption
 import papyrus.DSL.builders.RowBuilder.*
-import papyrus.DSL.builders.{TableBuilder, TextDSL, given_Conversion_String_TextDSL}
+import papyrus.DSL.builders.TableBuilder
 
 class TableDSLTest extends AnyFunSuite:
 
