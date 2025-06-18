@@ -2,7 +2,7 @@ package papyrus.DSL.builders
 
 import papyrus.logic.metadata.Metadata
 import papyrus.logic.styleObjects.MainStyle
-import papyrus.logic.utility.TypesInline.{Charset, Extension, Language}
+import papyrus.logic.utility.TypesInline.{Charset, Extension, Language, StyleSheet}
 import papyrus.DSL.DefaultValues
 
 enum Field:
@@ -17,7 +17,7 @@ class MetadataBuilder extends Builder[Metadata]:
   private var _title: String = DefaultValues.title
   private var _author: String = DefaultValues.author
   private var _charset: Charset = DefaultValues.charset
-  private var _styleSheet: String = DefaultValues.styleSheet
+  private var _styleSheet: StyleSheet = DefaultValues.styleSheet
   private var _style: MainStyle = MainStyle()
 
   private val modifiedFields = scala.collection.mutable.Set.empty[Field]
@@ -50,8 +50,8 @@ class MetadataBuilder extends Builder[Metadata]:
   def withCharset(value: Charset): MetadataBuilder =
     setOnce(Field.Charset, (v: Charset) => _charset = v)(value)
 
-  def withStyleSheet(value: String): MetadataBuilder =
-    setOnce(Field.StyleSheet, (v: String) => _styleSheet = v)(value)
+  def withStyleSheet(value: StyleSheet): MetadataBuilder =
+    setOnce(Field.StyleSheet, (v: StyleSheet) => _styleSheet = v)(value)
 
   def withStyle(value: MainStyle): MetadataBuilder =
     setOnce(Field.Style, (v: MainStyle) => _style = v)(value)
