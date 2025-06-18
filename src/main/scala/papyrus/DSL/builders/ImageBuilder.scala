@@ -11,7 +11,7 @@ case class ImageBuilder(
                              private val width: Option[Width],
                              private val caption: Option[String],
                              private val alignment: Option[Float]
-                           ) extends Builder[Image]:
+                           ) extends LayerElementBuilder:
   private def withSrc(s: String): ImageBuilder = this.copy(src = s)
   private def withAlt(a: String): ImageBuilder = this.copy(alt = a)
   private def withWidth(w: Width): ImageBuilder = this.copy(width = Some(w))
