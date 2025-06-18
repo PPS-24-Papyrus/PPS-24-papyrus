@@ -37,10 +37,7 @@ object DSL:
 
     val baseTitle = configuredBuilder.build.title
 
-    val numberedTitle = ctx match
-      case _: SectionBuilder => s"${SectionCounter.nextSection()} $baseTitle"
-      case _: SubSectionBuilder => s"${SectionCounter.nextSubsection()} $baseTitle"
-      case _ => baseTitle
+    val numberedTitle = generateNumberedTitle(baseTitle, ctx)
 
     val numberedBuilder = ctx match
       case _: SectionBuilder => configuredBuilder.title(numberedTitle).level(2)
@@ -53,6 +50,11 @@ object DSL:
       case sb: SectionBuilder => sb.setTitle(numberedBuilder.build)
       case ssb: SubSectionBuilder => ssb.setTitle(numberedBuilder.build)
 
+  private def generateNumberedTitle(baseTitle: String, ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): String =
+    ctx match
+      case _: SectionBuilder => s"${SectionCounter.nextSection()} $baseTitle"
+      case _: SubSectionBuilder => s"${SectionCounter.nextSubsection()} $baseTitle"
+      case _ => baseTitle
 
   def section(init: SectionBuilder ?=> Unit)(using ctx: PapyrusBuilder | ContentBuilder): Unit =
     given builder: SectionBuilder = SectionBuilder()
@@ -270,6 +272,18 @@ object DSL:
             "Luca"
           item:
             "Daniel"
+
+      section:
+        title:
+          "Sezione 1"
+        text:
+          "Testo in sezione 1"
+        subsection:
+          title:
+            "Subsection 1"
+          text:
+            "testo in sezione 2"
+
     /*
     papyrus:
       metadata:
