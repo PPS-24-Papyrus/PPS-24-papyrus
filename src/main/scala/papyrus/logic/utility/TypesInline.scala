@@ -29,4 +29,5 @@ object TypesInline:
   type Float = String :| Match["left|right|none"]
   type Align = String :| Match["left|right|center"]
   type ListType = String :| Match["ol|ul"]
+  type SortingList = String :| Match["alphabetical|length|reverse|levenshtein"]
   //type ImageFile = String :| Match["(?i)^.*\\.(jpg|png)$"]

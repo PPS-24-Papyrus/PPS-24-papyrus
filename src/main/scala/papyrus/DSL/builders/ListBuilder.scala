@@ -9,34 +9,61 @@ import scala.collection.mutable.ListBuffer
 import scala.math
 
 case class ListBuilder(
-                        private val items: ListBuffer[Item] = ListBuffer.empty,
-                        private var listType: ListType = "ul",
-                        private var ordered: Boolean = false
+                        items: List[Item] = Nil,
+                        listType: ListType = "ul",
+                        order: Option[SortingList] = None,
+                        reference: Option[String] = None,
+                        reversed: Boolean = false
                       ) extends LayerElementBuilder:
 
-  def listType(newType: ListType): ListBuilder =
-    listType = newType
-    this
+  def withListType(tpe: ListType): ListBuilder =
+    copy(listType = tpe)
 
-  def order: ListBuilder = 
-    ordered=true
-    this
-  
+  def ordered(orderType: SortingList): ListBuilder =
+    copy(order = Some(orderType))
 
-  def addItem(item: Item): ListBuilder =
-    items += item
-    this
+  def reverseListing: ListBuilder =
+    copy(reversed = true)
 
-  extension (items: ListBuffer[Item])
-    private def sortIf(ordered: Boolean): ListBuffer[Item] =
-      ordered match
-        case true  => items.sortBy(_.item.toLowerCase)
-        case false => items
+  def withReference(ref: String): ListBuilder =
+    copy(reference = Some(ref), order = Some("levenshtein"))
+
+  def add(item: Item): ListBuilder =
+    copy(items = items :+ item)
+
+  private def sortItems(items: List[Item]): List[Item] =
+    val sorted: List[Item] = order match
+      case Some("alphabetical") => items.sortBy(_.item.toLowerCase)
+      case Some("length")       => items.sortBy(_.item.length)
+      case Some("reverse")      => items.reverse
+      case Some("levenshtein") =>
+        val ref = reference.getOrElse("")
+        items.sortBy(i => levenshtein(i.item, ref))
+      case _ => items
+
+      if reversed then sorted.reverse else sorted
 
 
+  private def levenshtein(a: String, b: String): Int =
+    val memo = Array.tabulate(a.length + 1, b.length + 1) { (i, j) =>
+      if i == 0 then j
+      else if j == 0 then i
+      else 0
+    }
+
+    for i <- 1 to a.length; j <- 1 to b.length do
+      val cost = if a(i - 1) == b(j - 1) then 0 else 1
+      memo(i)(j) = List(
+        memo(i - 1)(j) + 1,
+        memo(i)(j - 1) + 1,
+        memo(i - 1)(j - 1) + cost
+      ).min
+
+    memo(a.length)(b.length)
 
 
-  override def build: Listing = Listing(listType, items.sortIf(ordered).toSeq *)
+  override def build: Listing =
+    Listing(listType, sortItems(items)*)
 
 object ListBuilder:
   def apply(): ListBuilder = new ListBuilder()

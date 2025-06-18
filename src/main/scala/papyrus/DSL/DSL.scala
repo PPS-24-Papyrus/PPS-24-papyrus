@@ -3,7 +3,7 @@ package papyrus.DSL
 import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
-import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, MetadataBuilderProxy, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
+import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, ListBuilderProxy, MainStyleBuilder, MetadataBuilder, MetadataBuilderProxy, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
 import papyrus.DSL.builders.TextBuilder.{newLine, *}
 import papyrus.DSL.builders.TitleBuilder.*
 import papyrus.logic.layerElement.captionElement.Row
@@ -70,30 +70,48 @@ object DSL:
     cb.addLayerElement(builder.build)
 
   def listing(init: ListBuilder ?=> Unit)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    given builder: ListBuilder = ListBuilder()
+    var internalBuilder = ListBuilder()
+
+    // Define proxy
+    val proxy = ListBuilderProxy(() => internalBuilder, updated => internalBuilder = updated)
+    given ListBuilder = proxy
+
+    // Run DSL
     init
+
+    // Attach result to context
     ctx match
-      case pb: PapyrusBuilder =>
-        pb.addLayerElement(builder.build)
-      case cb: ContentBuilder =>
-        cb.addLayerElement(builder.build)
-      case sb: SectionBuilder =>
-        sb.addLayerElement(builder.build)
-      case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(builder.build)
+      case pb: PapyrusBuilder => pb.addLayerElement(internalBuilder.build)
+      case cb: ContentBuilder => cb.addLayerElement(internalBuilder.build)
+      case sb: SectionBuilder => sb.addLayerElement(internalBuilder.build)
+      case ssb: SubSectionBuilder => ssb.addLayerElement(internalBuilder.build)
 
-  def listType(init: ListBuilder ?=> ListType)(using ctx: ListBuilder): Unit =
-    init
-    ctx.listType(init)
-
-  def ordered(init: ListBuilder ?=> Unit)(using ctx: ListBuilder): Unit =
-    init
-    ctx.order
 
   def item(init: ItemBuilder ?=> ItemBuilder)(using ctx: ListBuilder): Unit =
     given builder: ItemBuilder = ItemBuilder()
-    val updatedBuilder = init
-    ctx.addItem(updatedBuilder.build)
+
+    val built = init.build
+    ctx.add(built) // aggiornamento avviene dentro il proxy
+
+  def listType(init: ListBuilder ?=> ListType)(using ctx: ListBuilder): Unit =
+    init
+    ctx.withListType(init)
+
+  def ordered(init: ListBuilder ?=> SortingList)(using ctx: ListBuilder): Unit =
+    init
+    ctx.ordered(init)
+
+  def reverse(init: ListBuilder ?=> Unit)(using ctx: ListBuilder): Unit =
+    init
+    ctx.reverseListing
+
+
+  def reference(init: ListBuilder ?=> String)(using ctx: ListBuilder): Unit =
+    init
+    ctx.ordered("levenshtein")
+    ctx.withReference(init)
+
+
 
   private def applyTextStyle(init: TextBuilder ?=> TextBuilder, style: TextBuilder => TextBuilder)(
     using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
@@ -266,13 +284,24 @@ object DSL:
       metadata:
         backgroundColor:
           "red"
+        extension:
+          "html"
       title:
         "Prova con meta immutabile" textColor "blue"
       text:
         "Nel mezzo del cammin di nostra vita" newLine "Aaa cervasi"
       listing:
+        ordered:
+          "alphabetical"
+        reverse:
           item:
-            "Pietro"
+            "Supercalifragilistichespiralidoso"
+          item:
+            "LucaCantagallo"
+          item:
+            "ZZZ"
+          item:
+            "Pietroburgo"
           item:
             "Luca"
           item:
