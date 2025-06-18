@@ -9,7 +9,7 @@ import scala.collection.mutable.ListBuffer
 case class ListBuilder(
                         private val items: ListBuffer[Item] = ListBuffer.empty,
                         private var listType: ListType = "ul"
-                      ) extends LayerElementBuilder:
+                      ) extends Builder[Listing]:
 
   def listType(newType: ListType): ListBuilder =
     listType = newType

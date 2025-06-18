@@ -24,22 +24,22 @@ object Image:
     private val idFigure: String = "cls-" + IdGenerator.nextId()
 
     override def render: MainText =
-      val captionString = caption.map(c => s"<figcaption>$c</figcaption>").getOrElse("")
+      val captionString =
+        if caption.isEmpty then ""
+        else s"<figcaption>${caption.get}</figcaption>"
 
-      val figureStart = s"""<figure class="$idFigure">"""
-      val figureEnd = s"""</figure>\n"""
+      checkPathImage(src) match
+        case Right(path) =>
+          s"""<figure class="$idFigure">
+             |  <img class="$idImage" src="file:///$path" alt="$alt"></img>
+             |  $captionString
+             |</figure>\n""".stripMargin.toMainText
 
-      val content = for
-        path <- checkPathImage(src)
-      yield s"""<img class="$idImage" src="file:///$path" alt="$alt"></img>"""
-
-      val innerHtml = content match
-        case Right(imgTag) => s"  $imgTag\n  $captionString"
-        case Left(error)   => s"""  <p style="color: red;">Error loading image: $error</p>\n  $captionString"""
-
-      s"""$figureStart
-         |$innerHtml
-         |$figureEnd""".stripMargin.toMainText
+        case Left(error) =>
+          s"""<figure class="$idFigure">
+             |  <p style="color: red;">Error loading image: $error</p>
+             |  $captionString
+             |</figure>\n""".stripMargin.toMainText
 
     override def renderStyle: StyleText =
         val widthStyle = if width.isEmpty then "" else s"width: ${width.get}px;\n height: auto;"
