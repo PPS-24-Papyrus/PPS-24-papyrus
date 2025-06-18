@@ -7,6 +7,7 @@ import papyrus.logic.utility.TypesInline.{Align, Alignment, ColorString, Margin,
 
 import scala.annotation.targetName
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
+import papyrus.logic.Renderer.Text.*
 
 
 class TableBuilder extends LayerElementBuilder:
@@ -27,7 +28,7 @@ class TableBuilder extends LayerElementBuilder:
     rows += row
     this
 
-  override def build: Table[String] = Table(caption, rows.map(_.build).toList, TableStyle(backgroundColor, margin, textAlign, width, alignment))
+  override def build: Table[String] = Table(caption, rows.map(_.build).toList, TableStyle(backgroundColor, margin, textAlign, width, alignment), MainText(_))
 
 
 case class RowBuilder(private val cells: ArrayBuffer[CellBuilder]) extends Builder[Row[String]]:

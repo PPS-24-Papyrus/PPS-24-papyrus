@@ -4,8 +4,8 @@ import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.builders.ImageBuilder.caption
-import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, LayerElementBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder, TitleHandler}
-import papyrus.DSL.builders.RowBuilder.|
+import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TextDSL, TitleBuilder, TitleHandler}
+import papyrus.DSL.builders.RowBuilder.{|, |-, |^}
 import papyrus.DSL.builders.TextBuilder.{newLine, *}
 import papyrus.DSL.builders.TitleBuilder.*
 import papyrus.logic.layerElement.LayerElement

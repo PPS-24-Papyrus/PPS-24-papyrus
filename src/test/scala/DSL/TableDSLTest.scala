@@ -1,7 +1,7 @@
 package DSL
 
 import org.scalatest.funsuite.AnyFunSuite
-import org.scalatest.matchers.must.Matchers.{be, contain}
+import org.scalatest.matchers.must.Matchers.{be, contain, include}
 import org.scalatest.matchers.should.Matchers.{an, should, shouldBe}
 import papyrus.logic.layerElement.captionElement.Table
 import papyrus.DSL.DSL
@@ -89,3 +89,12 @@ class TableDSLTest extends AnyFunSuite:
 
     generatedTable.rows.size shouldBe 2
     generatedTable.caption shouldBe None
+
+  test("Table DSL error format should throw an exception"):
+    val generatedTable = table:
+      "Cell1" | "Cell2"
+      "Cell3" | "Cell4" | "Cell5"
+        caption:
+          "Invalid Table"
+    val render = generatedTable.render.string
+    render should include("Table structure error:</strong><br>Row 0 → 2 columns<br>Row 1 → 3 columns")
