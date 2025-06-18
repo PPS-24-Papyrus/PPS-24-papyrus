@@ -3,7 +3,7 @@ package papyrus.DSL
 import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
-import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
+import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, MetadataBuilderProxy, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
 import papyrus.DSL.builders.TextBuilder.{newLine, *}
 import papyrus.DSL.builders.TitleBuilder.*
 import papyrus.logic.layerElement.captionElement.Row
@@ -18,10 +18,10 @@ object DSL:
     builder.build()
 
   def metadata(init: MetadataBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
-
-    given builder: MetadataBuilder = MetadataBuilder()
+    var current: MetadataBuilder = MetadataBuilder()
+    given MetadataBuilder = MetadataBuilderProxy(() => current, updated => current = updated)
     init
-    pb.withMetadata(builder)
+    pb.withMetadata(current)
 
   def content(init: ContentBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
     given builder: ContentBuilder = ContentBuilder()
@@ -120,51 +120,52 @@ object DSL:
   def underline(init: TextBuilder ?=> TextBuilder)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     applyTextStyle(init, _.textDecoration("underline"))
 
-  def nameFile(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): Unit =
+  def nameFile(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): MetadataBuilder =
     mb.withNameFile(init)
 
-  def extension(init: MetadataBuilder ?=> Extension)(using mb: MetadataBuilder): Unit =
+  def extension(init: MetadataBuilder ?=> Extension)(using mb: MetadataBuilder): MetadataBuilder =
     mb.withExtension(init)
 
-  def path(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): Unit =
+
+  def path(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): MetadataBuilder =
     mb.withSavingPath(init)
 
-  def language(init: MetadataBuilder ?=> Language)(using mb: MetadataBuilder): Unit =
+  def language(init: MetadataBuilder ?=> Language)(using mb: MetadataBuilder): MetadataBuilder =
     mb.withLanguage(init)
 
-  def metadataTitle(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): Unit =
+  def metadataTitle(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): MetadataBuilder =
     mb.withTitle(init)
 
-  def author(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): Unit =
+  def author(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): MetadataBuilder =
     mb.withAuthor(init)
 
-  def charset(init: MetadataBuilder ?=> Charset)(using mb: MetadataBuilder): Unit =
-    val updated: Unit = mb.withCharset(init)
+  def charset(init: MetadataBuilder ?=> Charset)(using mb: MetadataBuilder): MetadataBuilder =
+    mb.withCharset(init)
 
-  def styleSheet(init: MetadataBuilder ?=> StyleSheet)(using mb: MetadataBuilder): Unit =
+  def styleSheet(init: MetadataBuilder ?=> StyleSheet)(using mb: MetadataBuilder): MetadataBuilder =
     mb.withStyleSheet(init)
 
+  def font(init: MetadataBuilder ?=> FontFamily)(using msb: MetadataBuilder): MetadataBuilder =
+    msb.withStyle(msb.getStyleBuilder.withFont(init))
 
-  def font(init: MetadataBuilder ?=> FontFamily)(using msb: MetadataBuilder): Unit =
-    msb.getStyleBuilder.withFont(init)
+  def fontSize(init: MetadataBuilder ?=> FontSize)(using msb: MetadataBuilder): MetadataBuilder =
+    msb.withStyle(msb.getStyleBuilder.withFontSize(init))
 
-  def fontSize(init: MetadataBuilder ?=> FontSize)(using msb: MetadataBuilder): Unit =
-    msb.getStyleBuilder.withFontSize(init)
+  def lineHeight(init: MetadataBuilder ?=> LineHeight)(using msb: MetadataBuilder): MetadataBuilder =
+    msb.withStyle(msb.getStyleBuilder.withLineHeight(init))
 
-  def lineHeight(init: MetadataBuilder ?=> LineHeight)(using msb: MetadataBuilder): Unit =
-    msb.getStyleBuilder.withLineHeight(init)
+  def textColor(init: MetadataBuilder ?=> ColorString)(using msb: MetadataBuilder): MetadataBuilder =
+    msb.withStyle(msb.getStyleBuilder.withTextColor(init))
 
-  def textColor(init: MetadataBuilder ?=> ColorString)(using msb: MetadataBuilder): Unit =
-    msb.getStyleBuilder.withTextColor(init)
+  def backgroundColor(init: MetadataBuilder ?=> ColorString)(using msb: MetadataBuilder): MetadataBuilder =
+    msb.withStyle(msb.getStyleBuilder.withBackgroundColor(init))
 
-  def backgroundColor(init: MetadataBuilder ?=> ColorString)(using msb: MetadataBuilder): Unit =
-    msb.getStyleBuilder.withBackgroundColor(init)
 
-  def textAlign(init: MetadataBuilder ?=> Alignment)(using msb: MetadataBuilder): Unit =
-    msb.getStyleBuilder.withTextAlign(init)
+  def textAlign(init: MetadataBuilder ?=> Alignment)(using msb: MetadataBuilder): MetadataBuilder =
+    msb.withStyle(msb.getStyleBuilder.withTextAlign(init))
 
-  def margin(init: MetadataBuilder ?=> Margin)(using msb: MetadataBuilder): Unit =
-    msb.getStyleBuilder.withMargin(init)
+  def margin(init: MetadataBuilder ?=> Margin)(using msb: MetadataBuilder): MetadataBuilder =
+    msb.withStyle(msb.getStyleBuilder.withMargin(init))
 
   def image(init: ImageBuilder ?=> ImageBuilder)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     val builder = init(using ImageBuilder())
@@ -262,8 +263,11 @@ object DSL:
 
   @main def provaFunc(): Unit = {
     papyrus:
+      metadata:
+        backgroundColor:
+          "red"
       title:
-        "Provo subito" textColor "red"
+        "Prova con meta immutabile" textColor "blue"
       text:
         "Nel mezzo del cammin di nostra vita" newLine "Aaa cervasi"
       listing:
