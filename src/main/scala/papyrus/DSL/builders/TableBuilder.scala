@@ -1,16 +1,16 @@
 package papyrus.DSL.builders
 
 import papyrus.logic.layerElement.captionElement.{Cell, Row, Table}
+import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.DefaultValues
 import papyrus.logic.styleObjects.TableStyle
 import papyrus.logic.utility.TypesInline.{Align, Alignment, ColorString, Margin, Width}
 
 import scala.annotation.targetName
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
-import papyrus.logic.Renderer.Text.*
 
 
-class TableBuilder extends LayerElementBuilder:
+class TableBuilder extends Builder[Table[String]]:
   private var caption: Option[String] = None
   private val rows: ListBuffer[RowBuilder] = ListBuffer.empty
   var backgroundColor: ColorString = DefaultValues.backgroundColorTable
@@ -28,7 +28,7 @@ class TableBuilder extends LayerElementBuilder:
     rows += row
     this
 
-  override def build: Table[String] = Table(caption, rows.map(_.build).toList, TableStyle(backgroundColor, margin, textAlign, width, alignment), MainText(_))
+  override def build: Table[String] = Table(caption, rows.map(_.build).toList, TableStyle(backgroundColor, margin, textAlign, width, alignment))
 
 
 case class RowBuilder(private val cells: ArrayBuffer[CellBuilder]) extends Builder[Row[String]]:

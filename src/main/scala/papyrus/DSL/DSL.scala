@@ -5,7 +5,7 @@ import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.builders.ImageBuilder.caption
 import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TextDSL, TitleBuilder, TitleHandler}
-import papyrus.DSL.builders.RowBuilder.{|, |-, |^}
+import papyrus.DSL.builders.RowBuilder.|
 import papyrus.DSL.builders.TextBuilder.{newLine, *}
 import papyrus.DSL.builders.TitleBuilder.*
 import papyrus.logic.layerElement.LayerElement
@@ -32,8 +32,6 @@ object DSL:
     given builder: ContentBuilder = ContentBuilder()
     init
     pb.withContent(builder.build)
-
-
 
   def title(init: TitleBuilder ?=> TitleBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: TitleBuilder = TitleBuilder() // viene passato a init
@@ -83,9 +81,9 @@ object DSL:
     init
     ctx.listType(init)
 
-  def item(init: ItemBuilder ?=> ItemBuilder)(using ctx: ListBuilder): Unit =
+  def item(init: ItemBuilder ?=> TextDSL)(using ctx: ListBuilder): Unit =
     given builder: ItemBuilder = ItemBuilder()
-    val updatedBuilder = init
+    val updatedBuilder = builder.value(init.str)
     ctx.addItem(updatedBuilder.build)
 
   def applyTextStyle(init: TextBuilder ?=> TextBuilder, style: TextBuilder => TextBuilder)(
@@ -112,55 +110,55 @@ object DSL:
   def underline(init: TextBuilder ?=> TextBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     applyTextStyle(init, _.textDecoration("underline"))
 
-  def nameFile(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): Unit =
-    mb.withNameFile(init)
+  def nameFile(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
+    mb.withNameFile(init.str)
 
-  def extension(init: MetadataBuilder ?=> Extension)(using mb: MetadataBuilder): Unit =
-    mb.withExtension(init)
+  def extension(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
+    mb.withExtension(init.str.asInstanceOf[Extension])
 
-  def path(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): Unit =
-    mb.withSavingPath(init)
+  def path(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
+    mb.withSavingPath(init.str)
 
-  def language(init: MetadataBuilder ?=> Language)(using mb: MetadataBuilder): Unit =
-    mb.withLanguage(init)
+  def language(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
+    mb.withLanguage(init.str.asInstanceOf[Language])
 
-  def metadataTitle(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): Unit =
-    mb.withTitle(init)
+  def metadataTitle(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
+    mb.withTitle(init.str)
 
-  def author(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): Unit =
-    mb.withAuthor(init)
+  def author(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
+    mb.withAuthor(init.str)
 
-  def charset(init: MetadataBuilder ?=> Charset)(using mb: MetadataBuilder): Unit =
-    val updated: Unit = mb.withCharset(init)
+  def charset(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
+    val updated: Unit = mb.withCharset(init.str.asInstanceOf[Charset])
 
-  def styleSheet(init: MetadataBuilder ?=> StyleSheet)(using mb: MetadataBuilder): Unit =
-    mb.withStyleSheet(init)
+  def styleSheet(init: MetadataBuilder ?=> TextDSL)(using mb: MetadataBuilder): Unit =
+    mb.withStyleSheet(init.str)
 
   def style(init: MainStyleBuilder ?=> Unit)(using mb: MetadataBuilder): Unit =
     given builder: MainStyleBuilder = MainStyleBuilder()
     init
     mb.withStyle(builder.build)
 
-  def font(init: MainStyleBuilder ?=> FontFamily)(using msb: MainStyleBuilder): Unit =
-    msb.withFont(init)
+  def font(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
+    msb.withFont(init.str.asInstanceOf[FontFamily])
 
-  def fontSize(init: MainStyleBuilder ?=> FontSize)(using msb: MainStyleBuilder): Unit =
-    msb.withFontSize(init)
+  def fontSize(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
+    msb.withFontSize(init.str.asInstanceOf[FontSize])
 
-  def lineHeight(init: MainStyleBuilder ?=> LineHeight)(using msb: MainStyleBuilder): Unit =
-    msb.withLineHeight(init)
+  def lineHeight(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
+    msb.withLineHeight(init.str.asInstanceOf[LineHeight])
 
-  def textColor(init: MainStyleBuilder ?=> ColorString)(using msb: MainStyleBuilder): Unit =
-    msb.withTextColor(init)
+  def textColor(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
+    msb.withTextColor(init.str.asInstanceOf[ColorString])
 
-  def backgroundColor(init: MainStyleBuilder ?=> ColorString)(using msb: MainStyleBuilder): Unit =
-    msb.withBackgroundColor(init)
+  def backgroundColor(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
+    msb.withBackgroundColor(init.str.asInstanceOf[ColorString])
 
-  def textAlign(init: MainStyleBuilder ?=> Alignment)(using msb: MainStyleBuilder): Unit =
-    msb.withTextAlign(init)
+  def textAlign(init: MainStyleBuilder ?=> TextDSL)(using msb: MainStyleBuilder): Unit =
+    msb.withTextAlign(init.str.asInstanceOf[Alignment])
 
-  def margin(init: MainStyleBuilder ?=> Margin)(using msb: MainStyleBuilder): Unit =
-    msb.withMargin(init)
+  def margin(init: MainStyleBuilder ?=> Int)(using msb: MainStyleBuilder): Unit =
+    msb.withMargin(init.asInstanceOf[Margin])
 
   def image(init: ImageBuilder ?=> ImageBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     val builder = init(using ImageBuilder())
@@ -199,35 +197,35 @@ object DSL:
       case ssb: SubSectionBuilder =>
         ssb.addLayerElement(builder.build)
 
-  def caption(init: TableBuilder ?=> String)(using tb: TableBuilder): Unit =
+  def caption(init: TableBuilder ?=> TextDSL)(using tb: TableBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
     init
-    tb.withCaption(init)
+    tb.withCaption(init.str)
 
-  def backgroundColorTable(init: TableBuilder ?=> ColorString)(using tb: TableBuilder): Unit =
+  def backgroundColorTable(init: TableBuilder ?=> TextDSL)(using tb: TableBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
     init
-    tb.backgroundColor = init
+    tb.backgroundColor = init.str.asInstanceOf[ColorString]
 
   def marginTable(init: TableBuilder ?=> Int)(using tb: TableBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
     init
     tb.margin = init.asInstanceOf[Margin]
 
-  def textAlignTable(init: TableBuilder ?=> Alignment)(using tb: TableBuilder): Unit =
+  def textAlignTable(init: TableBuilder ?=> TextDSL)(using tb: TableBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
     init
-    tb.textAlign = init
+    tb.textAlign = init.str.asInstanceOf[Alignment]
 
-  def widthTable(init: TableBuilder ?=> Width)(using tb: TableBuilder): Unit =
+  def widthTable(init: TableBuilder ?=> TextDSL)(using tb: TableBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
     init
-    tb.width = init
+    tb.width = init.str.asInstanceOf[Width]
 
-  def alignTable(init: TableBuilder ?=> Align)(using tb: TableBuilder): Unit =
+  def alignTable(init: TableBuilder ?=> TextDSL)(using tb: TableBuilder): Unit =
     given builder: TableBuilder = TableBuilder()
     init
-    tb.alignment = init
+    tb.alignment = init.str.asInstanceOf[Align]
 
   given Conversion[List[String], Row[String]] with
     def apply(list: List[String]): Row[String] =
@@ -236,14 +234,14 @@ object DSL:
         rowBuilder.addCell(CellBuilder().withContent(str))
       rowBuilder.build
 
+  given Conversion[String, TextDSL] with
+    def apply(str: String): TextDSL = TextDSL(str)
+
   given Conversion[String, TextBuilder] with
     def apply(str: String): TextBuilder = TextBuilder(str)
 
   given Conversion[String, TitleBuilder] with
     def apply(str: String): TitleBuilder = TitleBuilder(str)
-
-  given Conversion[String, ItemBuilder] with
-    def apply(str: String): ItemBuilder = ItemBuilder(str)
 
   given Conversion[String, ImageBuilder] with
     def apply(str: String): ImageBuilder = ImageBuilder(str)
@@ -262,16 +260,18 @@ object DSL:
         style:
           margin:
             150
+          font:
+            "Arial"
       content:
         title:
-          "End 3rd Sprint"
-        text:
-          "Normale" color "red"
+          "End 3rd Sprint" textColor "red"
+        bold:
+          "Normale"
         section:
           title:
             "Table and listing"
           text:
-            "Let's try to print a table." newLine "Ciao" newLine "Ciao"
+            "Let's try to print a table." newLine "Ciao"
           table:
             "1" | "2" | "3"
             "4" | "5" | "6"
@@ -282,18 +282,21 @@ object DSL:
               "center"
           subsection:
             title:
-              "Listing" textColor "red"
+              "Listing"
             underline:
               "Prova grassetto"
             text:
-              "\nWhy do we use it?\nIt is a long established" newLine "Ciao"
+              "\nWhy do we use it?\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\n\n\nWhere does it come from?\nContrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of \"de Finibus Bonorum et Malorum\" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, \"Lorem ipsum dolor sit amet..\", comes from a line in section 1.10.32.\n\nThe standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from \"de Finibus Bonorum et Malorum\" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.\n\nWhere can I get some?\nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.'" fontWeight "bold"
+
             listing:
               listType:
-                "ol"
+                "ul"
               item:
                 "First element"
               item:
                 "Second element"
+              item:
+                "Third element"
         section:
           title:
             "Image"
