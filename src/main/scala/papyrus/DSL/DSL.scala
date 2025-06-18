@@ -34,12 +34,9 @@ object DSL:
     given builder: TitleBuilder = TitleBuilder() // viene passato a init
 
     val configuredBuilder = init
-
-    val baseTitle = configuredBuilder.build.title
-
-    val numberedTitle = generateNumberedTitle(baseTitle, ctx)
-
-    val numberedBuilder = generateLevelTitle(configuredBuilder, numberedTitle, ctx)
+    val baseTitle: String = configuredBuilder.build.title
+    val numberedTitle: String = generateNumberedTitle(baseTitle, ctx)
+    val numberedBuilder: TitleBuilder = generateLevelTitle(configuredBuilder, numberedTitle, ctx)
 
     ctx match
       case pb: PapyrusBuilder => pb.setTitle(numberedBuilder.build)
