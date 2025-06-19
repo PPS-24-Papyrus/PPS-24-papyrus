@@ -284,6 +284,8 @@ object DSL:
           "html"
 
       listing:
+        ordered:
+          "alphabetical"
         item:
           "v"
         listing:

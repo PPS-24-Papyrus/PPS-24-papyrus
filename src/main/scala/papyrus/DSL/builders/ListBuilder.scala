@@ -108,29 +108,34 @@ case class ListBuilder(
     }
 
   private def sortItemsBottomUpFromBuilder(builder: ListBuilder, depth: Int = 0): ListBuilder =
-    // 1. Ricorsione sulle sottoliste
-    val newItems = builder.items.map {
+    // 1. Ricorsione sulle sottoliste, passando giù gli stessi parametri
+    val newItems = this.items.map {
       case subBuilder: ListBuilder =>
-        sortItemsBottomUpFromBuilder(subBuilder, depth + 1)
+        val updatedSub = this.copy(
+          order = this.order,
+          reference = this.reference,
+          reversed = this.reversed
+        )
+        sortItemsBottomUpFromBuilder(updatedSub, depth + 1)
       case other => other
     }
 
-    // 2. Ordina gli Item
+    // 2. Ordina gli Item usando sortItems
     val itemsOnly = newItems.collect { case i: Item => i }
-    val sortedItems = itemsOnly.sortBy(_.item.toLowerCase)
+    val sortedItems = builder.sortItems(itemsOnly)
 
     // 3. Raccoglie le sottoliste
     val subLists = newItems.collect { case l: ListBuilder => l }
 
-    // 4. Ricostruisce la lista finale
+    // 4. Ricostruisce lista finale (item + sottoliste)
     val finalItems: List[ListElement] = sortedItems ++ subLists.map(_.asInstanceOf[ListElement])
 
-    // 5. Restituisce una nuova copia ordinata
+    // 5. Restituisce builder aggiornato
     builder.copy(items = finalItems)
 
 
   override def build: Listing =
     println(">>> Inizio stampa bottom-up <<<")
-    printItemsBottomUpFromBuilder(this)
+    printItemsBottomUpFromBuilder(sortItemsBottomUpFromBuilder(this))
     println(">>> Fine stampa bottom-up <<<")
-    Listing(listType, items*)
+    Listing(listType, sortItemsBottomUpFromBuilder(this).items*)
