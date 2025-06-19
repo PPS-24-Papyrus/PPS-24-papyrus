@@ -13,8 +13,28 @@ case class ListBuilder(
                         listType: ListType = "ul",
                         order: Option[SortingList] = None,
                         reference: Option[String] = None,
-                        reversed: Boolean = false
+                        reversed: Boolean = false,
+                        private val parentMap: scala.collection.mutable.Map[ListBuilder, Item] = scala.collection.mutable.Map.empty
                       ) extends LayerElementBuilder:
+
+  def copy(
+            items: List[ListElement] = this.items,
+            listType: ListType = this.listType,
+            order: Option[SortingList] = this.order,
+            reference: Option[String] = this.reference,
+            reversed: Boolean = this.reversed,
+            parentMap: scala.collection.mutable.Map[ListBuilder, Item] = this.parentMap
+          ): ListBuilder =
+    new ListBuilder(items, listType, order, reference, reversed, parentMap)
+
+  private def registerSubList(subList: ListBuilder): Unit =
+    parentMap.update(subList, lastInsertedItem.getOrElse(Item("")))
+
+  private def lastInsertedItem: Option[Item] =
+    items.reverse.collectFirst { case i: Item => i }
+
+  private def getParentItem(subList: ListBuilder): Option[Item] =
+    parentMap.get(subList)
 
   def withListType(tpe: ListType): ListBuilder =
     copy(listType = tpe)
@@ -28,11 +48,16 @@ case class ListBuilder(
   def withReference(ref: String): ListBuilder =
     copy(reference = Some(ref), order = Some("levenshtein"))
 
-  def add(item: ListElement): ListBuilder =
-    copy(items = items :+ item)
+  def add(element: ListElement): ListBuilder = element match
+    case subList: ListBuilder =>
+      registerSubList(subList)
+      copy(items = items :+ subList)
+    case item =>
+      copy(items = items :+ item)
 
   private def sortItems(items: List[Item]): List[Item] =
-    val sorted: List[Item] = order match
+    println(s"sortItems: start with ${items.size} items")
+    val sorted = order match
       case Some("alphabetical") => items.sortBy(_.item.toLowerCase)
       case Some("length")       => items.sortBy(_.item.length)
       case Some("reverse")      => items.reverse
@@ -40,9 +65,13 @@ case class ListBuilder(
         val ref = reference.getOrElse("")
         items.sortBy(i => levenshtein(i.item, ref))
       case _ => items
-
-      if reversed then sorted.reverse else sorted
-
+    val finalSorted = if reversed then
+      println("sortItems: reversed sorting applied")
+      sorted.reverse
+    else
+      println("sortItems: sorted without reverse")
+      sorted
+    finalSorted
 
   private def levenshtein(a: String, b: String): Int =
     val memo = Array.tabulate(a.length + 1, b.length + 1) { (i, j) =>
@@ -63,10 +92,5 @@ case class ListBuilder(
 
 
   override def build: Listing =
-    Listing(listType, items*)
-
-object ListBuilder:
-  def apply(): ListBuilder = new ListBuilder()
-
-
-
+    println("build: start building Listing")
+    Listing(listType, items *)

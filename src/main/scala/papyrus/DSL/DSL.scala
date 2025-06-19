@@ -83,7 +83,7 @@ object DSL:
       case cb: ContentBuilder => cb.addLayerElement(internalBuilder.build)
       case sb: SectionBuilder => sb.addLayerElement(internalBuilder.build)
       case ssb: SubSectionBuilder => ssb.addLayerElement(internalBuilder.build)
-      case lb: ListBuilder => lb.add(internalBuilder.build)
+      case lb: ListBuilder => lb.add(internalBuilder.withListType(lb.listType).build)
 
 
   def item(init: ItemBuilder ?=> ItemBuilder)(using ctx: ListBuilder): Unit =
@@ -107,7 +107,6 @@ object DSL:
 
   def reference(init: ListBuilder ?=> String)(using ctx: ListBuilder): Unit =
     init
-    ctx.ordered("levenshtein")
     ctx.withReference(init)
 
 
@@ -285,16 +284,22 @@ object DSL:
           "html"
 
       listing:
+        listType:
+          "ol"
+        ordered:
+          "alphabetical"
         item:
-          "prima"
+          "c"
         listing:
           item:
             "prima.prima"
+          item:
+            "aaa"
           listing:
             item:
-              "prima.prima.prima"
+              "prima.seconda.prima"
         item:
-          "seconda"
+          "a"
         item:
           "terza"
 
