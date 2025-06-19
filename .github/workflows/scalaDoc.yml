@@ -1,3 +1,10 @@
+name: Generate ScalaDoc
+
+on:
+  pull_request:
+    branches:
+      - '**'
+
 jobs:
   scaladoc:
     runs-on: ubuntu-latest
