@@ -6,13 +6,24 @@ import papyrus.logic.utility.IdGenerator
 import papyrus.logic.utility.TypesInline.{Float, Width}
 
 
+/** An image element with optional caption, width, and alignment */
 trait Image extends CaptionElement:
+  /** Image source path (file system path) */
   def src: String
+
+  /** Alternative text (used if image fails to load or by screen readers) */
   def alt: String
+
+  /** Optional image width in pixels */
   def width: Option[Width]
+
+  /** Optional image alignment (e.g. float left/right) */
   def alignment: Option[Float]
 
+
 object Image:
+
+  /** Creates an Image with src, alt text, optional caption, width and alignment */
   def apply(src: String, alt: String, caption: Option[String], width: Option[Width],  alignment: Option[Float]): Image = new ImageImpl(src, alt, caption, width, alignment)
 
   private class ImageImpl(override val src: String,
