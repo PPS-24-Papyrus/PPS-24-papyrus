@@ -90,7 +90,7 @@ case class ListBuilder(
 
     memo(a.length)(b.length)
 
-  def printItemsBottomUpFromBuilder(builder: ListBuilder, depth: Int = 0): Unit =
+  private def printItemsBottomUpFromBuilder(builder: ListBuilder, depth: Int = 0): Unit =
     val indent = "  " * depth
 
     // Prima visito tutte le sottoliste contenute negli items
@@ -107,9 +107,30 @@ case class ListBuilder(
       case _ => // ignoro ListBuilder e altri elementi
     }
 
+  private def sortItemsBottomUpFromBuilder(builder: ListBuilder, depth: Int = 0): ListBuilder =
+    // 1. Ricorsione sulle sottoliste
+    val newItems = builder.items.map {
+      case subBuilder: ListBuilder =>
+        sortItemsBottomUpFromBuilder(subBuilder, depth + 1)
+      case other => other
+    }
+
+    // 2. Ordina gli Item
+    val itemsOnly = newItems.collect { case i: Item => i }
+    val sortedItems = itemsOnly.sortBy(_.item.toLowerCase)
+
+    // 3. Raccoglie le sottoliste
+    val subLists = newItems.collect { case l: ListBuilder => l }
+
+    // 4. Ricostruisce la lista finale
+    val finalItems: List[ListElement] = sortedItems ++ subLists.map(_.asInstanceOf[ListElement])
+
+    // 5. Restituisce una nuova copia ordinata
+    builder.copy(items = finalItems)
+
 
   override def build: Listing =
     println(">>> Inizio stampa bottom-up <<<")
-    printItemsBottomUpFromBuilder(this)
+    printItemsBottomUpFromBuilder(sortItemsBottomUpFromBuilder(this))
     println(">>> Fine stampa bottom-up <<<")
-    Listing(listType, items *)
+    Listing(listType, sortItemsBottomUpFromBuilder(this).items*)
