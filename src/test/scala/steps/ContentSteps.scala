@@ -58,18 +58,20 @@ class ContentSteps extends ScalaDsl with EN with Matchers:
 
   Given("""I add a table with rows:"""): (rows: DataTable) =>
     import papyrus.DSL.builders._
-    val tableBuilder = TableBuilder()
     import scala.jdk.CollectionConverters._
-    val scalaRows = rows.asLists().asScala.toList.map(_.asScala.toList)
-    scalaRows.foreach(row =>
-      tableBuilder.addRow(
-        row.foldLeft(RowBuilder()) { (rb, cell) =>
-          rb.addCell(CellBuilder().withContent(cell))
-        }
-      )
-    )
+    val tableBuilder = TableBuilder[String]()
+    val scalaRows: List[List[String]] =
+      rows.asLists().asScala.toList.map(_.asScala.toList)
+
+    scalaRows.foreach { row =>
+      val rowBuilder = row.foldLeft(RowBuilder[String]()) { (rb, cell) =>
+        rb.addCell(CellBuilder[String]().withContent(cell))
+      }
+      tableBuilder.addRow(rowBuilder)
+    }
     contentBuilder = Some(ContentBuilder())
     contentBuilder.get.addLayerElement(tableBuilder.build)
+
 
   When("""I render the document"""):
     try
