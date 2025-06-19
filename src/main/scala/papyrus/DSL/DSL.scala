@@ -284,10 +284,6 @@ object DSL:
           "html"
 
       listing:
-        listType:
-          "ol"
-        ordered:
-          "alphabetical"
         item:
           "c"
         listing:

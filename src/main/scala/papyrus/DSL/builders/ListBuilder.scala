@@ -90,7 +90,26 @@ case class ListBuilder(
 
     memo(a.length)(b.length)
 
+  def printItemsBottomUpFromBuilder(builder: ListBuilder, depth: Int = 0): Unit =
+    val indent = "  " * depth
+
+    // Prima visito tutte le sottoliste contenute negli items
+    builder.items.foreach {
+      case subBuilder: ListBuilder =>
+        printItemsBottomUpFromBuilder(subBuilder, depth + 1)
+      case _ => // ignoro tutto il resto per ora
+    }
+
+    // Poi stampo gli Item di questo livello
+    builder.items.foreach {
+      case item: Item =>
+        println(s"${indent}- Item: ${item.item}")
+      case _ => // ignoro ListBuilder e altri elementi
+    }
+
 
   override def build: Listing =
-    println("build: start building Listing")
+    println(">>> Inizio stampa bottom-up <<<")
+    printItemsBottomUpFromBuilder(this)
+    println(">>> Fine stampa bottom-up <<<")
     Listing(listType, items *)
