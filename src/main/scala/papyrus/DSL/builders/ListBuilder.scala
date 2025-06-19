@@ -131,6 +131,6 @@ case class ListBuilder(
 
   override def build: Listing =
     println(">>> Inizio stampa bottom-up <<<")
-    printItemsBottomUpFromBuilder(sortItemsBottomUpFromBuilder(this))
+    printItemsBottomUpFromBuilder(this)
     println(">>> Fine stampa bottom-up <<<")
-    Listing(listType, sortItemsBottomUpFromBuilder(this).items*)
+    Listing(listType, items*)
