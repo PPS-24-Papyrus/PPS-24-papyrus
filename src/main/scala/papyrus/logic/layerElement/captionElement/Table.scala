@@ -90,6 +90,7 @@ object Table:
           val colCounts = data.zipWithIndex.map { case (row, i) => (i, row.sum) }
           val details = colCounts.map((i, c) => s"Row $i → $c columns").mkString("<br>")
           Left(s"<div style='color:red'><strong>Table structure error:</strong><br>$details</div>")
+
   val engine = mkPrologEngine(
     """
       sum_list([], 0).
