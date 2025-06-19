@@ -69,22 +69,21 @@ object DSL:
     init
     cb.addLayerElement(builder.build)
 
-  def listing(init: ListBuilder ?=> Unit)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def listing(init: ListBuilder ?=> Unit)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder | ListBuilder): Unit =
     var internalBuilder = ListBuilder()
-
-    // Define proxy
     val proxy = ListBuilderProxy(() => internalBuilder, updated => internalBuilder = updated)
+
     given ListBuilder = proxy
 
-    // Run DSL
     init
 
-    // Attach result to context
+    // Quando esci dal DSL, devi aggiungere la lista costruita:
     ctx match
       case pb: PapyrusBuilder => pb.addLayerElement(internalBuilder.build)
       case cb: ContentBuilder => cb.addLayerElement(internalBuilder.build)
       case sb: SectionBuilder => sb.addLayerElement(internalBuilder.build)
       case ssb: SubSectionBuilder => ssb.addLayerElement(internalBuilder.build)
+      case lb: ListBuilder => lb.add(internalBuilder.build)
 
 
   def item(init: ItemBuilder ?=> ItemBuilder)(using ctx: ListBuilder): Unit =
@@ -282,41 +281,23 @@ object DSL:
   @main def provaFunc(): Unit = {
     papyrus:
       metadata:
-        backgroundColor:
-          "red"
         extension:
           "html"
-      title:
-        "Prova con meta immutabile" textColor "blue"
-      text:
-        "Nel mezzo del cammin di nostra vita" newLine "Aaa cervasi"
-      listing:
-        ordered:
-          "alphabetical"
-        reverse:
-          item:
-            "Supercalifragilistichespiralidoso"
-          item:
-            "LucaCantagallo"
-          item:
-            "ZZZ"
-          item:
-            "Pietroburgo"
-          item:
-            "Luca"
-          item:
-            "Daniel"
 
-      section:
-        title:
-          "Sezione 1"
-        text:
-          "Testo in sezione 1"
-        subsection:
-          title:
-            "Subsection 1"
-          text:
-            "testo in sezione 2"
+      listing:
+        item:
+          "prima"
+        listing:
+          item:
+            "prima.prima"
+          listing:
+            item:
+              "prima.prima.prima"
+        item:
+          "seconda"
+        item:
+          "terza"
+
 
     /*
     papyrus:

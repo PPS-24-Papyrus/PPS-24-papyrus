@@ -2,11 +2,12 @@ package papyrus.logic.layerElement.text
 
 
 import papyrus.logic.utility.TypesInline.*
-import papyrus.logic.layerElement.LayerElement
+import papyrus.logic.layerElement.{LayerElement, ListElement}
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.Renderer.Text.*
 
-trait Item extends LayerElement:
+
+trait Item extends ListElement:
   def item: String
 
 object Item:

@@ -2,7 +2,7 @@ package papyrus.DSL.builders
 
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
-import papyrus.logic.layerElement.Listing
+import papyrus.logic.layerElement.{ListElement, Listing}
 import papyrus.logic.layerElement.text.Item
 
 class ListBuilderProxy(
@@ -30,7 +30,7 @@ class ListBuilderProxy(
     set(updated)
     this
 
-  override def add(item: Item): ListBuilder =
+  override def add(item: ListElement): ListBuilder =
     val updated = get().add(item)
     set(updated)
     this

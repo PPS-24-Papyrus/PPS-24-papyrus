@@ -2,14 +2,14 @@ package papyrus.DSL.builders
 
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
-import papyrus.logic.layerElement.Listing
+import papyrus.logic.layerElement.{ListElement, Listing}
 import papyrus.logic.layerElement.text.Item
 
 import scala.collection.mutable.ListBuffer
 import scala.math
 
 case class ListBuilder(
-                        items: List[Item] = Nil,
+                        items: List[ListElement] = Nil,
                         listType: ListType = "ul",
                         order: Option[SortingList] = None,
                         reference: Option[String] = None,
@@ -28,7 +28,7 @@ case class ListBuilder(
   def withReference(ref: String): ListBuilder =
     copy(reference = Some(ref), order = Some("levenshtein"))
 
-  def add(item: Item): ListBuilder =
+  def add(item: ListElement): ListBuilder =
     copy(items = items :+ item)
 
   private def sortItems(items: List[Item]): List[Item] =
@@ -63,7 +63,7 @@ case class ListBuilder(
 
 
   override def build: Listing =
-    Listing(listType, sortItems(items)*)
+    Listing(listType, items*)
 
 object ListBuilder:
   def apply(): ListBuilder = new ListBuilder()
