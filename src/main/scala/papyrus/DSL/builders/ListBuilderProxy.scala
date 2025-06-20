@@ -2,10 +2,11 @@ package papyrus.DSL.builders
 
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
-import papyrus.logic.layerElement.{ListElement, Listing}
+import papyrus.logic.layerElement.Listing
 import papyrus.logic.layerElement.text.Item
 
-class ListBuilderProxy(get: () => ListBuilder, set: ListBuilder => Unit) extends ListBuilder {
+class ListBuilderProxy(get: () => ListBuilder, set: ListBuilder => Unit) extends ListBuilder:
+
   override def withListType(tpe: ListType): ListBuilder =
     val updated = get().withListType(tpe)
     set(updated)
@@ -26,7 +27,7 @@ class ListBuilderProxy(get: () => ListBuilder, set: ListBuilder => Unit) extends
     set(updated)
     this
 
-  override def add(item: ListElement): ListBuilder =
+  override def add(item: ListElementBuilder): ListBuilder =
     val updated = get().add(item)
     set(updated)
     this
@@ -34,12 +35,16 @@ class ListBuilderProxy(get: () => ListBuilder, set: ListBuilder => Unit) extends
   override def build: Listing =
     get().build
 
-  override def items: List[ListElement] = get().items
+  override def items: List[ListElementBuilder] = get().items
   override def listType: ListType = get().listType
   override def order: Option[SortingList] = get().order
   override def reference: Option[String] = get().reference
-
   override def reversed: Boolean = get().reversed
 
-  override def copyWith(items: List[ListElement], listType: ListType, order: Option[SortingList], reference: Option[String], reversed: Boolean): ListBuilder = ???
-}
+  override def copyWith(
+                         items: List[ListElementBuilder],
+                         listType: ListType,
+                         order: Option[SortingList],
+                         reference: Option[String],
+                         reversed: Boolean
+                       ): ListBuilder = get().copyWith(items, listType, order, reference, reversed)

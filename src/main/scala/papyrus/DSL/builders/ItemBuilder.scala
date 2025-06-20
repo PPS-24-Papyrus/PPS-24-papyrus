@@ -7,8 +7,8 @@ import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.DefaultValues
 
 case class ItemBuilder(
-                        private val value: String
-                      ) extends Builder[Item]:
+                        value: String
+                      ) extends ListElementBuilder:
   private def withValue(v: String): ItemBuilder = this.copy(value = v)
 
   override def build: Item = Item(value)

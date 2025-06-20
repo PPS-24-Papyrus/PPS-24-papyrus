@@ -72,20 +72,12 @@ object DSL:
   def listing(init: ListBuilder ?=> Unit)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder | ListBuilder): Unit =
     var internalBuilder: ListBuilder = ctx match
       case lb: ListBuilder =>
-        ListBuilderImpl(listType = lb.listType)
+        ListBuilderImpl(listType = lb.listType, order = lb.order, reversed = lb.reversed, reference = lb.reference)
       case _ =>
         ListBuilderImpl()
 
     val proxy = ListBuilderProxy(() => internalBuilder, updated => internalBuilder = updated)
 
-    // Debug opzionale
-    ctx match
-      case lb: ListBuilder =>
-        println(proxy.listType)
-      case _ => println("")
-
-    // Questo non ti serve più, a meno che non venga usato altrove
-    // val listBuilderForList = ListBuilderImpl(listType = proxy.listType)
 
     given ListBuilder = proxy
 
@@ -97,14 +89,13 @@ object DSL:
       case cb: ContentBuilder => cb.addLayerElement(proxy.build)
       case sb: SectionBuilder => sb.addLayerElement(proxy.build)
       case ssb: SubSectionBuilder => ssb.addLayerElement(proxy.build)
-      case lb: ListBuilder => lb.add(internalBuilder.build)
+      case lb: ListBuilder => lb.add(internalBuilder)
 
 
   def item(init: ItemBuilder ?=> ItemBuilder)(using ctx: ListBuilder): Unit =
     given builder: ItemBuilder = ItemBuilder()
 
-    val built = init.build
-    ctx.add(built) // aggiornamento avviene dentro il proxy
+    ctx.add(init) // aggiornamento avviene dentro il proxy
 
   def listType(init: ListBuilder ?=> ListType)(using ctx: ListBuilder): Unit =
     ctx.withListType(init)
@@ -297,19 +288,21 @@ object DSL:
           "html"
 
       listing:
-        listType:
-          "ol"
+        ordered:
+          "alphabetical"
         item:
-          "v"
+          "s"
         listing:
           item:
-            "t"
+            "l"
           item:
-            "evviva cazzo"
+            "u"
           item:
-            "non mi illudere"
+            "c"
         item:
-          "perfavore espresso macchiato"
+          "a"
+        item:
+          "z"
 
 
 

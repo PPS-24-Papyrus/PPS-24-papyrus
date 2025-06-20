@@ -2,14 +2,14 @@ package papyrus.DSL.builders
 
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
-import papyrus.logic.layerElement.{ListElement, Listing}
+import papyrus.logic.layerElement.Listing
 import papyrus.logic.layerElement.text.Item
 
 import scala.collection.mutable.ListBuffer
 import scala.math
 
-trait ListBuilder extends LayerElementBuilder {
-  def items: List[ListElement]
+trait ListBuilder extends ListElementBuilder{
+  def items: List[ListElementBuilder]
 
   def listType: ListType
 
@@ -27,12 +27,12 @@ trait ListBuilder extends LayerElementBuilder {
 
   def withReference(str: String): ListBuilder
 
-  def add(element: ListElement): ListBuilder
+  def add(element: ListElementBuilder): ListBuilder
 
   def build: Listing
 
   def copyWith(
-                items: List[ListElement] = this.items,
+                items: List[ListElementBuilder] = this.items,
                 listType: ListType = this.listType,
                 order: Option[SortingList] = this.order,
                 reference: Option[String] = this.reference,
@@ -42,24 +42,13 @@ trait ListBuilder extends LayerElementBuilder {
 
 
 case class ListBuilderImpl(
-                            items: List[ListElement] = Nil,
+                            items: List[ListElementBuilder] = Nil,
                             listType: ListType = "ul",
                             order: Option[SortingList] = None,
                             reference: Option[String] = None,
                             reversed: Boolean = false,
-                            private val parentMap: scala.collection.mutable.Map[ListBuilder, Item] = scala.collection.mutable.Map.empty
                           ) extends ListBuilder:
 
-
-
-  private def registerSubList(subList: ListBuilder): Unit =
-    parentMap.update(subList, lastInsertedItem.getOrElse(Item("")))
-
-  private def lastInsertedItem: Option[Item] =
-    items.reverse.collectFirst { case i: Item => i }
-
-  private def getParentItem(subList: ListBuilder): Option[Item] =
-    parentMap.get(subList)
 
   def withListType(tpe: ListType): ListBuilder =
     copy(listType = tpe)
@@ -73,30 +62,41 @@ case class ListBuilderImpl(
   def withReference(ref: String): ListBuilder =
     copy(reference = Some(ref), order = Some("levenshtein"))
 
-  def add(element: ListElement): ListBuilder = element match
-    case subList: ListBuilder =>
-      registerSubList(subList)
-      copy(items = items :+ subList)
-    case item =>
-      copy(items = items :+ item)
+  def add(element: ListElementBuilder): ListBuilder =
+      copy(items = items :+ element)
 
-  private def sortItems(items: List[Item]): List[Item] =
-    println(s"sortItems: start with ${items.size} items")
-    val sorted = order match
-      case Some("alphabetical") => items.sortBy(_.item.toLowerCase)
-      case Some("length")       => items.sortBy(_.item.length)
+  private def lastInsertedItem: Option[ItemBuilder] =
+    items.reverse.collectFirst { case i: ItemBuilder => i }
+
+  private def sortItemBuildersWithSublists(
+                                            builder: ListBuilder,
+                                            elems: List[ListElementBuilder],
+                                            associationMap: Map[ListBuilder, Option[ItemBuilder]]
+                                          ): List[ListElementBuilder] =
+    // 1. Prendi solo le item
+    val items = elems.collect { case i: ItemBuilder => i }
+
+    // 2. Ordina le item
+    val sortedItems = builder.order match
+      case Some("alphabetical") => items.sortBy(_.value.toLowerCase)
+      case Some("length")       => items.sortBy(_.value.length)
       case Some("reverse")      => items.reverse
       case Some("levenshtein") =>
-        val ref = reference.getOrElse("")
-        items.sortBy(i => levenshtein(i.item, ref))
+        val ref = builder.reference.getOrElse("")
+        items.sortBy(i => levenshtein(i.value, ref))
       case _ => items
-    val finalSorted = if reversed then
-      println("sortItems: reversed sorting applied")
-      sorted.reverse
-    else
-      println("sortItems: sorted without reverse")
-      sorted
-    finalSorted
+
+    val finalSorted =
+      if builder.reversed then sortedItems.reverse else sortedItems
+
+    // 3. Ricostruzione con sottoliste subito dopo
+    finalSorted.flatMap { item =>
+      val attachedSublists = associationMap.collect {
+        case (sublist, Some(`item`)) => sublist
+      }.toList
+      item :: attachedSublists
+    }
+
 
   private def levenshtein(a: String, b: String): Int =
     val memo = Array.tabulate(a.length + 1, b.length + 1) { (i, j) =>
@@ -117,59 +117,63 @@ case class ListBuilderImpl(
 
   private def printItemsBottomUpFromBuilder(builder: ListBuilder, depth: Int = 0): Unit =
     val indent = "  " * depth
-
-    // Prima visito tutte le sottoliste contenute negli items
     builder.items.foreach {
       case subBuilder: ListBuilder =>
         printItemsBottomUpFromBuilder(subBuilder, depth + 1)
       case _ => // ignoro tutto il resto per ora
     }
-
-    // Poi stampo gli Item di questo livello
     builder.items.foreach {
-      case item: Item =>
-        println(s"${indent}- Item: ${item.item}")
+      case item: ItemBuilder =>
+        println(s"${indent}- Item: ${item.value}")
       case _ => // ignoro ListBuilder e altri elementi
     }
 
-  private def sortItemsBottomUpFromBuilder(builder: ListBuilder, depth: Int = 0): ListBuilder =
-    // 1. Ricorsione sulle sottoliste, passando giù gli stessi parametri
-    val newItems = this.items.map {
-      case subBuilder: ListBuilder =>
-        val updatedSub = this.copy(
-          order = this.order,
-          reference = this.reference,
-          reversed = this.reversed
-        )
-        sortItemsBottomUpFromBuilder(updatedSub, depth + 1)
+
+
+  private def findSublistParents(builder: ListBuilder): Map[ListBuilder, Option[ItemBuilder]] = {
+    val childMaps = builder.items.collect {
+      case lb: ListBuilder => findSublistParents(lb)
+    }.foldLeft(Map.empty[ListBuilder, Option[ItemBuilder]])(_ ++ _)
+
+    val localPairs = builder.items.zipWithIndex.collect {
+      case (sublist: ListBuilder, idx) =>
+        val maybeItemAbove = if idx > 0 then builder.items(idx - 1) match {
+          case item: ItemBuilder => Some(item)
+          case _ => None
+        } else None
+        sublist -> maybeItemAbove
+    }.toMap
+
+    childMaps ++ localPairs
+  }
+
+  def visitAllNodesBottomUp(builder: ListBuilder): ListBuilder = {
+    val updatedChildren = builder.items.map {
+      case lb: ListBuilder => visitAllNodesBottomUp(lb)
       case other => other
     }
 
-    // 2. Ordina gli Item usando sortItems
-    val itemsOnly = newItems.collect { case i: Item => i }
-    val sortedItems = this.sortItems(itemsOnly)
+    val associationMap = findSublistParents(builder.copyWith(items = updatedChildren))
+    val updatedItems = sortItemBuildersWithSublists(builder, updatedChildren, associationMap)
 
-    // 3. Raccoglie le sottoliste
-    val subLists = newItems.collect { case l: ListBuilder => l }
-
-    // 4. Ricostruisce lista finale (item + sottoliste)
-    val finalItems: List[ListElement] = sortedItems ++ subLists.map(_.asInstanceOf[ListElement])
-
-    // 5. Restituisce builder aggiornato
-    builder.copyWith(items = finalItems)
+    builder.copyWith(items = updatedItems)
+  }
 
 
-  override def build: Listing =
-    println(">>> Inizio stampa bottom-up <<<")
-    //printItemsBottomUpFromBuilder(sortItemsBottomUpFromBuilder(this))
-    println(">>> Fine stampa bottom-up <<<")
-    Listing(listType, items*)
 
   override def copyWith(
-                         items: List[ListElement] = this.items,
+                         items: List[ListElementBuilder] = this.items,
                          listType: ListType = this.listType,
                          order: Option[SortingList] = this.order,
                          reference: Option[String] = this.reference,
                          reversed: Boolean = this.reversed
                        ): ListBuilder =
-    this.copy(items, listType, order, reference, reversed, parentMap)
+    this.copy(items, listType, order, reference, reversed)
+
+
+  override def build: Listing =
+    val finalBuilder = visitAllNodesBottomUp(this)
+    Listing(finalBuilder.listType, finalBuilder.items.map(_.build) *)
+
+
+// poi qui fai operazioni sul builder corrente o sugli item al livello corrente
