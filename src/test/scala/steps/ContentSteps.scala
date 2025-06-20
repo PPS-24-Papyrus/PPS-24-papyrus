@@ -51,7 +51,7 @@ class ContentSteps extends ScalaDsl with EN with Matchers:
     val items: List[String] = dataTable.asLists().asScala.map(_.get(0)).toList
     contentBuilder = Some(ContentBuilder())
     val listBuilder = items.foldLeft(ListBuilder()) { (builder, item) =>
-      builder.addItem(ItemBuilder(item).build)
+      builder.add(ItemBuilder(item).build)
     }
     contentBuilder.get.addLayerElement(listBuilder.build)
 

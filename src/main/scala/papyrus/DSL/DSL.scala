@@ -3,7 +3,7 @@ package papyrus.DSL
 import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
-import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, ListBuilderProxy, MainStyleBuilder, MetadataBuilder, MetadataBuilderProxy, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
+import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, ListBuilderImpl, ListBuilderProxy, MainStyleBuilder, MetadataBuilder, MetadataBuilderProxy, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
 import papyrus.DSL.builders.TextBuilder.{newLine, *}
 import papyrus.DSL.builders.TitleBuilder.*
 import papyrus.logic.layerElement.captionElement.Row
@@ -70,20 +70,34 @@ object DSL:
     cb.addLayerElement(builder.build)
 
   def listing(init: ListBuilder ?=> Unit)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder | ListBuilder): Unit =
-    var internalBuilder = ListBuilder()
+    var internalBuilder: ListBuilder = ctx match
+      case lb: ListBuilder =>
+        ListBuilderImpl(listType = lb.listType)
+      case _ =>
+        ListBuilderImpl()
+
     val proxy = ListBuilderProxy(() => internalBuilder, updated => internalBuilder = updated)
+
+    // Debug opzionale
+    ctx match
+      case lb: ListBuilder =>
+        println(proxy.listType)
+      case _ => println("")
+
+    // Questo non ti serve più, a meno che non venga usato altrove
+    // val listBuilderForList = ListBuilderImpl(listType = proxy.listType)
 
     given ListBuilder = proxy
 
     init
 
-    // Quando esci dal DSL, devi aggiungere la lista costruita:
+    // Uscita: aggiunta della lista nel contesto superiore
     ctx match
-      case pb: PapyrusBuilder => pb.addLayerElement(internalBuilder.build)
-      case cb: ContentBuilder => cb.addLayerElement(internalBuilder.build)
-      case sb: SectionBuilder => sb.addLayerElement(internalBuilder.build)
-      case ssb: SubSectionBuilder => ssb.addLayerElement(internalBuilder.build)
-      case lb: ListBuilder => lb.add(internalBuilder.withListType(lb.listType).build)
+      case pb: PapyrusBuilder => pb.addLayerElement(proxy.build)
+      case cb: ContentBuilder => cb.addLayerElement(proxy.build)
+      case sb: SectionBuilder => sb.addLayerElement(proxy.build)
+      case ssb: SubSectionBuilder => ssb.addLayerElement(proxy.build)
+      case lb: ListBuilder => lb.add(internalBuilder.build)
 
 
   def item(init: ItemBuilder ?=> ItemBuilder)(using ctx: ListBuilder): Unit =
@@ -93,20 +107,19 @@ object DSL:
     ctx.add(built) // aggiornamento avviene dentro il proxy
 
   def listType(init: ListBuilder ?=> ListType)(using ctx: ListBuilder): Unit =
-    init
     ctx.withListType(init)
 
   def ordered(init: ListBuilder ?=> SortingList)(using ctx: ListBuilder): Unit =
-    init
+
     ctx.ordered(init)
 
   def reverse(init: ListBuilder ?=> Unit)(using ctx: ListBuilder): Unit =
-    init
+
     ctx.reverseListing
 
 
   def reference(init: ListBuilder ?=> String)(using ctx: ListBuilder): Unit =
-    init
+
     ctx.withReference(init)
 
 
@@ -284,24 +297,20 @@ object DSL:
           "html"
 
       listing:
-        ordered:
-          "alphabetical"
+        listType:
+          "ol"
         item:
           "v"
         listing:
           item:
             "t"
           item:
-            "c"
-          listing:
-            item:
-              "l"
-            item:
-              "i"
+            "evviva cazzo"
+          item:
+            "non mi illudere"
         item:
-          "a"
-        item:
-          "t"
+          "perfavore espresso macchiato"
+
 
 
     /*

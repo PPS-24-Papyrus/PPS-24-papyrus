@@ -5,11 +5,7 @@ import io.github.iltotore.iron.autoRefine
 import papyrus.logic.layerElement.{ListElement, Listing}
 import papyrus.logic.layerElement.text.Item
 
-class ListBuilderProxy(
-                        get: () => ListBuilder,
-                        set: ListBuilder => Unit
-                      ) extends ListBuilder(get().items, get().listType, get().order, get().reference):
-
+class ListBuilderProxy(get: () => ListBuilder, set: ListBuilder => Unit) extends ListBuilder {
   override def withListType(tpe: ListType): ListBuilder =
     val updated = get().withListType(tpe)
     set(updated)
@@ -37,3 +33,13 @@ class ListBuilderProxy(
 
   override def build: Listing =
     get().build
+
+  override def items: List[ListElement] = get().items
+  override def listType: ListType = get().listType
+  override def order: Option[SortingList] = get().order
+  override def reference: Option[String] = get().reference
+
+  override def reversed: Boolean = get().reversed
+
+  override def copyWith(items: List[ListElement], listType: ListType, order: Option[SortingList], reference: Option[String], reversed: Boolean): ListBuilder = ???
+}

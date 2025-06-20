@@ -8,24 +8,49 @@ import papyrus.logic.layerElement.text.Item
 import scala.collection.mutable.ListBuffer
 import scala.math
 
-case class ListBuilder(
-                        items: List[ListElement] = Nil,
-                        listType: ListType = "ul",
-                        order: Option[SortingList] = None,
-                        reference: Option[String] = None,
-                        reversed: Boolean = false,
-                        private val parentMap: scala.collection.mutable.Map[ListBuilder, Item] = scala.collection.mutable.Map.empty
-                      ) extends LayerElementBuilder:
+trait ListBuilder extends LayerElementBuilder {
+  def items: List[ListElement]
 
-  def copy(
-            items: List[ListElement] = this.items,
-            listType: ListType = this.listType,
-            order: Option[SortingList] = this.order,
-            reference: Option[String] = this.reference,
-            reversed: Boolean = this.reversed,
-            parentMap: scala.collection.mutable.Map[ListBuilder, Item] = this.parentMap
-          ): ListBuilder =
-    new ListBuilder(items, listType, order, reference, reversed, parentMap)
+  def listType: ListType
+
+  def order: Option[SortingList]
+
+  def reference: Option[String]
+
+  def reversed: Boolean
+
+  def withListType(tpe: ListType): ListBuilder
+
+  def ordered(orderType: SortingList): ListBuilder
+
+  def reverseListing: ListBuilder
+
+  def withReference(str: String): ListBuilder
+
+  def add(element: ListElement): ListBuilder
+
+  def build: Listing
+
+  def copyWith(
+                items: List[ListElement] = this.items,
+                listType: ListType = this.listType,
+                order: Option[SortingList] = this.order,
+                reference: Option[String] = this.reference,
+                reversed: Boolean = this.reversed
+              ): ListBuilder
+}
+
+
+case class ListBuilderImpl(
+                            items: List[ListElement] = Nil,
+                            listType: ListType = "ul",
+                            order: Option[SortingList] = None,
+                            reference: Option[String] = None,
+                            reversed: Boolean = false,
+                            private val parentMap: scala.collection.mutable.Map[ListBuilder, Item] = scala.collection.mutable.Map.empty
+                          ) extends ListBuilder:
+
+
 
   private def registerSubList(subList: ListBuilder): Unit =
     parentMap.update(subList, lastInsertedItem.getOrElse(Item("")))
@@ -122,7 +147,7 @@ case class ListBuilder(
 
     // 2. Ordina gli Item usando sortItems
     val itemsOnly = newItems.collect { case i: Item => i }
-    val sortedItems = builder.sortItems(itemsOnly)
+    val sortedItems = this.sortItems(itemsOnly)
 
     // 3. Raccoglie le sottoliste
     val subLists = newItems.collect { case l: ListBuilder => l }
@@ -131,11 +156,20 @@ case class ListBuilder(
     val finalItems: List[ListElement] = sortedItems ++ subLists.map(_.asInstanceOf[ListElement])
 
     // 5. Restituisce builder aggiornato
-    builder.copy(items = finalItems)
+    builder.copyWith(items = finalItems)
 
 
   override def build: Listing =
     println(">>> Inizio stampa bottom-up <<<")
-    printItemsBottomUpFromBuilder(sortItemsBottomUpFromBuilder(this))
+    //printItemsBottomUpFromBuilder(sortItemsBottomUpFromBuilder(this))
     println(">>> Fine stampa bottom-up <<<")
-    Listing(listType, sortItemsBottomUpFromBuilder(this).items*)
+    Listing(listType, items*)
+
+  override def copyWith(
+                         items: List[ListElement] = this.items,
+                         listType: ListType = this.listType,
+                         order: Option[SortingList] = this.order,
+                         reference: Option[String] = this.reference,
+                         reversed: Boolean = this.reversed
+                       ): ListBuilder =
+    this.copy(items, listType, order, reference, reversed, parentMap)
