@@ -3,7 +3,6 @@ package papyrus.DSL.builders
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.layerElement.Listing
-import papyrus.logic.layerElement.text.Item
 
 import scala.math
 
@@ -18,7 +17,7 @@ trait ListBuilder extends ListElementBuilder {
 
   def withListType(tpe: ListType): ListBuilder
 
-  def ordered(orderType: SortingList): ListBuilder
+  def withSortingProperties(orderType: SortingList): ListBuilder
 
   def withReference(str: String): ListBuilder
 
@@ -44,7 +43,7 @@ case class ListBuilderImpl(
   def withListType(tpe: ListType): ListBuilder =
     copy(listType = tpe)
 
-  def ordered(orderType: SortingList): ListBuilder =
+  def withSortingProperties(orderType: SortingList): ListBuilder =
     copy(order = Some(orderType))
 
   def withReference(ref: String): ListBuilder =
@@ -53,10 +52,7 @@ case class ListBuilderImpl(
   def add(element: ListElementBuilder): ListBuilder =
     copy(items = items :+ element)
 
-  private def lastInsertedItem: Option[ItemBuilder] =
-    items.reverse.collectFirst { case i: ItemBuilder => i }
-
-  private def sortItemBuildersWithSublists(
+  private def sortItemAndSublists(
                                             builder: ListBuilder,
                                             elems: List[ListElementBuilder],
                                             associationMap: Map[ListBuilder, Option[ItemBuilder]]
@@ -96,11 +92,11 @@ case class ListBuilderImpl(
 
     memo(a.length)(b.length)
 
-  private def printItemsBottomUpFromBuilder(builder: ListBuilder, depth: Int = 0): Unit =
+  private def printList(builder: ListBuilder, depth: Int = 0): Unit =
     val indent = "  " * depth
     builder.items.foreach {
       case subBuilder: ListBuilder =>
-        printItemsBottomUpFromBuilder(subBuilder, depth + 1)
+        printList(subBuilder, depth + 1)
       case _ => ()
     }
     builder.items.foreach {
@@ -125,14 +121,14 @@ case class ListBuilderImpl(
 
     childMaps ++ localPairs
 
-  def visitAllNodesBottomUp(builder: ListBuilder): ListBuilder =
+  private def visitAllNodesBottomUp(builder: ListBuilder): ListBuilder =
     val updatedChildren = builder.items.map {
       case lb: ListBuilder => visitAllNodesBottomUp(lb)
       case other => other
     }
 
     val associationMap = findSublistParents(builder.copyWith(items = updatedChildren))
-    val updatedItems = sortItemBuildersWithSublists(builder, updatedChildren, associationMap)
+    val updatedItems = sortItemAndSublists(builder, updatedChildren, associationMap)
 
     builder.copyWith(items = updatedItems)
 

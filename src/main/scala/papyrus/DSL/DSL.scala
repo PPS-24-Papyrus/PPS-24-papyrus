@@ -102,7 +102,7 @@ object DSL:
 
   def ordered(init: ListBuilder ?=> SortingList)(using ctx: ListBuilder): Unit =
 
-    ctx.ordered(init)
+    ctx.withSortingProperties(init)
 
 
   def reference(init: ListBuilder ?=> String)(using ctx: ListBuilder): Unit =

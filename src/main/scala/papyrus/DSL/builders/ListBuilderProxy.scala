@@ -3,7 +3,6 @@ package papyrus.DSL.builders
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.layerElement.Listing
-import papyrus.logic.layerElement.text.Item
 
 class ListBuilderProxy(get: () => ListBuilder, set: ListBuilder => Unit) extends ListBuilder:
 
@@ -12,8 +11,8 @@ class ListBuilderProxy(get: () => ListBuilder, set: ListBuilder => Unit) extends
     set(updated)
     this
 
-  override def ordered(orderType: SortingList): ListBuilder =
-    val updated = get().ordered(orderType)
+  override def withSortingProperties(orderType: SortingList): ListBuilder =
+    val updated = get().withSortingProperties(orderType)
     set(updated)
     this
 
