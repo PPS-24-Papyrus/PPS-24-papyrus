@@ -1,46 +1,55 @@
-package logic.layerElement
+package papyrus.DSL.builders
 
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
-import papyrus.DSL.builders.{ItemBuilder, ListBuilder}
+import papyrus.logic.layerElement.Listing
+import papyrus.logic.layerElement.text.Item
 
 class ListingTest extends AnyFunSuite with Matchers:
 
-  test("ItemBuilder should build a default item"):
+  test("ItemBuilder builds default item") {
     val itemBuilder = ItemBuilder()
-    val item = itemBuilder.build
+    val item: Item = itemBuilder.build
     item.render shouldEqual "<li>Elemento lista</li>"
+  }
 
-  test("ListBuilder should build an empty list"):
-    val listBuilder = ListBuilder()
-    val listing = listBuilder.build
+  test("ItemBuilder builds item with custom value") {
+    val itemBuilder = ItemBuilder("Test Item")
+    val item: Item = itemBuilder.build
+    item.render shouldEqual "<li>Test Item</li>"
+  }
+
+  test("ListBuilderImpl builds empty list") {
+    val listBuilder = ListBuilderImpl()
+    val listing: Listing = listBuilder.build
     listing.render shouldEqual "<ul>\n\n</ul>"
     listing.renderStyle shouldEqual ""
+  }
 
-  test("ListBuilder should build a list with a single item"):
-    val itemBuilder = ItemBuilder()
-    val listBuilder = ListBuilder()
-    listBuilder.addItem(itemBuilder.build)
+  test("ListBuilderImpl builds list with one item") {
+    val itemBuilder = ItemBuilder("Solo")
+    val listBuilder = ListBuilderImpl().add(itemBuilder)
+    val listing = listBuilder.build
+    listing.render shouldEqual "<ul>\n<li>Solo</li>\n</ul>"
+  }
+
+  test("ListBuilderImpl builds list with multiple items") {
+    val item1 = ItemBuilder("Primo")
+    val item2 = ItemBuilder("Secondo")
+    val listBuilder = ListBuilderImpl().add(item1).add(item2)
+    val listing = listBuilder.build
+    listing.render shouldEqual "<ul>\n<li>Primo</li>\n<li>Secondo</li>\n</ul>"
+  }
+
+  test("ListBuilderImpl supports nested lists") {
+    val sublist = ListBuilderImpl().add(ItemBuilder("Sub 1")).add(ItemBuilder("Sub 2"))
+    val listBuilder = ListBuilderImpl()
+      .add(ItemBuilder("Item 1"))
+      .add(sublist)
+      .add(ItemBuilder("Item 2"))
     val listing = listBuilder.build
 
-    val expected = s"""<ul>\n<li>Elemento lista</li>\n</ul>"""
-
+    // Expected: ul with Item 1, then nested ul with subitems, then Item 2
+    val expected = "<ul>\n<li>Item 1</li>\n<ul>\n<li>Sub 1</li>\n<li>Sub 2</li>\n</ul>\n<li>Item 2</li>\n</ul>"
     listing.render shouldEqual expected
-
-  test("ListBuilder should build a list with multiple items"):
-    val item1 = ItemBuilder().build
-    val item2 = (ItemBuilder() value "Secondo elemento").build
-
-    val listBuilder = ListBuilder()
-    listBuilder.addItem(item1)
-    listBuilder.addItem(item2)
-
-    val listing = listBuilder.build
-
-    val expected = s"""<ul>\n<li>Elemento lista</li>\n<li>Secondo elemento</li>\n</ul>"""
-
-    listing.render shouldEqual expected
-
-  test("Item renderStyle should be empty (no styling applied)"):
-    val item = ItemBuilder().build
-    item.renderStyle shouldEqual ""
+  }
