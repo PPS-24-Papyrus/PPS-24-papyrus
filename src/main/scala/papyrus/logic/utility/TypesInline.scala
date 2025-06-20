@@ -43,7 +43,7 @@ object TypesInline:
   /** Spacing between letters (0.0–1.0 em) */
   type LetterSpacing = Double :| Interval.Closed[0.0, 1.0]
 
-  /** Heading level (1–6) */
+  /** Heading level (1–3) */
   type Level = Int :| Interval.Closed[1, 3]
 
   /** Line height multiplier (1.0–3.0) */

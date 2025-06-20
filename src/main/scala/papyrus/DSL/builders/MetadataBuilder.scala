@@ -1,7 +1,6 @@
 package papyrus.DSL.builders
 
 import papyrus.logic.metadata.Metadata
-import papyrus.logic.styleObjects.MainStyle
 import papyrus.logic.utility.TypesInline.{Charset, Extension, Language, StyleSheet}
 import papyrus.DSL.DefaultValues
 
