@@ -9,25 +9,48 @@ import scala.annotation.targetName
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 import papyrus.logic.Renderer.Text.*
 
+enum FieldTable:
+  case Caption, BackgroundColor, Margin, TextAlign, Width, Align, FunctionRender
 
 class TableBuilder[T] extends LayerElementBuilder:
   private var caption: Option[String] = None
   private val rows: ListBuffer[RowBuilder[T]] = ListBuffer.empty
-  var backgroundColor: ColorString = DefaultValues.backgroundColorTable
-  var margin: Margin = DefaultValues.marginTable
-  var textAlign: Alignment = DefaultValues.textAlignTable
-  var width: Width = DefaultValues.widthTable
-  var alignment: Align = DefaultValues.alignTable
+  private var backgroundColor: ColorString = DefaultValues.backgroundColorTable
+  private var margin: Margin = DefaultValues.marginTable
+  private var textAlign: Alignment = DefaultValues.textAlignTable
+  private var width: Width = DefaultValues.widthTable
+  private var alignment: Align = DefaultValues.alignTable
   private var functionRender: T => String = t => t.toString
 
-
-  def withFunctionRender(f: T => String): TableBuilder[T] =
-    this.functionRender = f
+  private val modifiedFields = scala.collection.mutable.Set.empty[FieldTable]
+  
+  private def setOnce[R](field: FieldTable, setter: R => Unit)(value: R): TableBuilder[T] =
+    if modifiedFields.contains(field) then
+      throw new IllegalStateException(s"$field has already been set")
+    setter(value)
+    modifiedFields += field
     this
+
+  def withFunctionRender(function: T => String): TableBuilder[T] =
+    setOnce(FieldTable.FunctionRender, (v: T => String) => functionRender = v)(function)
   
   def withCaption(caption: String): TableBuilder[T] =
-    this.caption = Some(caption)
-    this
+    setOnce(FieldTable.Caption, (v: String) => this.caption = Some(v))(caption)
+    
+  def margin(margin: Margin): TableBuilder[T] =
+    setOnce(FieldTable.Margin, (v: Margin) => this.margin = v)(margin)  
+    
+  def backgroundColor(color: ColorString): TableBuilder[T] =
+    setOnce(FieldTable.BackgroundColor, (v: ColorString) => backgroundColor = v)(color)
+    
+  def textAlign(align: Alignment): TableBuilder[T] =
+    setOnce(FieldTable.TextAlign, (v: Alignment) => textAlign = v)(align)
+    
+  def width(width: Width): TableBuilder[T] =
+    setOnce(FieldTable.Width, (v: Width) => this.width = v)(width)
+    
+  def alignment(align: Align): TableBuilder[T] =
+    setOnce(FieldTable.Align, (v: Align) => alignment = v)(align)  
 
   def addRow(row: RowBuilder[T]): TableBuilder[T] =
     rows += row

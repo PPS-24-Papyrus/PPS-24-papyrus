@@ -190,19 +190,19 @@ object DSL:
     tb.withCaption(init)
 
   def backgroundColorTable[T](init: TableBuilder[T] ?=> ColorString)(using tb: TableBuilder[T]): Unit =
-    tb.backgroundColor = init
+    tb.backgroundColor(init)
 
-  def marginTable[T](init: TableBuilder[T] ?=> Int)(using tb: TableBuilder[T]): Unit =
-    tb.margin = init.asInstanceOf[Margin]
+  def marginTable[T](init: TableBuilder[T] ?=> Margin)(using tb: TableBuilder[T]): Unit =
+    tb.margin(init)
 
   def textAlignTable[T](init: TableBuilder[T] ?=> Alignment)(using tb: TableBuilder[T]): Unit =
-    tb.textAlign = init
+    tb.textAlign(init)
 
   def widthTable[T](init: TableBuilder[T] ?=> Width)(using tb: TableBuilder[T]): Unit =
-    tb.width = init
+    tb.width(init)
 
   def alignTable[T](init: TableBuilder[T] ?=> Align)(using tb: TableBuilder[T]): Unit =
-    tb.alignment = init
+    tb.alignment(init)
 
   def renderTable[T](init: TableBuilder[T] ?=> (T => String))(using tb: TableBuilder[T]): Unit =
     tb.withFunctionRender(init)
