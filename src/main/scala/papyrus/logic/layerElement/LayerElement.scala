@@ -6,3 +6,5 @@ import papyrus.logic.layerElement.text.Text
 
 trait LayerElement extends Renderer
 
+trait ListElement extends LayerElement
+

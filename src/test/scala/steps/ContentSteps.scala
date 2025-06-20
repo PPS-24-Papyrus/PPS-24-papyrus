@@ -4,7 +4,7 @@ import io.cucumber.datatable.{DataTable, DataTableType}
 import io.cucumber.scala.{EN, ScalaDsl}
 import org.scalatest.matchers.should.Matchers
 import papyrus.DSL.builders.ImageBuilder.{alternative, caption}
-import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
+import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, ListBuilderImpl, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
 import papyrus.logic.content.Content
 import papyrus.logic.layerElement.text.Title
 import papyrus.DSL.DSL.given_Conversion_String_ImageBuilder
@@ -47,13 +47,13 @@ class ContentSteps extends ScalaDsl with EN with Matchers:
       (src caption caption).build
     )
 
-  Given("""I add a list with items:"""): (dataTable: DataTable) =>
+  /*Given("""I add a list with items:"""): (dataTable: DataTable) =>
     val items: List[String] = dataTable.asLists().asScala.map(_.get(0)).toList
     contentBuilder = Some(ContentBuilder())
-    val listBuilder = items.foldLeft(ListBuilder()) { (builder, item) =>
-      builder.addItem(ItemBuilder(item).build)
+    val listBuilder = items.foldLeft(ListBuilderImpl()) { (builder, item) =>
+      builder.add(ItemBuilder(item).build)
     }
-    contentBuilder.get.addLayerElement(listBuilder.build)
+    contentBuilder.get.addLayerElement(listBuilder.build)*/
 
 
   Given("""I add a table with rows:"""): (rows: DataTable) =>

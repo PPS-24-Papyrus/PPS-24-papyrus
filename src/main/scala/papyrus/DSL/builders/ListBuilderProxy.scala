@@ -1,0 +1,42 @@
+package papyrus.DSL.builders
+
+import papyrus.logic.utility.TypesInline.*
+import io.github.iltotore.iron.autoRefine
+import papyrus.logic.layerElement.Listing
+
+class ListBuilderProxy(get: () => ListBuilder, set: ListBuilder => Unit) extends ListBuilder:
+
+  override def withListType(tpe: ListType): ListBuilder =
+    val updated = get().withListType(tpe)
+    set(updated)
+    this
+
+  override def withSortingProperties(orderType: SortingList): ListBuilder =
+    val updated = get().withSortingProperties(orderType)
+    set(updated)
+    this
+
+  override def withReference(str: String): ListBuilder =
+    val updated = get().withReference(str)
+    set(updated)
+    this
+
+  override def add(item: ListElementBuilder): ListBuilder =
+    val updated = get().add(item)
+    set(updated)
+    this
+
+  override def build: Listing =
+    get().build
+
+  override def items: List[ListElementBuilder] = get().items
+  override def listType: ListType = get().listType
+  override def order: Option[SortingList] = get().order
+  override def reference: Option[String] = get().reference
+
+  override def copyWith(
+                         items: List[ListElementBuilder],
+                         listType: ListType,
+                         order: Option[SortingList],
+                         reference: Option[String],
+                       ): ListBuilder = get().copyWith(items, listType, order, reference)

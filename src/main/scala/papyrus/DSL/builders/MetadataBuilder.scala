@@ -8,53 +8,53 @@ import papyrus.DSL.DefaultValues
 enum Field:
   case NameFile, Extension, SavingPath, Language, Title, Author, Charset, StyleSheet, Style
 
-class MetadataBuilder extends Builder[Metadata]:
+case class MetadataBuilder(
+                            nameFile: String = DefaultValues.nameFile,
+                            extension: Extension = DefaultValues.extension,
+                            savingPath: String = "",
+                            language: Language = DefaultValues.language,
+                            title: String = DefaultValues.title,
+                            author: String = DefaultValues.author,
+                            charset: Charset = DefaultValues.charset,
+                            styleSheet: StyleSheet = DefaultValues.styleSheet,
+                            styleBuilder: MainStyleBuilder = MainStyleBuilder(),
+                            modifiedFields: Set[Field] = Set.empty
+                          ) extends Builder[Metadata]:
 
-  private var _nameFile: String = DefaultValues.nameFile
-  private var _extension: Extension = DefaultValues.extension
-  private var _savingPath: String = ""
-  private var _language: Language = DefaultValues.language
-  private var _title: String = DefaultValues.title
-  private var _author: String = DefaultValues.author
-  private var _charset: Charset = DefaultValues.charset
-  private var _styleSheet: StyleSheet = DefaultValues.styleSheet
-  private var _style: MainStyle = MainStyle()
+  private def setOnce[T](field: Field, update: MetadataBuilder => MetadataBuilder)(value: T): MetadataBuilder =
 
-  private val modifiedFields = scala.collection.mutable.Set.empty[Field]
-
-  private def setOnce[T](field: Field, setter: T => Unit)(value: T): MetadataBuilder =
     if modifiedFields.contains(field) then
       throw new IllegalStateException(s"$field has already been set")
-    setter(value)
-    modifiedFields += field
-    this
+    update(this).copy(modifiedFields = modifiedFields + field)
+
+  def getStyleBuilder: MainStyleBuilder = styleBuilder
 
   def withNameFile(value: String): MetadataBuilder =
-    setOnce(Field.NameFile, (v: String) => _nameFile = v)(value)
+    setOnce(Field.NameFile, _.copy(nameFile = value))(value)
 
   def withExtension(value: Extension): MetadataBuilder =
-    setOnce(Field.Extension, (v: Extension) => _extension = v)(value)
+    setOnce(Field.Extension, _.copy(extension = value))(value)
 
   def withSavingPath(value: String): MetadataBuilder =
-    setOnce(Field.SavingPath, (v: String) => _savingPath = v)(value)
+    setOnce(Field.SavingPath, _.copy(savingPath = value))(value)
 
   def withLanguage(value: Language): MetadataBuilder =
-    setOnce(Field.Language, (v: Language) => _language = v)(value)
+    setOnce(Field.Language, _.copy(language = value))(value)
 
   def withTitle(value: String): MetadataBuilder =
-    setOnce(Field.Title, (v: String) => _title = v)(value)
+    setOnce(Field.Title, _.copy(title = value))(value)
 
   def withAuthor(value: String): MetadataBuilder =
-    setOnce(Field.Author, (v: String) => _author = v)(value)
+    setOnce(Field.Author, _.copy(author = value))(value)
 
   def withCharset(value: Charset): MetadataBuilder =
-    setOnce(Field.Charset, (v: Charset) => _charset = v)(value)
+    setOnce(Field.Charset, _.copy(charset = value))(value)
 
   def withStyleSheet(value: StyleSheet): MetadataBuilder =
-    setOnce(Field.StyleSheet, (v: StyleSheet) => _styleSheet = v)(value)
+    setOnce(Field.StyleSheet, _.copy(styleSheet = value))(value)
 
-  def withStyle(value: MainStyle): MetadataBuilder =
-    setOnce(Field.Style, (v: MainStyle) => _style = v)(value)
+  def withStyle(value: MainStyleBuilder) : MetadataBuilder =
+    this.copy(styleBuilder = value)
 
   override def build: Metadata =
-    Metadata(_nameFile, _extension, _savingPath, _style, _language, _title, _author, _charset, _styleSheet)
+    Metadata(nameFile, extension, savingPath, styleBuilder.build, language, title, author, charset, styleSheet)

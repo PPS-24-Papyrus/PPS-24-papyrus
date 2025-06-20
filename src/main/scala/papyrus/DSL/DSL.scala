@@ -3,17 +3,15 @@ package papyrus.DSL
 import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
+import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, ListBuilderImpl, ListBuilderProxy, MainStyleBuilder, MetadataBuilder, MetadataBuilderProxy, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
 import papyrus.DSL.builders.ImageBuilder.caption
 import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TextDSL, TitleBuilder, TitleHandler}
 import papyrus.DSL.builders.RowBuilder.{|, |-, |^}
 import papyrus.DSL.builders.TextBuilder.{newLine, *}
 import papyrus.DSL.builders.TitleBuilder.*
-import papyrus.logic.layerElement.LayerElement
-import papyrus.logic.layerElement.captionElement.{Cell, Row, Table}
-import papyrus.logic.styleObjects.{TextStyle, TitleStyle}
+import papyrus.logic.layerElement.captionElement.Row
 import papyrus.logic.utility.SectionCounter
 
-import java.util.Optional
 
 object DSL:
 
@@ -23,149 +21,176 @@ object DSL:
     builder.build()
 
   def metadata(init: MetadataBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
-
-    given builder: MetadataBuilder = MetadataBuilder()
+    var current: MetadataBuilder = MetadataBuilder()
+    given MetadataBuilder = MetadataBuilderProxy(() => current, updated => current = updated)
     init
-    pb.withMetadata(builder.build)
+    pb.withMetadata(current)
 
   def content(init: ContentBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
     given builder: ContentBuilder = ContentBuilder()
     init
-    pb.withContent(builder.build)
+    pb.withContent(builder)
 
 
 
-  def title(init: TitleBuilder ?=> TitleBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def title(init: TitleBuilder ?=> TitleBuilder)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: TitleBuilder = TitleBuilder() // viene passato a init
 
-    val configuredBuilder = init // contiene textColor, fontSize, ecc.
-
-    val baseTitle = configuredBuilder.build.title
-
-    val numberedTitle = ctx match
-      case _: ContentBuilder => baseTitle
-      case _: SectionBuilder => s"${SectionCounter.nextSection()} $baseTitle"
-      case _: SubSectionBuilder => s"${SectionCounter.nextSubsection()} $baseTitle"
-
-    val numberedBuilder = ctx match
-      case _: ContentBuilder => configuredBuilder.title(numberedTitle).level(1)
-      case _: SectionBuilder => configuredBuilder.title(numberedTitle).level(2)
-      case _: SubSectionBuilder => configuredBuilder.title(numberedTitle).level(3)
+    val configuredBuilder = init
+    val baseTitle: String = configuredBuilder.build.title
+    val numberedTitle: String = generateNumberedTitle(baseTitle, ctx)
+    val numberedBuilder: TitleBuilder = generateLevelTitle(configuredBuilder, numberedTitle, ctx)
 
     ctx match
+      case pb: PapyrusBuilder => pb.setTitle(numberedBuilder.build)
       case cb: ContentBuilder => cb.setTitle(numberedBuilder.build)
       case sb: SectionBuilder => sb.setTitle(numberedBuilder.build)
       case ssb: SubSectionBuilder => ssb.setTitle(numberedBuilder.build)
 
+  private def generateNumberedTitle(baseTitle: String, ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): String =
+    ctx match
+      case _: SectionBuilder => s"${SectionCounter.nextSection()} $baseTitle"
+      case _: SubSectionBuilder => s"${SectionCounter.nextSubsection()} $baseTitle"
+      case _ => baseTitle
 
-  def section(init: SectionBuilder ?=> Unit)(using cb: ContentBuilder): Unit =
+  private def generateLevelTitle(builder: TitleBuilder, title: String, ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): TitleBuilder =
+    ctx match
+      case _: SectionBuilder => builder.title(title).level(2)
+      case _: SubSectionBuilder => builder.title(title).level(3)
+      case _ => builder.title(title).level(1)
+
+
+  def section(init: SectionBuilder ?=> Unit)(using ctx: PapyrusBuilder | ContentBuilder): Unit =
     given builder: SectionBuilder = SectionBuilder()
     init
-    cb.addLayerElement(builder.build)
+    ctx match
+      case pb: PapyrusBuilder => pb.addLayerElement(builder.build)
+      case cb: ContentBuilder => cb.addLayerElement(builder.build)
 
   def subsection(init: SubSectionBuilder ?=> Unit)(using cb: SectionBuilder): Unit =
     given builder: SubSectionBuilder = SubSectionBuilder()
     init
     cb.addLayerElement(builder.build)
 
-  def listing(init: ListBuilder ?=> Unit)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    given builder: ListBuilder = ListBuilder()
-    init
-    ctx match
-      case cb: ContentBuilder =>
-        cb.addLayerElement(builder.build)
-      case sb: SectionBuilder =>
-        sb.addLayerElement(builder.build)
-      case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(builder.build)
+  def listing(init: ListBuilder ?=> Unit)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder | ListBuilder): Unit =
+    var internalBuilder: ListBuilder = ctx match
+      case lb: ListBuilder =>
+        ListBuilderImpl(listType = lb.listType, order = lb.order, reference = lb.reference)
+      case _ =>
+        ListBuilderImpl()
 
-  def listType(init: ListBuilder ?=> ListType)(using ctx: ListBuilder): Unit =
+    val proxy = ListBuilderProxy(() => internalBuilder, updated => internalBuilder = updated)
+
+
+    given ListBuilder = proxy
+
     init
-    ctx.listType(init)
+
+    // Uscita: aggiunta della lista nel contesto superiore
+    ctx match
+      case pb: PapyrusBuilder => pb.addLayerElement(proxy.build)
+      case cb: ContentBuilder => cb.addLayerElement(proxy.build)
+      case sb: SectionBuilder => sb.addLayerElement(proxy.build)
+      case ssb: SubSectionBuilder => ssb.addLayerElement(proxy.build)
+      case lb: ListBuilder => lb.add(internalBuilder)
+
 
   def item(init: ItemBuilder ?=> ItemBuilder)(using ctx: ListBuilder): Unit =
     given builder: ItemBuilder = ItemBuilder()
-    val updatedBuilder = init
-    ctx.addItem(updatedBuilder.build)
 
-  def applyTextStyle(init: TextBuilder ?=> TextBuilder, style: TextBuilder => TextBuilder)(
-    using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+    ctx.add(init) // aggiornamento avviene dentro il proxy
+
+  def listType(init: ListBuilder ?=> ListType)(using ctx: ListBuilder): Unit =
+    ctx.withListType(init)
+
+  def ordered(init: ListBuilder ?=> SortingList)(using ctx: ListBuilder): Unit =
+
+    ctx.withSortingProperties(init)
+
+
+  def reference(init: ListBuilder ?=> String)(using ctx: ListBuilder): Unit =
+
+    ctx.withReference(init)
+
+
+
+  private def applyTextStyle(init: TextBuilder ?=> TextBuilder, style: TextBuilder => TextBuilder)(
+    using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
 
     given baseBuilder: TextBuilder = TextBuilder()
 
     val updatedBuilder = style(init)
 
     ctx match
+      case pb: PapyrusBuilder => pb.addLayerElement(updatedBuilder.build)
       case cb: ContentBuilder => cb.addLayerElement(updatedBuilder.build)
       case sb: SectionBuilder => sb.addLayerElement(updatedBuilder.build)
       case ssb: SubSectionBuilder => ssb.addLayerElement(updatedBuilder.build)
 
-  def text(init: TextBuilder ?=> TextBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def text(init: TextBuilder ?=> TextBuilder)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     applyTextStyle(init, identity)
 
-  def bold(init: TextBuilder ?=> TextBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def bold(init: TextBuilder ?=> TextBuilder)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     applyTextStyle(init, _.fontWeight("bold"))
 
-  def italic(init: TextBuilder ?=> TextBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def italic(init: TextBuilder ?=> TextBuilder)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     applyTextStyle(init, _.fontStyle("italic"))
 
-  def underline(init: TextBuilder ?=> TextBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def underline(init: TextBuilder ?=> TextBuilder)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     applyTextStyle(init, _.textDecoration("underline"))
 
-  def nameFile(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): Unit =
+  def nameFile(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): MetadataBuilder =
     mb.withNameFile(init)
 
-  def extension(init: MetadataBuilder ?=> Extension)(using mb: MetadataBuilder): Unit =
+  def extension(init: MetadataBuilder ?=> Extension)(using mb: MetadataBuilder): MetadataBuilder =
     mb.withExtension(init)
 
-  def path(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): Unit =
+
+  def path(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): MetadataBuilder =
     mb.withSavingPath(init)
 
-  def language(init: MetadataBuilder ?=> Language)(using mb: MetadataBuilder): Unit =
+  def language(init: MetadataBuilder ?=> Language)(using mb: MetadataBuilder): MetadataBuilder =
     mb.withLanguage(init)
 
-  def metadataTitle(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): Unit =
+  def metadataTitle(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): MetadataBuilder =
     mb.withTitle(init)
 
-  def author(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): Unit =
+  def author(init: MetadataBuilder ?=> String)(using mb: MetadataBuilder): MetadataBuilder =
     mb.withAuthor(init)
 
-  def charset(init: MetadataBuilder ?=> Charset)(using mb: MetadataBuilder): Unit =
-    val updated: Unit = mb.withCharset(init)
+  def charset(init: MetadataBuilder ?=> Charset)(using mb: MetadataBuilder): MetadataBuilder =
+    mb.withCharset(init)
 
-  def styleSheet(init: MetadataBuilder ?=> StyleSheet)(using mb: MetadataBuilder): Unit =
+  def styleSheet(init: MetadataBuilder ?=> StyleSheet)(using mb: MetadataBuilder): MetadataBuilder =
     mb.withStyleSheet(init)
 
-  def style(init: MainStyleBuilder ?=> Unit)(using mb: MetadataBuilder): Unit =
-    given builder: MainStyleBuilder = MainStyleBuilder()
-    init
-    mb.withStyle(builder.build)
+  def font(init: MetadataBuilder ?=> FontFamily)(using msb: MetadataBuilder): MetadataBuilder =
+    msb.withStyle(msb.getStyleBuilder.withFont(init))
 
-  def font(init: MainStyleBuilder ?=> FontFamily)(using msb: MainStyleBuilder): Unit =
-    msb.withFont(init)
+  def fontSize(init: MetadataBuilder ?=> FontSize)(using msb: MetadataBuilder): MetadataBuilder =
+    msb.withStyle(msb.getStyleBuilder.withFontSize(init))
 
-  def fontSize(init: MainStyleBuilder ?=> FontSize)(using msb: MainStyleBuilder): Unit =
-    msb.withFontSize(init)
+  def lineHeight(init: MetadataBuilder ?=> LineHeight)(using msb: MetadataBuilder): MetadataBuilder =
+    msb.withStyle(msb.getStyleBuilder.withLineHeight(init))
 
-  def lineHeight(init: MainStyleBuilder ?=> LineHeight)(using msb: MainStyleBuilder): Unit =
-    msb.withLineHeight(init)
+  def textColor(init: MetadataBuilder ?=> ColorString)(using msb: MetadataBuilder): MetadataBuilder =
+    msb.withStyle(msb.getStyleBuilder.withTextColor(init))
 
-  def textColor(init: MainStyleBuilder ?=> ColorString)(using msb: MainStyleBuilder): Unit =
-    msb.withTextColor(init)
+  def backgroundColor(init: MetadataBuilder ?=> ColorString)(using msb: MetadataBuilder): MetadataBuilder =
+    msb.withStyle(msb.getStyleBuilder.withBackgroundColor(init))
 
-  def backgroundColor(init: MainStyleBuilder ?=> ColorString)(using msb: MainStyleBuilder): Unit =
-    msb.withBackgroundColor(init)
 
-  def textAlign(init: MainStyleBuilder ?=> Alignment)(using msb: MainStyleBuilder): Unit =
-    msb.withTextAlign(init)
+  def textAlign(init: MetadataBuilder ?=> Alignment)(using msb: MetadataBuilder): MetadataBuilder =
+    msb.withStyle(msb.getStyleBuilder.withTextAlign(init))
 
-  def margin(init: MainStyleBuilder ?=> Margin)(using msb: MainStyleBuilder): Unit =
-    msb.withMargin(init)
+  def margin(init: MetadataBuilder ?=> Margin)(using msb: MetadataBuilder): MetadataBuilder =
+    msb.withStyle(msb.getStyleBuilder.withMargin(init))
 
-  def image(init: ImageBuilder ?=> ImageBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def image(init: ImageBuilder ?=> ImageBuilder)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     val builder = init(using ImageBuilder())
     val image = builder.build
     ctx match
+      case pb: PapyrusBuilder     => pb.addLayerElement(image)
       case cb: ContentBuilder     => cb.addLayerElement(image)
       case sb: SectionBuilder     => sb.addLayerElement(image)
       case ssb: SubSectionBuilder => ssb.addLayerElement(image)
@@ -175,10 +200,12 @@ object DSL:
     val rowBuilders = init
     rowBuilders.foreach(tb.addRow)
 
-  def table[T](init: TableBuilder[T] ?=> Unit)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def table[T](init: TableBuilder[T] ?=> Unit)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: TableBuilder[T] = TableBuilder()
     init
     ctx match
+      case pb: PapyrusBuilder =>
+        pb.addLayerElement(builder.build)
       case cb: ContentBuilder =>
         cb.addLayerElement(builder.build)
       case sb: SectionBuilder =>
@@ -226,7 +253,42 @@ object DSL:
   given Conversion[String, ImageBuilder] with
     def apply(str: String): ImageBuilder = ImageBuilder(str)
 
-  @main def provaFunc(): Unit =
+
+
+
+  @main def provaFunc(): Unit = {
+    papyrus:
+      metadata:
+        extension:
+          "html"
+
+      listing:
+        ordered:
+          "alphabetical"
+        item:
+          "b"
+        item:
+          "sa"
+        listing:
+          item:
+            "l"
+          item:
+            "u"
+          item:
+            "c"
+        item:
+          "aa"
+        listing:
+          item:
+            "p"
+          item:
+            "a"
+        item:
+          "z"
+
+
+
+    /*
     papyrus:
       metadata:
         nameFile:
@@ -237,9 +299,8 @@ object DSL:
           "LucaDani"
         extension:
           "html"
-        style:
-          margin:
-            150
+        margin:
+          150
       content:
         title:
           "End 3rd Sprint"
@@ -288,3 +349,6 @@ object DSL:
             "This is our first image:"
           image:
             "src/main/resources/PapyrusLogo.png" caption "This is papyrus logo" alternative "No image found" width 200
+  */
+  }
+

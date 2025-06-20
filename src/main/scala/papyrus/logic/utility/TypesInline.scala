@@ -78,3 +78,6 @@ object TypesInline:
 
   /** List type: ordered or unordered */
   type ListType = String :| Match["ol|ul"]
+
+  type SortingList = String :| Match["alphabetical|length|reverse|levenshtein"]
+
