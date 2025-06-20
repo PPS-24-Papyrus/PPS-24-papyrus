@@ -5,25 +5,46 @@ import papyrus.logic.styleObjects.TableStyle
 import papyrus.logic.utility.prolog.Scala2Prolog.{*, given}
 import alice.tuprolog.{Struct, Term, Int as PInt, Var}
 
-
-trait  Table[T] extends CaptionElement:
+/** A table with rows and a caption, rendered using a function */
+trait Table[T] extends CaptionElement:
+  /** The list of table rows */
   def rows: List[Row[T]]
+
+  /** The style applied to the table */
   def tableStyle: TableStyle
+
+  /** Function that renders a cell's content as MainText */
   def renderFunction: T => MainText
 
+/** A row of cells in a table */
 trait Row[T]:
+  /** The list of cells in this row */
   def cells: List[Cell[T]]
+
+  /** Renders the row using the provided cell rendering function */
   def render(renderFunction: T => MainText): MainText
 
+/** A single cell in a row */
 trait Cell[T]:
+  /** The content stored in the cell */
   def content: T
+
+  /** Whether the cell is a header cell (`<th>`) */
   def head: Boolean
+
+  /** Number of columns this cell spans */
   def colspan: Int
+
+  /** Number of rows this cell spans */
   def rowspan: Int
+
+  /** Renders the cell using the provided content rendering function */
   def render(renderFunction: T => MainText): MainText
 
 
 object Table:
+
+  /** Creates a table from caption, rows, style and rendering function */
   def apply[T](
                caption: Option[String],
                rows: List[Row[T]],
@@ -70,7 +91,6 @@ object Table:
           val details = colCounts.map((i, c) => s"Row $i → $c columns").mkString("<br>")
           Left(s"<div style='color:red'><strong>Table structure error:</strong><br>$details</div>")
 
-
   val engine = mkPrologEngine(
     """
       sum_list([], 0).
@@ -91,6 +111,8 @@ object Table:
 
 
 object Row:
+
+  /** Create a row from a list of cells */
   def apply[T](cells: List[Cell[T]]): Row[T] = RowImpl(cells)
 
   private class RowImpl[T](override val cells: List[Cell[T]]) extends Row[T]:
@@ -99,6 +121,8 @@ object Row:
       s"<tr>\n$cellStrings</tr>\n".toMainText
 
 object Cell:
+
+  /** Create a cell with content, colspan, rowspan and head flag */
   def apply[T](content: T, head: Boolean = false, colspan: Int = 1, rowspan: Int = 1): Cell[T] = CellImpl(content, head, colspan, rowspan)
 
   private class CellImpl[T](override val content: T,

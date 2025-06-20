@@ -165,31 +165,18 @@ object DSL:
   def image(init: ImageBuilder ?=> ImageBuilder)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     val builder = init(using ImageBuilder())
     val image = builder.build
-
     ctx match
-      case cb: ContentBuilder => cb.addLayerElement(image)
-      case sb: SectionBuilder => sb.addLayerElement(image)
+      case cb: ContentBuilder     => cb.addLayerElement(image)
+      case sb: SectionBuilder     => sb.addLayerElement(image)
       case ssb: SubSectionBuilder => ssb.addLayerElement(image)
 
 
-  def tableWithList(init: TableBuilder ?=> List[Row[String]])(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    given builder: TableBuilder = TableBuilder()
-    val rowsWrapper = init
-    for row <- rowsWrapper yield
-      val rowBuilder = RowBuilder()
-      for cell <- row.cells do
-        rowBuilder.addCell(CellBuilder().withContent(cell.content))
-      builder.addRow(rowBuilder)
-    ctx match
-      case cb: ContentBuilder =>
-        cb.addLayerElement(builder.build)
-      case sb: SectionBuilder =>
-        sb.addLayerElement(builder.build)
-      case ssb: SubSectionBuilder =>
-        ssb.addLayerElement(builder.build)
+  def withList[T](init: TableBuilder[T] ?=> List[RowBuilder[T]])(using tb: TableBuilder[T]): Unit =
+    val rowBuilders = init
+    rowBuilders.foreach(tb.addRow)
 
-  def table(init: TableBuilder ?=> Unit)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    given builder: TableBuilder = TableBuilder()
+  def table[T](init: TableBuilder[T] ?=> Unit)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+    given builder: TableBuilder[T] = TableBuilder()
     init
     ctx match
       case cb: ContentBuilder =>
@@ -199,42 +186,33 @@ object DSL:
       case ssb: SubSectionBuilder =>
         ssb.addLayerElement(builder.build)
 
-  def caption(init: TableBuilder ?=> String)(using tb: TableBuilder): Unit =
-    given builder: TableBuilder = TableBuilder()
-    init
+  def caption[T](init: TableBuilder[T] ?=> String)(using tb: TableBuilder[T]): Unit =
     tb.withCaption(init)
 
-  def backgroundColorTable(init: TableBuilder ?=> ColorString)(using tb: TableBuilder): Unit =
-    given builder: TableBuilder = TableBuilder()
-    init
-    tb.backgroundColor = init
+  def backgroundColorTable[T](init: TableBuilder[T] ?=> ColorString)(using tb: TableBuilder[T]): Unit =
+    tb.backgroundColor(init)
 
-  def marginTable(init: TableBuilder ?=> Int)(using tb: TableBuilder): Unit =
-    given builder: TableBuilder = TableBuilder()
-    init
-    tb.margin = init.asInstanceOf[Margin]
+  def marginTable[T](init: TableBuilder[T] ?=> Margin)(using tb: TableBuilder[T]): Unit =
+    tb.margin(init)
 
-  def textAlignTable(init: TableBuilder ?=> Alignment)(using tb: TableBuilder): Unit =
-    given builder: TableBuilder = TableBuilder()
-    init
-    tb.textAlign = init
+  def textAlignTable[T](init: TableBuilder[T] ?=> Alignment)(using tb: TableBuilder[T]): Unit =
+    tb.textAlign(init)
 
-  def widthTable(init: TableBuilder ?=> Width)(using tb: TableBuilder): Unit =
-    given builder: TableBuilder = TableBuilder()
-    init
-    tb.width = init
+  def widthTable[T](init: TableBuilder[T] ?=> Width)(using tb: TableBuilder[T]): Unit =
+    tb.width(init)
 
-  def alignTable(init: TableBuilder ?=> Align)(using tb: TableBuilder): Unit =
-    given builder: TableBuilder = TableBuilder()
-    init
-    tb.alignment = init
+  def alignTable[T](init: TableBuilder[T] ?=> Align)(using tb: TableBuilder[T]): Unit =
+    tb.alignment(init)
 
-  given Conversion[List[String], Row[String]] with
-    def apply(list: List[String]): Row[String] =
-      val rowBuilder = RowBuilder()
+  def renderTable[T](init: TableBuilder[T] ?=> (T => String))(using tb: TableBuilder[T]): Unit =
+    tb.withFunctionRender(init)
+
+  given[T]: Conversion[List[T], RowBuilder[T]] with
+    def apply(list: List[T]): RowBuilder[T] =
+      val rowBuilder = RowBuilder[T]()
       for str <- list do
         rowBuilder.addCell(CellBuilder().withContent(str))
-      rowBuilder.build
+      rowBuilder
 
   given Conversion[String, TextBuilder] with
     def apply(str: String): TextBuilder = TextBuilder(str)
@@ -272,6 +250,15 @@ object DSL:
             "Table and listing"
           text:
             "Let's try to print a table." newLine "Ciao" newLine "Ciao"
+          table:
+            withList:
+              List(
+                List("1", "2", "3"),
+                List("4", "5", "6"),
+                List("7", "8", "9")
+              )
+            renderTable:
+              (s: String) => s
           table:
             "1" | "2" | "3"
             "4" | "5" | "6"

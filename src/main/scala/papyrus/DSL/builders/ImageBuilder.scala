@@ -5,6 +5,7 @@ import papyrus.logic.utility.TypesInline.{Float, Width}
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.DefaultValues
 
+/** Builder for creating an Image element*/
 case class ImageBuilder(
                              private val src: String,
                              private val alt: String,
@@ -21,6 +22,7 @@ case class ImageBuilder(
 
 
 object ImageBuilder:
+  /** Creates a new ImageBuilder*/
   def apply(
              src: String = DefaultValues.defaultImageSrc,
              alt: String = DefaultValues.defaultImageAlt,
@@ -31,7 +33,15 @@ object ImageBuilder:
   
 
   extension (str: ImageBuilder)
+
+    /** Sets the alternative attribute (alternative text) */
     def alternative(a: String): ImageBuilder = str.withAlt(a)
+
+    /** Sets the caption below the image */
     def caption(c: String): ImageBuilder = str.withCaption(c)
+
+    /** Sets the image width */
     def width(w: Width): ImageBuilder = str.withWidth(w)
+
+    /** Sets the image alignment (left, right, center) */
     def alignment(a: Float): ImageBuilder = str.withAlignment(a)
