@@ -16,7 +16,7 @@ case class MetadataBuilder(
                             title: String = DefaultValues.title,
                             author: String = DefaultValues.author,
                             charset: Charset = DefaultValues.charset,
-                            styleSheet: String = DefaultValues.styleSheet,
+                            styleSheet: StyleSheet = DefaultValues.styleSheet,
                             styleBuilder: MainStyleBuilder = MainStyleBuilder(),
                             modifiedFields: Set[Field] = Set.empty
                           ) extends Builder[Metadata]:
@@ -50,7 +50,7 @@ case class MetadataBuilder(
   def withCharset(value: Charset): MetadataBuilder =
     setOnce(Field.Charset, _.copy(charset = value))(value)
 
-  def withStyleSheet(value: String): MetadataBuilder =
+  def withStyleSheet(value: StyleSheet): MetadataBuilder =
     setOnce(Field.StyleSheet, _.copy(styleSheet = value))(value)
 
   def withStyle(value: MainStyleBuilder) : MetadataBuilder =
