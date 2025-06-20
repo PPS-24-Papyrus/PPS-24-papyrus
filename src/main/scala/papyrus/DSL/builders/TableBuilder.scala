@@ -132,9 +132,9 @@ object RowBuilder:
                right: CellBuilder[T] => CellBuilder[T]
              )(using tb: TableBuilder[T]): RowBuilder[T] =
       val builder = RowBuilder[T]()
-      builder addCell(left(CellBuilder[T]() withContent(str)))
-      builder addCell(right(CellBuilder[T]() withContent(c)))
-      tb addRow(builder)
+      builder addCell left(CellBuilder[T]() withContent str)
+      builder addCell right(CellBuilder[T]() withContent c)
+      tb addRow builder
       builder
 
 case class CellBuilder[T](

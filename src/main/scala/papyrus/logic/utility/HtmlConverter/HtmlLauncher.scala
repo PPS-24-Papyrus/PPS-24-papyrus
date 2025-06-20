@@ -32,6 +32,7 @@ object HtmlLauncher:
       |}
     """.stripMargin
 
+  /** Launches an HTML or PDF file with the given content, styles, and metadata.*/
   def launchFile(
                   htmlContent: MainText,
                   cssContent: StyleText,

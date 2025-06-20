@@ -5,12 +5,18 @@ import papyrus.logic.Renderer.Text.*
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.layerElement.text.Title
 
+/** Represents the body content of a document, including optional title and layout elements */
 trait Content extends Renderer:
+
+  /** Optional document title (e.g. rendered as <h1>) */
   def title: Option[Title]
+
+  /** Sequence of elements within the body (e.g. tables, images, sections) */
   def layerElement: Seq[LayerElement]
 
 object Content:
 
+  /** Creates a Content instance from an optional title and one or more layer elements */
   def apply(title: Option[Title], layerElement: LayerElement*): Content =
     new ContentImpl(title, layerElement.toSeq)
 

@@ -9,14 +9,28 @@ import papyrus.logic.Renderer.RendererStyle
 import papyrus.logic.Renderer.Text.*
 import papyrus.logic.utility.IdGenerator
 
+/** Represents the visual style for inline text (e.g. <span>) */
 trait TextStyle extends RendererStyle:
+
+  /** Text color */
   def color: ColorString
+
+  /** Font weight (e.g. normal, bold) */
   def fontWeight: FontWeight
+
+  /** Font style (e.g. normal, italic) */
   def fontStyle: FontStyle
+
+  /** Text decoration (e.g. underline, none) */
   def textDecoration: TextDecoration
+
+  /** CSS class tag to apply this style */
   def tag: String
 
+
 object TextStyle:
+
+  /** Creates a TextStyle with optional custom values */
   def apply(
              color: ColorString = DefaultValues.colorText,
              fontWeight: FontWeight = DefaultValues.fontWeightText,
