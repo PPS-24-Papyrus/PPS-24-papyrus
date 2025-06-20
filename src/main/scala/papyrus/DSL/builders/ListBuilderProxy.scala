@@ -17,11 +17,6 @@ class ListBuilderProxy(get: () => ListBuilder, set: ListBuilder => Unit) extends
     set(updated)
     this
 
-  override def reverseListing: ListBuilder =
-    val updated = get().reverseListing
-    set(updated)
-    this
-
   override def withReference(str: String): ListBuilder =
     val updated = get().withReference(str)
     set(updated)
@@ -39,12 +34,10 @@ class ListBuilderProxy(get: () => ListBuilder, set: ListBuilder => Unit) extends
   override def listType: ListType = get().listType
   override def order: Option[SortingList] = get().order
   override def reference: Option[String] = get().reference
-  override def reversed: Boolean = get().reversed
 
   override def copyWith(
                          items: List[ListElementBuilder],
                          listType: ListType,
                          order: Option[SortingList],
                          reference: Option[String],
-                         reversed: Boolean
-                       ): ListBuilder = get().copyWith(items, listType, order, reference, reversed)
+                       ): ListBuilder = get().copyWith(items, listType, order, reference)

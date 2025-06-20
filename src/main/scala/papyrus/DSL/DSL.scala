@@ -72,7 +72,7 @@ object DSL:
   def listing(init: ListBuilder ?=> Unit)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder | ListBuilder): Unit =
     var internalBuilder: ListBuilder = ctx match
       case lb: ListBuilder =>
-        ListBuilderImpl(listType = lb.listType, order = lb.order, reversed = lb.reversed, reference = lb.reference)
+        ListBuilderImpl(listType = lb.listType, order = lb.order, reference = lb.reference)
       case _ =>
         ListBuilderImpl()
 
@@ -103,10 +103,6 @@ object DSL:
   def ordered(init: ListBuilder ?=> SortingList)(using ctx: ListBuilder): Unit =
 
     ctx.ordered(init)
-
-  def reverse(init: ListBuilder ?=> Unit)(using ctx: ListBuilder): Unit =
-
-    ctx.reverseListing
 
 
   def reference(init: ListBuilder ?=> String)(using ctx: ListBuilder): Unit =
@@ -291,7 +287,9 @@ object DSL:
         ordered:
           "alphabetical"
         item:
-          "s"
+          "b"
+        item:
+          "sa"
         listing:
           item:
             "l"
@@ -300,7 +298,12 @@ object DSL:
           item:
             "c"
         item:
-          "a"
+          "aa"
+        listing:
+          item:
+            "p"
+          item:
+            "a"
         item:
           "z"
 
