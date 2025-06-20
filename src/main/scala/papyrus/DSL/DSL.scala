@@ -200,7 +200,7 @@ object DSL:
     val rowBuilders = init
     rowBuilders.foreach(tb.addRow)
 
-  def table[T](init: TableBuilder[T] ?=> Unit)(using ctx: ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
+  def table[T](init: TableBuilder[T] ?=> Unit)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
     given builder: TableBuilder[T] = TableBuilder()
     init
     ctx match
