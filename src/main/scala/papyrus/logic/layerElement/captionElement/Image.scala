@@ -6,13 +6,24 @@ import papyrus.logic.utility.IdGenerator
 import papyrus.logic.utility.TypesInline.{Float, Width}
 
 
+/** An image element with optional caption, width, and alignment */
 trait Image extends CaptionElement:
+  /** Image source path (file system path) */
   def src: String
+
+  /** Alternative text (used if image fails to load or by screen readers) */
   def alt: String
+
+  /** Optional image width in pixels */
   def width: Option[Width]
+
+  /** Optional image alignment (e.g. float left/right) */
   def alignment: Option[Float]
 
+
 object Image:
+
+  /** Creates an Image with src, alt text, optional caption, width and alignment */
   def apply(src: String, alt: String, caption: Option[String], width: Option[Width],  alignment: Option[Float]): Image = new ImageImpl(src, alt, caption, width, alignment)
 
   private class ImageImpl(override val src: String,
@@ -24,22 +35,22 @@ object Image:
     private val idFigure: String = "cls-" + IdGenerator.nextId()
 
     override def render: MainText =
-      val captionString =
-        if caption.isEmpty then ""
-        else s"<figcaption>${caption.get}</figcaption>"
+      val captionString = caption.map(c => s"<figcaption>$c</figcaption>").getOrElse("")
 
-      checkPathImage(src) match
-        case Right(path) =>
-          s"""<figure class="$idFigure">
-             |  <img class="$idImage" src="file:///$path" alt="$alt"></img>
-             |  $captionString
-             |</figure>\n""".stripMargin.toMainText
+      val figureStart = s"""<figure class="$idFigure">"""
+      val figureEnd = s"""</figure>\n"""
 
-        case Left(error) =>
-          s"""<figure class="$idFigure">
-             |  <p style="color: red;">Error loading image: $error</p>
-             |  $captionString
-             |</figure>\n""".stripMargin.toMainText
+      val content = for
+        path <- checkPathImage(src)
+      yield s"""<img class="$idImage" src="file:///$path" alt="$alt"></img>"""
+
+      val innerHtml = content match
+        case Right(imgTag) => s"  $imgTag\n  $captionString"
+        case Left(error)   => s"""  <p style="color: red;">Error loading image: $error</p>\n  $captionString"""
+
+      s"""$figureStart
+         |$innerHtml
+         |$figureEnd""".stripMargin.toMainText
 
     override def renderStyle: StyleText =
         val widthStyle = if width.isEmpty then "" else s"width: ${width.get}px;\n height: auto;"

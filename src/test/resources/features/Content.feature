@@ -73,6 +73,7 @@ Feature: Papyrus document content rendering
     Then The HTML output should contain:
       """
       |<table>
+      |
       |<tbody>
       |<tr>
       |<td colspan='1' rowspan='1'>Name</td>

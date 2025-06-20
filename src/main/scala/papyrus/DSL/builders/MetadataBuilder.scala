@@ -1,7 +1,8 @@
 package papyrus.DSL.builders
 
 import papyrus.logic.metadata.Metadata
-import papyrus.logic.utility.TypesInline.{Charset, Extension, Language}
+import papyrus.logic.styleObjects.MainStyle
+import papyrus.logic.utility.TypesInline.{Charset, Extension, Language, StyleSheet}
 import papyrus.DSL.DefaultValues
 
 enum Field:
@@ -21,6 +22,7 @@ case class MetadataBuilder(
                           ) extends Builder[Metadata]:
 
   private def setOnce[T](field: Field, update: MetadataBuilder => MetadataBuilder)(value: T): MetadataBuilder =
+
     if modifiedFields.contains(field) then
       throw new IllegalStateException(s"$field has already been set")
     update(this).copy(modifiedFields = modifiedFields + field)
@@ -48,7 +50,7 @@ case class MetadataBuilder(
   def withCharset(value: Charset): MetadataBuilder =
     setOnce(Field.Charset, _.copy(charset = value))(value)
 
-  def withStyleSheet(value: String): MetadataBuilder =
+  def withStyleSheet(value: StyleSheet): MetadataBuilder =
     setOnce(Field.StyleSheet, _.copy(styleSheet = value))(value)
 
   def withStyle(value: MainStyleBuilder) : MetadataBuilder =
