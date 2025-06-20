@@ -6,7 +6,7 @@ import papyrus.logic.layerElement.Listing
 
 import scala.math
 
-trait ListBuilder extends ListElementBuilder {
+trait ListBuilder extends ListElementBuilder:
   def items: List[ListElementBuilder]
 
   def listType: ListType
@@ -31,7 +31,7 @@ trait ListBuilder extends ListElementBuilder {
                 order: Option[SortingList] = this.order,
                 reference: Option[String] = this.reference
               ): ListBuilder
-}
+
 
 case class ListBuilderImpl(
                             items: List[ListElementBuilder] = Nil,
