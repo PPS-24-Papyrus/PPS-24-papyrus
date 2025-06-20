@@ -44,7 +44,7 @@ class MetadataBuilderProxy(
     set(updated)
     this
 
-  override def withStyleSheet(value: String): MetadataBuilder =
+  override def withStyleSheet(value: StyleSheet): MetadataBuilder =
     val updated = get().withStyleSheet(value)
     set(updated)
     this
