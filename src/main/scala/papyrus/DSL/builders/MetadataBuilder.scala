@@ -50,7 +50,7 @@ case class MetadataBuilder(
   def withCharset(value: Charset): MetadataBuilder =
     setOnce(Field.Charset, _.copy(charset = value))(value)
 
-  def withStyleSheet(value: StyleSheet): MetadataBuilder =
+  def withStyleSheet(value: String): MetadataBuilder =
     setOnce(Field.StyleSheet, _.copy(styleSheet = value))(value)
 
   def withStyle(value: MainStyleBuilder) : MetadataBuilder =
