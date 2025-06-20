@@ -5,12 +5,21 @@ import papyrus.logic.content.Content
 import papyrus.logic.metadata.Metadata
 import papyrus.logic.utility.HtmlConverter.HtmlLauncher
 
+/** Represents a complete Papyrus document with metadata and content */
 trait Papyrus:
+  /** Document metadata (title, style, language, etc.) */
   def metadata: Metadata
+
+  /** Document content (sections, elements, etc.) */
   def content: Content
+
+  /** Builds and launches the document as an HTML file */
   def build(): Unit
 
+
 object Papyrus:
+
+  /** Creates a Papyrus instance from metadata and content */
   def apply(metadata: Metadata, content: Content): Papyrus =
     PapyrusImpl(metadata, content)
 
