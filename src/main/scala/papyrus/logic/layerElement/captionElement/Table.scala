@@ -2,6 +2,9 @@ package papyrus.logic.layerElement.captionElement
 
 import papyrus.logic.Renderer.Text.*
 import papyrus.logic.styleObjects.TableStyle
+import papyrus.logic.utility.prolog.Scala2Prolog.{*, given}
+import alice.tuprolog.{Struct, Term, Int as PInt, Var}
+
 
 trait  Table[T] extends CaptionElement:
   def rows: List[Row[T]]
@@ -53,18 +56,38 @@ object Table:
       tableStyle.renderStyle
 
     private def validateColspanConsistency(rows: List[Row[_]]): Either[String, Unit] =
-      val colCounts = rows.zipWithIndex.map { case (row, i) =>
-        val totalCols = row.cells.map(_.colspan).sum
-        (i, totalCols)
-      }
+      val data = rows.map(_.cells.map(_.colspan))
+      val termString = data.map(_.mkString("[", ",", "]")).mkString("[", ",", "]")
+      val prologTerm = Term.createTerm(termString)
 
-      val distinctCounts = colCounts.map(_._2).distinct
+      val goal = new Struct("validate_colspan_consistency", prologTerm)
+      val result = engine(goal).headOption
+    
+      result match
+        case Some(_) => Right(())
+        case None =>
+          val colCounts = data.zipWithIndex.map { case (row, i) => (i, row.sum) }
+          val details = colCounts.map((i, c) => s"Row $i → $c columns").mkString("<br>")
+          Left(s"<div style='color:red'><strong>Table structure error:</strong><br>$details</div>")
 
-      if distinctCounts.size <= 1 then Right(())
-      else
-        val details = colCounts.map((i, c) => s"Row $i → $c columns").mkString("<br>")
-        Left(s"<div style='color:red'><strong>Table structure error:</strong><br>$details</div>")
 
+  val engine = mkPrologEngine(
+    """
+      sum_list([], 0).
+      sum_list([H|T], Sum) :- sum_list(T, Rest), Sum is H + Rest.
+  
+      row_colspans([], []).
+      row_colspans([Row|Rest], [Sum|Sums]) :- sum_list(Row, Sum), row_colspans(Rest, Sums).
+  
+      all_equal([]).
+      all_equal([_]).
+      all_equal([X, X | Rest]) :- all_equal([X | Rest]).
+  
+      validate_colspan_consistency(Rows) :-
+        row_colspans(Rows, Sums),
+        all_equal(Sums).
+      """
+  )
 
 
 object Row:
