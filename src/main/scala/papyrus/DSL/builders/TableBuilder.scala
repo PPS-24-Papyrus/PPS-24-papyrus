@@ -9,9 +9,10 @@ import scala.annotation.targetName
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 import papyrus.logic.Renderer.Text.*
 
-enum FieldTable:
+private enum FieldTable:
   case Caption, BackgroundColor, Margin, TextAlign, Width, Align, FunctionRender
 
+/** Builder for constructing a styled table with rows and custom rendering */
 class TableBuilder[T] extends LayerElementBuilder:
   private var caption: Option[String] = None
   private val rows: ListBuffer[RowBuilder[T]] = ListBuffer.empty
@@ -23,7 +24,7 @@ class TableBuilder[T] extends LayerElementBuilder:
   private var functionRender: T => String = t => t.toString
 
   private val modifiedFields = scala.collection.mutable.Set.empty[FieldTable]
-  
+
   private def setOnce[R](field: FieldTable, setter: R => Unit)(value: R): TableBuilder[T] =
     if modifiedFields.contains(field) then
       throw new IllegalStateException(s"$field has already been set")
@@ -31,27 +32,35 @@ class TableBuilder[T] extends LayerElementBuilder:
     modifiedFields += field
     this
 
+  /** Sets the function used to render cell content as string (only once) */
   def withFunctionRender(function: T => String): TableBuilder[T] =
     setOnce(FieldTable.FunctionRender, (v: T => String) => functionRender = v)(function)
-  
+
+  /** Sets the table caption (only once) */
   def withCaption(caption: String): TableBuilder[T] =
     setOnce(FieldTable.Caption, (v: String) => this.caption = Some(v))(caption)
-    
+
+  /** Sets the margin of the table (only once) */
   def margin(margin: Margin): TableBuilder[T] =
-    setOnce(FieldTable.Margin, (v: Margin) => this.margin = v)(margin)  
-    
+    setOnce(FieldTable.Margin, (v: Margin) => this.margin = v)(margin)
+
+  /** Sets the background color of the table (only once) */
   def backgroundColor(color: ColorString): TableBuilder[T] =
     setOnce(FieldTable.BackgroundColor, (v: ColorString) => backgroundColor = v)(color)
-    
+
+  /** Sets the text alignment inside the table (only once) */
   def textAlign(align: Alignment): TableBuilder[T] =
     setOnce(FieldTable.TextAlign, (v: Alignment) => textAlign = v)(align)
-    
+
+  /** Sets the width of the table (only once) */
   def width(width: Width): TableBuilder[T] =
     setOnce(FieldTable.Width, (v: Width) => this.width = v)(width)
-    
-  def alignment(align: Align): TableBuilder[T] =
-    setOnce(FieldTable.Align, (v: Align) => alignment = v)(align)  
 
+  /** Sets the horizontal alignment of the table on the page (only once) */
+  def alignment(align: Align): TableBuilder[T] =
+    setOnce(FieldTable.Align, (v: Align) => alignment = v)(align)
+
+  /** Adds a row to the table */
   def addRow(row: RowBuilder[T]): TableBuilder[T] =
     rows += row
     this
@@ -59,40 +68,62 @@ class TableBuilder[T] extends LayerElementBuilder:
   override def build: Table[T] = Table(caption, rows.map(_.build).toList, TableStyle(backgroundColor, margin, textAlign, width, alignment), t => MainText(functionRender(t)))
 
 
+/** Builder for creating a row of cells in a table */
 case class RowBuilder[T](private val cells: ArrayBuffer[CellBuilder[T]]) extends Builder[Row[T]]:
+
+  /** Adds a cell to the row */
   def addCell(cell: CellBuilder[T]): RowBuilder[T] =
     cells += cell
     this
 
-  @targetName("addStringCell")
+  /** Adds a standard data cell with content */
   def |(cell: T): RowBuilder[T] = addCell(CellBuilder() withContent(cell))
 
-  @targetName("addHeaderCell")
+  /** Adds a header cell */
   def hsh(cell: T): RowBuilder[T] = addCell(CellBuilder().withContent(cell).asHeader())
 
-  @targetName("addSimpleCell")
+  /** Adds a standard data cell after header cell */
   def s(cell: T): RowBuilder[T] = |(cell)
 
-  @targetName("addColspanCell")
+  /** Adds a cell with colspan = 2 */
   def |-(cell: T): RowBuilder[T] = addCell(CellBuilder() withContent(cell) withColspan(2))
 
-  @targetName("addRowspanCell")
+  /** Adds a cell with rowspan = 2 */
   def |^(cell: T): RowBuilder[T] = addCell(CellBuilder() withContent(cell) withRowspan(2))
 
+  /** Builds the final Row[T] object */
   def build: Row[T] = Row(cells.map(_.build).toList)
 
 object RowBuilder:
+  /** Creates an empty RowBuilder */
   def apply[T](): RowBuilder[T] = new RowBuilder(ArrayBuffer.empty[CellBuilder[T]])
 
   extension [T](str: T)
+    /** Creates a row with two standard cells */
     def |(c: T)(using tb: TableBuilder[T]): RowBuilder[T] = makeRow(c, identity, _.withContent(c))
+
+    /** Creates a row with two header cells */
     def hsh(c: T)(using tb: TableBuilder[T]): RowBuilder[T] = makeRow(c, _.asHeader(), _.withContent(c).asHeader())
+
+    /** Creates a row with second cell having colspan = 2 */
     def |-(c: T)(using tb: TableBuilder[T]): RowBuilder[T] = makeRow(c, identity, _.withContent(c).withColspan(2))
+
+    /** Creates a row with second cell having rowspan = 2 */
     def |^(c: T)(using tb: TableBuilder[T]): RowBuilder[T] = makeRow(c, identity, _.withContent(c).withRowspan(2))
+
+    /** Creates a row with first cell rowspan = 2 */
     def ^|(c: T)(using tb: TableBuilder[T]): RowBuilder[T] = makeRow(c, _.withRowspan(2), _.withContent(c))
+
+    /** Creates a row where both cells have rowspan = 2 */
     def ^|^(c: T)(using tb: TableBuilder[T]): RowBuilder[T] = makeRow(c, _.withRowspan(2), _.withContent(c).withRowspan(2))
+
+    /** Creates a row with first cell colspan = 2 */
     def -|(c: T)(using tb: TableBuilder[T]): RowBuilder[T] = makeRow(c, _.withColspan(2), _.withContent(c))
+
+    /** Creates a row where both cells have colspan = 2 */
     def -|-(c: T)(using tb: TableBuilder[T]): RowBuilder[T] = makeRow(c, _.withColspan(2), _.withContent(c).withColspan(2))
+
+    /** Creates a row with two header cells */
     def hs(c: T)(using tb: TableBuilder[T]): RowBuilder[T] = makeRow(c, _.asHeader(), _.withContent(c))
 
     private def makeRow(
