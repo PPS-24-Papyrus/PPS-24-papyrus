@@ -104,12 +104,10 @@ object DSL:
     ctx.withListType(init)
 
   def ordered(init: ListBuilder ?=> SortingList)(using ctx: ListBuilder): Unit =
-
     ctx.withSortingProperties(init)
 
 
   def reference(init: ListBuilder ?=> String)(using ctx: ListBuilder): Unit =
-
     ctx.withReference(init)
 
 
@@ -264,32 +262,8 @@ object DSL:
 
       title:
         "Inizia la documentazione"
-      section:
-        title:
-          "Forza"
-      listing:
-        ordered:
-          "alphabetical"
-        item:
-          "b"
-        item:
-          "sa"
-        listing:
-          item:
-            "l"
-          item:
-            "u"
-          item:
-            "c"
-        item:
-          "aa"
-        listing:
-          item:
-            "p"
-          item:
-            "a"
-        item:
-          "z"
+      text:
+        "Prova testo per Chat" fontWeight "bold"
 
 
 
