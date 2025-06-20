@@ -3,28 +3,31 @@ package papyrus.DSL.builders
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.layerElement.Listing
-
 import scala.math
 
+/** Represents a nestable list builder with optional sorting (only allowed inside Papyrus, Content, Section, SubSection and Listing) */
 trait ListBuilder extends ListElementBuilder:
   def items: List[ListElementBuilder]
-
   def listType: ListType
-
   def order: Option[SortingList]
-
   def reference: Option[String]
 
+  /** Sets the list type ("ul" or "ol") */
   def withListType(tpe: ListType): ListBuilder
 
+  /** Applies sorting based on the provided order type ("alphabetic", "length", "revert", "levenshtein") */
   def withSortingProperties(orderType: SortingList): ListBuilder
 
+  /** Sets a reference string used for Levenshtein sorting */
   def withReference(str: String): ListBuilder
 
+  /** Adds an item or a nested list */
   def add(element: ListElementBuilder): ListBuilder
 
+  /** Builds the final listing */
   def build: Listing
 
+  /** Creates a modified copy with custom internal state */
   def copyWith(
                 items: List[ListElementBuilder] = this.items,
                 listType: ListType = this.listType,
@@ -32,7 +35,7 @@ trait ListBuilder extends ListElementBuilder:
                 reference: Option[String] = this.reference
               ): ListBuilder
 
-
+/** Concrete implementation of ListBuilder with sorting and nesting */
 case class ListBuilderImpl(
                             items: List[ListElementBuilder] = Nil,
                             listType: ListType = "ul",
@@ -53,12 +56,11 @@ case class ListBuilderImpl(
     copy(items = items :+ element)
 
   private def sortItemAndSublists(
-                                            builder: ListBuilder,
-                                            elems: List[ListElementBuilder],
-                                            associationMap: Map[ListBuilder, Option[ItemBuilder]]
-                                          ): List[ListElementBuilder] =
+                                   builder: ListBuilder,
+                                   elems: List[ListElementBuilder],
+                                   associationMap: Map[ListBuilder, Option[ItemBuilder]]
+                                 ): List[ListElementBuilder] =
     val items = elems.collect { case i: ItemBuilder => i }
-
     val sortedItems = builder.order match
       case Some("alphabetical") => items.sortBy(_.value.toLowerCase)
       case Some("length")       => items.sortBy(_.value.length)
@@ -92,19 +94,6 @@ case class ListBuilderImpl(
 
     memo(a.length)(b.length)
 
-  private def printList(builder: ListBuilder, depth: Int = 0): Unit =
-    val indent = "  " * depth
-    builder.items.foreach {
-      case subBuilder: ListBuilder =>
-        printList(subBuilder, depth + 1)
-      case _ => ()
-    }
-    builder.items.foreach {
-      case item: ItemBuilder =>
-        println(s"${indent}- Item: ${item.value}")
-      case _ => ()
-    }
-
   private def findSublistParents(builder: ListBuilder): Map[ListBuilder, Option[ItemBuilder]] =
     val childMaps = builder.items.collect {
       case lb: ListBuilder => findSublistParents(lb)
@@ -112,10 +101,10 @@ case class ListBuilderImpl(
 
     val localPairs = builder.items.zipWithIndex.collect {
       case (sublist: ListBuilder, idx) =>
-        val maybeItemAbove = if idx > 0 then builder.items(idx - 1) match {
+        val maybeItemAbove = if idx > 0 then builder.items(idx - 1) match
           case item: ItemBuilder => Some(item)
-          case _ => None
-        } else None
+          case _                 => None
+        else None
         sublist -> maybeItemAbove
     }.toMap
 
@@ -124,7 +113,7 @@ case class ListBuilderImpl(
   private def visitAllNodesBottomUp(builder: ListBuilder): ListBuilder =
     val updatedChildren = builder.items.map {
       case lb: ListBuilder => visitAllNodesBottomUp(lb)
-      case other => other
+      case other           => other
     }
 
     val associationMap = findSublistParents(builder.copyWith(items = updatedChildren))
