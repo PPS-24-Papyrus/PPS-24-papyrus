@@ -263,10 +263,10 @@ object DSL:
           "html"
 
       title:
-        "Primo"
+        "Inizia la documentazione"
       section:
         title:
-          "secondo"
+          "Forza"
       listing:
         ordered:
           "alphabetical"
