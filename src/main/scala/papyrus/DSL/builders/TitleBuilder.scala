@@ -6,6 +6,7 @@ import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.DefaultValues
 
+/** Builds styled title elements for Papyrus document */
 case class TitleBuilder(
                          private val title: String = DefaultValues.titleTextH1,
                          private val level: Level = DefaultValues.levelH1,
@@ -22,6 +23,7 @@ case class TitleBuilder(
   private def withTextColor(tc: ColorString): TitleBuilder = this.copy(textColor = tc)
   private def withTextAlign(ta: Alignment): TitleBuilder = this.copy(textAlign = ta)
 
+  /** Builds a styled Title element */
   override def build: Title =
     val (finalFont, finalFontSize, finalTextColor, finalTextAlign) = level match
       case 2 => (DefaultValues.fontTitleH2, DefaultValues.fontSizeTitleH2, DefaultValues.textColorTitleH2, DefaultValues.textAlignTitleH2)
@@ -38,6 +40,7 @@ case class TitleBuilder(
     )
 
 object TitleBuilder:
+  /** Creates a TitleBuilder (default: Helvetica 32pt black centered) */
   def apply(
              title: String = DefaultValues.titleTextH1,
              level: Level = DefaultValues.levelH1,
@@ -49,9 +52,20 @@ object TitleBuilder:
     new TitleBuilder(title, level, font, fontSize, textColor, textAlign)
 
   extension (tb: TitleBuilder)
+    /** Sets the title text */
     def title(t: String): TitleBuilder = tb.withTitle(t)
+
+    /** Sets the heading level (Int: 1 to 3) */
     def level(l: Level): TitleBuilder = tb.withLevel(l)
+
+    /** Sets the font family (e.g. "Arial", "Helvetica", "Times New Roman", ...) */
     def font(f: FontFamily): TitleBuilder = tb.withFont(f)
+
+    /** Sets the font size (Int: 8 to 72) */
     def fontSize(fs: FontSize): TitleBuilder = tb.withFontSize(fs)
+
+    /** Sets the text color (ColorString: "#fff", "rgb(...)", or named colors) */
     def textColor(tc: ColorString): TitleBuilder = tb.withTextColor(tc)
+
+    /** Sets the text alignment (String: "left", "right", "center", "justify", "start", "end") */
     def textAlign(ta: Alignment): TitleBuilder = tb.withTextAlign(ta)
