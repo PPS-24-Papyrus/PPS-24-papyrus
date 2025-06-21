@@ -10,7 +10,7 @@ import java.io.FileOutputStream
 import java.nio.file.{Files, Path, Paths}
 import scala.util.Using
 
-object HtmlLauncher:
+object PapyrusPrinter:
 
   private val cssContentPdf =
     """
