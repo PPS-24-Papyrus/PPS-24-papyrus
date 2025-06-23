@@ -1,4 +1,5 @@
 ## Processo di Sviluppo
+Luca
 
 # Metodologia
 
@@ -7,9 +8,12 @@
 # Meeting
 
 # DVCS
+Dani
 
 # Testing
+Dani
 
 # CI/CD
+Dani
 
 # Report
