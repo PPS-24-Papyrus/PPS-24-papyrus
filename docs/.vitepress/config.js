@@ -7,9 +7,9 @@ let processPath = '/process'
 
 export default withMermaid(
     defineConfig({
-        base: '/PPS-Papyrus/',
-        title: "PPS-Papyrus",
-        description: "Papyrus",
+        base: '/PM-Papyrus/',
+        title: "PM-Papyrus",
+        description: "Project Management - Papyrus",
         themeConfig: {
             // https://vitepress.dev/reference/default-theme-config
             nav: [

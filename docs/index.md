@@ -3,18 +3,18 @@
 layout: home
 
 hero:
-  name: "PPS-Papyrus"
-  text: "Relazione Tecnica"
-  tagline: "Progetto di Progettazione Software"
-  
+  name: "PM-Papyrus"
+  text: "Processi di Project Management"
+  tagline: Project Management
+
   actions:
     - theme: brand
       text: Report
       link: report/1-process-scoping-meeting
 ---
 
-# Papyrus
+## Componenti del Gruppo
 
-## Introduzione
-
-Questo documento rappresenta la relazione tecnica del progetto **Papyrus**.
+- **Luca Cantagallo**:
+- **Daniel Capannini**: daniel.capannini@studio.unibo.it
+- 
