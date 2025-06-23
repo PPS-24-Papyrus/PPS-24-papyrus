@@ -1,19 +1,35 @@
-export default {
-    title: 'Papyrus',
-    description: 'Relazione tecnica del progetto Papyrus',
-    themeConfig: {
-        nav: [
-            { text: 'Home', link: '/' }
-            // puoi aggiungere altre pagine/link qui
-        ],
-        sidebar: [
-            {
-                text: 'Indice',
-                items: [
-                    { text: 'Introduzione', link: '/' }
-                    // aggiungi altri capitoli se vuoi
-                ]
-            }
-        ]
-    }
-}
+import { defineConfig } from 'vitepress'
+import { withMermaid } from 'vitepress-plugin-mermaid'
+
+// Base path della repo GitHub (da aggiornare se cambia nome)
+const basePath = '/papyrus/'
+
+// Configurazione VitePress con supporto Mermaid e grafica personalizzata
+export default withMermaid(
+    defineConfig({
+        base: basePath,
+        title: 'Papyrus',
+        description: 'Relazione tecnica del progetto Papyrus',
+        themeConfig: {
+            nav: [
+                { text: 'Home', link: '/' }
+                // Aggiungi link extra qui se necessario
+            ],
+            sidebar: [
+                {
+                    text: 'Relazione',
+                    items: [
+                        { text: 'Indice', link: '/' }
+                        // Puoi aggiungere altre sezioni quando crei altri file
+                    ]
+                }
+            ],
+            socialLinks: [
+                {
+                    icon: 'github',
+                    link: 'https://github.com/dev-pps/papyrus'
+                }
+            ]
+        }
+    })
+)
