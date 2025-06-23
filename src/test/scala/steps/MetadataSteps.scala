@@ -6,7 +6,7 @@ import org.scalatest.matchers.should.Matchers.*
 import papyrus.DSL.builders.{MainStyleBuilder, MetadataBuilder}
 import papyrus.logic.metadata.Metadata
 import papyrus.logic.styleObjects.MainStyle
-import papyrus.logic.utility.TypesInline.{Charset, ColorString, Extension, FontFamily, FontSize, Language}
+import papyrus.logic.utility.TypesInline.{Charset, ColorString, Extension, FontFamily, FontSize, Language, StyleSheet}
 import papyrus.logic.Renderer.*
 
 
@@ -34,7 +34,7 @@ class MetadataSteps extends ScalaDsl with EN:
         case (b, ("title", value)) => b.withTitle(value)
         case (b, ("language", value)) => b.withLanguage(value.asInstanceOf[Language])
         case (b, ("charset", value)) => b.withCharset(value.asInstanceOf[Charset])
-        case (b, ("styleSheet", value)) => b.withStyleSheet(value)
+        case (b, ("styleSheet", value)) => b.withStyleSheet(value.asInstanceOf[StyleSheet])
         case (b, _) => b
       }
     }
@@ -59,7 +59,7 @@ class MetadataSteps extends ScalaDsl with EN:
       case (b, ("title", value)) => b.withTitle(value)
       case (b, ("language", value)) => b.withLanguage(value.asInstanceOf[Language])
       case (b, ("charset", value)) => b.withCharset(value.asInstanceOf[Charset])
-      case (b, ("styleSheet", value)) => b.withStyleSheet(value)
+      case (b, ("styleSheet", value)) => b.withStyleSheet(value.asInstanceOf[StyleSheet])
       case (b, _) => b
     }.build.render
     renderedMetadata should not be empty
@@ -90,4 +90,3 @@ class MetadataSteps extends ScalaDsl with EN:
     }.build
     builtStyle should not be empty
     builtStyle.get.renderStyle.string should include(expectedStyle.renderStyle.string)
-
