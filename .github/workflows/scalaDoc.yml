@@ -19,6 +19,11 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
 
+      - name: Set up sbt
+        uses: coursier/setup-action@v1
+        with:
+          apps: sbt
+
       - name: Set sbt version
         run: echo "sbt.version=1.10.1" > project/build.properties
 

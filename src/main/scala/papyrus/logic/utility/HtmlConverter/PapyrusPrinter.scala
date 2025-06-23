@@ -10,7 +10,7 @@ import java.io.FileOutputStream
 import java.nio.file.{Files, Path, Paths}
 import scala.util.Using
 
-object HtmlLauncher:
+object PapyrusPrinter:
 
   private val cssContentPdf =
     """
@@ -32,6 +32,7 @@ object HtmlLauncher:
       |}
     """.stripMargin
 
+  /** Launches an HTML or PDF file with the given content, styles, and metadata.*/
   def launchFile(
                   htmlContent: MainText,
                   cssContent: StyleText,

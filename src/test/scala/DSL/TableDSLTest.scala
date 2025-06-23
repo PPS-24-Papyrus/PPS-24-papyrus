@@ -1,20 +1,23 @@
 package DSL
 
 import org.scalatest.funsuite.AnyFunSuite
-import org.scalatest.matchers.must.Matchers.{be, contain}
+import org.scalatest.matchers.must.Matchers.{be, contain, include}
 import org.scalatest.matchers.should.Matchers.{an, should, shouldBe}
 import papyrus.logic.layerElement.captionElement.Table
 import papyrus.DSL.DSL
-import papyrus.DSL.DSL.{caption, given_Conversion_String_TextDSL}
+import papyrus.DSL.DSL.{caption, renderTable, withList}
 import papyrus.DSL.builders.RowBuilder.*
-import papyrus.DSL.builders.{TableBuilder, TextDSL, given_Conversion_String_TextDSL}
+import papyrus.DSL.builders.TableBuilder
+import papyrus.DSL.DSL.given_Conversion_List_RowBuilder
 
 class TableDSLTest extends AnyFunSuite:
 
-  private def table(init: TableBuilder ?=> Unit): Table[String] =
-    given builder: TableBuilder = TableBuilder()
+  private def table[T](init: TableBuilder[T] ?=> Unit): Table[T] =
+    given builder: TableBuilder[T] = TableBuilder()
     init
     builder.build
+
+  private case class TestValue(a: Int, b: String)
 
   test("Table DSL should create a table with caption and rows"):
     val generatedTable = table:
@@ -27,6 +30,21 @@ class TableDSLTest extends AnyFunSuite:
     generatedTable.rows.size shouldBe 3
     generatedTable.rows.forall(_.cells.size == 4) shouldBe true
     generatedTable.caption shouldBe Some("Table Caption")
+
+  test("Table DSL should create a table with custom type"):
+    val generatedTable = table[TestValue]:
+      TestValue(1, "A") | TestValue(2, "B") | TestValue(3, "C") | TestValue(4, "D")
+      TestValue(5, "E") | TestValue(6, "F") | TestValue(7, "G") | TestValue(8, "H")
+      renderTable:
+        (t: TestValue) => s"${t.a} - ${t.b}"
+
+    generatedTable.rows.size shouldBe 2
+    generatedTable.rows.head.cells.map(_.content) should contain inOrder(TestValue(1, "A"), TestValue(2, "B"), TestValue(3, "C"), TestValue(4, "D"))
+    generatedTable.render.string should include("1 - A")
+    generatedTable.render.string should include("2 - B")
+    generatedTable.render.string should include("3 - C")
+    generatedTable.render.string should include("4 - D")
+
 
   test("Table DSL should create a table with header cells"):
     val generatedTable = table:
@@ -89,3 +107,27 @@ class TableDSLTest extends AnyFunSuite:
 
     generatedTable.rows.size shouldBe 2
     generatedTable.caption shouldBe None
+
+  test("Table DSL error format should throw an exception"):
+    val generatedTable = table:
+      "Cell1" | "Cell2"
+      "Cell3" | "Cell4" | "Cell5"
+        caption:
+          "Invalid Table"
+    val render = generatedTable.render.string
+    render should include("Table structure error:</strong><br>Row 0 → 2 columns<br>Row 1 → 3 columns")
+
+  test("Table DSL should create a table with List"):
+    val generatedTable = table:
+      withList:
+        List(
+          List(TestValue(1, "A"), TestValue(2, "B"), TestValue(3, "C"), TestValue(4, "D")),
+          List(TestValue(5, "E"), TestValue(6, "F"), TestValue(7, "G"), TestValue(8, "H"))
+        )
+      renderTable:
+        (t: TestValue) => s"${t.a} - ${t.b}"
+
+    generatedTable.rows.flatMap(_.cells.map(_.content)) should contain inOrder(
+      TestValue(1, "A"), TestValue(2, "B"), TestValue(3, "C"), TestValue(4, "D"),
+      TestValue(5, "E"), TestValue(6, "F"), TestValue(7, "G"), TestValue(8, "H")
+    )

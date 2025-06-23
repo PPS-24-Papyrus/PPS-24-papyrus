@@ -4,7 +4,7 @@ import io.cucumber.datatable.{DataTable, DataTableType}
 import io.cucumber.scala.{EN, ScalaDsl}
 import org.scalatest.matchers.should.Matchers
 import papyrus.DSL.builders.ImageBuilder.{alternative, caption}
-import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
+import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, ListBuilderImpl, ListBuilderProxy, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
 import papyrus.logic.content.Content
 import papyrus.logic.layerElement.text.Title
 import papyrus.DSL.DSL.given_Conversion_String_ImageBuilder
@@ -47,29 +47,62 @@ class ContentSteps extends ScalaDsl with EN with Matchers:
       (src caption caption).build
     )
 
+  // ----- LIST
+
+  Given("""I create an empty list"""): () =>
+    val listBuilder = ListBuilderImpl()
+    contentBuilder = Some(ContentBuilder())
+    contentBuilder.get.addLayerElement(listBuilder.build)
+
   Given("""I add a list with items:"""): (dataTable: DataTable) =>
     val items: List[String] = dataTable.asLists().asScala.map(_.get(0)).toList
-    contentBuilder = Some(ContentBuilder())
-    val listBuilder = items.foldLeft(ListBuilder()) { (builder, item) =>
-      builder.addItem(ItemBuilder(item).build)
+    val listBuilder = items.foldLeft(ListBuilderImpl()) { (lb, item) =>
+      lb.add(ItemBuilder(item)).asInstanceOf[ListBuilderImpl]
     }
+    contentBuilder = Some(ContentBuilder())
     contentBuilder.get.addLayerElement(listBuilder.build)
+
+  Given("""I add a nested list with parent item {string} and child items:"""): (parentItem: String, dataTable: DataTable) =>
+    val childItems = dataTable.asLists().asScala.map(_.get(0)).toList
+    val childList = childItems.foldLeft(ListBuilderImpl()) { (lb, item) =>
+      lb.add(ItemBuilder(item)).asInstanceOf[ListBuilderImpl]
+    }
+    val parentList = ListBuilderImpl().add(ItemBuilder(parentItem)).add(childList)
+    contentBuilder = Some(ContentBuilder())
+    contentBuilder.get.addLayerElement(parentList.build)
+
+  Then("""The rendered output should contain list item {string}"""): (item: String) =>
+    renderedContent should not be empty
+    renderedContent.get should include(s"<li>$item</li>")
+
+  Then("""The rendered output should contain nested list structure"""): () =>
+    renderedContent should not be empty
+    renderedContent.get should include("<ul>")
+    renderedContent.get should include("<li>")
+
+  Then("""The rendered list should be ordered with type {string}"""): (listType: String) =>
+    renderedContent should not be empty
+    renderedContent.get should include(s"<$listType>")
+
+  // ----
 
 
   Given("""I add a table with rows:"""): (rows: DataTable) =>
     import papyrus.DSL.builders._
-    val tableBuilder = TableBuilder()
     import scala.jdk.CollectionConverters._
-    val scalaRows = rows.asLists().asScala.toList.map(_.asScala.toList)
-    scalaRows.foreach(row =>
-      tableBuilder.addRow(
-        row.foldLeft(RowBuilder()) { (rb, cell) =>
-          rb.addCell(CellBuilder().withContent(cell))
-        }
-      )
-    )
+    val tableBuilder = TableBuilder[String]()
+    val scalaRows: List[List[String]] =
+      rows.asLists().asScala.toList.map(_.asScala.toList)
+
+    scalaRows.foreach { row =>
+      val rowBuilder = row.foldLeft(RowBuilder[String]()) { (rb, cell) =>
+        rb.addCell(CellBuilder[String]().withContent(cell))
+      }
+      tableBuilder.addRow(rowBuilder)
+    }
     contentBuilder = Some(ContentBuilder())
     contentBuilder.get.addLayerElement(tableBuilder.build)
+
 
   When("""I render the document"""):
     try

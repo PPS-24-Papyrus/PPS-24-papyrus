@@ -9,13 +9,25 @@ import papyrus.logic.Renderer.RendererStyle
 import papyrus.logic.Renderer.Text.*
 import papyrus.logic.utility.IdGenerator
 
+/** Describes the visual style for title elements (e.g. <h1>, <h2>) */
 trait TitleStyle extends RendererStyle:
+
+  /** Font family used for the title */
   def font: FontFamily
+
+  /** Font size for the title */
   def fontSize: FontSize
+
+  /** Text color */
   def textColor: ColorString
+
+  /** Text alignment (e.g. left, center) */
   def textAlign: Alignment
 
+
 object TitleStyle:
+
+  /** Creates a TitleStyle with optional overrides */
   def apply(
              font: FontFamily = DefaultValues.fontTitleH1,
              fontSize: FontSize = DefaultValues.fontSizeTitleH1,

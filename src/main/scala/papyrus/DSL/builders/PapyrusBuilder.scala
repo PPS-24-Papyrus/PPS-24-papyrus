@@ -1,19 +1,18 @@
+
 package papyrus.DSL.builders
 
 import papyrus.logic.Papyrus
-import papyrus.logic.content.Content
-import papyrus.logic.metadata.Metadata
-
-import java.util.Optional
-
+import papyrus.logic.layerElement.LayerElement
+import papyrus.logic.layerElement.text.Title
 
 enum PapyrusField:
   case Metadata, Content
 
+/** Main builder for the entire Papyrus document */
 class PapyrusBuilder:
 
-  private var _metadata: Metadata = Metadata()
-  private var _content: Content = Content(None)
+  private var _metadata: MetadataBuilder = MetadataBuilder()
+  private var _content: ContentBuilder = ContentBuilder()
 
   private val modifiedFields = scala.collection.mutable.Set.empty[PapyrusField]
 
@@ -24,11 +23,20 @@ class PapyrusBuilder:
     modifiedFields += field
     this
 
-  def withMetadata(value: Metadata): PapyrusBuilder =
-    setOnce(PapyrusField.Metadata, (v: Metadata) => _metadata = v)(value)
+  /** Sets metadata builder (can be set only once) */
+  def withMetadata(value: MetadataBuilder): PapyrusBuilder =
+    setOnce(PapyrusField.Metadata, (v: MetadataBuilder) => _metadata = v)(value)
 
-  def withContent(value: Content): PapyrusBuilder =
-    setOnce(PapyrusField.Content, (v: Content) => _content = v)(value)
+  /** Sets content builder (can be set only once) */
+  def withContent(value: ContentBuilder): PapyrusBuilder =
+    setOnce(PapyrusField.Content, (v: ContentBuilder) => _content = v)(value)
 
+  /** Sets the document title in content */
+  def setTitle(newTitle: Title): Unit = _content.setTitle(newTitle)
+
+  /** Adds a LayerElement to content */
+  def addLayerElement(element: LayerElement): Unit = _content.addLayerElement(element)
+
+  /** Builds the full Papyrus document */
   def build(): Unit =
-    Papyrus(_metadata, _content).build()
+    Papyrus(_metadata.build, _content.build).build()

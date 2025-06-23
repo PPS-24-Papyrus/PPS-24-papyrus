@@ -4,16 +4,28 @@ import papyrus.logic.Renderer.Text.*
 import papyrus.logic.layerElement.text.{Item, Text, Title}
 import papyrus.logic.utility.TypesInline.ListType
 
-trait Listing extends LayerElement:
-  def items: Seq[Item]
+/** Represents a list (ordered or unordered), possibly containing nested lists or items */
+trait Listing extends ListElement:
+  def items: Seq[ListElement]
   def listType: ListType
 
 object Listing:
 
-  def apply(listType: ListType, items: Item*): Listing = ListingImpl(listType, items.toSeq)
+  /** Creates a new Listing with the given list type and elements */
+  def apply(listType: ListType, items: ListElement*): Listing =
+    ListingImpl(listType, items.toSeq)
 
-  private class ListingImpl(override val listType: ListType, override val items: Seq[Item]) extends Listing:
+  private class ListingImpl(
+                             override val listType: ListType,
+                             override val items: Seq[ListElement]
+                           ) extends Listing:
+
     override def render: MainText =
-      s"<$listType>\n${items.map(_.render).mkString("\n")}\n</$listType>".toMainText
-  
+      val renderedItems = items.map {
+        case i: Item => i.render.string
+        case l: Listing => l.render.string
+      }.mkString("\n")
+
+      s"<$listType>\n$renderedItems\n</$listType>".toMainText
+
     override def renderStyle: StyleText = "".toStyleText

@@ -6,11 +6,14 @@ import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.DefaultValues
 
+/** Builds a list item (only allowed inside Listing) */
 case class ItemBuilder(
-                        private val value: String
-                      ) extends Builder[Item]:
+                        value: String
+                      ) extends ListElementBuilder:
+
   private def withValue(v: String): ItemBuilder = this.copy(value = v)
 
+  /** Builds the Item element */
   override def build: Item = Item(value)
 
 object ItemBuilder:
@@ -18,4 +21,5 @@ object ItemBuilder:
     new ItemBuilder(value)
 
   extension (ib: ItemBuilder)
+    /** Sets the item value */
     def value(v: String): ItemBuilder = ib.withValue(v)

@@ -7,15 +7,31 @@ import papyrus.DSL.DefaultValues
 import papyrus.logic.Renderer.Text.*
 import papyrus.logic.utility.IdGenerator
 
+/** Describes the visual style of a table element */
 trait TableStyle extends RendererStyle:
+
+  /** Background color used for header cells */
   def backgroundColor: ColorString
+
+  /** Outer margin of the table container */
   def margin: Margin
+
+  /** Text alignment inside cells */
   def textAlign: Alignment
+
+  /** Table width in pixels */
   def width: Width
+
+  /** Alignment of the table on the page (flex alignment) */
   def alignment: Align
+
+  /** CSS class tag used to identify the table */
   def tag: String
 
+
 object TableStyle:
+
+  /** Creates a TableStyle instance with optional custom properties */
   def apply(
              backgroundColor: ColorString = DefaultValues.backgroundColorTable,
              margin: Margin = DefaultValues.marginTable,
