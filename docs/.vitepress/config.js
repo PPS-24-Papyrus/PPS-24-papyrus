@@ -19,13 +19,19 @@ export default withMermaid(
             sidebar: [
                 {text: 'Report',
                     items: [
-                        {text: 'Process scoping meeting', link: `${reportPath}/1-prova`},
-                        //{text: 'Valutazione proposte del committente', link: `${reportPath}/2-valutazione-proposte-committente`},
-                        //{text: 'Project Overview Statement', link: `${reportPath}/3-POS`},
-                        //{text: 'Analisi dei rischi', link: `${reportPath}/4-POS-AnalisiRischi`},
-                        //{text: 'Requirements Breakdown Structure', link: `${reportPath}/5-RBS`},
-                        //{text: 'PMLC Model', link: `${reportPath}/6-PMLC-model`},
-                        //{text: 'Traduzione', link: `${reportPath}/7-traduzione`},
+                        {text: 'Introduzione', link: `${reportPath}/1-getStarted`},
+                        {text: 'Processo di Sviluppo', link: `${reportPath}/2-processoDiSviluppo`},
+                        {text: 'Requisiti', link: `${reportPath}/3-requisiti`},
+                        {text: 'Design Architetturale', link: `${reportPath}/4-designArchitetturale`},
+                        {text: 'Design di Dettaglio', link: `${reportPath}/5-designDiDettaglio`},
+                        {text: 'Implementazione',
+                            items: [
+                                {text: 'Cantagallo Luca', link: `${reportPath}/7-CantagalloLuca`},
+                                {text: 'Capannini Daniel', link: `${reportPath}/8-CapanniniDaniel`},
+                            ]
+                        },
+                        {text: 'Testing', link: `${reportPath}/9-testing`},
+                        {text: 'Retrospettiva', link: `${reportPath}/6-retrospettiva`},
                     ]
                 },
             ],
