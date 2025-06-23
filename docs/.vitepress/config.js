@@ -31,7 +31,7 @@ export default withMermaid(
                             ]
                         },
                         {text: 'Testing', link: `${reportPath}/9-testing`},
-                        {text: 'Retrospettiva', link: `${reportPath}/6-retrospettiva`},
+                        {text: 'Retrospettiva', link: `${reportPath}/10-retrospettiva`},
                     ]
                 },
             ],
