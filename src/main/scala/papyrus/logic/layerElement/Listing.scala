@@ -4,12 +4,14 @@ import papyrus.logic.Renderer.Text.*
 import papyrus.logic.layerElement.text.{Item, Text, Title}
 import papyrus.logic.utility.TypesInline.ListType
 
+/** Represents a list (ordered or unordered), possibly containing nested lists or items */
 trait Listing extends ListElement:
   def items: Seq[ListElement]
   def listType: ListType
 
 object Listing:
 
+  /** Creates a new Listing with the given list type and elements */
   def apply(listType: ListType, items: ListElement*): Listing =
     ListingImpl(listType, items.toSeq)
 
@@ -25,5 +27,5 @@ object Listing:
       }.mkString("\n")
 
       s"<$listType>\n$renderedItems\n</$listType>".toMainText
-    override def renderStyle: StyleText = "".toStyleText
 
+    override def renderStyle: StyleText = "".toStyleText

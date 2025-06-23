@@ -7,14 +7,16 @@ import io.github.iltotore.iron.autoRefine
 import papyrus.logic.Renderer.Text.*
 import papyrus.logic.styleObjects.TextStyle
 
+/** Represents a styled text element in the document */
 trait Text extends LayerElement:
+
+  /** The raw text content */
   def text: String
 
 object Text:
 
-  def apply(text: String)(
-    textStyle: TextStyle
-  ): Text = TextImpl(text)(textStyle)
+  /** Creates a Text element with given content and style */
+  def apply(text: String)(textStyle: TextStyle): Text = TextImpl(text)(textStyle)
 
   private class TextImpl(
                           override val text: String,

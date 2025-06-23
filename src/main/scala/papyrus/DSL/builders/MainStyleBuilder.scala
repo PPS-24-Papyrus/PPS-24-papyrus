@@ -5,9 +5,10 @@ import papyrus.logic.utility.TypesInline.*
 import papyrus.DSL.DefaultValues
 import papyrus.logic.styleObjects.MainStyle
 
-enum MainStyleField:
+private enum MainStyleField:
   case Font, FontSize, LineHeight, TextColor, BackgroundColor, TextAlign, Margin
 
+/** Builder for constructing a MainStyle*/
 class MainStyleBuilder extends Builder[MainStyle]:
 
   private var _font: FontFamily = DefaultValues.font
@@ -27,24 +28,31 @@ class MainStyleBuilder extends Builder[MainStyle]:
     modifiedFields += field
     this
 
+  /** Sets the font family (only once) */
   def withFont(value: FontFamily): MainStyleBuilder =
     setOnce(MainStyleField.Font, (v: FontFamily) => _font = v)(value)
 
+  /** Sets the font size (only once) */
   def withFontSize(value: FontSize): MainStyleBuilder =
     setOnce(MainStyleField.FontSize, (v: FontSize) => _fontSize = v)(value)
 
+  /** Sets the line height (only once) */
   def withLineHeight(value: LineHeight): MainStyleBuilder =
     setOnce(MainStyleField.LineHeight, (v: LineHeight) => _lineHeight = v)(value)
 
+  /** Sets the text color (only once) */
   def withTextColor(value: ColorString): MainStyleBuilder =
     setOnce(MainStyleField.TextColor, (v: ColorString) => _textColor = v)(value)
 
+  /** Sets the background color (only once) */
   def withBackgroundColor(value: ColorString): MainStyleBuilder =
     setOnce(MainStyleField.BackgroundColor, (v: ColorString) => _backgroundColor = v)(value)
 
+  /** Sets the text alignment (only once) */
   def withTextAlign(value: Alignment): MainStyleBuilder =
     setOnce(MainStyleField.TextAlign, (v: Alignment) => _textAlign = v)(value)
 
+  /** Sets the margin around the content (only once) */
   def withMargin(value: Margin): MainStyleBuilder =
     setOnce(MainStyleField.Margin, (v: Margin) => _margin = v)(value)
 
