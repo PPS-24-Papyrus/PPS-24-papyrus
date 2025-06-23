@@ -1,34 +1,37 @@
-import { defineConfig } from 'vitepress'
-import { withMermaid } from 'vitepress-plugin-mermaid'
+import {defineConfig} from 'vitepress'
+import { withMermaid } from "vitepress-plugin-mermaid";
 
-// Base path della repo GitHub (da aggiornare se cambia nome)
-const basePath = '/papyrus/'
+let reportPath = '/report'
+let processPath = '/process'
+// https://vitepress.dev/reference/site-config
 
-// Configurazione VitePress con supporto Mermaid e grafica personalizzata
 export default withMermaid(
     defineConfig({
-        base: basePath,
-        title: 'Papyrus',
-        description: 'Relazione tecnica del progetto Papyrus',
+        base: '/PPS-Papyrus/',
+        title: "PPS-Papyrus",
+        description: "Papyrus",
         themeConfig: {
+            // https://vitepress.dev/reference/default-theme-config
             nav: [
-                { text: 'Home', link: '/' }
-                // Aggiungi link extra qui se necessario
+                {text: 'Home', link: '/'},
             ],
+
             sidebar: [
-                {
-                    text: 'Relazione',
+                {text: 'Report',
                     items: [
-                        { text: 'Indice', link: '/' }
-                        // Puoi aggiungere altre sezioni quando crei altri file
+                        {text: 'Process scoping meeting', link: `${reportPath}/1-prova`},
+                        //{text: 'Valutazione proposte del committente', link: `${reportPath}/2-valutazione-proposte-committente`},
+                        //{text: 'Project Overview Statement', link: `${reportPath}/3-POS`},
+                        //{text: 'Analisi dei rischi', link: `${reportPath}/4-POS-AnalisiRischi`},
+                        //{text: 'Requirements Breakdown Structure', link: `${reportPath}/5-RBS`},
+                        //{text: 'PMLC Model', link: `${reportPath}/6-PMLC-model`},
+                        //{text: 'Traduzione', link: `${reportPath}/7-traduzione`},
                     ]
-                }
+                },
             ],
+
             socialLinks: [
-                {
-                    icon: 'github',
-                    link: 'https://github.com/dev-pps/papyrus'
-                }
+                {icon: 'github', link: 'https://github.com/PPS-24-Papyrus/PM-Papyrus'}
             ]
         }
     })
