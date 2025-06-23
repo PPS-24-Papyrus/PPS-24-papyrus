@@ -34,6 +34,16 @@ export default withMermaid(
                         {text: 'Retrospettiva', link: `${reportPath}/10-retrospettiva`},
                     ]
                 },
+                {text: 'Artefatti del processo di sviluppo',
+                    items: [
+                        {text: 'Sprint 1', link: `${processPath}/sprint-1`},
+                        {text: 'Sprint 2', link: `${processPath}/sprint-2`},
+                        {text: 'Sprint 3', link: `${processPath}/sprint-3`},
+                        {text: 'Sprint 4', link: `${processPath}/sprint-4`},
+                        {text: 'Sprint 5', link: `${processPath}/sprint-5`},
+                        {text: 'Sprint 6', link: `${processPath}/sprint-6`},
+                    ]
+                }
             ],
 
             socialLinks: [
