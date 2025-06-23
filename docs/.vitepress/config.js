@@ -31,7 +31,7 @@ export default withMermaid(
             ],
 
             socialLinks: [
-                {icon: 'github', link: 'https://github.com/PPS-24-Papyrus/PM-Papyrus'}
+                {icon: 'github', link: 'https://github.com/PPS-24-Papyrus/PPS-24-Papyrus'}
             ]
         }
     })
