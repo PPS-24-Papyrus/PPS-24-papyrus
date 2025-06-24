@@ -1,37 +1,51 @@
-package papyrus.DSL
+package papyrus.dsl
 
 import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
-import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, ListBuilderImpl, ListBuilderProxy, MainStyleBuilder, MetadataBuilder, MetadataBuilderProxy, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
-import papyrus.DSL.builders.ImageBuilder.caption
-import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
-import papyrus.DSL.builders.RowBuilder.{|, |-, |^}
-import papyrus.DSL.builders.TextBuilder.{newLine, *}
-import papyrus.DSL.builders.TitleBuilder.*
+import papyrus.dsl.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, ListBuilderImpl, ListBuilderProxy, MainStyleBuilder, MetadataBuilder, MetadataBuilderProxy, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
+import papyrus.dsl.builders.ImageBuilder.caption
+import papyrus.dsl.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
+import papyrus.dsl.builders.RowBuilder.*
+import papyrus.dsl.builders.TextBuilder.*
+import papyrus.dsl.builders.TitleBuilder.*
 import papyrus.logic.utility.SectionCounter
 
 
 object DSL:
+  
+  trait PapyrusApplication extends App:
 
-  /** Entry point for building a Papyrus document */
-  def papyrus(init: PapyrusBuilder ?=> Unit): Unit =
-    given builder: PapyrusBuilder = PapyrusBuilder()
-    init
-    builder.build()
-
-  /** Define document metadata */
-  def metadata(init: MetadataBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
-    var current: MetadataBuilder = MetadataBuilder()
-    given MetadataBuilder = MetadataBuilderProxy(() => current, updated => current = updated)
-    init
-    pb.withMetadata(current)
-
-  /** Define document content */
-  def content(init: ContentBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
-    given builder: ContentBuilder = ContentBuilder()
-    init
-    pb.withContent(builder)
+    /** Entry point for building a Papyrus document */
+    def papyrus(init: PapyrusBuilder ?=> Unit): Unit =
+      given builder: PapyrusBuilder = PapyrusBuilder()
+      init
+      builder.build()
+  
+    /** Define document metadata */
+    def metadata(init: MetadataBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
+      var current: MetadataBuilder = MetadataBuilder()
+      given MetadataBuilder = MetadataBuilderProxy(() => current, updated => current = updated)
+      init
+      pb.withMetadata(current)
+  
+    /** Define document content */
+    def content(init: ContentBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
+      given builder: ContentBuilder = ContentBuilder()
+      init
+      pb.withContent(builder)
+      
+    export DSL.*
+    export io.github.iltotore.iron.autoRefine
+    export DSL.given_Conversion_String_ImageBuilder
+    export DSL.given_Conversion_String_TitleBuilder
+    export DSL.given_Conversion_String_TextBuilder
+    export DSL.given_Conversion_String_ItemBuilder
+    export DSL.given_Conversion_List_RowBuilder
+    export builders.RowBuilder.{|, -|, |-, -|-, ^|, |^, ^|^, hsh, hs}
+    export builders.TextBuilder.{color, fontWeight, fontStyle, textDecoration, newLine}
+    export builders.TitleBuilder.{level, font, fontSize, textColor, textAlign}
+    export builders.ImageBuilder.{alternative, caption, width, alignment}
 
   /** Define a title with automatic numbering depending on context */
   def title(init: TitleBuilder ?=> TitleBuilder)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
@@ -272,69 +286,3 @@ object DSL:
   /** Convert String to ImageBuilder */
   given Conversion[String, ImageBuilder] with
     def apply(str: String): ImageBuilder = ImageBuilder(str)
-
-
-  @main def provaFunc(): Unit = {
-     papyrus:
-      metadata:
-        nameFile:
-          "Third Sprint"
-        language:
-          "en"
-        author:
-          "LucaDani"
-        extension:
-          "html"
-        margin:
-          150
-      content:
-        title:
-          "End 3rd Sprint"
-        text:
-          "Normale" color "red"
-        section:
-          title:
-            "Table and listing"
-          text:
-            "Let's try to print a table." newLine "Ciao" newLine "Ciao"
-          table:
-            withList:
-              List(
-                List("1", "2", "3"),
-                List("4", "5", "6"),
-                List("7", "8", "9")
-              )
-            renderTable:
-              (s: String) => s
-          table:
-            "1" | "2" | "3"
-            "4" | "5" | "6"
-            "7" | "8" | "9"
-            caption:
-              "This is our first table:"
-            alignTable:
-              "center"
-          subsection:
-            title:
-              "Listing" textColor "red"
-            underline:
-              "Prova grassetto"
-            text:
-              "\nWhy do we use it?\nIt is a long established" newLine "Ciao"
-            listing:
-              listType:
-                "ol"
-              item:
-                "First element"
-              item:
-                "Second element"
-        section:
-          title:
-            "Image"
-          text:
-            "This is our first image:"
-          image:
-            "src/main/resources/PapyrusLogo.png" caption "This is papyrus logo" alternative "No image found" width 200
-
-  }
-
