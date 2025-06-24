@@ -20,17 +20,17 @@ soddisfatti delle anilisi fatte de gli obiettivi raggiunti.
 
 
 | Task          | Descrizione                     | Svolto da             | Durata |
-| ------------- | ------------------------------- | --------------------- | ------ |
-| fix           | fix Image e image test          | Capannini             | 2.5    |
-| fix           | fix test                        | Capannini             | 1.0    |
+| ------------- |---------------------------------| --------------------- | ------ |
+| fix           | Fix Image e image test          | Capannini             | 2.5    |
+| fix           | Fix test                        | Capannini             | 1.0    |
 | Report        | Impostazione e inizio relazione | Cantagallo            | 1.0    |
 | Sviluppo      | Stile builder                   | Cantagallo, Capannini | 2.0    |
-| Sviluppo      | refactory builder               | Capannini             | 2.0    |
-| Sviluppo      | refactory generic table         | Capannini             | 2.0    |
-| progettazione | riunione per sprint             | Cantagallo, Capannini | 2.5    |
-| fix           | sistemato liste e text          | Cantagallo            | 2.5    |
-| fix           | sistemato errori pdf            | Capannini             | 2.5    |
-| Test          | cocumber test                   | Capannini             | 4.0    |
-| Test          | cocumber test                   | Capannini             | 3.0    |
-| fix           | fix test                        | Capannini             | 2.0    |
-| Sviluppo      | aggiunta MainText e StyleText   | Capannini             | 3.0    |
+| Sviluppo      | Refactory builder               | Capannini             | 2.0    |
+| Sviluppo      | Refactory generic table         | Capannini             | 2.0    |
+| progettazione | Riunione per sprint             | Cantagallo, Capannini | 2.5    |
+| fix           | Sistemato liste e text          | Cantagallo            | 2.5    |
+| fix           | Sistemato errori pdf            | Capannini             | 2.5    |
+| Test          | Cocumber test                   | Capannini             | 4.0    |
+| Test          | Cocumber test                   | Capannini             | 3.0    |
+| fix           | Fix test                        | Capannini             | 2.0    |
+| Sviluppo      | Aggiunta MainText e StyleText   | Capannini             | 3.0    |

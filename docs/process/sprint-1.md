@@ -22,17 +22,17 @@ Vi sono state tensioni tra i membri del team dovute da diversi visioni di proget
 
 
 | Task     | Descrizione                      | Svolto da             | Durata |
-| -------- | -------------------------------- | --------------------- | ------ |
+| -------- |----------------------------------| --------------------- | ------ |
 | Analisi  | Definizione obiettivi            | Cantagallo, Capannini | 1.0    |
 | Analisi  | Definizione vocabolario          | Cantagallo, Capannini | 1.0    |
 | Analisi  | Definizione EBNF e gerarchia     | Cantagallo            | 0.5    |
 | Ambiente | Creazione repository             | Capannini             | 0.5    |
 | Analisi  | UML ad alto livello              | Capannini             | 1.0    |
 | Analisi  | Definizione struttura linguaggio | Cantagallo            | 0.5    |
-| Design   | UML                              | Cantagallo, Capannini | 4.0    |
+| Design   | UML di dettaglio                 | Cantagallo, Capannini | 4.0    |
 | Analisi  | Gerkin                           | Cantagallo, Capannini | 1.0    |
 | Analisi  | Gerkin                           | Capannini             | 1.0    |
-| Analisi  | file Output                      | Cantagallo, Capannini | 1.5    |
+| Analisi  | Generazione HTML vuota           | Cantagallo, Capannini | 1.5    |
 | Design   | UML di dettaglio                 | Cantagallo, Capannini | 4.0    |
-| Sviluppo | trait                            | Cantagallo, Capannini | 2.0    |
+| Sviluppo | Trait nelle varie gerarchie      | Cantagallo, Capannini | 2.0    |
 

@@ -22,28 +22,28 @@ soddisfatti delle anilisi fatte de gli obiettivi raggiunti, ma lo sprint e' stat
 
 
 | Task           | Descrizione                                   | Svolto da  | Durata |
-| -------------- | --------------------------------------------- | ---------- | ------ |
-| Sviluppo       | definizione dei tipi con Iron                 | Cantagallo | 5.5    |
-| Sviluppo, Test | implementazione Content                       | Capannini  | 1.0    |
-| Sviluppo, Test | implementazione Text                          | Capannini  | 2.0    |
-| Sviluppo, Test | implementazione Title                         | Capannini  | 1.0    |
-| Sviluppo, Test | rifattorissazione object                      | Capannini  | 0.5    |
-| Sviluppo       | implementazione Metadata                      | Capannini  | 3.5    |
-| fix            | Risolta Implementazione Style                 | Cantagallo | 3.0    |
-| fix            | Risolta implemetazione Text                   | Cantagallo | 2.0    |
-| fix            | Risolta implementazione Metadata e Title      | Cantagallo | 1.0    |
-| fix            | Risolta HTML e Css collegati                  | Cantagallo | 0.5    |
-| fix            | Risolto primo DSL e Text di default con given | Cantagallo | 0.5    |
+|----------------|-----------------------------------------------| ---------- | ------ |
+| Sviluppo       | Definizione dei tipi con Iron                 | Cantagallo | 5.5    |
+| Sviluppo, Test | Implementazione Content                       | Capannini  | 1.0    |
+| Sviluppo, Test | Implementazione Text                          | Capannini  | 2.0    |
+| Sviluppo, Test | Implementazione Title                         | Capannini  | 1.0    |
+| Sviluppo, Test | Rifattorissazione object                      | Capannini  | 0.5    |
+| Sviluppo       | Implementazione Metadata                      | Capannini  | 3.5    |
+| Fix            | Risolta Implementazione Style                 | Cantagallo | 3.0    |
+| Fix            | Risolta implemetazione Text                   | Cantagallo | 2.0    |
+| Fix            | Risolta implementazione Metadata e Title      | Cantagallo | 1.0    |
+| Fix            | Risolta HTML e Css collegati                  | Cantagallo | 0.5    |
+| Fix            | Risolto primo DSL e Text di default con given | Cantagallo | 0.5    |
 | Analisi        | DSL                                           | Capannini  | 2.0    |
-| Sviluppo       | elaborazione idee per style                   | Capannini  | 2.0    |
-| Sviluppo       | elaborazione Dsl                              | Capannini  | 3.5    |
-| Sviluppo       | elaborazione Dsl title                        | Capannini  | 2.5    |
-| Analisi        | DSL                                           | Cantagallo | 2.0    |
-| Sviluppo       | elaborazione DSL text                         | Cantagallo | 1.0    |
-| fix            | Risoluzioni bug CSS                           | Cantagallo | 1.0    |
-| Sviluppo       | Risolta chaining DSL                          | Cantagallo | 3.0    |
+| Sviluppo       | Elaborazione idee per style                   | Capannini  | 2.0    |
+| Sviluppo       | Elaborazione Dsl                              | Capannini  | 3.5    |
+| Sviluppo       | Elaborazione Dsl title                        | Capannini  | 2.5    |
+| Sviluppo       | TextDSL per risoluzione keyword inline        | Cantagallo | 2.0    |
+| Sviluppo       | Elaborazione DSL text                         | Cantagallo | 1.0    |
+| Fix            | Risoluzioni bug CSS                           | Cantagallo | 1.0    |
+| Sviluppo       | Risolta chaining DSL con TextDSL              | Cantagallo | 3.0    |
 | Sviluppo       | Builders                                      | Cantagallo | 1.0    |
-| Sviluppo       | creazione pdf e refactiry metadata            | Capannini  | 3.0    |
-| Test           | test metadata                                 | Capannini  | 2.5    |
+| Sviluppo       | Creazione pdf e refactory metadata            | Capannini  | 3.0    |
+| Test           | Test metadata                                 | Capannini  | 2.5    |
 | Sviluppo       | Output pdf e gestione estensione file         | Cantagallo | 1.0    |
-| Sviluppo       | Metadata DSL                                  | Cantagallo | 1.0    |
+| Sviluppo       | Metadata con TextDSL                          | Cantagallo | 1.0    |
