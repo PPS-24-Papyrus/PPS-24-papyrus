@@ -289,12 +289,11 @@ object DSL:
           150
       content:
         title:
-          "End 3rd Sprint"
-        text:
-          "Normale" color "red"
+          "Example" textColor "red"
+
         section:
           title:
-            "Table and listing"
+            "Example in section"
           text:
             "Let's try to print a table." newLine "Ciao" newLine "Ciao"
           table:

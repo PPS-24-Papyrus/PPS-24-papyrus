@@ -7,6 +7,9 @@ import io.github.iltotore.iron.constraint.string.*
 /** Semantic type aliases with constraints for styling, layout, and metadata */
 object TypesInline:
 
+  /** Basic alignment: left, right, or center */
+  type Align = String :| Match["left|right|center"]
+
   /** Text alignment options: left, right, center, justify, etc. */
   type Alignment = String :| Match["left|right|center|justify|start|end"]
 
@@ -21,6 +24,9 @@ object TypesInline:
 
   /** File extension for output format */
   type Extension = String :| Match["html|pdf"]
+
+  /** Float direction: left, right, or none */
+  type Float = String :| Match["left|right|none"]
 
   /** Valid font families (e.g. "Arial", "Roboto") */
   type FontFamily = String :| Match["Arial|Helvetica|Times New Roman|Courier New|Verdana|Georgia|Palatino|Garamond|Bookman|Tahoma|Trebuchet MS|Impact|Comic Sans MS|Consolas|Lucida Console|Lucida Sans Unicode|monospace|sans-serif|serif|Roboto|Open Sans|Lato|Montserrat|Oswald|Raleway|Poppins|Noto Sans|Ubuntu|Fira Sans|Nunito|Merriweather|Work Sans|Rubik|Inter|Inconsolata|DM Serif Display|Source Sans Pro|Quicksand|Oxygen|Cabin"]
@@ -49,11 +55,17 @@ object TypesInline:
   /** Line height multiplier (1.0–3.0) */
   type LineHeight = Double :| Interval.Closed[1.0, 3.0]
 
+  /** List type: ordered or unordered */
+  type ListType = String :| Match["ol|ul"]
+
   /** Outer margin in pixels (0–200) */
   type Margin = Int :| Interval.Closed[0, 200]
 
   /** Inner padding in pixels (0–200) */
   type Padding = Int :| Interval.Closed[0, 200]
+
+  /** Sorting method for lists */
+  type SortingList = String :| Match["alphabetical|length|reverse|levenshtein"]
 
   /** CSS file path that must end with .css */
   type StyleSheet = String :| EndWith[".css"]
@@ -69,15 +81,4 @@ object TypesInline:
 
   /** Word spacing in em (0.0–20.0) */
   type WordSpacing = Double :| Interval.Closed[0.0, 20.0]
-
-  /** Float direction: left, right, or none */
-  type Float = String :| Match["left|right|none"]
-
-  /** Basic alignment: left, right, or center */
-  type Align = String :| Match["left|right|center"]
-
-  /** List type: ordered or unordered */
-  type ListType = String :| Match["ol|ul"]
-
-  type SortingList = String :| Match["alphabetical|length|reverse|levenshtein"]
 
