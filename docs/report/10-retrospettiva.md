@@ -19,3 +19,14 @@ I task venivano assegnati all’inizio di ogni sprint e raramente subivano varia
 La collaborazione con Daniel è stata naturale, già avevamo lavorato insieme e anche stavolta è stato un piacere: puntuale, affidabile e con piena sintonia nei momenti decisivi.
 
 Mi porto dietro un’esperienza solida, sia tecnica sia organizzativa, che sicuramente userò di nuovo in progetti futuri.
+
+
+### Daniel Capannini
+
+Nel corso del progetto Papyrus ho ricoperto il ruolo di developer, contribuendo in particolare allo sviluppo di alcune parti del DSL e alla realizzazione della struttura per la generazione degli elementi del documento. Tra le attività che ho trovato più stimolanti c’è sicuramente la costruzione delle tabelle, che ha richiesto attenzione sia dal punto di vista della formattazione che della flessibilità del modello. Parte di questa logica è stata anche realizzata in Prolog, un esperimento interessante che ha arricchito ulteriormente il progetto.
+
+Mi ha appassionato molto anche l’utilizzo dei meccanismi avanzati di Scala, come given, using e le conversioni implicite, che abbiamo sfruttato per rendere il DSL elegante, estendibile e idiomatico. Lavorare su questi aspetti mi ha dato l’opportunità di consolidare le mie competenze nel paradigma funzionale e di affrontare sfide tecniche concrete.
+
+La collaborazione con Luca è stata ottima: ben organizzata, produttiva e basata su una sinergia naturale. La divisione dei compiti è stata chiara fin da subito, e grazie all’uso della metodologia SCRUM, siamo riusciti a procedere in modo ordinato, senza doverci sentire continuamente. Ogni sprint è stato pianificato con attenzione, e la possibilità di lavorare in autonomia senza perdere il coordinamento è stata per me uno dei punti di forza principali di questo progetto.
+
+Papyrus è stata un’esperienza significativa, che mi ha permesso di crescere dal punto di vista tecnico e di vivere una gestione del lavoro davvero efficace. Sicuramente porterò con me molte delle soluzioni e dei metodi che abbiamo adottato, anche in progetti futuri.
