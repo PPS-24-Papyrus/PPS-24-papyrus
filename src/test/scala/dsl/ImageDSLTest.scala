@@ -1,10 +1,10 @@
-package DSL
+package dsl
 
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
-import papyrus.DSL.builders.ImageBuilder
-import papyrus.DSL.DSL.given_Conversion_String_ImageBuilder
-import papyrus.DSL.builders.ImageBuilder.*
+import papyrus.dsl.builders.ImageBuilder
+import papyrus.dsl.DSL.given_Conversion_String_ImageBuilder
+import papyrus.dsl.builders.ImageBuilder.*
 import io.github.iltotore.iron.autoRefine
 
 class ImageDSLTest extends AnyFunSuite with Matchers:

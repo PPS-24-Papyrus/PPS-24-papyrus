@@ -1,14 +1,14 @@
-package DSL
+package dsl
 
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.must.Matchers.{be, contain, include}
 import org.scalatest.matchers.should.Matchers.{an, should, shouldBe}
 import papyrus.logic.layerElement.captionElement.Table
-import papyrus.DSL.DSL
-import papyrus.DSL.DSL.{caption, renderTable, withList}
-import papyrus.DSL.builders.RowBuilder.*
-import papyrus.DSL.builders.TableBuilder
-import papyrus.DSL.DSL.given_Conversion_List_RowBuilder
+import papyrus.dsl.DSL
+import papyrus.dsl.DSL.{caption, renderTable, withList}
+import papyrus.dsl.builders.RowBuilder.*
+import papyrus.dsl.builders.TableBuilder
+import papyrus.dsl.DSL.given_Conversion_List_RowBuilder
 
 class TableDSLTest extends AnyFunSuite:
 

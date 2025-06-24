@@ -3,7 +3,7 @@ package papyrus.logic.metadata
 import papyrus.logic.Renderer.Renderer
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
-import papyrus.DSL.DefaultValues
+import papyrus.dsl.DefaultValues
 import papyrus.logic.Renderer.Text.*
 import papyrus.logic.metadata.MetaTag.{MetaTag, authorTag, charsetTag, styleSheetTag, titleTag}
 import papyrus.logic.styleObjects.MainStyle

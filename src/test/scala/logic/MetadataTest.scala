@@ -3,7 +3,7 @@ package logic
 
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
-import papyrus.DSL.builders.MetadataBuilder
+import papyrus.dsl.builders.MetadataBuilder
 import io.github.iltotore.iron.autoRefine
 
 class MetadataTest extends AnyFunSuite with Matchers:

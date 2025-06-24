@@ -3,8 +3,8 @@ package logic.layerElement
 import io.github.iltotore.iron.autoRefine
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
-import papyrus.DSL.DefaultValues
-import papyrus.DSL.builders.{SectionBuilder, SubSectionBuilder, TextBuilder, TitleBuilder}
+import papyrus.dsl.DefaultValues
+import papyrus.dsl.builders.{SectionBuilder, SubSectionBuilder, TextBuilder, TitleBuilder}
 import papyrus.logic.utility.TypesInline.*
 import papyrus.logic.Renderer.*
 

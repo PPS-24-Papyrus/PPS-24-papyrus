@@ -1,9 +1,9 @@
-package papyrus.DSL.builders
+package papyrus.dsl.builders
 
 import papyrus.logic.layerElement.captionElement.Image
 import papyrus.logic.utility.TypesInline.{Float, Width}
 import io.github.iltotore.iron.autoRefine
-import papyrus.DSL.DefaultValues
+import papyrus.dsl.DefaultValues
 
 /** Builder for creating an Image element*/
 case class ImageBuilder(

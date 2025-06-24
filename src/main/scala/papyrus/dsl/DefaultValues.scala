@@ -1,4 +1,4 @@
-package papyrus.DSL
+package papyrus.dsl
 
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.utility.TypesInline.*

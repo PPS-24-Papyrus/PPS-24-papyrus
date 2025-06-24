@@ -1,10 +1,10 @@
-package papyrus.DSL.builders
+package papyrus.dsl.builders
 
 import papyrus.logic.layerElement.text.{Item, Text}
 import papyrus.logic.styleObjects.TextStyle
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
-import papyrus.DSL.DefaultValues
+import papyrus.dsl.DefaultValues
 
 /** Builds a list item (only allowed inside Listing) */
 case class ItemBuilder(

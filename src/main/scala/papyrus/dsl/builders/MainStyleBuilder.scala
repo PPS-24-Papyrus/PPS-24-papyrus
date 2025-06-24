@@ -1,8 +1,8 @@
-package papyrus.DSL.builders
+package papyrus.dsl.builders
 
 import org.xhtmlrenderer.css.parser.property.PrimitivePropertyBuilders.{BackgroundColor, TextAlign}
 import papyrus.logic.utility.TypesInline.*
-import papyrus.DSL.DefaultValues
+import papyrus.dsl.DefaultValues
 import papyrus.logic.styleObjects.MainStyle
 
 private enum MainStyleField:

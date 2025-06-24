@@ -4,7 +4,7 @@ import papyrus.logic.Style
 import papyrus.logic.utility.TypesInline.*
 import papyrus.logic.layerElement.LayerElement
 import io.github.iltotore.iron.autoRefine
-import papyrus.DSL.DefaultValues
+import papyrus.dsl.DefaultValues
 import papyrus.logic.Renderer.RendererStyle
 import papyrus.logic.Renderer.Text.*
 import papyrus.logic.utility.IdGenerator

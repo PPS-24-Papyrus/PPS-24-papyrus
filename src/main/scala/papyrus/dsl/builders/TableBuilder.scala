@@ -1,7 +1,7 @@
-package papyrus.DSL.builders
+package papyrus.dsl.builders
 
 import papyrus.logic.layerElement.captionElement.{Cell, Row, Table}
-import papyrus.DSL.DefaultValues
+import papyrus.dsl.DefaultValues
 import papyrus.logic.styleObjects.TableStyle
 import papyrus.logic.utility.TypesInline.{Align, Alignment, ColorString, Margin, Width}
 
