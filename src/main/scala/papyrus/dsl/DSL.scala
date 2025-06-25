@@ -13,7 +13,8 @@ import papyrus.logic.utility.SectionCounter
 
 
 object DSL:
-  
+
+  /** A base trait for building structured documents using a Scala DSL.*/
   trait PapyrusApplication extends App:
 
     /** Entry point for building a Papyrus document */
