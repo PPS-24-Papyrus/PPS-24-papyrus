@@ -13,7 +13,7 @@ hero:
       link: report/1-getStarted
     - theme: alt
       text: Scala docs
-      link: https://dev-pps.github.io/pps-24-Papyrus/scaladoc/index.html
+      link: https://dev-pps.github.io/pps-24-papyrus/scaladoc/index.html
 ---
 
 ## Componenti del Gruppo
