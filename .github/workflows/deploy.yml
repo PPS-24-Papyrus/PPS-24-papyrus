@@ -32,6 +32,11 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
+      - name: Move ScalaDoc to docs/public/scaladoc
+        run: |
+            mkdir -p ./docs/public/scaladoc
+            cp -r target/scala-*/api/* ./docs/public/scaladoc
+
       - name: Install dependencies
         run: npm install
         working-directory: ./docs

@@ -11,6 +11,9 @@ hero:
     - theme: brand
       text: Report
       link: report/1-getStarted
+    - theme: alt
+      text: Scala docs
+      link: https://dev-pps.github.io/pps-24-Papyrus/scaladoc/index.html
 ---
 
 ## Componenti del Gruppo
