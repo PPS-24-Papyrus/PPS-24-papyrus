@@ -29,6 +29,9 @@ jobs:
         with:
           node-version: 23
 
+      - name: Generate ScalaDoc
+        run: sbt doc
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
