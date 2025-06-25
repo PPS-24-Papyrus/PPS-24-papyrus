@@ -16,3 +16,27 @@ Una volta aggiunta la libreria, è possibile iniziare a scrivere documenti strut
 ### Esempio di utilizzo
 
 ```scala
+package dsl
+
+import papyrus.dsl.DSL.PapyrusApplication
+
+object PapyrusDSLTest extends PapyrusApplication:
+
+  papyrus:
+    metadata:
+      nameFile:
+        "example"
+      language:
+        "en"
+      author:
+        "LucaDani"
+      extension:
+        "html"
+      margin:
+        150
+    content:
+      title:
+        "End 3rd Sprint"
+      ....
+
+```
