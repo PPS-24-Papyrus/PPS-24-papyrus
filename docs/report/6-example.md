@@ -69,4 +69,4 @@ object Main extends PapyrusApplication:
               "src/main/resources/PapyrusLogo.png" alternative "Image not found" width 100
 ```
 ## Output
-<img src="../diagram/Papyrus_page-0001.jpg" alt="UML Liste" width="4000"/>
+<img src="../diagram/Papyrus_page-0001.jpg" alt="UML Liste"/>
