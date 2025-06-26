@@ -5,7 +5,7 @@ import org.scalatest.matchers.must.Matchers.{be, contain, include}
 import org.scalatest.matchers.should.Matchers.{an, should, shouldBe}
 import papyrus.logic.layerElement.captionElement.Table
 import papyrus.dsl.DSL
-import papyrus.dsl.DSL.{caption, renderTable, withList}
+import papyrus.dsl.TableDSL.*
 import papyrus.dsl.builders.RowBuilder.*
 import papyrus.dsl.builders.TableBuilder
 import papyrus.dsl.DSL.given_Conversion_List_RowBuilder
