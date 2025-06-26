@@ -22,9 +22,9 @@ export default withMermaid(
                         {text: 'Introduzione', link: `${reportPath}/1-getStarted`},
                         {text: 'Processo di Sviluppo', link: `${reportPath}/2-processoDiSviluppo`},
                         {text: 'Requisiti', link: `${reportPath}/3-requisiti`},
+                        {text: 'DSL', link: `${reportPath}/11-appendice`},
                         {text: 'Design Architetturale', link: `${reportPath}/4-designArchitetturale`},
                         {text: 'Design di Dettaglio', link: `${reportPath}/5-designDiDettaglio`},
-                        {text: 'DSL', link: `${reportPath}/dsl`},
                         {text: 'Implementazione',
                             items: [
                                 {text: 'Cantagallo Luca', link: `${reportPath}/7-CantagalloLuca`},
@@ -33,7 +33,6 @@ export default withMermaid(
                         },
                         {text: 'Testing', link: `${reportPath}/9-testing`},
                         {text: 'Retrospettiva', link: `${reportPath}/10-retrospettiva`},
-                        {text: 'Appendice', link: `${reportPath}/11-appendice`},
                     ]
                 },
                 {text: 'Artefatti del processo di sviluppo',

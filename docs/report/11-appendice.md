@@ -1,4 +1,6 @@
-### Grammatica del DSL (EBNF)
+# DSL
+
+## Grammatica del DSL (EBNF)
 
 La sintassi del linguaggio Papyrus è formalizzata attraverso la seguente grammatica in forma EBNF. Questa definizione evidenzia l’organizzazione ad albero del documento, i vincoli di contesto e le possibili personalizzazioni inline. Ogni documento inizia con la keyword `papyrus`, e può contenere metadati, contenuto strutturato e stili.
 
@@ -73,7 +75,7 @@ Tali vincoli non sono codificati direttamente nella grammatica, ma sono **garant
 
 ---
 
-### 🌳 Struttura gerarchica del documento (albero DSL)
+## Struttura gerarchica del documento (albero DSL)
 ```
 papyrus
 ├── metadata

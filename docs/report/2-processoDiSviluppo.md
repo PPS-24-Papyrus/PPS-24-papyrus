@@ -1,6 +1,6 @@
-## Processo di Sviluppo
+# Processo di Sviluppo
 
-### Metodologia
+## Metodologia
 
 Il progetto è stato sviluppato seguendo una metodologia **Scrum**. Sono stati pianificati sei sprint, ciascuno della durata di una settimana, con cinque giorni effettivi di lavoro e due giorni di margine per eventuali ritardi.
 
@@ -12,7 +12,7 @@ Il team ha cercato di seguire i principi del **Test-Driven Development (TDD)**. 
 
 ---
 
-### Ruoli
+## Ruoli
 
 Il team era composto da **due sviluppatori**:
 
@@ -23,7 +23,7 @@ Durante i primi sprint sono state discusse e definite le scelte architetturali f
 
 ---
 
-### Meeting
+## Meeting
 
 L’unico meeting ricorrente fisso era quello del **lunedì mattina**, dedicato alla pianificazione dello sprint.
 
@@ -59,7 +59,7 @@ Generazione automatica della documentazione API tramite Scaladoc.
 
 ---
 
-### Report
+## Report
 
 Durante lo sviluppo, il team ha annotato bozze e materiale utile per il report, tra cui l’EBNF, i diagrammi UML e le keyword implementate.
 

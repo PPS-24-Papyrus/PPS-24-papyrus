@@ -1,4 +1,4 @@
-## Retrospective
+# Retrospective
 
 Il progetto Papyrus ha rappresentato per il team un’occasione stimolante e ben strutturata per affrontare in modo approfondito la progettazione e lo sviluppo di una libreria basata su un DSL. L’adozione della metodologia **SCRUM** fin dalle prime fasi si è rivelata una scelta efficace, che ha consentito di pianificare e gestire il carico di lavoro attraverso sprint settimanali ben distribuiti e realistici.
 
@@ -6,7 +6,7 @@ Durante le prime settimane, il team ha dovuto affrontare le sfide tipiche della 
 
 Non sono emersi colli di bottiglia rilevanti né criticità nella divisione dei compiti. Il progetto è progredito regolarmente e ha raggiunto tutti gli obiettivi previsti.
 
-### Luca Cantagallo
+## Luca Cantagallo
 
 Dal punto di vista personale, l’intero percorso con Papyrus è stato **bello e gratificante**. All’inizio forse avevamo sottovalutato la mole di decisioni e aspetti tecnici da affrontare, ma già dopo il primo sprint abbiamo capito che il progetto richiedeva attenzione su moltissimi fronti, anche più di quanto immaginassimo.
 
@@ -21,7 +21,7 @@ La collaborazione con Daniel è stata naturale, già avevamo lavorato insieme e 
 Mi porto dietro un’esperienza solida, sia tecnica sia organizzativa, che sicuramente userò di nuovo in progetti futuri.
 
 
-### Daniel Capannini
+## Daniel Capannini
 
 Nel corso del progetto Papyrus ho ricoperto il ruolo di developer, contribuendo in particolare allo sviluppo di alcune parti del DSL e alla realizzazione della struttura per la generazione degli elementi del documento. Tra le attività che ho trovato più stimolanti c’è sicuramente la costruzione delle tabelle, che ha richiesto attenzione sia dal punto di vista della formattazione che della flessibilità del modello. Parte di questa logica è stata anche realizzata in Prolog, un esperimento interessante che ha arricchito ulteriormente il progetto.
 
