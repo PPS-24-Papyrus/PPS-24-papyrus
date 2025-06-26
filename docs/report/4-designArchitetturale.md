@@ -1,5 +1,11 @@
 # Design Architetturale
 
+## Architettura package
+
+Papyrus è organizzato in un'architettura modulare, in cui ogni elemento principale è rappresentato da un package dedicato. La struttura dei package è la seguente:
+
+![diagramma dei package](../diagram/Papyrus%20-%20Page%208.svg)
+
 ## Scelte di progettazione generali
 
 Papyrus è stato progettato come una libreria modulare scritta in Scala, con un forte orientamento alla **programmazione funzionale** e alla **gestione immutabile dei dati**. L’approccio adottato si fonda su una costruzione del documento tramite **funzioni pure** e **builder specializzati**, che espongono un DSL leggibile, fortemente tipizzato e organizzato gerarchicamente.
@@ -7,8 +13,6 @@ Papyrus è stato progettato come una libreria modulare scritta in Scala, con un 
 L’utente interagisce con Papyrus invocando funzioni come `papyrus`, `metadata`, `content`, `title`, `text`, ecc., ognuna delle quali crea un contesto specifico utilizzando parametri impliciti (`using`) e builder composabili. Queste funzioni creano progressivamente la struttura interna del documento, fino al salvataggio finale del file HTML, CSS o PDF.
 
 Ogni elemento del documento (es. titolo, paragrafo, lista, immagine) è rappresentato da un **oggetto di dominio** dotato di metodi `render` e `renderStyle`, che restituiscono rispettivamente la componente HTML e CSS, in formato stringa.
-
-> <!-- Inserire UML generale delle entità principali della libreria -->
 
 ---
 
@@ -57,7 +61,6 @@ I vincoli sono garantiti interamente a **compile-time**, riducendo la possibilit
     - CSS tramite una funzione di serializzazione dello stile.
 5. Il documento completo viene assemblato da un componente finale che concatena tutti i contenuti e stili in un file HTML e un file CSS.
 
-> <!-- Inserire diagramma del flusso di costruzione e rendering -->
 
 ---
 
@@ -134,6 +137,3 @@ In ogni caso, il file HTML fa riferimento al foglio `style.css`, generato dinami
 | `textColor`       | `ColorString`  | title        | Colore del testo del titolo.                                                |
 | `textAlign`       | `Alignment`    | title        | Allineamento: `"left"`, `"center"`, `"right"`, `"justify"`, ecc.           |
 
-
-
-> <!-- Inserire eventuali diagrammi UML specifici, definizione EBNF o illustrazioni d’uso -->
