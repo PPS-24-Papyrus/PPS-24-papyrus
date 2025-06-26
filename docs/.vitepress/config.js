@@ -19,11 +19,18 @@ export default withMermaid(
             sidebar: [
                 {text: 'Report',
                     items: [
-                        {text: 'Introduzione', link: `${reportPath}/1-getStarted`},
+                        {text: 'Introduzione', link: `${reportPath}/1-introduzione`},
+                            items: [
+                                       {text: 'Esempio di Utilizzo', link: `${reportPath}/6-example`},
+                                       {text: 'Get Started', link: `${reportPath}/12-getStarted`},
+                                   ]
                         {text: 'Processo di Sviluppo', link: `${reportPath}/2-processoDiSviluppo`},
                         {text: 'Requisiti', link: `${reportPath}/3-requisiti`},
                         {text: 'DSL', link: `${reportPath}/11-appendice`},
                         {text: 'Design Architetturale', link: `${reportPath}/4-designArchitetturale`},
+                            items: [
+                                       {text: 'Grammatica', link: `${reportPath}/11-grammatica`},
+                                   ]
                         {text: 'Design di Dettaglio', link: `${reportPath}/5-designDiDettaglio`},
                         {text: 'Implementazione',
                             items: [

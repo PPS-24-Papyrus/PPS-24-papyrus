@@ -56,73 +56,6 @@ case class ListBuilderImpl(
   def add(element: ListElementBuilder): ListBuilder =
     copy(items = items :+ element)
 
-  private def sortItemAndSublists(
-                                   builder: ListBuilder,
-                                   elems: List[ListElementBuilder],
-                                   associationMap: Map[ListBuilder, Option[ItemBuilder]]
-                                 ): List[ListElementBuilder] =
-    val items = extractItems(elems)
-    val sortedItems = sortItems(builder, items)
-    reattachSublists(sortedItems, associationMap)
-
-  private def extractItems(elems: List[ListElementBuilder]): List[ItemBuilder] =
-    elems.collect { case i: ItemBuilder => i }
-
-  private def sortItems(builder: ListBuilder, items: List[ItemBuilder]): List[ItemBuilder] =
-    builder.order match
-      case Some("alphabetical") => items.sortBy(_.value.toLowerCase)
-      case Some("length") => items.sortBy(_.value.length)
-      case Some("reverse") => items.reverse
-      case Some("levenshtein") =>
-        val ref = builder.reference.getOrElse("")
-        items.sortBy(i => levenshtein(i.value, ref))
-      case _ => items
-
-  private def reattachSublists(
-                                sortedItems: List[ItemBuilder],
-                                associationMap: Map[ListBuilder, Option[ItemBuilder]]
-                              ): List[ListElementBuilder] =
-    sortedItems.flatMap { item =>
-      val attached = associationMap.collect {
-        case (sublist, Some(`item`)) => sublist
-      }.toList
-      item :: attached
-    }
-
-
-  private def findSublistParents(builder: ListBuilder): Map[ListBuilder, Option[ItemBuilder]] =
-    val childMaps = collectNestedParentMaps(builder)
-    val localPairs = associateSublistsWithPreviousItems(builder)
-    childMaps ++ localPairs
-
-  private def collectNestedParentMaps(builder: ListBuilder): Map[ListBuilder, Option[ItemBuilder]] =
-    builder.items.collect {
-      case lb: ListBuilder => findSublistParents(lb)
-    }.foldLeft(Map.empty[ListBuilder, Option[ItemBuilder]])(_ ++ _)
-
-  private def associateSublistsWithPreviousItems(builder: ListBuilder): Map[ListBuilder, Option[ItemBuilder]] =
-    builder.items.zipWithIndex.collect {
-      case (sublist: ListBuilder, idx) =>
-        val maybeItemAbove =
-          if idx > 0 then builder.items(idx - 1) match
-            case item: ItemBuilder => Some(item)
-            case _ => None
-          else None
-        sublist -> maybeItemAbove
-    }.toMap
-
-
-  private def visitAllNodesBottomUp(builder: ListBuilder): ListBuilder =
-    val updatedChildren = builder.items.map {
-      case lb: ListBuilder => visitAllNodesBottomUp(lb)
-      case other           => other
-    }
-
-    val associationMap = findSublistParents(builder.copyWith(items = updatedChildren))
-    val updatedItems = sortItemAndSublists(builder, updatedChildren, associationMap)
-
-    builder.copyWith(items = updatedItems)
-
   override def copyWith(
                          items: List[ListElementBuilder],
                          listType: ListType,
@@ -132,5 +65,67 @@ case class ListBuilderImpl(
     this.copy(items, listType, order, reference)
 
   override def build: Listing =
-    val finalBuilder = visitAllNodesBottomUp(this)
+    val finalBuilder = ListStructureTransformer.transform(this)
     Listing(finalBuilder.listType, finalBuilder.items.map(_.build)*)
+
+
+// -----------------------------
+// Separated logic: transformer
+// -----------------------------
+
+private object ListStructureTransformer:
+
+  def transform(builder: ListBuilder): ListBuilder =
+    val updatedChildren = builder.items.map {
+      case lb: ListBuilder => transform(lb)
+      case other           => other
+    }
+
+    val updatedBuilder = builder.copyWith(items = updatedChildren)
+    val associationMap = findSublistParents(updatedBuilder)
+    val sortedItems = sortItems(updatedBuilder, updatedChildren)
+    val finalItems = attachSublists(sortedItems, associationMap)
+
+    updatedBuilder.copyWith(items = finalItems)
+
+  private def findSublistParents(builder: ListBuilder): Map[ListBuilder, Option[ItemBuilder]] =
+    val childMaps = builder.items.collect {
+      case lb: ListBuilder => findSublistParents(lb)
+    }.foldLeft(Map.empty[ListBuilder, Option[ItemBuilder]])(_ ++ _)
+
+    val localPairs = builder.items.zipWithIndex.collect {
+      case (sublist: ListBuilder, idx) =>
+        val maybeItemAbove =
+          if idx > 0 then builder.items(idx - 1) match
+            case item: ItemBuilder => Some(item)
+            case _                 => None
+          else None
+        sublist -> maybeItemAbove
+    }.toMap
+
+    childMaps ++ localPairs
+
+  private def sortItems(
+                             builder: ListBuilder,
+                             elems: List[ListElementBuilder]
+                           ): List[ItemBuilder] =
+    val items = elems.collect { case i: ItemBuilder => i }
+    builder.order match
+      case Some("alphabetical") => items.sortBy(_.value.toLowerCase)
+      case Some("length") => items.sortBy(_.value.length)
+      case Some("reverse") => items.reverse
+      case Some("levenshtein") =>
+        val ref = builder.reference.getOrElse("")
+        items.sortBy(i => levenshtein(i.value, ref))
+      case _ => items
+
+  private def attachSublists(
+                              sortedItems: List[ItemBuilder],
+                              associationMap: Map[ListBuilder, Option[ItemBuilder]]
+                            ): List[ListElementBuilder] =
+    sortedItems.flatMap { item =>
+      val attached = associationMap.collect {
+        case (sublist, Some(`item`)) => sublist
+      }.toList
+      item :: attached
+    }

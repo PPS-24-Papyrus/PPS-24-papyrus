@@ -4,7 +4,7 @@ import papyrus.logic.layerElement.text.{Text, Title}
 import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, ListBuilderImpl, ListBuilderProxy, MainStyleBuilder, MetadataBuilder, MetadataBuilderProxy, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
-import papyrus.DSL.builders.ImageBuilder.caption
+import papyrus.DSL.builders.ImageBuilder.{alternative, caption}
 import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
 import papyrus.DSL.builders.RowBuilder.{|, |-, |^}
 import papyrus.DSL.builders.TextBuilder.{newLine, *}
@@ -278,44 +278,65 @@ object DSL:
      papyrus:
       metadata:
         nameFile:
-          "Third Sprint"
+          "Papyrus"
         language:
           "en"
-        author:
-          "LucaDani"
         extension:
           "html"
+        fontSize:
+          9
         margin:
-          150
+          50
       content:
         title:
-          "Example" textColor "red"
-
+          "Lorem ipsum"
         section:
           title:
-            "Example in section"
-
+            "Lorem ipsum"
           subsection:
             title:
-              "Listing" textColor "red"
-            underline:
-              "Prova grassetto"
+              "Lorem ipsum text"
             text:
-              "\nWhy do we use it?\nIt is a long established" newLine "Ciao"
+              "Lorem ipsum" fontWeight "bold"
+            text:
+              "dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+          subsection:
+            title:
+              "Lorem ipsum listing"
             listing:
-              reference:
-                "Luca"
+              ordered:
+                "length"
               item:
-                "Loca"
-              item:
-                "Luca"
+                "Lorem ipsum"
               listing:
+                ordered:
+                  "alphabetical"
                 item:
-                  "F"
+                  "Lorem"
                 item:
-                  "L"
+                  "Ipsum"
               item:
-                "Niente"
+                "Dolor sit"
+              item:
+                "Amet consectetur adipiscing elit"
+        section:
+          title:
+            "Lorem ipsum table and images"
+          subsection:
+            title:
+              "Lorem ipsum table"
+            table:
+              "prova2" | "prova3" | "prova4" | "prova5"
+              "prova4" | "prova5" | "prova6" | "prova7"
+              "prova6" | "prova7" | "prova8" | "prova9"
+              caption:
+                "Table Caption"
+          subsection:
+            title:
+              "Lorem ipsum image"
+            image:
+              "src/main/resources/PapyrusLogo.png" alternative "Image not found" width 100
+
 
   }
 
