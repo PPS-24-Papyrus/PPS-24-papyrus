@@ -1,4 +1,4 @@
-package papyrus.DSL.builders
+package papyrus.dsl.builders
 
 import papyrus.logic.content.Content
 import papyrus.logic.layerElement.LayerElement

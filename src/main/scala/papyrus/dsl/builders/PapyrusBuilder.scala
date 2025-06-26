@@ -1,5 +1,5 @@
 
-package papyrus.DSL.builders
+package papyrus.dsl.builders
 
 import papyrus.logic.Papyrus
 import papyrus.logic.layerElement.LayerElement

@@ -3,11 +3,11 @@ package steps
 import io.cucumber.datatable.{DataTable, DataTableType}
 import io.cucumber.scala.{EN, ScalaDsl}
 import org.scalatest.matchers.should.Matchers
-import papyrus.DSL.builders.ImageBuilder.{alternative, caption}
-import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, ListBuilderImpl, ListBuilderProxy, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
+import papyrus.dsl.builders.ImageBuilder.{alternative, caption}
+import papyrus.dsl.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, ListBuilderImpl, ListBuilderProxy, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
 import papyrus.logic.content.Content
 import papyrus.logic.layerElement.text.Title
-import papyrus.DSL.DSL.given_Conversion_String_ImageBuilder
+import papyrus.dsl.DSL.given_Conversion_String_ImageBuilder
 import papyrus.logic.utility.TypesInline.{Level, Width}
 import io.cucumber.scala.EN
 import papyrus.logic.Renderer.*
@@ -88,7 +88,7 @@ class ContentSteps extends ScalaDsl with EN with Matchers:
 
 
   Given("""I add a table with rows:"""): (rows: DataTable) =>
-    import papyrus.DSL.builders._
+    import papyrus.dsl.builders._
     import scala.jdk.CollectionConverters._
     val tableBuilder = TableBuilder[String]()
     val scalaRows: List[List[String]] =

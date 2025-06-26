@@ -1,9 +1,9 @@
-package DSL
+package dsl
 
 
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
-import papyrus.DSL.builders.*
+import papyrus.dsl.builders.*
 import papyrus.logic.layerElement.text.Item
 import papyrus.logic.layerElement.Listing
 import io.github.iltotore.iron.autoRefine

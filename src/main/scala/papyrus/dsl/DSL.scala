@@ -1,0 +1,93 @@
+package papyrus.dsl
+
+import papyrus.logic.layerElement.text.{Text, Title}
+import papyrus.logic.utility.TypesInline.*
+import io.github.iltotore.iron.autoRefine
+import papyrus.dsl.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, ListBuilderImpl, ListBuilderProxy, MainStyleBuilder, MetadataBuilder, MetadataBuilderProxy, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
+import papyrus.dsl.builders.ImageBuilder.caption
+import papyrus.dsl.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
+import papyrus.dsl.builders.RowBuilder.*
+import papyrus.dsl.builders.TextBuilder.*
+import papyrus.dsl.builders.TitleBuilder.*
+import papyrus.logic.utility.SectionCounter
+
+
+object DSL:
+
+  /** A base trait for building structured documents using a Scala DSL.*/
+  trait PapyrusApplication extends App:
+
+    /** Entry point for building a Papyrus document */
+    def papyrus(init: PapyrusBuilder ?=> Unit): Unit =
+      given builder: PapyrusBuilder = PapyrusBuilder()
+      init
+      builder.build()
+  
+    /** Define document metadata */
+    def metadata(init: MetadataBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
+      var current: MetadataBuilder = MetadataBuilder()
+      given MetadataBuilder = MetadataBuilderProxy(() => current, updated => current = updated)
+      init
+      pb.withMetadata(current)
+  
+    /** Define document content */
+    def content(init: ContentBuilder ?=> Unit)(using pb: PapyrusBuilder): Unit =
+      given builder: ContentBuilder = ContentBuilder()
+      init
+      pb.withContent(builder)
+      
+    export DSL.*
+    export io.github.iltotore.iron.autoRefine
+    export DSL.given_Conversion_String_ImageBuilder
+    export DSL.given_Conversion_String_TitleBuilder
+    export DSL.given_Conversion_String_TextBuilder
+    export DSL.given_Conversion_String_ItemBuilder
+    export DSL.given_Conversion_List_RowBuilder
+    export builders.RowBuilder.{|, -|, |-, -|-, ^|, |^, ^|^, hsh, hs}
+    export builders.TextBuilder.{color, fontWeight, fontStyle, textDecoration, newLine}
+    export builders.TitleBuilder.{level, font, fontSize, textColor, textAlign}
+    export builders.ImageBuilder.{alternative, caption, width, alignment}
+    export TextDSL.*
+    export TitleDSL.*
+    export MetadataDSL.*
+    export ImageDSL.*
+    export TableDSL.*
+    export ListDSL.*
+  
+  /** Define a section, only valid inside Papyrus or Content */
+  def section(init: SectionBuilder ?=> Unit)(using ctx: PapyrusBuilder | ContentBuilder): Unit =
+    given builder: SectionBuilder = SectionBuilder()
+    init
+    ctx match
+      case pb: PapyrusBuilder => pb.addLayerElement(builder.build)
+      case cb: ContentBuilder => cb.addLayerElement(builder.build)
+
+  /** Define a subsection, only valid inside Section */
+  def subsection(init: SubSectionBuilder ?=> Unit)(using cb: SectionBuilder): Unit =
+    given builder: SubSectionBuilder = SubSectionBuilder()
+    init
+    cb.addLayerElement(builder.build)
+
+  /** Convert List[T] to RowBuilder[T] */
+  given[T]: Conversion[List[T], RowBuilder[T]] with
+    def apply(list: List[T]): RowBuilder[T] =
+      val rowBuilder = RowBuilder[T]()
+      for str <- list do
+        rowBuilder.addCell(CellBuilder().withContent(str))
+      rowBuilder
+
+  /** Convert String to TextBuilder */
+  given Conversion[String, TextBuilder] with
+    def apply(str: String): TextBuilder = TextBuilder(str)
+
+  /** Convert String to TitleBuilder */
+  given Conversion[String, TitleBuilder] with
+    def apply(str: String): TitleBuilder = TitleBuilder(str)
+
+  /** Convert String to ItemBuilder */
+  given Conversion[String, ItemBuilder] with
+    def apply(str: String): ItemBuilder = ItemBuilder(str)
+
+  /** Convert String to ImageBuilder */
+  given Conversion[String, ImageBuilder] with
+    def apply(str: String): ImageBuilder = ImageBuilder(str)
