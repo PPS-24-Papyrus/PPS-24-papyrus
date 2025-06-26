@@ -36,7 +36,7 @@ object PapyrusDSLTest extends PapyrusApplication:
         150
     content:
       title:
-        "End 3rd Sprint"
+        "exemple title"
       ....
 
 ```

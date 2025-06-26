@@ -1,7 +1,6 @@
 # Design Architetturale
-## Design
 
-### Scelte di progettazione generali
+## Scelte di progettazione generali
 
 Papyrus è stato progettato come una libreria modulare scritta in Scala, con un forte orientamento alla **programmazione funzionale** e alla **gestione immutabile dei dati**. L’approccio adottato si fonda su una costruzione del documento tramite **funzioni pure** e **builder specializzati**, che espongono un DSL leggibile, fortemente tipizzato e organizzato gerarchicamente.
 
@@ -13,7 +12,7 @@ Ogni elemento del documento (es. titolo, paragrafo, lista, immagine) è rapprese
 
 ---
 
-### Entità principali
+## Entità principali
 
 Le entità centrali all’interno di Papyrus si suddividono in due categorie:
 
@@ -34,7 +33,7 @@ Ogni builder è progettato per operare su uno specifico livello del documento e 
 
 ---
 
-### Modellazione del contesto
+## Modellazione del contesto
 
 Papyrus impone **vincoli gerarchici** nella composizione del documento: ad esempio, una `SubSection` può essere dichiarata solo all’interno di una `Section`, così come un `item` può esistere solo all’interno di una `list`.
 
@@ -48,7 +47,7 @@ I vincoli sono garantiti interamente a **compile-time**, riducendo la possibilit
 
 ---
 
-### Flusso di costruzione e rendering
+## Flusso di costruzione e rendering
 
 1. L’utente scrive il documento utilizzando le keyword offerte dal DSL Papyrus.
 2. Ogni chiamata attiva un builder, che elabora e memorizza le informazioni relative all’elemento.
@@ -62,7 +61,7 @@ I vincoli sono garantiti interamente a **compile-time**, riducendo la possibilit
 
 ---
 
-### Output e generazione dei file
+## Output e generazione dei file
 
 La generazione dell’output è centralizzata in un modulo che si occupa di:
 
@@ -75,9 +74,9 @@ In ogni caso, il file HTML fa riferimento al foglio `style.css`, generato dinami
 
 ---
 
-### Glossario tecnico
+## Glossario tecnico
 
-#### Keyword DSL
+### Keyword DSL
 
 | Keyword                | Descrizione                                                                                           |
 |------------------------|--------------------------------------------------------------------------------------------------------|

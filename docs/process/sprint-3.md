@@ -21,15 +21,15 @@ soddisfatti delle anilisi fatte de gli obiettivi raggiunti, si puo procedere seg
 
 
 | Task           | Descrizione            | Svolto da  | Durata |
-| -------------- |------------------------| ---------- | ------ |
-| Sviluppo       | MainStyle DSL          | Capannini  | 1.0    |
-| Sviluppo, Test | Image                  | Capannini  | 2.5    |
-| Sviluppo, Test | Table                  | Capannini  | 1.5    |
-| Sviluppo       | Table DSL              | Capannini  | 3.0    |
-| Sviluppo       | Table DSL              | Capannini  | 3.0    |
-| Sviluppo       | Liste DSL              | Cantagallo | 5.0    |
-| Sviluppo       | Section DSL            | Cantagallo | 3.0    |
-| Sviluppo       | Subsection DSL         | Cantagallo | 2.0    |
-| Test           | Test table dsl         | Capannini  | 1.0    |
-| Sviluppo       | Style table            | Capannini  | 1.5    |
-| fix            | Fix style table, image | Capannini  | 2.5    |
+| -------------- |------------------------| ---------- |--------|
+| Sviluppo       | MainStyle DSL          | Capannini  | 1h     |
+| Sviluppo, Test | Image                  | Capannini  | 2h 30m |
+| Sviluppo, Test | Table                  | Capannini  | 1h 30m |
+| Sviluppo       | Table DSL              | Capannini  | 3h     |
+| Sviluppo       | Table DSL              | Capannini  | 3h     |
+| Sviluppo       | Liste DSL              | Cantagallo | 5h     |
+| Sviluppo       | Section DSL            | Cantagallo | 3h     |
+| Sviluppo       | Subsection DSL         | Cantagallo | 2h     |
+| Test           | Test table dsl         | Capannini  | 1h     |
+| Sviluppo       | Style table            | Capannini  | 1h 30m |
+| fix            | Fix style table, image | Capannini  | 2h 30m    |

@@ -1,8 +1,8 @@
-## Luca Cantagallo
+# Luca Cantagallo
 
 Durante l’implementazione di Papyrus, mi sono occupato principalmente della progettazione delle keyword strutturali e testuali del DSL, della generazione e gestione dell’output finale (HTML/PDF), della definizione di alcuni builder, e dell’impostazione dei vincoli semantici tramite tipi raffinati. Di seguito le principali aree sviluppate.
 
-### PapyrusPrinter e generazione dei file
+## PapyrusPrinter e generazione dei file
 
 Ho progettato e implementato il modulo `PapyrusPrinter`, che si occupa di:
 
@@ -41,7 +41,7 @@ def launchFile(
 
 ---
 
-### Keyword e builder
+## Keyword e builder
 
 Ho definito diverse keyword DSL assieme ai rispettivi builder:
 
@@ -62,7 +62,7 @@ private def generateLevelTitle(builder: TitleBuilder, title: String, ctx: Papyru
 
 ---
 
-### ListBuilder
+## ListBuilder
 
 Il `ListBuilder` è una delle componenti più complesse. Supporta:
 
@@ -125,7 +125,7 @@ private def visitAllNodesBottomUp(builder: ListBuilder): ListBuilder =
 <img src="docs/diagram/ListPath.png" alt="UML Liste" width="350"/>
 ---
 
-### Tipi raffinati e default values
+## Tipi raffinati e default values
 
 Ho introdotto Iron per validare in compilazione i tipi accettati. Alcuni esempi:
 
@@ -149,7 +149,7 @@ val language: Language = "en"
 
 ---
 
-### Costrutti multi-contesto
+## Costrutti multi-contesto
 
 Infine, ho definito meccanismi per supportare keyword valide in più contesti (es. `title`, `text`). Questi comportamenti sono definiti con `using` impliciti e pattern match.
 
@@ -167,7 +167,7 @@ def title(init: TitleBuilder ?=> TitleBuilder)(using ctx: PapyrusBuilder | Conte
 ```
 ---
 
-### Immutabilità e proxy per builder complessi
+## Immutabilità e proxy per builder complessi
 
 In un primo momento, alcuni builder utilizzavano uno stato mutabile interno per accumulare le configurazioni. In fase di rifinitura ho riscritto l’intero modello in ottica **immutabile**, dove ogni modifica restituisce una copia aggiornata tramite `copy(...)`.
 
