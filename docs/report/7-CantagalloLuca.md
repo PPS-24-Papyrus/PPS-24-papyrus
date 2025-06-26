@@ -122,7 +122,7 @@ private def visitAllNodesBottomUp(builder: ListBuilder): ListBuilder =
 
 
 ```
-<img src="docs/diagram/ListPath.png" alt="UML Liste" width="350"/>
+<img src="../diagram/ListPath.png" alt="UML Liste" width="350"/>
 ---
 
 ## Tipi raffinati e default values
