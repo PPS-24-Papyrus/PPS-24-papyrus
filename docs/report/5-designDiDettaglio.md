@@ -51,7 +51,8 @@ Ogni keyword del DSL Papyrus è collegata a un builder sottostante che ne defini
 
 Ad esempio, la riga:
 ```scala
-text: "Testo dimostrativo" fontWeight "bold"
+text: 
+  "Testo dimostrativo" fontWeight "bold"
 ```
 
 genera un elemento `Text` con il contenuto specificato, applicando uno stile grassetto. Ciò avviene grazie all’associazione della stringa a un `TextBuilder`, su cui vengono applicati dinamicamente gli stili. Il DSL definisce extension per proprietà come:

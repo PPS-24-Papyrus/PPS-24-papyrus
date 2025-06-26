@@ -33,6 +33,7 @@ export default withMermaid(
                         },
                         {text: 'Testing', link: `${reportPath}/9-testing`},
                         {text: 'Retrospettiva', link: `${reportPath}/10-retrospettiva`},
+                        {text: 'Appendice', link: `${reportPath}/11-appendice`},
                     ]
                 },
                 {text: 'Artefatti del processo di sviluppo',

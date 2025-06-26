@@ -1,6 +1,6 @@
 ## Retrospective
 
-Il progetto Papyrus ha rappresentato per il team un’occasione stimolante e ben strutturata per affrontare in modo approfondito la progettazione e lo sviluppo di una libreria basata su un Domain-Specific Language. L’adozione della metodologia **SCRUM** fin dalle prime fasi si è rivelata una scelta efficace, che ha consentito di pianificare e gestire il carico di lavoro attraverso sprint settimanali ben distribuiti e realistici.
+Il progetto Papyrus ha rappresentato per il team un’occasione stimolante e ben strutturata per affrontare in modo approfondito la progettazione e lo sviluppo di una libreria basata su un DSL. L’adozione della metodologia **SCRUM** fin dalle prime fasi si è rivelata una scelta efficace, che ha consentito di pianificare e gestire il carico di lavoro attraverso sprint settimanali ben distribuiti e realistici.
 
 Durante le prime settimane, il team ha dovuto affrontare le sfide tipiche della fase di analisi e ideazione, in particolare per ciò che riguarda la modellazione funzionale e immutabile in Scala. Una volta consolidato il disegno dell’architettura e la struttura del DSL, lo sviluppo ha seguito un ritmo costante ed efficace, grazie anche a una collaborazione flessibile che ha alternato momenti in presenza (presso l’università) a sessioni da remoto e contributi autonomi ben coordinati tramite Teams e WhatsApp. Ogni macrotask è stato gestito su un branch dedicato per favorire l’organizzazione del lavoro.
 

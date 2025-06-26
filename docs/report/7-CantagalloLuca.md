@@ -125,7 +125,7 @@ private def visitAllNodesBottomUp(builder: ListBuilder): ListBuilder =
 
 ---
 
-### Tipi raffinati e default
+### Tipi raffinati e default values
 
 Ho introdotto Iron per validare in compilazione i tipi accettati. Alcuni esempi:
 

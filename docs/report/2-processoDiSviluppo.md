@@ -2,7 +2,7 @@
 
 ### Metodologia
 
-Il progetto è stato sviluppato seguendo una metodologia **Scrum**. Sono stati pianificati circa sei sprint, ciascuno della durata di una settimana, con cinque giorni effettivi di lavoro e due giorni di margine per eventuali ritardi.
+Il progetto è stato sviluppato seguendo una metodologia **Scrum**. Sono stati pianificati sei sprint, ciascuno della durata di una settimana, con cinque giorni effettivi di lavoro e due giorni di margine per eventuali ritardi.
 
 I task settimanali venivano gestiti tramite **Microsoft Planner**, integrato in Teams. Ogni lunedì mattina il team si riuniva per definire i compiti della settimana, la loro priorità, la persona assegnata e, quando necessario, la data prevista di svolgimento.
 
@@ -17,9 +17,9 @@ Il team ha cercato di seguire i principi del **Test-Driven Development (TDD)**. 
 Il team era composto da **due sviluppatori**:
 
 - **Luca Cantagallo** (Scrum Master): si occupava della progettazione architetturale, della definizione dei task, della pianificazione settimanale e dello sviluppo della struttura interna di Papyrus.
-- **Daniel Capannini**: contribuiva allo sviluppo e alla discussione delle funzionalità, proponendo estensioni e verificandone la coerenza con gli obiettivi del progetto. Ha seguito con particolare attenzione la **parte di testing**, sia con **ScalaTest** che con strumenti BDD come **Cucumber** e **Gherkin**.
+- **Daniel Capannini** (Product owner): contribuiva allo sviluppo e alla discussione delle funzionalità, proponendo estensioni e verificandone la coerenza con gli obiettivi del progetto. Ha seguito con particolare attenzione la **parte di testing**, sia con **ScalaTest** che con strumenti BDD come **Cucumber** e **Gherkin**.
 
-Durante i primi sprint sono state discusse e definite le scelte architetturali fondamentali. Da quel momento la struttura è rimasta stabile. Ogni settimana, i task venivano organizzati e assegnati dal Scrum Master, pur lasciando spazio a osservazioni e proposte.
+Durante i primi sprint sono state discusse e definite le scelte architetturali fondamentali. Da quel momento la struttura è rimasta stabile. Ogni settimana, i task venivano organizzati e assegnati dallo Scrum Master, pur lasciando spazio a osservazioni e proposte.
 
 ---
 
@@ -31,13 +31,11 @@ Durante ogni sprint il team si incontrava **almeno due volte in sede** presso l�
 
 Sono state effettuate **tre release principali** su `main`, sempre in corrispondenza del raggiungimento di una versione stabile. In queste occasioni, si organizzavano sessioni di merge e approvazione delle pull request in presenza.
 
-Non è stato utilizzato un calendario condiviso né sono stati fissati altri meeting ricorrenti. Alcune decisioni venivano prese direttamente nei momenti di lavoro condiviso.
-
 # DVCS
 
 Nel progetto è stato utilizzato Git in combinazione con GitHub, seguendo una struttura ispirata al modello Gitflow. Sono stati mantenuti due branch principali:
 
-- main, destinato alle release stabili,
+- main, destinato alle release stabili;
 
 - dev, utilizzato per lo sviluppo continuo e sufficientemente testato.
 
@@ -45,7 +43,7 @@ Ogni volta che si rendeva necessario sviluppare una nuova funzionalità, si part
 
 # Testing
 
-È stato seguito un approccio di sviluppo basato sul Test Driven Development (TDD) per garantire una maggiore solidità del codice. Questa metodologia prevede la definizione e l’implementazione di un test prima dello sviluppo della funzionalità vera e propria, portando così alla creazione di test completi per una parte significativa del codice.
+È stato seguito un approccio di sviluppo basato sul TDD per garantire una maggiore solidità del codice. Questa metodologia prevede la definizione e l’implementazione di un test prima dello sviluppo della funzionalità vera e propria, portando così alla creazione di test completi per una parte significativa del codice.
 
 Ad eccezione delle funzionalità più banali, il processo si è articolato in tre fasi: scrittura del test, sviluppo della funzionalità fino al superamento del test, e successiva fase di refactoring per migliorare la qualità del codice.
 

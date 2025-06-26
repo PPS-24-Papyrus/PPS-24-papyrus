@@ -1,10 +1,10 @@
-## Requirements
+## Requisiti
 
-### Business Requirements
+### Requisti di business
 
-**Papyrus** è una libreria sviluppata in Scala che consente la generazione di documenti testuali in formato **HTML** o **PDF** tramite un Domain-Specific Language (DSL) dedicato. Il progetto è concepito per offrire un sistema semplice, leggibile e modulare che permetta all’utente di comporre documenti utilizzando keyword strutturate, anche senza una conoscenza approfondita del linguaggio Scala.
+**Papyrus** è una libreria sviluppata in Scala che consente la generazione di documenti testuali in formato **HTML** o **PDF** tramite un DSL dedicato. Il progetto è concepito per offrire un sistema semplice, leggibile e modulare che permetta all’utente di comporre documenti utilizzando keyword strutturate, anche senza una conoscenza approfondita del linguaggio Scala.
 
-Il DSL Papyrus permette di creare contenuti strutturati come titoli, paragrafi, sezioni, sottosezioni, elenchi puntati o numerati, immagini, tabelle e metadati. È inoltre possibile personalizzare aspetto e stile del documento attraverso keyword specifiche, come `color`, `fontSize`, `backgroundColor`, ecc.
+Il DSL Papyrus permette di creare contenuti strutturati come titoli, testi, sezioni, sottosezioni, elenchi puntati o numerati, immagini, tabelle e metadati. È inoltre possibile personalizzare aspetto e stile del documento attraverso keyword specifiche, come `color`, `fontSize`, `backgroundColor`, ecc.
 
 Grazie all’impiego della libreria **Iron**, vengono effettuate **verifiche semantiche e sintattiche a compile-time**, garantendo coerenza nell’uso delle keyword e validità dei valori inseriti. Il linguaggio impone anche **vincoli contestuali**, come ad esempio la presenza obbligatoria di una `subsection` all’interno di una `section`, attraverso l’impiego di costrutti `using`.
 
@@ -19,14 +19,14 @@ papyrus:
       "html"
   content:
     title: 
-      "Title of this document"
+      "Lorem ipsum"
     text: 
-      "Hello" color "red"
+      "Lorem ipsum dolor sit amet..." color "red"
 ```
-### Functional Requirements
+### Requisiti funzionali
 
 - Scrittura di documenti tramite keyword Papyrus, con struttura gerarchica e leggibile.
-- Gestione dei metadati: nome file, lingua, estensione, margini, autore.
+- Gestione dei metadati: nome file, lingua, estensione, margini, autore...
 - Creazione di contenuti testuali e strutturati:
     - Sezioni, sottosezioni, paragrafi e titoli;
     - Tabelle con supporto a due modalità costruttive;
@@ -42,11 +42,11 @@ papyrus:
 
 Ogni elemento è costruito come oggetto stilizzato, renderizzato poi in HTML e/o CSS. Lo stile viene serializzato separatamente nel foglio `style.css` e collegato automaticamente al file HTML.
 
-### Non-functional Requirements
+### Requisiti non funzionali
 
 - Verifiche a compile-time su keyword, valori e contesti logici.
 - DSL compatibile con utenti non tecnici, grazie a una sintassi chiara ed espressiva.
-- Architettura modulare, con componenti (es. liste, paragrafi, immagini) separabili ed estendibili.
+- Architettura modulare, con componenti (es. liste, tabelle, immagini) separabili ed estendibili.
 - Composizione text-only: assenza di interfaccia grafica o CLI.
 - Processo efficiente di generazione ricorsiva dei documenti.
 - Documentazione inline presente su tutte le funzioni pubbliche.
@@ -78,7 +78,7 @@ Ogni elemento è costruito come oggetto stilizzato, renderizzato poi in HTML e/o
 - Strumenti di supporto:
     - EBNF per la definizione formale della grammatica del DSL;
     - UML per la modellazione dell’architettura e dei flussi;
-    - Microsoft Teams per la gestione degli sprint (metodologia SCRUM).
+    - Microsoft Planner per la gestione degli sprint (metodologia SCRUM).
 
 - Team:
     - **Luca Cantagallo** (Scrum Master, Developer)
