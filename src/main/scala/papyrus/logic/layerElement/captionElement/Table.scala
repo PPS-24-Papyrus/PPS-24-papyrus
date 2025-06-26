@@ -91,23 +91,23 @@ object Table:
           val details = colCounts.map((i, c) => s"Row $i → $c columns").mkString("<br>")
           Left(s"<div style='color:red'><strong>Table structure error:</strong><br>$details</div>")
 
-  val engine = mkPrologEngine(
-    """
-      sum_list([], 0).
-      sum_list([H|T], Sum) :- sum_list(T, Rest), Sum is H + Rest.
-  
-      row_colspans([], []).
-      row_colspans([Row|Rest], [Sum|Sums]) :- sum_list(Row, Sum), row_colspans(Rest, Sums).
-  
-      all_equal([]).
-      all_equal([_]).
-      all_equal([X, X | Rest]) :- all_equal([X | Rest]).
-  
-      validate_colspan_consistency(Rows) :-
-        row_colspans(Rows, Sums),
-        all_equal(Sums).
+    private val engine = mkPrologEngine(
       """
-  )
+        sum_list([], 0).
+        sum_list([H|T], Sum) :- sum_list(T, Rest), Sum is H + Rest.
+
+        row_colspans([], []).
+        row_colspans([Row|Rest], [Sum|Sums]) :- sum_list(Row, Sum), row_colspans(Rest, Sums).
+
+        all_equal([]).
+        all_equal([_]).
+        all_equal([X, X | Rest]) :- all_equal([X | Rest]).
+
+        validate_colspan_consistency(Rows) :-
+          row_colspans(Rows, Sums),
+          all_equal(Sums).
+        """
+    )
 
 
 object Row:
