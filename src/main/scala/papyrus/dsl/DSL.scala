@@ -1,7 +1,6 @@
 package papyrus.dsl
 
 import papyrus.logic.layerElement.text.{Text, Title}
-import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.dsl.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, ListBuilderImpl, ListBuilderProxy, MainStyleBuilder, MetadataBuilder, MetadataBuilderProxy, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
 import papyrus.dsl.builders.ImageBuilder.caption
@@ -9,7 +8,7 @@ import papyrus.dsl.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuil
 import papyrus.dsl.builders.RowBuilder.*
 import papyrus.dsl.builders.TextBuilder.*
 import papyrus.dsl.builders.TitleBuilder.*
-import papyrus.logic.utility.SectionCounter
+import papyrus.utility.SectionCounter
 
 
 object DSL:

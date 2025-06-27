@@ -2,7 +2,6 @@ package papyrus.dsl.builders
 
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.layerElement.text.Title
-import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.layerElement.section.SubSection
 import scala.collection.mutable.ListBuffer

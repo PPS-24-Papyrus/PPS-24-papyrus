@@ -8,7 +8,7 @@ import papyrus.dsl.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuil
 import papyrus.logic.content.Content
 import papyrus.logic.layerElement.text.Title
 import papyrus.dsl.DSL.given_Conversion_String_ImageBuilder
-import papyrus.logic.utility.TypesInline.{Level, Width}
+import papyrus.utility.TypesInline.{Level, Width}
 import io.cucumber.scala.EN
 import papyrus.logic.Renderer.*
 

@@ -1,7 +1,7 @@
 package papyrus.dsl
 
 import io.github.iltotore.iron.autoRefine
-import papyrus.logic.utility.TypesInline.*
+import papyrus.utility.TypesInline.*
 
 /** Default values used across the Papyrus DSL for metadata, styles, and content elements */
 object DefaultValues:

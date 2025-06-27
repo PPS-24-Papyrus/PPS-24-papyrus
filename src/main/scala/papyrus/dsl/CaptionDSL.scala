@@ -1,7 +1,7 @@
 package papyrus.dsl
 
 import papyrus.dsl.builders.{ContentBuilder, ImageBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TableBuilderProxy}
-import papyrus.logic.utility.TypesInline.*
+import papyrus.utility.TypesInline.*
 
 object ImageDSL:
   /** Insert image with optional caption, alt, width */

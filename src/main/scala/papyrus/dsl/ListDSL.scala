@@ -1,7 +1,7 @@
 package papyrus.dsl
 
 import papyrus.dsl.builders.{ContentBuilder, ItemBuilder, ListBuilder, ListBuilderImpl, ListBuilderProxy, PapyrusBuilder, SectionBuilder, SubSectionBuilder}
-import papyrus.logic.utility.TypesInline.{ListType, SortingList}
+import papyrus.utility.TypesInline.{ListType, SortingList}
 
 
 object ListDSL:

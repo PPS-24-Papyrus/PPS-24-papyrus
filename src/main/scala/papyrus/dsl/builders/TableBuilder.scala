@@ -3,7 +3,7 @@ package papyrus.dsl.builders
 import papyrus.logic.layerElement.captionElement.{Cell, Row, Table}
 import papyrus.dsl.DefaultValues
 import papyrus.logic.styleObjects.TableStyle
-import papyrus.logic.utility.TypesInline.{Align, Alignment, ColorString, Margin, Width}
+import papyrus.utility.TypesInline.{Align, Alignment, ColorString, Margin, Width}
 
 import scala.annotation.targetName
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}

@@ -1,4 +1,4 @@
-package papyrus.logic.utility
+package papyrus.utility
 
 /** Generates unique hexadecimal string IDs using an internal counter */
 object IdGenerator:

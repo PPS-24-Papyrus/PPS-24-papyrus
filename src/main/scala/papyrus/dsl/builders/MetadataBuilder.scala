@@ -1,7 +1,7 @@
 package papyrus.dsl.builders
 
 import papyrus.logic.metadata.Metadata
-import papyrus.logic.utility.TypesInline.{Charset, Extension, Language, StyleSheet}
+import papyrus.utility.TypesInline.{Charset, Extension, Language, StyleSheet}
 import papyrus.dsl.DefaultValues
 
 enum Field:

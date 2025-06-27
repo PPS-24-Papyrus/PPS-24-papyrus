@@ -1,8 +1,8 @@
 package papyrus.dsl.builders
 
-import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.layerElement.Listing
+import papyrus.utility.TypesInline.*
 
 /** Proxy for ListBuilder */
 class ListBuilderProxy(get: () => ListBuilder, set: ListBuilder => Unit) extends ListBuilder:

@@ -1,5 +1,4 @@
-package papyrus.logic.utility.prolog
-
+package papyrus.utility.prolog
 
 import alice.tuprolog.*
 

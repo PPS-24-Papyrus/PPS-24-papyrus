@@ -1,9 +1,9 @@
-package papyrus.logic.utility.HtmlConverter
+package papyrus.utility.HtmlConverter
 
 import org.xhtmlrenderer.pdf.ITextRenderer
 import papyrus.dsl.DefaultValues
 import papyrus.logic.Renderer.Text.*
-import papyrus.logic.utility.TypesInline.Extension
+import papyrus.utility.TypesInline.Extension
 
 import java.awt.Desktop
 import java.io.FileOutputStream

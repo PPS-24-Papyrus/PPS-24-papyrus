@@ -2,7 +2,7 @@ package papyrus.logic.layerElement
 
 import papyrus.logic.Renderer.Text.*
 import papyrus.logic.layerElement.text.{Item, Text, Title}
-import papyrus.logic.utility.TypesInline.ListType
+import papyrus.utility.TypesInline.ListType
 
 /** Represents a list (ordered or unordered), possibly containing nested lists or items */
 trait Listing extends ListElement:

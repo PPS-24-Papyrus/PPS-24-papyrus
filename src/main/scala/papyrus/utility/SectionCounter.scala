@@ -1,5 +1,4 @@
-package papyrus.logic.utility
-
+package papyrus.utility
 
 object SectionCounter:
   private var section: Int = 0

@@ -1,8 +1,8 @@
 package papyrus.dsl.builders
 
-import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.metadata.Metadata
+import papyrus.utility.TypesInline.*
 
 /** Builds document metadata proxy */
 

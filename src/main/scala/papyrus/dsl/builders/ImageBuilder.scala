@@ -1,7 +1,7 @@
 package papyrus.dsl.builders
 
 import papyrus.logic.layerElement.captionElement.Image
-import papyrus.logic.utility.TypesInline.{Float, Width}
+import papyrus.utility.TypesInline.{Float, Width}
 import io.github.iltotore.iron.autoRefine
 import papyrus.dsl.DefaultValues
 

@@ -1,7 +1,7 @@
 package papyrus.dsl.builders
 
 import papyrus.logic.layerElement.captionElement.Table
-import papyrus.logic.utility.TypesInline.*
+import papyrus.utility.TypesInline.*
 
 /** Immutable proxy that forwards mutations to the real builder */
 class TableBuilderProxy[T](

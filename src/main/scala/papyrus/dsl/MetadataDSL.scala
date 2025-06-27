@@ -1,7 +1,7 @@
 package papyrus.dsl
 
 import papyrus.dsl.builders.MetadataBuilder
-import papyrus.logic.utility.TypesInline.*
+import papyrus.utility.TypesInline.*
 
 object MetadataDSL:
 

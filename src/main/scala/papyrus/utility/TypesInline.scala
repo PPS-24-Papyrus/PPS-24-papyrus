@@ -1,4 +1,4 @@
-package papyrus.logic.utility
+package papyrus.utility
 
 import io.github.iltotore.iron.*
 import io.github.iltotore.iron.constraint.numeric.*

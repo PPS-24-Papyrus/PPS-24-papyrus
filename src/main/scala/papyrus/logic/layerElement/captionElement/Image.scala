@@ -2,8 +2,8 @@ package papyrus.logic.layerElement.captionElement
 
 import papyrus.logic.Renderer.Text.{MainText, StyleText}
 import papyrus.logic.Renderer.Text.*
-import papyrus.logic.utility.IdGenerator
-import papyrus.logic.utility.TypesInline.{Float, Width}
+import papyrus.utility.TypesInline.{Float, Width}
+import papyrus.utility.IdGenerator
 
 
 /** An image element with optional caption, width, and alignment */

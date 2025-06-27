@@ -3,7 +3,6 @@ package logic.layerElement
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
 import papyrus.dsl.DefaultValues
-import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.dsl.builders.TitleBuilder
 import papyrus.logic.Renderer.*

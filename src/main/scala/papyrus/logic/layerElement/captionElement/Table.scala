@@ -2,8 +2,9 @@ package papyrus.logic.layerElement.captionElement
 
 import papyrus.logic.Renderer.Text.*
 import papyrus.logic.styleObjects.TableStyle
-import papyrus.logic.utility.prolog.Scala2Prolog.{*, given}
 import alice.tuprolog.{Struct, Term, Int as PInt, Var}
+import papyrus.utility.TypesInline.*
+import papyrus.utility.prolog.Scala2Prolog.mkPrologEngine
 
 /** A table with rows and a caption, rendered using a function */
 trait Table[T] extends CaptionElement:

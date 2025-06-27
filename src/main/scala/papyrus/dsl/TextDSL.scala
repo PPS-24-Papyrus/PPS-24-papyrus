@@ -2,7 +2,7 @@ package papyrus.dsl
 
 import papyrus.dsl.builders.{ContentBuilder, PapyrusBuilder, SectionBuilder, SubSectionBuilder, TextBuilder, TitleBuilder}
 import io.github.iltotore.iron.autoRefine
-import papyrus.logic.utility.SectionCounter
+import papyrus.utility.SectionCounter
 
 object TextDSL:
 

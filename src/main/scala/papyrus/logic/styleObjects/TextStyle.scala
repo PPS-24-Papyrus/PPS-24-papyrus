@@ -1,13 +1,13 @@
 package papyrus.logic.styleObjects
 
 import papyrus.logic.Style
-import papyrus.logic.utility.TypesInline.*
 import papyrus.logic.layerElement.LayerElement
 import io.github.iltotore.iron.autoRefine
 import papyrus.dsl.DefaultValues
 import papyrus.logic.Renderer.RendererStyle
 import papyrus.logic.Renderer.Text.*
-import papyrus.logic.utility.IdGenerator
+import papyrus.utility.IdGenerator
+import papyrus.utility.TypesInline.*
 
 /** Represents the visual style for inline text (e.g. <span>) */
 trait TextStyle extends RendererStyle:

@@ -2,8 +2,8 @@ package logic.utility
 
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers.*
-import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
+import papyrus.utility.TypesInline.*
 
 class TypesInlineTest extends AnyFunSuite:
 

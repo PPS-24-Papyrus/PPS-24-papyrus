@@ -2,9 +2,9 @@ package papyrus.dsl.builders
 
 import papyrus.logic.layerElement.text.Title
 import papyrus.logic.styleObjects.TitleStyle
-import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
 import papyrus.dsl.DefaultValues
+import papyrus.utility.TypesInline.*
 
 /** Builds styled title elements for Papyrus document */
 case class TitleBuilder(

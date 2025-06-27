@@ -1,9 +1,9 @@
 package papyrus.logic.layerElement.text
 
 import papyrus.logic.Renderer.Text.*
-import papyrus.logic.utility.TypesInline.*
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.styleObjects.TitleStyle
+import papyrus.utility.TypesInline.*
 
 /** Represents a section or document title with a heading level and style */
 trait Title extends LayerElement:
