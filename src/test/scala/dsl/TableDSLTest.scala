@@ -25,7 +25,7 @@ class TableDSLTest extends AnyFunSuite:
       "prova2" | "prova3" | "prova4" | "prova5"
       "prova4" | "prova5" | "prova6" | "prova7"
       "prova6" | "prova7" | "prova8" | "prova9"
-      caption:
+      captionTable:
         "Table Caption"
 
     generatedTable.rows.size shouldBe 3
@@ -78,7 +78,7 @@ class TableDSLTest extends AnyFunSuite:
 
   test("Table DSL should create an empty table when no rows are provided"):
     val generatedTable = table:
-      caption:
+      captionTable:
         "Empty Table"
 
     generatedTable.rows.size shouldBe 0
@@ -113,7 +113,7 @@ class TableDSLTest extends AnyFunSuite:
     val generatedTable = table:
       "Cell1" | "Cell2"
       "Cell3" | "Cell4" | "Cell5"
-        caption:
+      captionTable:
           "Invalid Table"
     val render = generatedTable.render.string
     render should include("Table structure error:</strong><br>Row 0 → 2 columns<br>Row 1 → 3 columns")

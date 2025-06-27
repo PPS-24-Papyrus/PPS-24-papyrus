@@ -38,7 +38,7 @@ object ImageBuilder:
     def alternative(a: String): ImageBuilder = str.withAlt(a)
 
     /** Sets the caption below the image */
-    def caption(c: String): ImageBuilder = str.withCaption(c)
+    def captionImage(c: String): ImageBuilder = str.withCaption(c)
 
     /** Sets the image width */
     def width(w: Width): ImageBuilder = str.withWidth(w)

@@ -3,7 +3,7 @@ package steps
 import io.cucumber.datatable.{DataTable, DataTableType}
 import io.cucumber.scala.{EN, ScalaDsl}
 import org.scalatest.matchers.should.Matchers
-import papyrus.dsl.builders.ImageBuilder.{alternative, caption}
+import papyrus.dsl.builders.ImageBuilder.{alternative, captionImage}
 import papyrus.dsl.builders.tableBuider.{CellBuilder, RowBuilder, TableBuilder, TableBuilderProxy}
 import papyrus.dsl.builders.sectionBuilder.{SectionBuilder, SubSectionBuilder}
 import papyrus.dsl.DSL.given_Conversion_String_ImageBuilder
@@ -45,7 +45,7 @@ class ContentSteps extends ScalaDsl with EN with Matchers:
   Given("""I add an image with source {string} and caption {string}"""): (src: String, caption: String) =>
     contentBuilder = Some(ContentBuilder())
     contentBuilder.get.addLayerElement(
-      (src caption caption).build
+      (src captionImage caption).build
     )
 
   Given("""I create an empty list"""): () =>

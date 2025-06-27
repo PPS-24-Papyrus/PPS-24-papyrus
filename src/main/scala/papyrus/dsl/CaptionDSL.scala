@@ -40,7 +40,7 @@ object TableDSL:
         ssb.addLayerElement(builder.build)
 
   /** Set table caption */
-  def caption[T](init: TableBuilder[T] ?=> String)(using tb: TableBuilder[T]): Unit =
+  def captionTable[T](init: TableBuilder[T] ?=> String)(using tb: TableBuilder[T]): Unit =
     tb.withCaption(init)
 
   /** Set background color of table */

@@ -15,7 +15,7 @@ class ImageDSLTest extends AnyFunSuite with Matchers:
 
   test("Image DSL should create an image with caption and alternative text"):
     val img = image:
-      "src/test/resources/image/Pastore-tedesco.png" caption "A German Shepherd" alternative "A beautiful dog"
+      "src/test/resources/image/Pastore-tedesco.png" captionImage "A German Shepherd" alternative "A beautiful dog"
     val render = img.build.render.string
     render should include("alt=\"A beautiful dog\">")
     render should include("<figcaption>A German Shepherd</figcaption>")

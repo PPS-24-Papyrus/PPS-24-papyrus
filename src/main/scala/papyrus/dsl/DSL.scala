@@ -42,12 +42,12 @@ object DSL:
     export builders.tableBuider.RowBuilder.{|, -|, |-, -|-, ^|, |^, ^|^, hsh, hs}
     export builders.textBuilder.TextBuilder.{color, fontWeight, fontStyle, textDecoration, newLine}
     export builders.textBuilder.TitleBuilder.{level, font, fontSize, textColor, textAlign}
-    export builders.ImageBuilder.{alternative, caption, width, alignment}
+    export builders.ImageBuilder.{alternative, width, alignment, captionImage}
     export TextDSL.*
     export TitleDSL.*
     export MetadataDSL.*
     export ImageDSL.*
-    export TableDSL.*
+    export TableDSL.{captionTable, table, alignTable, widthTable, withList, renderTable, backgroundColorTable, textAlignTable, marginTable}
     export ListDSL.*
   
   /** Define a section, only valid inside Papyrus or Content */

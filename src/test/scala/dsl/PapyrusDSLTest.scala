@@ -1,62 +1,66 @@
 package dsl
 
 import papyrus.dsl.DSL.PapyrusApplication
+import papyrus.dsl.builders.tableBuider.TableBuilder
 
 object PapyrusDSLTest extends PapyrusApplication:
 
   papyrus:
     metadata:
       nameFile:
-        "Third Sprint"
+        "Papyrus"
       language:
         "en"
-      author:
-        "LucaDani"
       extension:
         "html"
       margin:
-        150
+        50
     content:
       title:
-        "End 3rd Sprint"
-      text:
-        "Normale" color "red"
+        "Lorem ipsum"
       section:
         title:
-          "Table and listing"
-        text:
-          "Let's try to print a table." newLine "Ciao" newLine "Ciao"
-        table:
-          withList:
-            List(List("1", "2", "3"),List("4", "5", "6"),List("7", "8", "9"))
-          renderTable:
-            (s: String) => s
-        table:
-          "1" | "2" | "3"
-          "4" | "5" | "6"
-          "7" | "8" | "9"
-          caption:
-            "This is our first table:"
-          alignTable:
-            "center"
+          "Lorem ipsum"
         subsection:
           title:
-            "Listing" textColor "red"
-          underline:
-            "Prova grassetto"
+            "Lorem ipsum text"
           text:
-            "\nWhy do we use it?\nIt is a long established" newLine "Ciao"
+            "Lorem ipsum" fontWeight "bold"
+          text:
+            "dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+        subsection:
+          title:
+            "Lorem ipsum listing"
           listing:
-            listType:
-              "ol"
+            ordered:
+              "length"
             item:
-              "First element"
+              "Lorem ipsum"
+            listing:
+              ordered:
+                "alphabetical"
+              item:
+                "Lorem"
+              item:
+                "Ipsum"
             item:
-              "Second element"
+              "Dolor sit"
+            item:
+              "Amet consectetur adipiscing elit"
       section:
         title:
-          "Image"
-        text:
-          "This is our first image:"
-        image:
-          "src/main/resources/PapyrusLogo.png" caption "This is papyrus logo" alternative "No image found" width 200
+          "Lorem ipsum table and images"
+        subsection:
+          title:
+            "Lorem ipsum table"
+          table:
+            "cell 1" | "cell 2"  | "cell 3"  | "cell 4"
+            "cell 5" | "cell 6"  | "cell 7"  | "cell 8"
+            "cell 9" | "cell 10" | "cell 11" | "cell 12"
+            captionTable:
+              "Lorem ipsum table caption"
+        subsection:
+          title:
+            "Lorem ipsum image"
+          image:
+            "src/main/resources/PapyrusLogo.png" captionImage "logo" alternative "Image not found" width 200
