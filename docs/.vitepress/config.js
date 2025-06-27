@@ -19,7 +19,7 @@ export default withMermaid(
             sidebar: [
                 {text: 'Report',
                     items: [
-                        {text: 'Introduzione', link: `${reportPath}/1-introduzione`,
+                        {text: 'Introduzione', link: `${reportPath}/1-getStarted`,
                             items: [
                                        {text: 'Esempio di Utilizzo', link: `${reportPath}/6-example`},
                                        {text: 'Get Started', link: `${reportPath}/12-getStarted`},
