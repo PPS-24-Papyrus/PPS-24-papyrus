@@ -77,8 +77,10 @@ object Table:
       tableStyle.renderStyle
 
     private def validateColspanConsistency(rows: List[Row[_]]): Either[String, Unit] =
-      val data = rows.map(_.cells.map(_.colspan))
-      val termString = data.map(_.mkString("[", ",", "]")).mkString("[", ",", "]")
+      val data: List[List[Int]] = rows.map(_.cells.map(_.colspan))
+      val peanoData: List[List[String]] = data.map(_.map(intToPeano))
+
+      val termString = peanoData.map(_.mkString("[", ",", "]")).mkString("[", ",", "]")
       val prologTerm = Term.createTerm(termString)
 
       val goal = new Struct("validate_colspan_consistency", prologTerm)
@@ -91,21 +93,32 @@ object Table:
           val details = colCounts.map((i, c) => s"Row $i → $c columns").mkString("<br>")
           Left(s"<div style='color:red'><strong>Table structure error:</strong><br>$details</div>")
 
+    private def intToPeano(n: Int): String =
+      if n <= 0 then "zero"
+      else "s(" * n + "zero" + ")" * n      
+
     private val engine = mkPrologEngine(
       """
-        sum_list([], 0).
-        sum_list([H|T], Sum) :- sum_list(T, Rest), Sum is H + Rest.
-
+        sum(zero, N, N).
+        sum(s(M), N, s(R)) :- sum(M, N, R).
+    
+        sum_list([], zero).
+        sum_list([H|T], Sum) :-
+            sum_list(T, Rest),
+            sum(H, Rest, Sum).
+    
         row_colspans([], []).
-        row_colspans([Row|Rest], [Sum|Sums]) :- sum_list(Row, Sum), row_colspans(Rest, Sums).
-
+        row_colspans([Row|Rest], [Sum|Sums]) :-
+            sum_list(Row, Sum),
+            row_colspans(Rest, Sums).
+    
         all_equal([]).
         all_equal([_]).
         all_equal([X, X | Rest]) :- all_equal([X | Rest]).
-
+    
         validate_colspan_consistency(Rows) :-
-          row_colspans(Rows, Sums),
-          all_equal(Sums).
+            row_colspans(Rows, Sums),
+            all_equal(Sums).
         """
     )
 
