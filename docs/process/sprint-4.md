@@ -1,22 +1,24 @@
 # Sprint 4
 
-## Sprint Goal
+## Obiettivi
 
-- rifattorizzazione di alcuni elementi
-- aggiunta di MainText e StyleText
-- fix bug
+- Rifattorizzazione di alcuni elementi
+- Aggiunta di `MainText` e `StyleText`
+- Fix di bug emersi nei precedenti sprint
 
 ## Deadline
 
-14 giugno 2025
+14 giugno 2025  
+Durata: 1 settimana
 
-## Sprint review
+## Review
 
-gli obbiettivi prefissati sono stati raggiunti, ottima risoluzione dei problemi riscontrati.
+Gli obiettivi prefissati sono stati raggiunti, con un’ottima risoluzione delle problematiche riscontrate. È stata migliorata la struttura interna del codice e incrementata la sua qualità.
 
-## Sprint retrospective
+## Analisi retrospettiva
 
-soddisfatti delle anilisi fatte de gli obiettivi raggiunti.
+Siamo soddisfatti delle analisi e dei risultati ottenuti. Lo sprint ha permesso di consolidare la struttura della libreria, rendendo il codice più immutabile e robusto rispetto alle versioni precedenti.
+
 
 
 | Task          | Descrizione                     | Svolto da             | Durata |

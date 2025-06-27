@@ -1,24 +1,25 @@
 # Sprint 1
 
-## Sprint Goal
+## Obiettivi
 
-- analizzare il problema.
-- definire gli obiettivi.
-- definire il vocabolario.
-- genereare gli UML.
+- Analizzare il problema
+- Definire gli obiettivi
+- Definire il vocabolario
+- Generare i diagrammi UML
 
 ## Deadline
 
-24 maggio 2025
+24 maggio 2025  
+Durata: 1 settimana
 
-## Sprint review
+## Review
 
-gli obbiettivi prefissati sono stati raggiunti, ma sugli UML non con il dettaglio sperato
+Gli obiettivi principali sono stati raggiunti, in particolare la comprensione dei concetti fondamentali del progetto. I diagrammi UML sono stati abbozzati ma non ancora rifiniti come previsto.
 
-## Sprint retrospective
+## Analisi retrospettiva
 
-soddisfatti delle anilisi fatte de gli obiettivi raggiunti, ma non soddisfatti della documentazione e degli UML generati.
-Vi sono state tensioni tra i membri del team dovute da diversi visioni di progettuali, ma sono state risolte in modo costruttivo.
+Siamo soddisfatti del lavoro svolto in termini di analisi e definizione degli obiettivi. Lo sprint ha aiutato a chiarire cosa sviluppare, grazie anche all’uso di UML ed EBNF. La gestione dello Scrum Master ha permesso di calibrare bene il carico di lavoro.  
+Permangono margini di miglioramento sulla qualità della documentazione e sulla definizione degli UML. Alcune divergenze di visione nel team sono state risolte costruttivamente.
 
 
 | Task     | Descrizione                      | Svolto da             | Durata |

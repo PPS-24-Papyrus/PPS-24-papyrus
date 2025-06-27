@@ -1,23 +1,25 @@
 # Sprint 3
 
-## Sprint Goal
+## Obiettivi
 
-aggiunta degli elementi:
+Aggiunta degli elementi:
 - Image
 - Table
 - Liste
+- Sezioni e sottosezioni
 
 ## Deadline
 
-7 giugno 2025
+7 giugno 2025  
+Durata: 1 settimana
 
-## Sprint review
+## Review
 
-gli obbiettivi prefissati sono stati raggiunti, ma si e' analissata la necessita di migliorare alcuni elementi.
+Gli obiettivi prefissati sono stati raggiunti. Durante lo sviluppo è emersa la necessità di migliorare alcuni elementi, in particolare per quanto riguarda lo stile e la struttura interna delle nuove componenti.
 
-## Sprint retrospective
+## Analisi retrospettiva
 
-soddisfatti delle anilisi fatte de gli obiettivi raggiunti, si puo procedere seguendo questo ritmo e metodologia di lavoro.
+Siamo soddisfatti delle analisi svolte e degli obiettivi raggiunti. Il ritmo e la metodologia di lavoro adottati si sono dimostrati efficaci e potranno essere mantenuti anche per gli sprint successivi.
 
 
 | Task           | Descrizione            | Svolto da  | Durata |

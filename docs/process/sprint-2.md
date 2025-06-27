@@ -1,8 +1,8 @@
 # Sprint 2
 
-## Sprint Goal
+## Obiettivi
 
-avere una versione base del linguaggio che permetta di generare un pdf o html con i seguenti elementi:
+Avere una versione base del linguaggio che permetta di generare un PDF o HTML con i seguenti elementi:
 - Title
 - Text
 - Content
@@ -10,16 +10,18 @@ avere una versione base del linguaggio che permetta di generare un pdf o html co
 
 ## Deadline
 
-31 maggio 2025
+31 maggio 2025  
+Durata: 1 settimana
 
-## Sprint review
+## Review
 
-gli obbiettivi prefissati sono stati raggiunti, ma e' stato necessario un lavoro maggiore del previsto per risolvere le problematiche riscontrate.
+Gli obiettivi prefissati sono stati raggiunti, ottenendo un primo prototipo funzionante del linguaggio capace di generare sia HTML che PDF. Il lavoro ha richiesto più tempo del previsto, a causa di alcune complessità emerse in fase di sviluppo, non preventivate in fase di analisi.
 
-## Sprint retrospective
+## Analisi retrospettiva
 
-soddisfatti delle anilisi fatte de gli obiettivi raggiunti, ma lo sprint e' stato piu corposo del previsto, da questo si e' analizzato sul come gestire meglio il carico di lavoro negli sprint successivi.
+Siamo soddisfatti dei risultati raggiunti, in particolare per aver iniziato concretamente lo sviluppo della libreria sulla base dell'analisi svolta nello Sprint 1. I diagrammi precedenti hanno guidato l'implementazione dei trait e della struttura del linguaggio.
 
+Durante lo sprint sono emerse attività aggiuntive non previste, come la creazione di un file CSS separato e la definizione di tipi raffinati per la validazione dei dati tramite Iron. La gestione del carico di lavoro è risultata più impegnativa del previsto, e si è deciso di rivedere la pianificazione degli sprint futuri per migliorarne l’equilibrio.
 
 | Task           | Descrizione                                   | Svolto da  | Durata |
 |----------------|-----------------------------------------------| ---------- |--------|

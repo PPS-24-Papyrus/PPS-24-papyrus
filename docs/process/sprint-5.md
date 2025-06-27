@@ -1,20 +1,21 @@
 # Sprint 5
 
-## Sprint Goal
+## Obiettivi
 
-ultimi aggiustamenti e rifiniture per gli elementi non di DSL e documentazione.
+Ultimi aggiustamenti e rifiniture sugli elementi non legati al DSL e completamento della documentazione.
 
 ## Deadline
 
-21 giugno 2025
+21 giugno 2025  
+Durata: 1 settimana
 
-## Sprint review
+## Review
 
-gli obbiettivi prefissati sono stati raggiunti, ed sono state identificate gli ultimi elementi da migliorare.
+Gli obiettivi prefissati sono stati raggiunti. Sono stati inoltre identificati gli ultimi elementi da migliorare, soprattutto riguardo alle funzionalità avanzate delle liste e all’organizzazione dei builder.
 
-## Sprint retrospective
+## Analisi retrospettiva
 
-soddisfatti delle anilisi fatte de gli obiettivi raggiunti.
+Siamo soddisfatti delle analisi effettuate e degli obiettivi raggiunti. Questo sprint ha permesso di potenziare componenti esistenti, e di completare le attività documentali necessarie per la chiusura del progetto.
 
 
 | Task          | Descrizione                                  | Svolto da             | Durata |

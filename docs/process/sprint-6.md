@@ -1,19 +1,21 @@
 # Sprint 6
-## Sprint Goal
 
-fornire libreria completa e finire relazione.
+## Obiettivi
+
+Fornire la libreria completa e terminare la relazione finale.
 
 ## Deadline
 
-30 giugno 2025
+30 giugno 2025  
+Durata: 1 settimana
 
-## Sprint review
+## Review
 
-Complessivamente il risultato ottenuto ha rispecchiato le aspettative.
+Complessivamente, il risultato ottenuto ha rispecchiato le aspettative, sia per la qualità del codice che per la documentazione prodotta.
 
-## Sprint retrospective
+## Analisi retrospettiva
 
-Lo sprint e' stato molto gratificante per essere riusciti a portare al termine il progetto.
+Lo sprint è stato molto gratificante, in quanto siamo riusciti a portare a termine il progetto. La relazione è stata completata con grafici più puliti e integrati, utilizzando GitHub Pages per la pubblicazione. Le ultime migliorie al codice hanno riguardato principalmente la pulizia e l’ottimizzazione, più che nuove funzionalità.
 
 
 | Task      | Descrizione            | Svolto da             | Durata |
