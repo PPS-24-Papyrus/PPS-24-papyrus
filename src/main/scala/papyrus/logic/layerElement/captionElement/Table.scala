@@ -77,8 +77,11 @@ object Table:
       tableStyle.renderStyle
 
     private def validateColspanConsistency(rows: List[Row[_]]): Either[String, Unit] =
-      val data = rows.map(_.cells.map(_.colspan))
-      val termString = data.map(_.mkString("[", ",", "]")).mkString("[", ",", "]")
+      val termString: String = rows
+                                 .map(_.cells.map(c => intToPeano(c.colspan))
+                                   .mkString("[", ",", "]"))
+                                 .mkString("[", ",", "]")
+
       val prologTerm = Term.createTerm(termString)
 
       val goal = new Struct("validate_colspan_consistency", prologTerm)
@@ -87,28 +90,38 @@ object Table:
       result match
         case Some(_) => Right(())
         case None =>
-          val colCounts = data.zipWithIndex.map { case (row, i) => (i, row.sum) }
+          val colCounts = rows.map(_.cells.map(_.colspan)).zipWithIndex.map { case (row, i) => (i, row.sum) }
           val details = colCounts.map((i, c) => s"Row $i → $c columns").mkString("<br>")
           Left(s"<div style='color:red'><strong>Table structure error:</strong><br>$details</div>")
 
-  val engine = mkPrologEngine(
-    """
-      sum_list([], 0).
-      sum_list([H|T], Sum) :- sum_list(T, Rest), Sum is H + Rest.
-  
-      row_colspans([], []).
-      row_colspans([Row|Rest], [Sum|Sums]) :- sum_list(Row, Sum), row_colspans(Rest, Sums).
-  
-      all_equal([]).
-      all_equal([_]).
-      all_equal([X, X | Rest]) :- all_equal([X | Rest]).
-  
-      validate_colspan_consistency(Rows) :-
-        row_colspans(Rows, Sums),
-        all_equal(Sums).
-      """
-  )
+    private def intToPeano(n: Int): String =
+      if n <= 0 then "zero"
+      else "s(" * n + "zero" + ")" * n
 
+    private val engine = mkPrologEngine(
+      """
+        sum(zero, N, N).
+        sum(s(M), N, s(R)) :- sum(M, N, R).
+
+        sum_list([], zero).
+        sum_list([H|T], Sum) :-
+            sum_list(T, Rest),
+            sum(H, Rest, Sum).
+
+        row_colspans([], []).
+        row_colspans([Row|Rest], [Sum|Sums]) :-
+            sum_list(Row, Sum),
+            row_colspans(Rest, Sums).
+
+        all_equal([]).
+        all_equal([_]).
+        all_equal([X, X | Rest]) :- all_equal([X | Rest]).
+
+        validate_colspan_consistency(Rows) :-
+            row_colspans(Rows, Sums),
+            all_equal(Sums).
+        """
+    )
 
 object Row:
 

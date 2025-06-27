@@ -24,7 +24,11 @@ trait Image extends CaptionElement:
 object Image:
 
   /** Creates an Image with src, alt text, optional caption, width and alignment */
-  def apply(src: String, alt: String, caption: Option[String], width: Option[Width],  alignment: Option[Float]): Image = new ImageImpl(src, alt, caption, width, alignment)
+  def apply(src: String,
+            alt: String,
+            caption: Option[String],
+            width: Option[Width],
+            alignment: Option[Float]): Image = new ImageImpl(src, alt, caption, width, alignment)
 
   private class ImageImpl(override val src: String,
                           override val alt: String,
@@ -40,9 +44,8 @@ object Image:
       val figureStart = s"""<figure class="$idFigure">"""
       val figureEnd = s"""</figure>\n"""
 
-      val content = for
-        path <- checkPathImage(src)
-      yield s"""<img class="$idImage" src="file:///$path" alt="$alt"></img>"""
+      val content = checkPathImage(src).map: validPath =>
+        s"""<img class="$idImage" src="file:///$validPath" alt="$alt"></img>"""
 
       val innerHtml = content match
         case Right(imgTag) => s"  $imgTag\n  $captionString"

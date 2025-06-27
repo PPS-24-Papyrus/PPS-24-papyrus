@@ -90,7 +90,8 @@ class ContentSteps extends ScalaDsl with EN with Matchers:
   Given("""I add a table with rows:"""): (rows: DataTable) =>
     import papyrus.dsl.builders._
     import scala.jdk.CollectionConverters._
-    val tableBuilder = TableBuilder[String]()
+    var current: TableBuilder[String] = TableBuilder(rows = Vector.empty[RowBuilder[String]])
+    val tableBuilder = TableBuilderProxy[String](() => current, updated => current = updated)
     val scalaRows: List[List[String]] =
       rows.asLists().asScala.toList.map(_.asScala.toList)
 
