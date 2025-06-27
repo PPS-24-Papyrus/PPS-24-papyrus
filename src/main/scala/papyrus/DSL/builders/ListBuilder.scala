@@ -69,10 +69,6 @@ case class ListBuilderImpl(
     Listing(finalBuilder.listType, finalBuilder.items.map(_.build)*)
 
 
-// -----------------------------
-// Separated logic: transformer
-// -----------------------------
-
 private object ListStructureTransformer:
 
   def transform(builder: ListBuilder): ListBuilder =

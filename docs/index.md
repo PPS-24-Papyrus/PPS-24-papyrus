@@ -10,7 +10,7 @@ hero:
   actions:
     - theme: brand
       text: Report
-      link: report/1-getStarted
+      link: report/1-introduzione
     - theme: alt
       text: Scala docs
       link: https://pps-24-papyrus.github.io/PPS-24-papyrus/scaladoc/index.html
