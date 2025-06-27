@@ -1,8 +1,9 @@
-package papyrus.dsl.builders
+package papyrus.dsl.builders.metadataBuilder
 
 import papyrus.logic.metadata.Metadata
 import papyrus.utility.TypesInline.{Charset, Extension, Language, StyleSheet}
 import papyrus.dsl.DefaultValues
+import papyrus.dsl.builders.Builder
 
 enum Field:
   case NameFile, Extension, SavingPath, Language, Title, Author, Charset, StyleSheet, Style

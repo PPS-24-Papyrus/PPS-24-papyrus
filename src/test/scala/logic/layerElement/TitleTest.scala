@@ -4,8 +4,8 @@ import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
 import papyrus.dsl.DefaultValues
 import io.github.iltotore.iron.autoRefine
-import papyrus.dsl.builders.TitleBuilder
 import papyrus.logic.Renderer.*
+import papyrus.dsl.builders.textBuilder.{TitleBuilder, TextBuilder}
 
 class TitleTest extends AnyFunSuite with Matchers:
 

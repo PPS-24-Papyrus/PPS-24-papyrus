@@ -1,8 +1,11 @@
 package papyrus.dsl
 
-import papyrus.dsl.builders.{ContentBuilder, ItemBuilder, ListBuilder, ListBuilderImpl, ListBuilderProxy, PapyrusBuilder, SectionBuilder, SubSectionBuilder}
+import papyrus.dsl.builders.listBuilder.{ItemBuilder, ListBuilder, ListBuilderImpl, ListBuilderProxy}
+import papyrus.dsl.builders.{ContentBuilder, PapyrusBuilder}
 import papyrus.utility.TypesInline.{ListType, SortingList}
-
+import papyrus.dsl.builders.tableBuider.{CellBuilder, RowBuilder, TableBuilder, TableBuilderProxy}
+import papyrus.dsl.builders.sectionBuilder.{SectionBuilder, SubSectionBuilder}
+import papyrus.dsl.builders.metadataBuilder.{MainStyleBuilder, MetadataBuilder, MetadataBuilderProxy}
 
 object ListDSL:
 

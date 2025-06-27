@@ -1,8 +1,12 @@
 package papyrus.dsl
 
-import papyrus.dsl.builders.{ContentBuilder, PapyrusBuilder, SectionBuilder, SubSectionBuilder, TextBuilder, TitleBuilder}
+import papyrus.dsl.builders.{ContentBuilder, PapyrusBuilder}
 import io.github.iltotore.iron.autoRefine
 import papyrus.utility.SectionCounter
+import papyrus.dsl.builders.tableBuider.{CellBuilder, RowBuilder, TableBuilder, TableBuilderProxy}
+import papyrus.dsl.builders.sectionBuilder.{SectionBuilder, SubSectionBuilder}
+import papyrus.dsl.builders.metadataBuilder.{MetadataBuilder, MainStyleBuilder, MetadataBuilderProxy}
+import papyrus.dsl.builders.textBuilder.{TextBuilder, TitleBuilder}
 
 object TextDSL:
 

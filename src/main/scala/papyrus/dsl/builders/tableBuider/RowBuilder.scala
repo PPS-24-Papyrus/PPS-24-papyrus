@@ -1,8 +1,9 @@
-package papyrus.dsl.builders
+package papyrus.dsl.builders.tableBuider
 
 import papyrus.logic.layerElement.captionElement.{Cell, Row}
 
 import scala.collection.mutable.ArrayBuffer
+import papyrus.dsl.builders.Builder
 
 
 /** Builder for creating a row of cells in a table */

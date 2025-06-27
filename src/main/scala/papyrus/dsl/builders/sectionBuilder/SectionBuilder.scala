@@ -1,10 +1,11 @@
-package papyrus.dsl.builders
+package papyrus.dsl.builders.sectionBuilder
 
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.layerElement.text.Title
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.layerElement.section.Section
 import scala.collection.mutable.ListBuffer
+import papyrus.dsl.builders.LayerElementBuilder
 
 /** Builds a Section element (only allowed inside Papyrus or Content) */
 case class SectionBuilder(

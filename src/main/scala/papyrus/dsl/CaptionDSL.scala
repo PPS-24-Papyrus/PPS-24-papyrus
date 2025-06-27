@@ -1,6 +1,8 @@
 package papyrus.dsl
 
-import papyrus.dsl.builders.{ContentBuilder, ImageBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TableBuilderProxy}
+import papyrus.dsl.builders.sectionBuilder.{SectionBuilder, SubSectionBuilder}
+import papyrus.dsl.builders.tableBuider.{RowBuilder, TableBuilder, TableBuilderProxy}
+import papyrus.dsl.builders.{ContentBuilder, ImageBuilder, PapyrusBuilder}
 import papyrus.utility.TypesInline.*
 
 object ImageDSL:

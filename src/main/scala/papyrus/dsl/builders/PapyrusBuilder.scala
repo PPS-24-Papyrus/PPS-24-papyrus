@@ -4,6 +4,7 @@ package papyrus.dsl.builders
 import papyrus.logic.Papyrus
 import papyrus.logic.layerElement.LayerElement
 import papyrus.logic.layerElement.text.Title
+import papyrus.dsl.builders.metadataBuilder.MetadataBuilder
 
 enum PapyrusField:
   case Metadata, Content

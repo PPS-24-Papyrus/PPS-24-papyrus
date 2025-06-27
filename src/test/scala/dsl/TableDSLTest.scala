@@ -6,8 +6,8 @@ import org.scalatest.matchers.should.Matchers.{an, should, shouldBe}
 import papyrus.logic.layerElement.captionElement.Table
 import papyrus.dsl.DSL
 import papyrus.dsl.TableDSL.*
-import papyrus.dsl.builders.RowBuilder.*
-import papyrus.dsl.builders.{RowBuilder, TableBuilder, TableBuilderProxy}
+import papyrus.dsl.builders.tableBuider.RowBuilder.*
+import papyrus.dsl.builders.tableBuider.{RowBuilder, TableBuilder, TableBuilderProxy}
 import papyrus.dsl.DSL.given_Conversion_List_RowBuilder
 
 class TableDSLTest extends AnyFunSuite:

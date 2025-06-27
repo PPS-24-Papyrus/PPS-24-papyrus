@@ -1,9 +1,10 @@
-package papyrus.dsl.builders
+package papyrus.dsl.builders.metadataBuilder
 
 import org.xhtmlrenderer.css.parser.property.PrimitivePropertyBuilders.{BackgroundColor, TextAlign}
 import papyrus.dsl.DefaultValues
 import papyrus.logic.styleObjects.MainStyle
 import papyrus.utility.TypesInline.*
+import papyrus.dsl.builders.Builder
 
 private enum MainStyleField:
   case Font, FontSize, LineHeight, TextColor, BackgroundColor, TextAlign, Margin

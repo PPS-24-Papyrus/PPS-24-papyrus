@@ -1,9 +1,10 @@
-package papyrus.dsl.builders
+package papyrus.dsl.builders.listBuilder
 
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.layerElement.Listing
 import scala.math
 import papyrus.utility.TypesInline.*
+import papyrus.dsl.builders.ListElementBuilder
 
 /** Represents a nestable list builder with optional sorting (only allowed inside Papyrus, Content, Section, SubSection and Listing) */
 trait ListBuilder extends ListElementBuilder:

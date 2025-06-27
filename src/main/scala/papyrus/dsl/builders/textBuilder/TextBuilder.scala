@@ -1,9 +1,10 @@
-package papyrus.dsl.builders
+package papyrus.dsl.builders.textBuilder
 
 import papyrus.logic.layerElement.text.Text
 import papyrus.logic.styleObjects.TextStyle
 import io.github.iltotore.iron.autoRefine
 import papyrus.dsl.DefaultValues
+import papyrus.dsl.builders.LayerElementBuilder
 import papyrus.utility.TypesInline.*
 
 /**Builds styled text elements for Papyrus document*/

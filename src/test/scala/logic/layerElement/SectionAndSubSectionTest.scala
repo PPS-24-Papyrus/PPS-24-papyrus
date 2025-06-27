@@ -4,7 +4,8 @@ import io.github.iltotore.iron.autoRefine
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
 import papyrus.dsl.DefaultValues
-import papyrus.dsl.builders.{SectionBuilder, SubSectionBuilder, TextBuilder, TitleBuilder}
+import papyrus.dsl.builders.sectionBuilder.{SectionBuilder, SubSectionBuilder}
+import papyrus.dsl.builders.textBuilder.{TitleBuilder, TextBuilder}
 import papyrus.logic.Renderer.*
 
 class SectionAndSubSectionTest extends AnyFunSuite with Matchers:

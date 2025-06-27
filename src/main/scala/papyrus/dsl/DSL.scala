@@ -1,14 +1,11 @@
 package papyrus.dsl
 
-import papyrus.logic.layerElement.text.{Text, Title}
-import io.github.iltotore.iron.autoRefine
-import papyrus.dsl.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, ListBuilderImpl, ListBuilderProxy, MainStyleBuilder, MetadataBuilder, MetadataBuilderProxy, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
-import papyrus.dsl.builders.ImageBuilder.caption
-import papyrus.dsl.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, MainStyleBuilder, MetadataBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
-import papyrus.dsl.builders.RowBuilder.*
-import papyrus.dsl.builders.TextBuilder.*
-import papyrus.dsl.builders.TitleBuilder.*
-import papyrus.utility.SectionCounter
+import papyrus.dsl.builders.{ContentBuilder, ImageBuilder, PapyrusBuilder}
+import papyrus.dsl.builders.tableBuider.{CellBuilder, RowBuilder, TableBuilder}
+import papyrus.dsl.builders.sectionBuilder.{SectionBuilder, SubSectionBuilder}
+import papyrus.dsl.builders.metadataBuilder.{MetadataBuilder, MetadataBuilderProxy}
+import papyrus.dsl.builders.listBuilder.ItemBuilder
+import papyrus.dsl.builders.textBuilder.{TextBuilder, TitleBuilder}
 
 
 object DSL:
@@ -42,9 +39,9 @@ object DSL:
     export DSL.given_Conversion_String_TextBuilder
     export DSL.given_Conversion_String_ItemBuilder
     export DSL.given_Conversion_List_RowBuilder
-    export builders.RowBuilder.{|, -|, |-, -|-, ^|, |^, ^|^, hsh, hs}
-    export builders.TextBuilder.{color, fontWeight, fontStyle, textDecoration, newLine}
-    export builders.TitleBuilder.{level, font, fontSize, textColor, textAlign}
+    export builders.tableBuider.RowBuilder.{|, -|, |-, -|-, ^|, |^, ^|^, hsh, hs}
+    export builders.textBuilder.TextBuilder.{color, fontWeight, fontStyle, textDecoration, newLine}
+    export builders.textBuilder.TitleBuilder.{level, font, fontSize, textColor, textAlign}
     export builders.ImageBuilder.{alternative, caption, width, alignment}
     export TextDSL.*
     export TitleDSL.*

@@ -1,4 +1,4 @@
-package papyrus.dsl.builders
+package papyrus.dsl.builders.metadataBuilder
 
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.metadata.Metadata

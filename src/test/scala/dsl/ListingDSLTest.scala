@@ -7,6 +7,7 @@ import papyrus.dsl.builders.*
 import papyrus.logic.layerElement.text.Item
 import papyrus.logic.layerElement.Listing
 import io.github.iltotore.iron.autoRefine
+import papyrus.dsl.builders.listBuilder.{ItemBuilder, ListBuilderImpl}
 
 
 class ListingDSLTest extends AnyFunSuite with Matchers:

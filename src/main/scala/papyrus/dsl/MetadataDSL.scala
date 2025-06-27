@@ -1,6 +1,8 @@
 package papyrus.dsl
 
-import papyrus.dsl.builders.MetadataBuilder
+import papyrus.dsl.builders.tableBuider.{CellBuilder, RowBuilder, TableBuilder, TableBuilderProxy}
+import papyrus.dsl.builders.sectionBuilder.{SectionBuilder, SubSectionBuilder}
+import papyrus.dsl.builders.metadataBuilder.{MetadataBuilder, MainStyleBuilder, MetadataBuilderProxy}
 import papyrus.utility.TypesInline.*
 
 object MetadataDSL:

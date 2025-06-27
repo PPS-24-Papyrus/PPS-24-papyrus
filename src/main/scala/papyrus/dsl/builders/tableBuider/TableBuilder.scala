@@ -1,4 +1,4 @@
-package papyrus.dsl.builders
+package papyrus.dsl.builders.tableBuider
 
 import papyrus.logic.layerElement.captionElement.{Cell, Row, Table}
 import papyrus.dsl.DefaultValues
@@ -8,6 +8,7 @@ import papyrus.utility.TypesInline.{Align, Alignment, ColorString, Margin, Width
 import scala.annotation.targetName
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 import papyrus.logic.Renderer.Text.*
+import papyrus.dsl.builders.LayerElementBuilder
 
 enum FieldTable:
   case Caption, BackgroundColor, Margin, TextAlign,
