@@ -2,7 +2,7 @@ package logic.layerElement
 
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
-import papyrus.dsl.DefaultValues
+import papyrus.utility.DefaultValues
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.Renderer.*
 import papyrus.dsl.builders.textBuilder.{TitleBuilder, TextBuilder}

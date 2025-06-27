@@ -1,7 +1,7 @@
 package papyrus.dsl.builders.metadataBuilder
 
 import org.xhtmlrenderer.css.parser.property.PrimitivePropertyBuilders.{BackgroundColor, TextAlign}
-import papyrus.dsl.DefaultValues
+import papyrus.utility.DefaultValues
 import papyrus.logic.styleObjects.MainStyle
 import papyrus.utility.TypesInline.*
 import papyrus.dsl.builders.Builder

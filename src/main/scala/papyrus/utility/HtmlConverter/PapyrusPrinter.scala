@@ -1,7 +1,7 @@
 package papyrus.utility.HtmlConverter
 
 import org.xhtmlrenderer.pdf.ITextRenderer
-import papyrus.dsl.DefaultValues
+import papyrus.utility.DefaultValues
 import papyrus.logic.Renderer.Text.*
 import papyrus.utility.TypesInline.Extension
 

@@ -3,7 +3,7 @@ package papyrus.logic.styleObjects
 import papyrus.logic.Style
 import papyrus.logic.layerElement.LayerElement
 import io.github.iltotore.iron.autoRefine
-import papyrus.dsl.DefaultValues
+import papyrus.utility.DefaultValues
 import papyrus.logic.Renderer.RendererStyle
 import papyrus.logic.Renderer.Text.*
 import papyrus.utility.IdGenerator
