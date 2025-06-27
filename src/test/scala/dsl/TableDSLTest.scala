@@ -7,13 +7,14 @@ import papyrus.logic.layerElement.captionElement.Table
 import papyrus.dsl.DSL
 import papyrus.dsl.TableDSL.*
 import papyrus.dsl.builders.RowBuilder.*
-import papyrus.dsl.builders.TableBuilder
+import papyrus.dsl.builders.{RowBuilder, TableBuilder, TableBuilderProxy}
 import papyrus.dsl.DSL.given_Conversion_List_RowBuilder
 
 class TableDSLTest extends AnyFunSuite:
 
   private def table[T](init: TableBuilder[T] ?=> Unit): Table[T] =
-    given builder: TableBuilder[T] = TableBuilder()
+    var current: TableBuilder[T] = TableBuilder(rows = Vector.empty[RowBuilder[T]])
+    given builder: TableBuilder[T] = TableBuilderProxy[T](() => current, updated => current = updated)
     init
     builder.build
 

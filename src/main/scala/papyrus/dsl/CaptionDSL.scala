@@ -1,6 +1,6 @@
 package papyrus.dsl
 
-import papyrus.dsl.builders.{ContentBuilder, ImageBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder}
+import papyrus.dsl.builders.{ContentBuilder, ImageBuilder, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TableBuilderProxy}
 import papyrus.logic.utility.TypesInline.*
 
 object ImageDSL:
@@ -23,7 +23,8 @@ object TableDSL:
 
   /** Define a table */
   def table[T](init: TableBuilder[T] ?=> Unit)(using ctx: PapyrusBuilder | ContentBuilder | SectionBuilder | SubSectionBuilder): Unit =
-    given builder: TableBuilder[T] = TableBuilder()
+    var current: TableBuilder[T] = TableBuilder(rows = Vector.empty[RowBuilder[T]])
+    given builder: TableBuilder[T] = TableBuilderProxy[T](() => current, updated => current = updated)
 
     init
     ctx match
@@ -40,25 +41,25 @@ object TableDSL:
   def caption[T](init: TableBuilder[T] ?=> String)(using tb: TableBuilder[T]): Unit =
     tb.withCaption(init)
 
-  /** Set table background color */
+  /** Set background color of table */
   def backgroundColorTable[T](init: TableBuilder[T] ?=> ColorString)(using tb: TableBuilder[T]): Unit =
-    tb.backgroundColor(init)
-
-  /** Set table margin */
-  def marginTable[T](init: TableBuilder[T] ?=> Margin)(using tb: TableBuilder[T]): Unit =
-    tb.margin(init)
+    tb.withBackgroundColor(init)
 
   /** Set table text alignment */
   def textAlignTable[T](init: TableBuilder[T] ?=> Alignment)(using tb: TableBuilder[T]): Unit =
-    tb.textAlign(init)
+    tb.withTextAlign(init)
+
+  /** Set table alignment */
+  def alignTable[T](init: TableBuilder[T] ?=> Align)(using tb: TableBuilder[T]): Unit =
+    tb.withAlignment(init)
+
+  /** Set table margin */
+  def marginTable[T](init: TableBuilder[T] ?=> Margin)(using tb: TableBuilder[T]): Unit =
+    tb.withMargin(init)
 
   /** Set table width (pixels) */
   def widthTable[T](init: TableBuilder[T] ?=> Width)(using tb: TableBuilder[T]): Unit =
-    tb.width(init)
-
-  /** Set table horizontal alignment ("left", "right", "center") */
-  def alignTable[T](init: TableBuilder[T] ?=> Align)(using tb: TableBuilder[T]): Unit =
-    tb.alignment(init)
+    tb.withWidth(init)
 
   /** Set table cell rendering function */
   def renderTable[T](init: TableBuilder[T] ?=> (T => String))(using tb: TableBuilder[T]): Unit =
