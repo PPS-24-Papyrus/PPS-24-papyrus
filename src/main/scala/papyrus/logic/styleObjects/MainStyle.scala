@@ -1,11 +1,11 @@
 package papyrus.logic.styleObjects
 
 import papyrus.logic.Renderer.RendererStyle
-import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
-import papyrus.DSL.DefaultValues
+import papyrus.utility.DefaultValues
 import papyrus.logic.Renderer.Text.*
 import papyrus.logic.Style
+import papyrus.utility.TypesInline.*
 
 /** Describes the main visual style for a document (applied to <body>) */
 trait MainStyle extends RendererStyle:

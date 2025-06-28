@@ -1,11 +1,11 @@
 package papyrus.logic.styleObjects
 
 import papyrus.logic.Renderer.RendererStyle
-import papyrus.logic.utility.TypesInline.{Align, Alignment, ColorString, Margin, Width}
+import papyrus.utility.TypesInline.{Align, Alignment, ColorString, Margin, Width}
 import io.github.iltotore.iron.autoRefine
-import papyrus.DSL.DefaultValues
+import papyrus.utility.DefaultValues
 import papyrus.logic.Renderer.Text.*
-import papyrus.logic.utility.IdGenerator
+import papyrus.utility.IdGenerator
 
 /** Describes the visual style of a table element */
 trait TableStyle extends RendererStyle:

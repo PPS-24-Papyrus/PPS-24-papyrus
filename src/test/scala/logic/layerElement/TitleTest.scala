@@ -2,11 +2,10 @@ package logic.layerElement
 
 import org.scalatest.funsuite.AnyFunSuite
 import org.scalatest.matchers.should.Matchers
-import papyrus.DSL.DefaultValues
-import papyrus.logic.utility.TypesInline.*
+import papyrus.utility.DefaultValues
 import io.github.iltotore.iron.autoRefine
-import papyrus.DSL.builders.TitleBuilder
 import papyrus.logic.Renderer.*
+import papyrus.dsl.builders.textBuilder.{TitleBuilder, TextBuilder}
 
 class TitleTest extends AnyFunSuite with Matchers:
 

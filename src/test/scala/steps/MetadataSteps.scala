@@ -3,10 +3,10 @@ package steps
 import io.cucumber.datatable.DataTable
 import io.cucumber.scala.{EN, ScalaDsl}
 import org.scalatest.matchers.should.Matchers.*
-import papyrus.DSL.builders.{MainStyleBuilder, MetadataBuilder}
+import papyrus.dsl.builders.metadataBuilder.{MainStyleBuilder, MetadataBuilder}
 import papyrus.logic.metadata.Metadata
 import papyrus.logic.styleObjects.MainStyle
-import papyrus.logic.utility.TypesInline.{Charset, ColorString, Extension, FontFamily, FontSize, Language, StyleSheet}
+import papyrus.utility.TypesInline.{Charset, ColorString, Extension, FontFamily, FontSize, Language, StyleSheet}
 import papyrus.logic.Renderer.*
 
 

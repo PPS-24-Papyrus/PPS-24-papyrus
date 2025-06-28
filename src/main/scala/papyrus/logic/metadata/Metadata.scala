@@ -1,12 +1,12 @@
 package papyrus.logic.metadata
 
 import papyrus.logic.Renderer.Renderer
-import papyrus.logic.utility.TypesInline.*
 import io.github.iltotore.iron.autoRefine
-import papyrus.DSL.DefaultValues
+import papyrus.utility.DefaultValues
 import papyrus.logic.Renderer.Text.*
 import papyrus.logic.metadata.MetaTag.{MetaTag, authorTag, charsetTag, styleSheetTag, titleTag}
 import papyrus.logic.styleObjects.MainStyle
+import papyrus.utility.TypesInline.*
 
 object MetaTag:
   /** Represents an HTML meta or link tag */

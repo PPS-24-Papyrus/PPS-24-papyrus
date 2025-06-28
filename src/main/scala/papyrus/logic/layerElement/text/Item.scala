@@ -1,6 +1,5 @@
 package papyrus.logic.layerElement.text
 
-import papyrus.logic.utility.TypesInline.*
 import papyrus.logic.layerElement.{LayerElement, ListElement}
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.Renderer.Text.*

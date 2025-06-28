@@ -3,7 +3,7 @@ package papyrus.logic
 import papyrus.logic.Renderer.Text.*
 import papyrus.logic.content.Content
 import papyrus.logic.metadata.Metadata
-import papyrus.logic.utility.HtmlConverter.PapyrusPrinter
+import papyrus.utility.HtmlConverter.PapyrusPrinter
 
 /** Represents a complete Papyrus document with metadata and content */
 trait Papyrus:

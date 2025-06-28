@@ -3,13 +3,14 @@ package steps
 import io.cucumber.datatable.{DataTable, DataTableType}
 import io.cucumber.scala.{EN, ScalaDsl}
 import org.scalatest.matchers.should.Matchers
-import papyrus.DSL.builders.ImageBuilder.{alternative, caption}
-import papyrus.DSL.builders.{CellBuilder, ContentBuilder, ImageBuilder, ItemBuilder, ListBuilder, ListBuilderImpl, ListBuilderProxy, PapyrusBuilder, RowBuilder, SectionBuilder, SubSectionBuilder, TableBuilder, TextBuilder, TitleBuilder}
-import papyrus.logic.content.Content
-import papyrus.logic.layerElement.text.Title
-import papyrus.DSL.DSL.given_Conversion_String_ImageBuilder
-import papyrus.logic.utility.TypesInline.{Level, Width}
-import io.cucumber.scala.EN
+import papyrus.dsl.builders.ImageBuilder.{alternative, captionImage}
+import papyrus.dsl.builders.tableBuider.{CellBuilder, RowBuilder, TableBuilder, TableBuilderProxy}
+import papyrus.dsl.builders.sectionBuilder.{SectionBuilder, SubSectionBuilder}
+import papyrus.dsl.DSL.given_Conversion_String_ImageBuilder
+import papyrus.utility.TypesInline.{Level, Width}
+import papyrus.dsl.builders.listBuilder.{ItemBuilder, ListBuilderImpl}
+import papyrus.dsl.builders.textBuilder.{TextBuilder, TitleBuilder}
+import papyrus.dsl.builders.{ContentBuilder, PapyrusBuilder}
 import papyrus.logic.Renderer.*
 
 import scala.jdk.CollectionConverters.*
@@ -44,10 +45,8 @@ class ContentSteps extends ScalaDsl with EN with Matchers:
   Given("""I add an image with source {string} and caption {string}"""): (src: String, caption: String) =>
     contentBuilder = Some(ContentBuilder())
     contentBuilder.get.addLayerElement(
-      (src caption caption).build
+      (src captionImage caption).build
     )
-
-  // ----- LIST
 
   Given("""I create an empty list"""): () =>
     val listBuilder = ListBuilderImpl()
@@ -84,13 +83,11 @@ class ContentSteps extends ScalaDsl with EN with Matchers:
     renderedContent should not be empty
     renderedContent.get should include(s"<$listType>")
 
-  // ----
-
-
   Given("""I add a table with rows:"""): (rows: DataTable) =>
-    import papyrus.DSL.builders._
+    import papyrus.dsl.builders._
     import scala.jdk.CollectionConverters._
-    val tableBuilder = TableBuilder[String]()
+    var current: TableBuilder[String] = TableBuilder(rows = Vector.empty[RowBuilder[String]])
+    val tableBuilder = TableBuilderProxy[String](() => current, updated => current = updated)
     val scalaRows: List[List[String]] =
       rows.asLists().asScala.toList.map(_.asScala.toList)
 

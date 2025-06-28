@@ -2,8 +2,8 @@ package papyrus.logic.layerElement.captionElement
 
 import papyrus.logic.Renderer.Text.{MainText, StyleText}
 import papyrus.logic.Renderer.Text.*
-import papyrus.logic.utility.IdGenerator
-import papyrus.logic.utility.TypesInline.{Float, Width}
+import papyrus.utility.TypesInline.{Float, Width}
+import papyrus.utility.IdGenerator
 
 
 /** An image element with optional caption, width, and alignment */
@@ -24,7 +24,11 @@ trait Image extends CaptionElement:
 object Image:
 
   /** Creates an Image with src, alt text, optional caption, width and alignment */
-  def apply(src: String, alt: String, caption: Option[String], width: Option[Width],  alignment: Option[Float]): Image = new ImageImpl(src, alt, caption, width, alignment)
+  def apply(src: String,
+            alt: String,
+            caption: Option[String],
+            width: Option[Width],
+            alignment: Option[Float]): Image = new ImageImpl(src, alt, caption, width, alignment)
 
   private class ImageImpl(override val src: String,
                           override val alt: String,
@@ -35,22 +39,21 @@ object Image:
     private val idFigure: String = "cls-" + IdGenerator.nextId()
 
     override def render: MainText =
-      val captionString =
-        if caption.isEmpty then ""
-        else s"<figcaption>${caption.get}</figcaption>"
+      val captionString = caption.map(c => s"<figcaption>$c</figcaption>").getOrElse("")
 
-      checkPathImage(src) match
-        case Right(path) =>
-          s"""<figure class="$idFigure">
-             |  <img class="$idImage" src="file:///$path" alt="$alt"></img>
-             |  $captionString
-             |</figure>\n""".stripMargin.toMainText
+      val figureStart = s"""<figure class="$idFigure">"""
+      val figureEnd = s"""</figure>\n"""
 
-        case Left(error) =>
-          s"""<figure class="$idFigure">
-             |  <p style="color: red;">Error loading image: $error</p>
-             |  $captionString
-             |</figure>\n""".stripMargin.toMainText
+      val content = checkPathImage(src).map: validPath =>
+        s"""<img class="$idImage" src="file:///$validPath" alt="$alt"></img>"""
+
+      val innerHtml = content match
+        case Right(imgTag) => s"  $imgTag\n  $captionString"
+        case Left(error)   => s"""  <p style="color: red;">Error loading image: $error</p>\n  $captionString"""
+
+      s"""$figureStart
+         |$innerHtml
+         |$figureEnd""".stripMargin.toMainText
 
     override def renderStyle: StyleText =
         val widthStyle = if width.isEmpty then "" else s"width: ${width.get}px;\n height: auto;"
