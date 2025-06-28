@@ -77,7 +77,6 @@ object Image:
       ).flatMap: f =>
         val name = f.name.toLowerCase
         if name.endsWith(".png") || name.endsWith(".jpg") then
-          println(f.pathAsString.replace('\\', '/'))
           Right(f.pathAsString.replace('\\', '/'))
         else
           Left(s"Invalid format: only .png or .jpg allowed ($pathStr)")

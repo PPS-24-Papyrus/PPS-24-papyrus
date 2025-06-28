@@ -15,7 +15,7 @@ case class TitleBuilder(
                          private val fontSize: FontSize = DefaultValues.fontSizeTitleH1,
                          private val textColor: ColorString = DefaultValues.textColorTitleH1,
                          private val textAlign: Alignment = DefaultValues.textAlignTitleH1
-                       ) extends Builder[Title]:
+                       ) extends LayerElementBuilder:
 
   private def withTitle(t: String): TitleBuilder = this.copy(title = t)
   private def withLevel(l: Level): TitleBuilder = this.copy(level = l)

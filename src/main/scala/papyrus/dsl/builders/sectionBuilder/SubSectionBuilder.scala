@@ -11,7 +11,7 @@ import papyrus.dsl.builders.LayerElementBuilder
 case class SubSectionBuilder(
                               private var title: Option[Title] = None,
                               private val layerElements: ListBuffer[LayerElement] = ListBuffer.empty
-                            ) extends Builder[SubSection]:
+                            ) extends LayerElementBuilder:
 
   /** Sets subsection title */
   def setTitle(newTitle: Title): SubSectionBuilder =

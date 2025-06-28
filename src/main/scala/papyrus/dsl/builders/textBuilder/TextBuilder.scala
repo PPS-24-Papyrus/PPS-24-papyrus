@@ -4,7 +4,7 @@ import papyrus.logic.layerElement.text.Text
 import papyrus.logic.styleObjects.TextStyle
 import io.github.iltotore.iron.autoRefine
 import papyrus.utility.DefaultValues
-import papyrus.dsl.builders.LayerElementBuilder
+import papyrus.dsl.builders.{Builder, LayerElementBuilder}
 import papyrus.utility.TypesInline.*
 
 /**Builds styled text elements for Papyrus document*/
@@ -14,7 +14,7 @@ case class TextBuilder(
                         private val fontWeight: FontWeight = DefaultValues.fontWeightText,
                         private val fontStyle: FontStyle = DefaultValues.fontStyleText,
                         private val textDecoration: TextDecoration = DefaultValues.textDecorationText
-                      ) extends Builder[Text]:
+                      ) extends LayerElementBuilder:
 
   private def withValue(v: String): TextBuilder = this.copy(value = v)
   private def withColor(c: ColorString): TextBuilder = this.copy(color = c)
