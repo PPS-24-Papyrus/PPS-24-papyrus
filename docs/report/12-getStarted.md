@@ -1,10 +1,10 @@
-## Get Started
+# Get Started
 
 Per iniziare a usare **Papyrus**, hai due opzioni:
 
 ---
 
-### Opzione 1 – Uso diretto via `build.sbt`
+## Opzione 1 – Uso diretto via `build.sbt`
 
 Il modo più semplice per includere Papyrus è tramite questa configurazione nel tuo `build.sbt`:
 
@@ -22,7 +22,7 @@ lazy val root = (project in file("."))
 
 ---
 
-### Opzione 2 – Manuale (con JAR scaricato)
+## Opzione 2 – Manuale (con JAR scaricato)
 
 1. Scarica manualmente il JAR dalla [release ufficiale 1.0.0](https://github.com/PPS-24-Papyrus/PPS-24-papyrus/releases/tag/v1.0.0).
 2. Inserisci il file nella cartella `lib/` del tuo progetto.
@@ -36,7 +36,7 @@ unmanagedBase := baseDirectory.value / "lib"
 
 ---
 
-### Utilizzo base
+## Utilizzo base
 
 Per iniziare a scrivere un documento, importa la libreria e crea un oggetto che estende `PapyrusApplication`:
 
@@ -51,7 +51,7 @@ papyrus:
 
 ---
 
-### Output
+## Output
 
 - Il tipo di output (`pdf` o `html`) si imposta nel blocco `metadata`, tramite il campo `extension`.
 

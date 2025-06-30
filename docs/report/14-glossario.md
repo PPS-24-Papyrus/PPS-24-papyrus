@@ -1,6 +1,6 @@
-## Glossario tecnico
+# Glossario tecnico
 
-### Keyword DSL
+## Keyword DSL
 
 | Keyword                | Descrizione                                                                                           |
 |------------------------|--------------------------------------------------------------------------------------------------------|
@@ -45,7 +45,7 @@
 | `textAlign`            | Allineamento del paragrafo: `"left"`, `"center"`, `"right"`, `"justify"`.                             |
 | `margin`               | Margine esterno del body. Intero tra 0 e 200 pixel.                                                    |
 
-### Keyword inline
+## Keyword inline
 | Proprietà Inline  | Tipo           | Contesto     | Descrizione                                                                 |
 |-------------------|----------------|--------------|-----------------------------------------------------------------------------|
 | `color`           | `ColorString`  | text         | Imposta il colore del testo (`#fff`, `rgb(...)`, `"red"`, ecc.).           |
