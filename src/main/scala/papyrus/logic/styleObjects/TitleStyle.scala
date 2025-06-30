@@ -1,12 +1,9 @@
 package papyrus.logic.styleObjects
 
 import papyrus.logic.Style
-import papyrus.logic.layerElement.LayerElement
-import io.github.iltotore.iron.autoRefine
 import papyrus.utility.DefaultValues
 import papyrus.logic.Renderer.RendererStyle
 import papyrus.logic.Renderer.Text.*
-import papyrus.utility.IdGenerator
 import papyrus.utility.TypesInline.*
 
 /** Describes the visual style for title elements (e.g. <h1>, <h2>) */

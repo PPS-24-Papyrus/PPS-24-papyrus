@@ -21,8 +21,8 @@ object DefaultValues:
   val lineHeight: LineHeight = 1.75
   val textColor: ColorString = "#222222"
   val backgroundColor: ColorString = "white"
-  val margin: Margin = 100                      // px
-  val color: ColorString = "#2F4F4F"            // SlateGray
+  val margin: Margin = 100
+  val color: ColorString = "#2F4F4F"
   val fontWeight: FontWeight = "normal"
   val fontStyle: FontStyle = "normal"
   val textDecoration: TextDecoration = "none"
@@ -53,7 +53,7 @@ object DefaultValues:
   val levelH3: Level = 3
 
   // === Default content text ===
-  val defaultText: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit..." // (truncated in real doc)
+  val defaultText: String = "Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
   val colorText: ColorString = "#222222"
   val textAlignText: Alignment = "justify"
   val fontWeightText: FontWeight = "normal"

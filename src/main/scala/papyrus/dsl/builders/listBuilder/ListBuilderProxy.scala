@@ -1,6 +1,5 @@
 package papyrus.dsl.builders.listBuilder
 
-import io.github.iltotore.iron.autoRefine
 import papyrus.logic.layerElement.Listing
 import papyrus.utility.TypesInline.*
 import papyrus.dsl.builders.ListElementBuilder

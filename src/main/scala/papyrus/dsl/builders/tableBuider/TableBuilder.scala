@@ -5,7 +5,6 @@ import papyrus.utility.DefaultValues
 import papyrus.logic.styleObjects.TableStyle
 import papyrus.utility.TypesInline.{Align, Alignment, ColorString, Margin, Width}
 
-import scala.annotation.targetName
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 import papyrus.logic.Renderer.Text.*
 import papyrus.dsl.builders.LayerElementBuilder

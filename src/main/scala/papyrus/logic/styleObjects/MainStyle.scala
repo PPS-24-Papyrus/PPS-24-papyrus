@@ -1,7 +1,6 @@
 package papyrus.logic.styleObjects
 
 import papyrus.logic.Renderer.RendererStyle
-import io.github.iltotore.iron.autoRefine
 import papyrus.utility.DefaultValues
 import papyrus.logic.Renderer.Text.*
 import papyrus.logic.Style

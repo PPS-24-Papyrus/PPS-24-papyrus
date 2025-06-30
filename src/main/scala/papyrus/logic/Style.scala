@@ -1,6 +1,5 @@
 package papyrus.logic
 
-import io.github.iltotore.iron.autoRefine
 import papyrus.utility.TypesInline.*
 
 /** Provides CSS style string builders for various visual properties */

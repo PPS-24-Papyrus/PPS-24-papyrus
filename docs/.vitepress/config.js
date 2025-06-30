@@ -3,7 +3,6 @@ import { withMermaid } from "vitepress-plugin-mermaid";
 
 let reportPath = '/report'
 let processPath = '/process'
-// https://vitepress.dev/reference/site-config
 
 export default withMermaid(
     defineConfig({

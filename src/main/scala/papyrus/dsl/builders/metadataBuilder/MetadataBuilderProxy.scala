@@ -1,6 +1,5 @@
 package papyrus.dsl.builders.metadataBuilder
 
-import io.github.iltotore.iron.autoRefine
 import papyrus.logic.metadata.Metadata
 import papyrus.utility.TypesInline.*
 

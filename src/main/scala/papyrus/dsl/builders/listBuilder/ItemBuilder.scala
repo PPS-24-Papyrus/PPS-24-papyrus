@@ -1,8 +1,6 @@
 package papyrus.dsl.builders.listBuilder
 
-import papyrus.logic.layerElement.text.{Item, Text}
-import papyrus.logic.styleObjects.TextStyle
-import io.github.iltotore.iron.autoRefine
+import papyrus.logic.layerElement.text.Item
 import papyrus.utility.DefaultValues
 import papyrus.dsl.builders.ListElementBuilder
 

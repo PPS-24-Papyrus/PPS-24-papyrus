@@ -2,7 +2,6 @@ package papyrus.dsl.builders.textBuilder
 
 import papyrus.logic.layerElement.text.Title
 import papyrus.logic.styleObjects.TitleStyle
-import io.github.iltotore.iron.autoRefine
 import papyrus.utility.DefaultValues
 import papyrus.utility.TypesInline.*
 import papyrus.dsl.builders.LayerElementBuilder

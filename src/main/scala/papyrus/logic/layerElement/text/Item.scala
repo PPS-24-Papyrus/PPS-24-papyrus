@@ -1,7 +1,6 @@
 package papyrus.logic.layerElement.text
 
 import papyrus.logic.layerElement.{LayerElement, ListElement}
-import io.github.iltotore.iron.autoRefine
 import papyrus.logic.Renderer.Text.*
 
 /** Represents a list item (li) inside a Listing in Papyrus format */
