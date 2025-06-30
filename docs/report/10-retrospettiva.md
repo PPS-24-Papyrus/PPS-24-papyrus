@@ -1,4 +1,4 @@
-# Retrospective
+# Retrospettiva
 
 Il progetto Papyrus ha rappresentato per il team un’occasione stimolante e ben strutturata per affrontare in modo approfondito la progettazione e lo sviluppo di una libreria basata su un DSL. L’adozione della metodologia **SCRUM** fin dalle prime fasi si è rivelata una scelta efficace, che ha consentito di pianificare e gestire il carico di lavoro attraverso sprint settimanali ben distribuiti e realistici.
 
