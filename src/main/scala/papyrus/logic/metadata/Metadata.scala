@@ -58,8 +58,8 @@ object Metadata:
             title: String = DefaultValues.title,
             author: String = DefaultValues.author,
             charset: Charset = DefaultValues.charset,
-            styleSheet: String = DefaultValues.styleSheet): Metadata
-  = MetadataImpl(nameFile, extension, savingPath, style, language, Seq(titleTag(title), authorTag(author), charsetTag(charset), styleSheetTag(DefaultValues.styleSheet)))
+            styleSheet: StyleSheet = DefaultValues.styleSheet): Metadata
+  = MetadataImpl(nameFile, extension, savingPath, style, language, Seq(titleTag(title), authorTag(author), charsetTag(charset), styleSheetTag(styleSheet)))
 
   private class MetadataImpl(override val nameFile: String,
                              override val extension: Extension,
@@ -68,8 +68,8 @@ object Metadata:
                              override val language: Language,
                              override val metaTags: Seq[MetaTag]) extends Metadata:
     override def render: MainText = s"""<head>
-                                     | ${metaTags.map(_.render).mkString("\n")}
-                                     |</head>""".stripMargin.toMainText
+                                       | ${metaTags.map(_.render).mkString("\n")}
+                                       |</head>""".stripMargin.toMainText
 
     override def renderStyle: StyleText =
       s"""${style.tag} {\n  ${style.renderStyle}\n}""".toStyleText
