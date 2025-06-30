@@ -69,6 +69,7 @@ object DefaultValues:
 
   // === List item default ===
   val defaultItem: String = "Elemento lista"
+  val defaultListType : ListType = "ul"
 
   // === Image defaults ===
   val defaultImageSrc: String = "default.png"

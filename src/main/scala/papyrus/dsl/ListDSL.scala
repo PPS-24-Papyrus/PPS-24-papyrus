@@ -32,7 +32,7 @@ object ListDSL:
   def item(init: ItemBuilder ?=> ItemBuilder)(using ctx: ListBuilder): Unit =
     given builder: ItemBuilder = ItemBuilder()
 
-    ctx.add(init) // updated inside proxy
+    ctx.add(init)
 
   /** Set list type ("ul" or "ol") */
   def listType(init: ListBuilder ?=> ListType)(using ctx: ListBuilder): Unit =
