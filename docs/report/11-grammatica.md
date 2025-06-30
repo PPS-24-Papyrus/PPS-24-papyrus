@@ -33,6 +33,17 @@ image         ::= "image" ":" imageBuilder ;
 
 table         ::= "table" ":" tableBuilder ;
 
+tableBuilder   ::= rowBuilder 
+                   | withList ":" List[List[T]]
+                   | captionTable ":" string
+                   | textAlignTable ":" alignment
+                   | alignTable ":" align
+                   | marginTable ":" margin
+                   | widthTable ":" width
+                   | renderTable ":" T => String;
+                            
+rowBuilder   ::= T { |, hs, s, hsh, |^, ^|, ^|^, -|, -|-, |-} T ..... ;
+
 inlineStyle   ::= fontWeight | fontStyle | textDecoration | color ;
 
 textContent   ::= string | string "newLine" string ;
