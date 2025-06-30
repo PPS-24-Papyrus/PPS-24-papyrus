@@ -1,7 +1,6 @@
 package dsl
 
 import papyrus.dsl.DSL.PapyrusApplication
-import papyrus.dsl.builders.tableBuider.TableBuilder
 
 object PapyrusDSLTest extends PapyrusApplication:
 

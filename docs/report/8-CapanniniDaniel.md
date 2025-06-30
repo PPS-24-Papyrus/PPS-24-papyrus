@@ -58,7 +58,7 @@ Per implementare questo controllo, ho utilizzato Prolog per calcolare la somma d
 
 ### DSL e builder
 
-Nel DSL, ho definito la keyword `table` e il relativo `TableBuilder`, che consente di costruire tabelle con celle di tipo generico `T`. Il builder permette di specificare le righe e le colonne della tabella, gestendo anche i `colspan` e `rowspan` per le celle. Essendo un tipo generico, il builder può essere utilizzato con qualsiasi tipo di dato, garantendo la flessibilità necessaria per diverse applicazioni ma per avere la miglior resa possibile gli andrebbe specificata che funzione utilizzare per renderizzare `T => String`.
+Nel DSL, ho definito la keyword `table` e il relativo `TableBuilder` e `TableBuilderProxy`, che consente di costruire tabelle con celle di tipo generico `T`. Il `TableBuilderProxy` permette la costruzione di un `TableBuilder` immutabile. All'interno del builder ogni volta che si vuole aggiornare un valore che non sia l'aggiunta di `Row` si effettua un controllo, tramite il metodo `setOnce`, che controlla che non siano già stati aggiornati in precedenza permettendo cosi che i metodi possano essere chiamati al massimo una volta. Il builder permette di specificare le righe e le colonne della tabella, gestendo anche i `colspan` e `rowspan` per le celle. Essendo un tipo generico, il builder può essere utilizzato con qualsiasi tipo di dato, garantendo la flessibilità necessaria per diverse applicazioni ma per avere la miglior resa possibile gli andrebbe specificata che funzione utilizzare per renderizzare `T => String`.
 Si e' cercato di rendere il piu' facile e intuitivo la costrizione della tabella, come riportato negli esempi seguenti.
 
 ```scala
@@ -66,14 +66,14 @@ Si e' cercato di rendere il piu' facile e intuitivo la costrizione della tabella
       "cella 1" | "cella 2"  | "cella 3"  | "cella 4"
       "cella 5" | "cella 6"  | "cella 7"  | "cella 8"
       "cella 9" | "cella 10" | "cella 11" | "cella 12"
-      caption:
+      captionTable:
         "Table Caption"
 
     table:
       "prova2"  | "prova3" | "prova4" |  "prova5"
       "prova4" ^| "prova5" | "prova6" |^ "prova7"
       "prova6"  | "prova7"
-      caption:
+      captionTable:
         "tabella con rowspan"
 ```
 
@@ -108,7 +108,7 @@ Nella definizione del DSL, ho creato la keyword `image` e il relativo `ImageBuil
 
 ```scala
   image:
-    "src/test/resources/image/Pastore-tedesco.png" caption "A German Shepherd" alternative "A beautiful dog"
+    "src/test/resources/image/Pastore-tedesco.png" captionImage "A German Shepherd" alternative "A beautiful dog"
 
   image:
     "src/test/resources/image/Pastore-tedesco.png" width 300 alignment "left"
