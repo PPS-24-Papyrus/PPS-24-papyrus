@@ -33,4 +33,4 @@ Per iniziare a utilizzare Papyrus in un nuovo SBT project, puoi seguire questi p
 ```
 
 
-<img src="../diagram/PapyrusLogo.png" alt="Logo di Papyrus" width="102" />
+<!-- <img src="../diagram/PapyrusLogo.png" alt="Logo di Papyrus" width="102" /> -->
