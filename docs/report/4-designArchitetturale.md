@@ -2,9 +2,9 @@
 
 ## Architettura package
 
-Papyrus è organizzato in un'architettura modulare, in cui ogni elemento principale è rappresentato da un package dedicato. La struttura dei package è la seguente:
+Papyrus è organizzato in un'architettura modulare, in cui ogni elemento principale è rappresentato da un package dedicato. 
 
-![diagramma dei package](../diagram/Papyrus%20-%20Page%208.svg)
+
 
 ## Scelte di progettazione generali
 
@@ -15,25 +15,6 @@ L’utente interagisce con Papyrus invocando funzioni come `papyrus`, `metadata`
 Ogni elemento del documento (es. titolo, paragrafo, lista, immagine) è rappresentato da un **oggetto di dominio** dotato di metodi `render` e `renderStyle`, che restituiscono rispettivamente la componente HTML e CSS, in formato stringa.
 
 ---
-
-### Papyrus struttura
-
-Papyrus è l'elemento principale della libreria, che funge da punto d'ingresso per la creazione di documenti e permette una volta inseriti tutti i componenti di generare il documento richesto. La sua struttura è organizzata nella seguente gerarchia:
-
-![diagramma della struttura di Papyrus](../diagram/papyrusUML.svg)
-
-
-### Metadata struttura
-
-Metadata rappresenta i metadati del documento, come titolo, autore, lingua, stile globale, ecc. È un componente essenziale che definisce le proprietà generali del documento e il suo aspetto visivo. La sua struttura è organizzata nella maniera seguente:
-
-![diagramma della struttura di Metadata](../diagram/metadataUML.svg)
-
-### Content struttura
-
-Content rappresenta il contenuto principale del documento, che può includere sezioni, sottosezioni, testo, immagini, tabelle e altri elementi. È responsabile della composizione e dell'organizzazione del contenuto in modo strutturato. La sua struttura è organizzata nella maniera seguente:
-
-![diagramma della struttura di Content](../diagram/contentUML.svg)
 
 ## Entità principali
 
@@ -52,7 +33,6 @@ Le entità centrali all’interno di Papyrus si suddividono in due categorie:
 
 Ogni builder è progettato per operare su uno specifico livello del documento e può essere composto in modo ricorsivo, mantenendo sempre **consapevolezza del contesto**.
 
-> <!-- Inserire diagramma UML della gerarchia dei builder e dei render -->
 
 ---
 
@@ -143,6 +123,7 @@ In ogni caso, il file HTML fa riferimento al foglio `style.css`, generato dinami
 | `textAlign`            | Allineamento del paragrafo: `"left"`, `"center"`, `"right"`, `"justify"`.                             |
 | `margin`               | Margine esterno del body. Intero tra 0 e 200 pixel.                                                    |
 
+### Keyword inline
 | Proprietà Inline  | Tipo           | Contesto     | Descrizione                                                                 |
 |-------------------|----------------|--------------|-----------------------------------------------------------------------------|
 | `color`           | `ColorString`  | text         | Imposta il colore del testo (`#fff`, `rgb(...)`, `"red"`, ecc.).           |

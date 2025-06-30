@@ -21,18 +21,20 @@ Siamo soddisfatti delle analisi e dei risultati ottenuti. Lo sprint ha permesso 
 
 
 
-| Task          | Descrizione                     | Svolto da             | Durata |
-| ------------- |---------------------------------| --------------------- |--------|
-| fix           | Fix Image e image test          | Capannini             | 2h 30m |
-| fix           | Fix test                        | Capannini             | 1h     |
-| Report        | Impostazione e inizio relazione | Cantagallo            | 1h     |
-| Sviluppo      | Stile builder                   | Cantagallo, Capannini | 2h     |
-| Sviluppo      | Refactory builder               | Capannini             | 2h     |
-| Sviluppo      | Refactory generic table         | Capannini             | 2h     |
-| progettazione | Riunione per sprint             | Cantagallo, Capannini | 2h 30m |
-| fix           | Sistemato liste e text          | Cantagallo            | 2h 30m |
-| fix           | Sistemato errori pdf            | Capannini             | 2h 30m |
-| Test          | Cocumber test                   | Capannini             | 4h     |
-| Test          | Cocumber test                   | Capannini             | 3h     |
-| fix           | Fix test                        | Capannini             | 2h     |
-| Sviluppo      | Aggiunta MainText e StyleText   | Capannini             | 3h     |
+## Registro attività
+
+| Fase          | Descrizione dell'attività                     | Responsabile           | Durata  |
+|---------------|-----------------------------------------------|------------------------|---------|
+| Fix           | Fix `Image` e relativi test                   | Capannini              | 2h 30m  |
+| Fix           | Sistemazione generale dei test                | Capannini              | 1h      |
+| Report        | Impostazione e avvio della relazione          | Cantagallo             | 1h      |
+| Sviluppo      | Definizione stile per i `Builder`             | Cantagallo, Capannini  | 2h      |
+| Sviluppo      | Rifattorizzazione `Builder`                   | Capannini              | 2h      |
+| Sviluppo      | Rifattorizzazione tabelle generiche           | Capannini              | 2h      |
+| Progettazione | Riunione di pianificazione sprint             | Cantagallo, Capannini  | 2h 30m  |
+| Fix           | Sistemazione stile liste e testo              | Cantagallo             | 2h 30m  |
+| Fix           | Risoluzione errori generazione PDF            | Capannini              | 2h 30m  |
+| Test          | Scrittura scenari `Cucumber`                  | Capannini              | 4h      |
+| Test          | Ulteriori scenari `Cucumber`                  | Capannini              | 3h      |
+| Fix           | Revisione finale test                         | Capannini              | 2h      |
+| Sviluppo      | Integrazione `MainText` e `StyleText` DSL     | Capannini              | 3h      |

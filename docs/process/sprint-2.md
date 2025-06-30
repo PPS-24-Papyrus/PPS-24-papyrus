@@ -23,29 +23,31 @@ Siamo soddisfatti dei risultati raggiunti, in particolare per aver iniziato conc
 
 Durante lo sprint sono emerse attività aggiuntive non previste, come la creazione di un file CSS separato e la definizione di tipi raffinati per la validazione dei dati tramite Iron. La gestione del carico di lavoro è risultata più impegnativa del previsto, e si è deciso di rivedere la pianificazione degli sprint futuri per migliorarne l’equilibrio.
 
-| Task           | Descrizione                                   | Svolto da  | Durata |
-|----------------|-----------------------------------------------| ---------- |--------|
-| Sviluppo       | Definizione dei tipi con Iron                 | Cantagallo | 5h 30m |
-| Sviluppo, Test | Implementazione Content                       | Capannini  | 1h     |
-| Sviluppo, Test | Implementazione Text                          | Capannini  | 2h     |
-| Sviluppo, Test | Implementazione Title                         | Capannini  | 1h     |
-| Sviluppo, Test | Rifattorissazione object                      | Capannini  | 30m    |
-| Sviluppo       | Implementazione Metadata                      | Capannini  | 3h 30m |
-| Fix            | Risolta Implementazione Style                 | Cantagallo | 3h     |
-| Fix            | Risolta implemetazione Text                   | Cantagallo | 2h     |
-| Fix            | Risolta implementazione Metadata e Title      | Cantagallo | 1h     |
-| Fix            | Risolta HTML e Css collegati                  | Cantagallo | 30m    |
-| Fix            | Risolto primo DSL e Text di default con given | Cantagallo | 30m    |
-| Analisi        | DSL                                           | Capannini  | 2h     |
-| Sviluppo       | Elaborazione idee per style                   | Capannini  | 2h     |
-| Sviluppo       | Elaborazione Dsl                              | Capannini  | 3h 30m |
-| Sviluppo       | Elaborazione Dsl title                        | Capannini  | 2h 30m |
-| Sviluppo       | TextDSL per risoluzione keyword inline        | Cantagallo | 2h     |
-| Sviluppo       | Elaborazione DSL text                         | Cantagallo | 1h     |
-| Fix            | Risoluzioni bug CSS                           | Cantagallo | 1h     |
-| Sviluppo       | Risolta chaining DSL con TextDSL              | Cantagallo | 3h     |
-| Sviluppo       | Builders                                      | Cantagallo | 1h     |
-| Sviluppo       | Creazione pdf e refactory metadata            | Capannini  | 3h     |
-| Test           | Test metadata                                 | Capannini  | 2h 30m |
-| Sviluppo       | Output pdf e gestione estensione file         | Cantagallo | 1h     |
-| Sviluppo       | Metadata con TextDSL                          | Cantagallo | 1h     |
+## Registro attività
+
+| Fase             | Descrizione dell'attività                          | Responsabile | Durata  |
+|------------------|----------------------------------------------------|--------------|---------|
+| Sviluppo         | Definizione dei tipi con vincoli tramite Iron      | Cantagallo   | 5h 30m  |
+| Sviluppo, Test   | Implementazione del modulo `Content`               | Capannini    | 1h      |
+| Sviluppo, Test   | Implementazione del componente `Text`              | Capannini    | 2h      |
+| Sviluppo, Test   | Implementazione del componente `Title`             | Capannini    | 1h      |
+| Sviluppo, Test   | Rifattorizzazione dell’oggetto principale          | Capannini    | 30m     |
+| Sviluppo         | Implementazione del modulo `Metadata`              | Capannini    | 3h 30m  |
+| Fix              | Correzione implementazione `Style`                 | Cantagallo   | 3h      |
+| Fix              | Correzione implementazione `Text`                  | Cantagallo   | 2h      |
+| Fix              | Correzione `Metadata` e `Title`                    | Cantagallo   | 1h      |
+| Fix              | Sistemazione CSS e rendering HTML collegato        | Cantagallo   | 30m     |
+| Fix              | Prima DSL e testo di default tramite `given`       | Cantagallo   | 30m     |
+| Analisi          | Progettazione struttura DSL                        | Capannini    | 2h      |
+| Sviluppo         | Ideazione e sketch del modulo `Style`              | Capannini    | 2h      |
+| Sviluppo         | Progettazione e prototipo DSL                      | Capannini    | 3h 30m  |
+| Sviluppo         | Definizione DSL per titoli                         | Capannini    | 2h 30m  |
+| Sviluppo         | Introduzione di `TextDSL` per keyword inline       | Cantagallo   | 2h      |
+| Sviluppo         | Progettazione DSL per testi                        | Cantagallo   | 1h      |
+| Fix              | Risoluzione bug di rendering CSS                   | Cantagallo   | 1h      |
+| Sviluppo         | Collego tra `TextDSL` e DSL principale             | Cantagallo   | 3h      |
+| Sviluppo         | Implementazione dei `Builder`                      | Cantagallo   | 1h      |
+| Sviluppo         | Generazione PDF e rifattorizzazione `Metadata`     | Capannini    | 3h      |
+| Test             | Test approfonditi del modulo `Metadata`            | Capannini    | 2h 30m  |
+| Sviluppo         | Gestione dell'estensione file e output PDF/HTML    | Cantagallo   | 1h      |
+| Sviluppo         | Integrazione `Metadata` tramite `TextDSL`          | Cantagallo   | 1h      |

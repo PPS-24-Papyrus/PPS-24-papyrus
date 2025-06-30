@@ -11,33 +11,7 @@ Ho progettato e implementato il modulo `PapyrusPrinter`, che si occupa di:
 - convertire l’HTML in PDF tramite **ITextRenderer**,
 - aprire automaticamente il file generato con il visualizzatore di sistema.
 
-```scala
-def launchFile(
-    htmlContent: MainText,
-    cssContent: StyleText,
-    title: String,
-    extension: Extension,
-    nameFile: String,
-    outputDirOpt: Option[String]
-    ): Unit = 
-        val targetDir = outputDirOpt
-            .map(Paths.get(_).resolve(nameFile))
-            .map(path => if Files.exists(path) then path else Files.createDirectories(path))
-            .getOrElse(Files.createTempDirectory(s"${title}_tmp"))
-        
-        val cssFinal = if extension == "pdf" then s"$cssContent\n$cssContentPdf" else cssContent.string
-        val htmlPath = targetDir.resolve(s"$nameFile.html")
-        val cssPath = targetDir.resolve(DefaultValues.styleSheet)
-        
-        Files.writeString(cssPath, cssFinal)
-        Files.writeString(htmlPath, htmlContent.string)
-        
-        extension match
-            case "html" => openInBrowser(htmlPath)
-            case "pdf"  => generatePdf(htmlPath, targetDir.resolve(s"$nameFile.pdf"))
-            case other  => println(s"Unsupported extension: $other")
 
-```
 
 ---
 
@@ -71,56 +45,21 @@ Il `ListBuilder` è una delle componenti più complesse. Supporta:
 - riordinamento bottom-up preservando l’associazione tra item e sottoliste.
 
 ```scala
-private def sortItemAndSublists(
-                                 builder: ListBuilder,
-                                 elems: List[ListElementBuilder],
-                                 associationMap: Map[ListBuilder, Option[ItemBuilder]]
-                               ): List[ListElementBuilder] =
-  val items = elems.collect { case i: ItemBuilder => i }
-  val sortedItems = builder.order match
-    case Some("alphabetical") => items.sortBy(_.value.toLowerCase)
-    case Some("length")       => items.sortBy(_.value.length)
-    case Some("reverse")      => items.reverse
-    case Some("levenshtein") =>
-      val ref = builder.reference.getOrElse("")
-      items.sortBy(i => levenshtein(i.value, ref))
-    case _ => items
+private object ListStructureTransformer:
 
-  sortedItems.flatMap { item =>
-    val attachedSublists = associationMap.collect {
-      case (sublist, Some(`item`)) => sublist
-    }.toList
-    item :: attachedSublists
-  }
+  def transform(builder: ListBuilder): ListBuilder = ...
 
-private def findSublistParents(builder: ListBuilder): Map[ListBuilder, Option[ItemBuilder]] =
-  val childMaps = builder.items.collect {
-    case lb: ListBuilder => findSublistParents(lb)
-  }.foldLeft(Map.empty[ListBuilder, Option[ItemBuilder]])(_ ++ _)
+  private def findSublistParents(builder: ListBuilder): Map[ListBuilder, Option[ItemBuilder]] = ...
 
-  val localPairs = builder.items.zipWithIndex.collect {
-    case (sublist: ListBuilder, idx) =>
-      val maybeItemAbove = if idx > 0 then builder.items(idx - 1) match
-        case item: ItemBuilder => Some(item)
-        case _                 => None
-      else None
-      sublist -> maybeItemAbove
-  }.toMap
+  private def sortItems(
+                         builder: ListBuilder,
+                         elems: List[ListElementBuilder]
+                       ): List[ItemBuilder] = ...
 
-  childMaps ++ localPairs
-
-private def visitAllNodesBottomUp(builder: ListBuilder): ListBuilder =
-  val updatedChildren = builder.items.map {
-    case lb: ListBuilder => visitAllNodesBottomUp(lb)
-    case other           => other
-  }
-
-  val associationMap = findSublistParents(builder.copyWith(items = updatedChildren))
-  val updatedItems = sortItemAndSublists(builder, updatedChildren, associationMap)
-
-  builder.copyWith(items = updatedItems)
-
-
+  private def attachSublists(
+                              sortedItems: List[ItemBuilder],
+                              associationMap: Map[ListBuilder, Option[ItemBuilder]]
+                            ): List[ListElementBuilder] = ...
 ```
 <img src="../diagram/ListPath.png" alt="UML Liste" width="350"/>
 ---

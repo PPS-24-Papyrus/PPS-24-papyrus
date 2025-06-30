@@ -22,18 +22,20 @@ Siamo soddisfatti del lavoro svolto in termini di analisi e definizione degli ob
 Permangono margini di miglioramento sulla qualità della documentazione e sulla definizione degli UML. Alcune divergenze di visione nel team sono state risolte costruttivamente.
 
 
-| Task     | Descrizione                      | Svolto da             | Durata |
-| -------- |----------------------------------| --------------------- |--------|
-| Analisi  | Definizione obiettivi            | Cantagallo, Capannini | 1h     |
-| Analisi  | Definizione vocabolario          | Cantagallo, Capannini | 1h     |
-| Analisi  | Definizione EBNF e gerarchia     | Cantagallo            | 30m    |
-| Ambiente | Creazione repository             | Capannini             | 30m    |
-| Analisi  | UML ad alto livello              | Capannini             | 1h     |
-| Analisi  | Definizione struttura linguaggio | Cantagallo            | 30m    |
-| Design   | UML di dettaglio                 | Cantagallo, Capannini | 4h     |
-| Analisi  | Gerkin                           | Cantagallo, Capannini | 1h     |
-| Analisi  | Gerkin                           | Capannini             | 1h     |
-| Analisi  | Generazione HTML vuota           | Cantagallo, Capannini | 1h 30m |
-| Design   | UML di dettaglio                 | Cantagallo, Capannini | 4h     |
-| Sviluppo | Trait nelle varie gerarchie      | Cantagallo, Capannini | 2h     |
+## Registro attività
+
+| Fase        | Descrizione dell'attività                        | Responsabili            | Durata   |
+|-------------|--------------------------------------------------|-------------------------|----------|
+| Analisi     | Definizione degli obiettivi del progetto         | Cantagallo, Capannini   | 1h       |
+| Analisi     | Definizione del vocabolario DSL                  | Cantagallo, Capannini   | 1h       |
+| Analisi     | Stesura della grammatica EBNF e gerarchia logica | Cantagallo              | 30m      |
+| Infrastruttura | Creazione del repository GitHub               | Capannini               | 30m      |
+| Analisi     | Modellazione UML ad alto livello                 | Capannini               | 1h       |
+| Analisi     | Definizione della struttura del linguaggio       | Cantagallo              | 30m      |
+| Progettazione | UML di dettaglio                               | Cantagallo, Capannini   | 4h       |
+| Analisi     | Stesura scenari Gherkin                          | Cantagallo, Capannini   | 1h       |
+| Analisi     | Revisione e integrazione scenari Gherkin         | Capannini               | 1h       |
+| Analisi     | Prototipo di generazione HTML                    | Cantagallo, Capannini   | 1h 30m   |
+| Progettazione | UML di dettaglio (refinement)                  | Cantagallo, Capannini   | 4h       |
+| Sviluppo    | Definizione dei trait nelle gerarchie del DSL    | Cantagallo, Capannini   | 2h       |
 

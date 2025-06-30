@@ -19,8 +19,8 @@ export default withMermaid(
                     items: [
                         {text: 'Introduzione', link: `${reportPath}/1-getStarted`,
                             items: [
-                                       {text: 'Esempio di Utilizzo', link: `${reportPath}/6-example`},
                                        {text: 'Get Started', link: `${reportPath}/12-getStarted`},
+                                       {text: 'Esempio di Utilizzo', link: `${reportPath}/6-example`},
                                    ]
                        },
                         {text: 'Processo di Sviluppo', link: `${reportPath}/2-processoDiSviluppo`},
@@ -28,6 +28,7 @@ export default withMermaid(
                         {text: 'DSL', link: `${reportPath}/11-appendice`},
                         {text: 'Design Architetturale', link: `${reportPath}/4-designArchitetturale`,
                             items: [
+                                       {text: 'Struttura', link: `${reportPath}/13-struttura`},
                                        {text: 'Grammatica', link: `${reportPath}/11-grammatica`},
                                    ]
                         },

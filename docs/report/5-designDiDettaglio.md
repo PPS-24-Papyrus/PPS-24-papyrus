@@ -1,6 +1,6 @@
-# In-Depth Design
+# Design di dettaglio
 
-## Project Structure
+## Struttura del progetto
 
 La libreria Papyrus è strutturata in quattro componenti principali:
 
@@ -12,13 +12,11 @@ La libreria Papyrus è strutturata in quattro componenti principali:
 
 - **Utils**: Componenti trasversali di supporto, come `PapyrusPrinter` (per la generazione dei file), i counter di sezione (`SectionCounter`), i tipi raffinati (tramite **Iron**), e i valori di default stilistici.
 
-> <!-- Inserire UML generale della struttura dei package -->
+![diagramma dei package](../diagram/Papyrus%20-%20Page%208.svg)
 
----
+## Core della libreria
 
-## Core
-
-Il cuore della libreria è costituito da tre entità fondamentali:
+Il core della libreria è costituito da tre entità fondamentali:
 
 - `Papyrus`: trait principale che unisce `metadata` e `content`. Contiene il metodo `build()` che attiva la generazione del documento finale (HTML, CSS, PDF).
 
@@ -26,7 +24,6 @@ Il cuore della libreria è costituito da tre entità fondamentali:
 
 - `Content`: ospita tutti gli elementi strutturali e visuali del documento (es. sezioni, testo, elenchi, immagini), mantenuti come `LayerElement`. Ogni elemento fornisce il proprio contenuto e stile.
 
-> <!-- Inserire UML delle entità core: Papyrus, Metadata, Content -->
 
 ---
 
@@ -66,11 +63,10 @@ Questa architettura consente una sintassi naturale e leggibile, mantenendo al te
 
 Ogni builder opera in un **contesto limitato**, determinato tramite `using`, e a build completata restituisce un elemento (es. `Text`) dotato dei metodi `render` e `renderStyle`. Il primo produce l’HTML, il secondo genera il CSS — entrambi inclusi poi nel documento finale tramite la logica di `PapyrusPrinter`.
 
-> Inserire esempio DSL con `text`, `bold`, `underline` e relativo snippet HTML/CSS generato *(opzionale approfondimento visivo nella sezione DSL)*.
 
 Ogni keyword opera in un contesto limitato (es. `subsection` è valida solo dentro `section`) e questo è **garantito a compile-time** con vincoli dichiarati nei tipi impliciti (`using`). Non esistono controlli runtime.
 
-> <!-- Inserire schema grammaticale o EBNF del DSL -->
+Per chiarimenti sulla struttura ad albero o sull'EBNF consultare la [grammatica.](https://pps-24-papyrus.github.io/PPS-24-papyrus/report/11-grammatica.html)
 
 
 
@@ -84,11 +80,8 @@ Ogni elemento del DSL ha un builder associato che espone:
 - metodi `with*` per modificarlo in modo puro;
 - un metodo `build()` che restituisce l’istanza finale (es. `Text`, `Image`, `List`, ecc.).
 
-Alcuni builder, come `ListBuilder`, supportano la **composizione nidificata** o l’**aggiornamento incrementale tramite proxy**, utile per raccogliere `item` da chiamate successive.
-
 Esempi di builder: `TitleBuilder`, `TextBuilder`, `ListBuilder`, `ImageBuilder`, `MetadataBuilder`, `ContentBuilder`.
 
-> <!-- Inserire diagramma UML gerarchico dei builder -->
 
 ---
 
@@ -99,7 +92,6 @@ Gli oggetti finali costruiti dai builder sono rappresentazioni passive del docum
 - `render`: restituisce l’HTML come stringa tipizzata (`MainText`);
 - `renderStyle`: restituisce il CSS come stringa tipizzata (`StyleText`).
 
-Ogni elemento, ad esempio `Title`, `Text`, `Image`, `List`, ecc., è un’implementazione di `LayerElement` o di una sua sottoclasse.
 
 Il rendering complessivo del documento è ricorsivo: ogni elemento concatena i render dei figli.
 
@@ -149,11 +141,5 @@ Esempi di wrapping:
 - `Iron` è usato tramite tipi specializzati (`refined`) per colore, font size, linguaggio, charset…;
 - il file system è astratto tramite `better-files`.
 
----
 
-## Diagrammi e risorse grafiche
-
-> <!-- Inserire qui diagramma di overview architetturale -->
-> <!-- Inserire diagramma dei flussi: DSL → Builder → Element → render → HTML+CSS → export -->
-> <!-- Inserire EBNF della sintassi se disponibile -->
 

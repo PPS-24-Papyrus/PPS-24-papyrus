@@ -8,27 +8,13 @@ Il DSL Papyrus permette di creare contenuti strutturati come titoli, testi, sezi
 
 Grazie all’impiego della libreria **Iron**, vengono effettuate **verifiche semantiche e sintattiche a compile-time**, garantendo coerenza nell’uso delle keyword e validità dei valori inseriti. Il linguaggio impone anche **vincoli contestuali**, come ad esempio la presenza obbligatoria di una `subsection` all’interno di una `section`, attraverso l’impiego di costrutti `using`.
 
-Un esempio reale di utilizzo mostra l’accessibilità del DSL anche a utenti non esperti:
 
-```scala
-papyrus:
-  metadata:
-    language: 
-      "en"
-    extension: 
-      "html"
-  content:
-    title: 
-      "Lorem ipsum"
-    text: 
-      "Lorem ipsum dolor sit amet..." color "red"
-```
 ## Requisiti funzionali
 
 - Scrittura di documenti tramite keyword Papyrus, con struttura gerarchica e leggibile.
 - Gestione dei metadati: nome file, lingua, estensione, margini, autore...
 - Creazione di contenuti testuali e strutturati:
-    - Sezioni, sottosezioni, paragrafi e titoli;
+    - Sezioni, sottosezioni, testi e titoli;
     - Tabelle con supporto a due modalità costruttive;
     - Elenchi con supporto per numerarli, ordinarli e annidati.
 - Personalizzazione dello stile:
@@ -52,7 +38,7 @@ Ogni elemento è costruito come oggetto stilizzato, renderizzato poi in HTML e/o
 - Documentazione inline presente su tutte le funzioni pubbliche.
 - Testing rigoroso orientato al comportamento (TDD + BDD).
 
-## Assumptions
+## Assunzioni
 
 - Papyrus viene utilizzato principalmente attraverso esecuzione da codice Scala, tramite `sbt`. L’uso da REPL o ambienti interattivi è tecnicamente possibile ma non attualmente prioritario.
 - Si assume che l’utente abbia accesso in lettura e scrittura al file system locale, nella directory in cui vengono generati HTML, PDF e CSS.
@@ -61,7 +47,7 @@ Ogni elemento è costruito come oggetto stilizzato, renderizzato poi in HTML e/o
 - Le keyword disponibili sono attualmente in lingua inglese. È necessaria una comprensione minima della terminologia tecnica per poter comporre documenti validi.
 
 
-## Implementation
+## Implementazione
 
 - Linguaggio: Scala 3.3.6
 - Librerie utilizzate:
@@ -82,11 +68,10 @@ Ogni elemento è costruito come oggetto stilizzato, renderizzato poi in HTML e/o
 
 - Team:
     - **Luca Cantagallo** (Scrum Master, Developer)
-    - **Daniel Capannini** (Developer)
+    - **Daniel Capannini** (Product Owner, Developer)
 
-## Optional Requirements
+## Requisiti opzionali
 
 - Integrazione futura con interfaccia CLI o GUI.
 - Supporto multilingua per la definizione delle keyword, basato sulla lingua impostata nei metadati.
 - Introduzione di temi o template stilistici pronti all’uso.
-- Possibilità di estendere Papyrus come DSL embedded in altri progetti Scala.

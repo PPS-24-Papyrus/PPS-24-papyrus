@@ -22,16 +22,17 @@ Gli obiettivi prefissati sono stati raggiunti. Durante lo sviluppo è emersa la 
 Siamo soddisfatti delle analisi svolte e degli obiettivi raggiunti. Il ritmo e la metodologia di lavoro adottati si sono dimostrati efficaci e potranno essere mantenuti anche per gli sprint successivi.
 
 
-| Task           | Descrizione            | Svolto da  | Durata |
-| -------------- |------------------------| ---------- |--------|
-| Sviluppo       | MainStyle DSL          | Capannini  | 1h     |
-| Sviluppo, Test | Image                  | Capannini  | 2h 30m |
-| Sviluppo, Test | Table                  | Capannini  | 1h 30m |
-| Sviluppo       | Table DSL              | Capannini  | 3h     |
-| Sviluppo       | Table DSL              | Capannini  | 3h     |
-| Sviluppo       | Liste DSL              | Cantagallo | 5h     |
-| Sviluppo       | Section DSL            | Cantagallo | 3h     |
-| Sviluppo       | Subsection DSL         | Cantagallo | 2h     |
-| Test           | Test table dsl         | Capannini  | 1h     |
-| Sviluppo       | Style table            | Capannini  | 1h 30m |
-| fix            | Fix style table, image | Capannini  | 2h 30m    |
+## Registro attività
+
+| Fase           | Descrizione dell'attività                   | Responsabile | Durata |
+|----------------|---------------------------------------------|--------------|--------|
+| Sviluppo       | Definizione di `MainStyle` per la DSL       | Capannini    | 1h     |
+| Sviluppo, Test | Implementazione e test modulo `Image`       | Capannini    | 2h 30m |
+| Sviluppo, Test | Implementazione e test modulo `Table`       | Capannini    | 1h 30m |
+| Sviluppo       | Sviluppo sintassi DSL per le tabelle        | Capannini    | 6h     |
+| Sviluppo       | Progettazione e implementazione DSL liste   | Cantagallo   | 5h     |
+| Sviluppo       | Definizione DSL per sezioni principali      | Cantagallo   | 3h     |
+| Sviluppo       | Definizione DSL per sottosezioni            | Cantagallo   | 2h     |
+| Test           | Test del modulo `TableDSL`                  | Capannini    | 1h     |
+| Sviluppo       | Stile grafico per tabelle                   | Capannini    | 1h 30m |
+| Fix            | Fix visuali e comportamentali `Style`/`Image` | Capannini  | 2h 30m |
