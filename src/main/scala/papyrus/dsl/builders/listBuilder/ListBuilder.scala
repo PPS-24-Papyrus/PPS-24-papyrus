@@ -2,7 +2,7 @@ package papyrus.dsl.builders.listBuilder
 
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.layerElement.Listing
-import papyrus.logic.utility.OrderingAlgorithms.levenshtein
+import papyrus.utility.OrderingAlgorithms.levenshtein
 import scala.math
 import papyrus.utility.TypesInline.*
 import papyrus.dsl.builders.ListElementBuilder

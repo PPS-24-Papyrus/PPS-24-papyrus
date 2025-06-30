@@ -1,4 +1,4 @@
-package papyrus.logic.utility
+package papyrus.utility
 
 object OrderingAlgorithms:
 
