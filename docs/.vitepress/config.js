@@ -25,7 +25,6 @@ export default withMermaid(
                        },
                         {text: 'Processo di Sviluppo', link: `${reportPath}/2-processoDiSviluppo`},
                         {text: 'Requisiti', link: `${reportPath}/3-requisiti`},
-                        {text: 'DSL', link: `${reportPath}/11-appendice`},
                         {text: 'Design Architetturale', link: `${reportPath}/4-designArchitetturale`,
                             items: [
                                        {text: 'Struttura', link: `${reportPath}/13-struttura`},
