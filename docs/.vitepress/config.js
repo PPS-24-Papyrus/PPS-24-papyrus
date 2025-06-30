@@ -34,6 +34,7 @@ export default withMermaid(
                 { text: 'Design Architetturale', link: `${reportPath}/4-designArchitetturale` },
                 { text: 'Struttura', link: `${reportPath}/13-struttura` },
                 { text: 'Grammatica', link: `${reportPath}/11-grammatica` },
+                { text: 'Glossario', link: `${reportPath}/14-glossario` },
               ]
             },
             { text: 'Design di Dettaglio', link: `${reportPath}/5-designDiDettaglio` },
