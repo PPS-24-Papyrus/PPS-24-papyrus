@@ -11,7 +11,6 @@ export default withMermaid(
         title: "Papyrus",
         description: "Project of PPS - Papyrus",
         themeConfig: {
-            // https://vitepress.dev/reference/default-theme-config
             nav: [
                 {text: 'Home', link: '/'},
             ],

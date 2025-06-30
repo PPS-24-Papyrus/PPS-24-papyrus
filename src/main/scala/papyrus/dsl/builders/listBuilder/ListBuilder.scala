@@ -3,9 +3,11 @@ package papyrus.dsl.builders.listBuilder
 import io.github.iltotore.iron.autoRefine
 import papyrus.logic.layerElement.Listing
 import papyrus.utility.OrderingAlgorithms.levenshtein
+
 import scala.math
 import papyrus.utility.TypesInline.*
 import papyrus.dsl.builders.ListElementBuilder
+import papyrus.utility.DefaultValues
 
 /** Represents a nestable list builder with optional sorting (only allowed inside Papyrus, Content, Section, SubSection and Listing) */
 trait ListBuilder extends ListElementBuilder:
@@ -40,7 +42,7 @@ trait ListBuilder extends ListElementBuilder:
 /** Concrete implementation of ListBuilder with sorting and nesting */
 case class ListBuilderImpl(
                             items: List[ListElementBuilder] = Nil,
-                            listType: ListType = "ul",
+                            listType: ListType = DefaultValues.defaultListType,
                             order: Option[SortingList] = None,
                             reference: Option[String] = None
                           ) extends ListBuilder:
