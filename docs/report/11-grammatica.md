@@ -81,7 +81,7 @@ listProperty  ::= "listType" ":" string | "ordered" ":" string | "reference" ":"
 - `item` è valido unicamente dentro un `listing`.
 Tali vincoli non sono codificati direttamente nella grammatica, ma sono **garantiti staticamente a compile-time** tramite i tipi impliciti (`using`) del linguaggio Scala.
 
----
+
 
 ## Struttura gerarchica del documento (albero DSL)
 ```

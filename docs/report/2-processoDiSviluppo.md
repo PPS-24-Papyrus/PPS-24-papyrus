@@ -52,7 +52,6 @@ Test automatico del codice su push e pull request.
 
 Generazione automatica della documentazione API tramite Scaladoc.
 
----
 
 ## Report
 

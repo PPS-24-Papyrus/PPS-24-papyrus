@@ -27,7 +27,7 @@ Il core della libreria è costituito da tre entità fondamentali:
 ![UML LayerElement](../diagram/LayerElement.svg)
 
 
----
+
 
 ## DSL
 
@@ -72,7 +72,7 @@ Per chiarimenti sulla struttura ad albero o sull'EBNF consultare la [grammatica.
 
 
 
----
+
 
 ## Builders
 
@@ -85,7 +85,7 @@ Ogni elemento del DSL ha un builder associato che espone:
 Esempi di builder: `TitleBuilder`, `TextBuilder`, `ListBuilder`, `ImageBuilder`, `MetadataBuilder`, `ContentBuilder`.
 
 
----
+
 
 ## Elementi
 
@@ -98,7 +98,7 @@ Gli oggetti finali costruiti dai builder sono rappresentazioni passive del docum
 Il rendering complessivo del documento è ricorsivo: ogni elemento concatena i render dei figli.
 
 
----
+
 
 ## PapyrusPrinter (Rendering & Export)
 
@@ -116,7 +116,7 @@ Quando richiesto un PDF, il sistema:
 
 L’utente non ha bisogno di configurare nulla: il comportamento è implicito e automatico.
 
----
+
 
 ## Gestione degli errori
 
@@ -126,7 +126,7 @@ Il sistema garantisce:
 - **validazione raffinata** su valori come colore, allineamento, dimensione font, ecc. grazie a **Iron**;
 - gestione elegante delle immagini: se il file non esiste, viene comunque visualizzato il `text-alt` definito nel DSL.
 
----
+
 
 ## Wrapping librerie esterne
 

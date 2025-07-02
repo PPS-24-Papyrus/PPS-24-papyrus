@@ -11,7 +11,7 @@ Ogni elemento del documento (es. titolo, paragrafo, lista, immagine) è rapprese
 
 Papyrus adotta anche un sistema di tipizzazione raffinata che consente di esprimere vincoli direttamente sui valori accettati. Le stringhe e gli interi utilizzati nei costruttori (es. per specificare unità di misura o formati) sono controllati a compile-time, impedendo l’uso di valori non validi e migliorando l’affidabilità del codice già in fase di sviluppo.
 
----
+
 
 ## Entità principali
 
@@ -45,7 +45,7 @@ def listing(init: ListBuilder ?=> Unit)(using ctx: PapyrusBuilder | ContentBuild
 
 I vincoli sono garantiti interamente a **compile-time**, riducendo la possibilità di errori strutturali.
 
----
+
 
 ## Flusso di costruzione e rendering
 
@@ -58,7 +58,7 @@ I vincoli sono garantiti interamente a **compile-time**, riducendo la possibilit
 5. Il documento completo viene assemblato da un componente finale che concatena tutti i contenuti e stili in un file HTML.
 
 
----
+
 
 ## Output e generazione dei file
 
@@ -71,5 +71,5 @@ La generazione dell’output è centralizzata in un modulo che si occupa di:
 
 In ogni caso, il file HTML fa riferimento al foglio `style.css`, generato dinamicamente sulla base delle impostazioni raccolte nei builder.
 
----
+
 

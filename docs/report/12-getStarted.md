@@ -2,7 +2,7 @@
 
 Per iniziare a usare **Papyrus**, hai due opzioni:
 
----
+
 
 ## Opzione 1 – Uso diretto via `build.sbt`
 
@@ -20,7 +20,7 @@ lazy val root = (project in file("."))
 
 > In questo modo **non serve scaricare nulla manualmente**: SBT scaricherà la libreria direttamente dal link remoto.
 
----
+
 
 ## Opzione 2 – Manuale (con JAR scaricato)
 
@@ -34,7 +34,7 @@ unmanagedBase := baseDirectory.value / "lib"
 
 > Anche se eviti l’import con URL, SBT gestirà comunque la build del progetto Scala.
 
----
+
 
 ## Utilizzo base
 
@@ -49,7 +49,7 @@ papyrus:
     ...
 ```
 
----
+
 
 ## Output
 

@@ -13,7 +13,6 @@ Ho progettato e implementato il modulo `PapyrusPrinter`, che si occupa di:
 
 
 
----
 
 ## Keyword e builder
 
@@ -34,7 +33,6 @@ private def generateLevelTitle(builder: TitleBuilder, title: String, ctx: Papyru
         case _                    => builder.title(title).level(1)
 ```
 
----
 
 ## ListBuilder
 
@@ -62,7 +60,7 @@ private object ListStructureTransformer:
                             ): List[ListElementBuilder] = ...
 ```
 <img src="../diagram/ListPath.png" alt="UML Liste" width="350"/>
----
+
 
 ## Tipi raffinati e default values
 
@@ -86,7 +84,7 @@ val extension: Extension = "pdf"
 val language: Language = "en"
 ```
 
----
+
 
 ## Costrutti multi-contesto
 
@@ -104,7 +102,7 @@ def title(init: TitleBuilder ?=> TitleBuilder)(using ctx: PapyrusBuilder | Conte
         case sb: SectionBuilder     => sb.setTitle(numberedBuilder.build)
         case ssb: SubSectionBuilder => ssb.setTitle(numberedBuilder.build)
 ```
----
+
 
 ## Immutabilità e proxy per builder complessi
 

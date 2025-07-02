@@ -5,7 +5,7 @@ layout: home
 hero:
   name: "Papyrus"
   text: "Progetto di PPS"
-  tagline: Project Management
+  tagline: Paradigmi di Programmazione e Sviluppo
 
   actions:
     - theme: brand
