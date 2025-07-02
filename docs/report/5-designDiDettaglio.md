@@ -23,6 +23,8 @@ Il core della libreria è costituito da tre entità fondamentali:
 - `Metadata`: raccoglie le informazioni globali del documento (es. titolo, autore, lingua, margini, font, colori, ecc.) e genera lo stile globale associato al `<body>` e all’header HTML.
 
 - `Content`: ospita tutti gli elementi strutturali e visuali del documento (es. sezioni, testo, elenchi, immagini), mantenuti come `LayerElement`. Ogni elemento fornisce il proprio contenuto e stile.
+>NOTA: Un LayerElement è un trait che viene esteso da tutti i trait compatibili con Content come quanto segue:
+![UML LayerElement](../diagram/LayerElement.svg)
 
 
 ---
@@ -95,7 +97,6 @@ Gli oggetti finali costruiti dai builder sono rappresentazioni passive del docum
 
 Il rendering complessivo del documento è ricorsivo: ogni elemento concatena i render dei figli.
 
-![UML LayerElement](../diagram/LayerElement.svg)
 
 ---
 
