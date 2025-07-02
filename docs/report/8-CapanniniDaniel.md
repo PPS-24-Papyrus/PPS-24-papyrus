@@ -3,7 +3,7 @@
 Nel progetto di sono occupato della generazione di alcuni elementie delle rispettive keyword e builder relativi per il DSL e la definizione dei test Gherkin.
 Nello sviluppo di alucini di questi componenti e' stato necessario l'utilizzo di tipi opachi e generici per garantire la correttezza semantica del codice.
 
-Le parti principali di cui mi sono uccupato sono:
+Le parti principali di cui mi sono occupato sono:
 
 - Table
 - Image
@@ -13,11 +13,11 @@ Le parti principali di cui mi sono uccupato sono:
 
 ## Table 
 
-la tabella e' una delle strutture che si possono inserire nei documenti che ho progettato e implementato.
-Permette di costruire dabelle conconteneti un generico tipo `T` e permette di avere celle di dimensioni variabili a piacimento dell'utente.
+La tabella è una delle strutture che si possono inserire nei documenti che ho progettato e implementato.
+Permette di costruire tabelle conconteneti un generico tipo `T` e permette di avere celle di dimensioni variabili a piacimento dell'utente.
 
 
-### controllo forma tabella
+### Controllo forma tabella
 
 Per garantire la correttezza della struttura della tabella, ho implementato un controllo che verifica che tutte le righe abbiano lo stesso numero di colonne, tenendo conto dei colspan. Questo controllo è realizzato tramite Prolog, che consente di esprimere vincoli semantici in modo chiaro e conciso.
 
@@ -59,7 +59,7 @@ Per implementare questo controllo, ho utilizzato Prolog per calcolare la somma d
 ### DSL e builder
 
 Nel DSL, ho definito la keyword `table` e il relativo `TableBuilder` e `TableBuilderProxy`, che consente di costruire tabelle con celle di tipo generico `T`. Il `TableBuilderProxy` permette la costruzione di un `TableBuilder` immutabile. All'interno del builder ogni volta che si vuole aggiornare un valore che non sia l'aggiunta di `Row` si effettua un controllo, tramite il metodo `setOnce`, che controlla che non siano già stati aggiornati in precedenza permettendo cosi che i metodi possano essere chiamati al massimo una volta. Il builder permette di specificare le righe e le colonne della tabella, gestendo anche i `colspan` e `rowspan` per le celle. Essendo un tipo generico, il builder può essere utilizzato con qualsiasi tipo di dato, garantendo la flessibilità necessaria per diverse applicazioni ma per avere la miglior resa possibile gli andrebbe specificata che funzione utilizzare per renderizzare `T => String`.
-Si e' cercato di rendere il piu' facile e intuitivo la costrizione della tabella, come riportato negli esempi seguenti.
+Si è cercato di rendere il più facile e intuitivo la costrizione della tabella, come riportato negli esempi seguenti.
 
 ```scala
     table:
@@ -79,7 +79,7 @@ Si e' cercato di rendere il piu' facile e intuitivo la costrizione della tabella
 
 ## Image
 
-Le immagini e' un altro elemento che ho progettato e implementato. Permette di inserire immagini nei documenti, specificando il percorso del file e alcune caratteristiche grafiche pome dimensione e allineamento se necessario.
+Le immagini sono un altro elemento che ho progettato e implementato. Permette di inserire immagini nei documenti, specificando il percorso del file e alcune caratteristiche grafiche come dimensione e allineamento se necessario.
 
 ### Controllo del percorso dell'immagine
 

@@ -21,7 +21,7 @@
 | `reference`            | Valore stringa usato per ordinamento Levenshtein in un `listing`.                                     |
 | `table[T]`             | Inserisce una tabella parametrica (`T`). Può contenere righe, caption, e configurazioni visive.        |
 | `caption`              | Imposta la descrizione della tabella.                                                                 |
-| `withList`             | Inserisce una lista di righe (`List[RowBuilder[T]]`) nella tabella.                                    |
+| `withList`             | Inserisce una lista di righe nella tabella.                                    |
 | `backgroundColorTable`| Imposta il colore di sfondo della tabella.                                                             |
 | `textAlignTable`       | Allineamento del testo (`"left"`, `"center"`, `"right"`, `"justify"`).                                |
 | `marginTable`          | Margine esterno della tabella.                                                                         |
@@ -37,7 +37,7 @@
 | `author`               | Nome dell’autore nel metadata.                                                                         |
 | `charset`              | Charset del documento HTML (`"utf-8"`, `"iso-8859-1"`...).                                              |
 | `styleSheet`           | Percorso del foglio di stile CSS utilizzato nel rendering HTML.                                        |
-| `font`                 | Font del corpo del documento. Valore applicato nel builder `MainStyleBuilder`.                         |
+| `font`                 | Font del corpo del documento.                        |
 | `fontSize`             | Dimensione del font globale. Intero compreso tra 8 e 72.                                                |
 | `lineHeight`           | Altezza della riga, espressa come moltiplicatore (`1.0`–`3.0`).                                        |
 | `textColor`            | Colore del testo globale (`"#000000"`, `rgb(...)`, ecc.).                                              |

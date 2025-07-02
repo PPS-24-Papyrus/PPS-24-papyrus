@@ -16,6 +16,7 @@ metaProperty  ::= extension | titleMeta | author | language | charset
 element       ::= textElement
                 | titleElement
                 | section
+                | subsection
                 | image
                 | table
                 | listing ;
@@ -23,11 +24,11 @@ element       ::= textElement
 section       ::= "section" ":" { element } ;
 subsection    ::= "subsection" ":" { element } ;
 
-textElement   ::= "text" ":" textContent { inlineStyle } ;
-titleElement  ::= "title" ":" string { inlineStyle } ;
+textElement   ::= "text" ":" textBuilder { inlineStyle } ;
+titleElement  ::= "title" ":" titleBuilder { inlineStyle } ;
 
 listing       ::= "listing" ":" { listProperty | item } ;
-item          ::= "item" ":" string ;
+item          ::= "item" ":" ItemBuilder ;
 
 image         ::= "image" ":" imageBuilder ;
 
@@ -43,10 +44,6 @@ tableBuilder   ::= rowBuilder
                    | renderTable ":" T => String;
                             
 rowBuilder   ::= T { |, hs, s, hsh, |^, ^|, ^|^, -|, -|-, |-} T ..... ;
-
-inlineStyle   ::= fontWeight | fontStyle | textDecoration | color ;
-
-textContent   ::= string | string "newLine" string ;
 
 extension     ::= "extension" ":" string ;
 titleMeta     ::= "metadataTitle" ":" string ;

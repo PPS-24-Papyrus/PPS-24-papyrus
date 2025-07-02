@@ -9,7 +9,7 @@ L’idea è offrire qualcosa di semplice da usare e leggibile, ma abbastanza sol
 
 - Creare una libreria che permetta di descrivere documenti usando codice leggibile
 - Supportare la generazione in PDF e HTML
-- Offrire strumenti pratici per titoli, sezioni, testi, stili, elenchi, immagini e tabelle
+- Offrire strumenti pratici per titoli, testi, sezioni, stili, elenchi, immagini e tabelle
 - Rendere tutto utilizzabile anche senza essere esperti Scala
 - Lavorare in team con metodologia agile e testare idee progettuali in modo concreto
 

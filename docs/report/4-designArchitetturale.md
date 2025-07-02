@@ -1,18 +1,15 @@
 # Design Architetturale
 
-## Architettura package
-
-Papyrus è organizzato in un'architettura modulare, in cui ogni elemento principale è rappresentato da un package dedicato. 
-
-
 
 ## Scelte di progettazione generali
 
-Papyrus è stato progettato come una libreria modulare scritta in Scala, con un forte orientamento alla **programmazione funzionale** e alla **gestione immutabile dei dati**. L’approccio adottato si fonda su una costruzione del documento tramite **funzioni pure** e **builder specializzati**, che espongono un DSL leggibile, fortemente tipizzato e organizzato gerarchicamente.
+Papyrus è stato progettato come una libreria modulare scritta in Scala, con un forte orientamento alla programmazione funzionale e alla gestione immutabile dei dati. L’approccio adottato si fonda su una costruzione del documento tramite funzioni pure e builder specializzati, che espongono un DSL leggibile, fortemente tipizzato e organizzato gerarchicamente.
 
-L’utente interagisce con Papyrus invocando funzioni come `papyrus`, `metadata`, `content`, `title`, `text`, ecc., ognuna delle quali crea un contesto specifico utilizzando parametri impliciti (`using`) e builder composabili. Queste funzioni creano progressivamente la struttura interna del documento, fino al salvataggio finale del file HTML, CSS o PDF.
+L’utente interagisce con Papyrus invocando funzioni come `papyrus`, `metadata`, `content`, `title`, `text`, ecc., ognuna delle quali crea un contesto specifico utilizzando parametri impliciti (`using`) e builder composabili. Queste funzioni costruiscono progressivamente la struttura interna del documento, fino al salvataggio finale del file HTML o PDF.
 
-Ogni elemento del documento (es. titolo, paragrafo, lista, immagine) è rappresentato da un **oggetto di dominio** dotato di metodi `render` e `renderStyle`, che restituiscono rispettivamente la componente HTML e CSS, in formato stringa.
+Ogni elemento del documento (es. titolo, paragrafo, lista, immagine) è rappresentato da un oggetto di dominio dotato di metodi `render` e `renderStyle`, che restituiscono rispettivamente la componente HTML e CSS in formato stringa. Il CSS riveste un ruolo centrale: viene generato prima dell’HTML e ne definisce in modo dichiarativo l’aspetto visivo, rendendo lo stile completamente separato e riutilizzabile. Inoltre, il PDF finale viene prodotto convertendo l’HTML già stilizzato, ereditando così automaticamente l’estetica definita nel CSS. Questo approccio garantisce una forte coerenza visiva e una netta separazione tra contenuto e presentazione.
+
+Papyrus adotta anche un sistema di tipizzazione raffinata che consente di esprimere vincoli direttamente sui valori accettati. Le stringhe e gli interi utilizzati nei costruttori (es. per specificare unità di misura o formati) sono controllati a compile-time, impedendo l’uso di valori non validi e migliorando l’affidabilità del codice già in fase di sviluppo.
 
 ---
 
@@ -56,9 +53,9 @@ I vincoli sono garantiti interamente a **compile-time**, riducendo la possibilit
 2. Ogni chiamata attiva un builder, che elabora e memorizza le informazioni relative all’elemento.
 3. I builder vengono composti ricorsivamente, tenendo traccia del contesto e dello stile.
 4. Al termine del processo, ciascun elemento produce:
-    - HTML tramite un metodo di rendering dedicato;
-    - CSS tramite una funzione di serializzazione dello stile.
-5. Il documento completo viene assemblato da un componente finale che concatena tutti i contenuti e stili in un file HTML e un file CSS.
+     - CSS tramite una funzione di serializzazione dello stile.
+     - HTML tramite un metodo di rendering dedicato;
+5. Il documento completo viene assemblato da un componente finale che concatena tutti i contenuti e stili in un file HTML.
 
 
 ---

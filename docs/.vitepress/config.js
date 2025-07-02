@@ -22,8 +22,8 @@ export default withMermaid(
               text: 'Generali',
               items: [
                 { text: 'Introduzione', link: `${reportPath}/1-getStarted` },
-                { text: 'Get Started', link: `${reportPath}/12-getStarted` },
                 { text: 'Esempio di Utilizzo', link: `${reportPath}/6-example` },
+                { text: 'Get Started', link: `${reportPath}/12-getStarted` },
               ]
             },
             { text: 'Processo di Sviluppo', link: `${reportPath}/2-processoDiSviluppo` },
@@ -41,6 +41,7 @@ export default withMermaid(
             {
               text: 'Implementazione',
               items: [
+                { text: 'Librerie', link: `${reportPath}/15-librerie` },
                 { text: 'Cantagallo Luca', link: `${reportPath}/7-CantagalloLuca` },
                 { text: 'Capannini Daniel', link: `${reportPath}/8-CapanniniDaniel` },
               ]
