@@ -95,7 +95,7 @@ Gli oggetti finali costruiti dai builder sono rappresentazioni passive del docum
 
 Il rendering complessivo del documento è ricorsivo: ogni elemento concatena i render dei figli.
 
-> <!-- Inserire UML dei LayerElement e implementazioni concrete -->
+![UML LayerElement](../diagram/LayerElement.svg)
 
 ---
 
