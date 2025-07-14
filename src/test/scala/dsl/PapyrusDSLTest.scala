@@ -11,7 +11,7 @@ object PapyrusDSLTest extends PapyrusApplication:
       language:
         "en"
       extension:
-        "html"
+        "pdf"
       margin:
         50
     content:
